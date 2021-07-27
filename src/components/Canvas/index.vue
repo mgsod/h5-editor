@@ -21,7 +21,7 @@
 <script lang="ts">
 import { defineComponent, toRaw, toRefs, Ref, ref, reactive } from "vue";
 import { useStore, mapState } from "vuex";
-import useDragEffect from "@/composition/dragEffect";
+import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/ComponentWrapper/index.vue";
 
 export default defineComponent({

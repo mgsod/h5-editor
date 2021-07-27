@@ -1,10 +1,8 @@
-import ComponentFactory, {
-  ComponentType,
-} from "@/components/ComponentWrapper/ComponentFactory";
+import ComponentFactory, { ComponentType } from "@/components/Factory";
 const dragEnterClass = "enterContainer";
 import { useStore } from "vuex";
-import { COMPONENT_MUTATION_TYPE } from "@/store/mutationTypes";
-import { IComponent } from "@/components/ComponentWrapper/types";
+import { MUTATION_TYPE } from "@/store/mutations/mutation-type";
+import { IComponent } from "@/components/Component";
 
 const addEnterClass = (target: HTMLElement) => {
   target.classList.add(dragEnterClass);
@@ -38,7 +36,7 @@ export default () => {
       }
     );
     console.log("new component", component);
-    store.commit(COMPONENT_MUTATION_TYPE.ADD_COMPONENT, {
+    store.commit(MUTATION_TYPE.ADD_COMPONENT, {
       pageId: "1",
       targetComponent: targetComponent,
       component: component,

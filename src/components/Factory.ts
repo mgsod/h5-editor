@@ -1,6 +1,5 @@
-import BaseComponent from "@/components/ComponentWrapper/BaseComponent";
-import { IComponent, IContainer } from "@/components/ComponentWrapper/types";
-import Container from "@/components/ComponentWrapper/Container";
+import Component, { IComponent } from "@/components/Component";
+import Container, { IContainer } from "@/components/Container";
 
 export type Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 export enum ComponentType {
@@ -27,7 +26,7 @@ export default class ComponentFactory {
   ): IComponent | undefined {
     switch (type) {
       case ComponentType.Base:
-        return new BaseComponent(<IComponent>component);
+        return new Component(<IComponent>component);
       case ComponentType.Container:
         return new Container(<IContainer>component);
     }

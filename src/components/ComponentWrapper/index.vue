@@ -7,6 +7,7 @@
     @dragleave="dragleave"
     @dragover="dragover"
     :id="property.id"
+    @click="x(property)"
   >
     <component-wrapper
       v-for="item in property.children"
@@ -18,9 +19,9 @@
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from "vue";
-import { TComponent } from "@/components/ComponentWrapper/types";
-import useDragEffect from "@/composition/dragEffect";
-import { Layout } from "@/components/ComponentWrapper/Layout";
+import { TComponent } from "@/components/types";
+import useDragEffect from "@/hooks/useDrag";
+import { Layout } from "@/components/Layout";
 interface IDomComponent {
   property: TComponent;
 }
@@ -63,6 +64,9 @@ export default defineComponent({
       dragleave,
       dragover,
       drop,
+      x: (item: TComponent) => {
+        item.width += 10;
+      },
     };
   },
 });

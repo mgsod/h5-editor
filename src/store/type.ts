@@ -1,4 +1,4 @@
-import Component from "@/components/ComponentWrapper/BaseComponent";
+import Component from "@/components/Component";
 
 export interface IPage {
   id: string;
