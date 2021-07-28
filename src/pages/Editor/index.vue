@@ -10,6 +10,9 @@
 import Sidebar from "@/components/Sidebar/index.vue";
 import PropertyBar from "@/components/PropertyBar/index.vue";
 import H5Canvas from "@/components/Canvas/index.vue";
+import { useStore } from "vuex";
+import { MUTATION_TYPE } from "@/store/mutations/mutation-type";
+
 export default {
   name: "Editor",
   props: {},

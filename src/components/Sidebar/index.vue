@@ -1,8 +1,5 @@
 <template>
   <div class="sidebar">
-    <div class="page-menu">
-      <div class="page" v-for="item in 100" :key="item">页面{{ item + 1 }}</div>
-    </div>
     <div class="components">
       <div
         class="component"

@@ -19,10 +19,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRaw, toRefs, Ref, ref, reactive } from "vue";
+import {
+  defineComponent,
+  toRaw,
+  toRefs,
+  Ref,
+  ref,
+  reactive,
+  computed,
+} from "vue";
 import { useStore, mapState } from "vuex";
 import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/ComponentWrapper/index.vue";
+import { IPage } from "@/store/type";
 
 export default defineComponent({
   name: "H5canvas",
@@ -39,7 +48,12 @@ export default defineComponent({
     const store = useStore();
     console.log("store", store.state);
 
-    const components = store.state.pages[0].components;
+    const page = computed<IPage>(() => {
+      return store.state.pages[0];
+    });
+    const components = computed(() => {
+      return page.value.components;
+    });
 
     return {
       dragenter,
@@ -62,25 +76,18 @@ export default defineComponent({
   justify-content: center;
   .wrapper-grid {
     width: 375px;
-    height: 80vh;
+    height: 90vh;
     position: relative;
-    top: calc(50% - 40vh);
-    background: linear-gradient(-90deg, rgba(0, 0, 0, 0.02) 1px, transparent 0),
-      linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 0),
-      linear-gradient(-90deg, rgba(0, 0, 0, 0.03) 1px, transparent 0),
-      linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 0),
-      linear-gradient(transparent 4px, #ffffff 0, #ffffff 97px, transparent 0),
-      linear-gradient(-90deg, #ffffff 1px, transparent 0),
-      linear-gradient(
-        -90deg,
-        transparent 4px,
-        #ffffff 0,
-        #ffffff 97px,
-        transparent 0
+    top: calc(50% - 45vh);
+    background-color: white;
+    background-image: linear-gradient(
+        90deg,
+        rgba(50, 0, 0, 0.05) 3%,
+        rgba(0, 0, 0, 0) 3%
       ),
-      linear-gradient(#e5e5e5 1px, transparent 0), #f5f5f5;
-    background-size: 10px 10px, 10px 10px, 100px 100px, 100px 100px, 100px 100px,
-      100px 100px, 100px 100px, 100px 100px;
+      linear-gradient(360deg, rgba(50, 0, 0, 0.05) 3%, rgba(0, 0, 0, 0) 3%);
+    background-size: 20px 20px;
+    background-repeat: repeat;
     .canvas {
       box-sizing: border-box;
       height: 100%;

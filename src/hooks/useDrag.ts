@@ -14,7 +14,6 @@ export default () => {
   const store = useStore();
   const dragenter = (e: DragEvent) => {
     addEnterClass(<HTMLElement>e.target);
-    console.log(333, e.target);
     e.stopPropagation();
   };
 
