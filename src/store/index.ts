@@ -1,20 +1,12 @@
 import { createStore } from "vuex";
-import { IPage } from "@/store/type";
-import mutations from "./mutations";
+import moduleEditor from "./mudules/editor";
 export default createStore({
-  state: {
-    pages: <IPage[]>[
-      {
-        id: "1",
-        order: 1,
-        components: [],
-      },
-    ],
-    a: 1,
+  modules: {
+    editor: moduleEditor,
   },
-  mutations: {
-    ...mutations,
+  getters: {
+    a() {
+      return 1;
+    },
   },
-  actions: {},
-  modules: {},
 });

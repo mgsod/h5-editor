@@ -40,6 +40,7 @@ export enum ModifyAction {
   Update = "update",
   Null = "null",
 }
+
 export class DiffPatcher<T> {
   // 快照
   private snapshots: Delta[] = [];

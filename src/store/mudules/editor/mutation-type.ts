@@ -5,4 +5,5 @@ export enum MUTATION_TYPE {
   REMOVE_COMPONENT = "REMOVE_COMPONENT",
   UNDO = "UNDO",
   REDO = "REDO",
+  INIT = "INIT",
 }

@@ -1,32 +1,30 @@
-import Component, { IComponent } from "@/components/Component";
+import Component, { IComponent } from "@/components/RenderComponent/Component";
 import {
-  AlignContent,
   AlignItems,
-  AlignSelf,
   JustifyContent,
   Layout,
   TextAlign,
-} from "@/components/Layout";
+} from "@/components/RenderComponent/Layout";
+import Util from "@/util";
+import { ComponentType } from "@/components/RenderComponent/types";
 export interface IContainer extends IComponent, Layout {
-  isContainer: true;
+  isContainer: boolean;
   children: Component[];
 }
+
 /**
  * 容器组件，继承与基础组件，实现容器的接口
  */
 class Container extends Component implements IContainer {
-  isContainer: true;
+  type = ComponentType.Container;
+  isContainer = true;
   children: Component[] = [];
   textAlign: TextAlign = "left";
   JustifyContent: JustifyContent = "flex-start";
   AlignItems: AlignItems = "flex-start";
-  AlignSelf: AlignSelf = "flex-start";
-  AlignContent: AlignContent = "flex-start";
-  constructor(props: IContainer) {
+  constructor(props?: IContainer) {
     super(props);
-    this.children = props.children || [];
-    this.isContainer = true;
+    Util.FastInitProps(props, this);
   }
 }
-
 export default Container;

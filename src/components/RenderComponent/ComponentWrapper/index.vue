@@ -19,9 +19,9 @@
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from "vue";
-import { TComponent } from "@/components/types";
+import { TComponent } from "@/components/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
-import { Layout } from "@/components/Layout";
+import { Layout } from "@/components/RenderComponent/Layout";
 interface IDomComponent {
   property: TComponent;
 }
@@ -54,6 +54,7 @@ export default defineComponent({
         height: `${props.property.height}px`,
         width: `${props.property.width}px`,
         border: `1px solid #ccc`,
+        position: props.property.position,
         ...containerProps,
       };
     });

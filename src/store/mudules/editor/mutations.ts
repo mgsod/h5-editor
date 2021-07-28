@@ -1,14 +1,12 @@
-import { TComponent } from "@/components/types";
-import { IPage } from "@/store/type";
-import { MUTATION_TYPE } from "@/store/mutations/mutation-type";
+import { TComponent } from "@/components/RenderComponent/types";
+import { IPage } from "./index";
+import { MUTATION_TYPE } from "./mutation-type";
 import { MutationTree } from "vuex";
 import { DiffPatcher } from "@/util/diffpatch";
+import { IState } from "./index";
 const diffPatcher = new DiffPatcher<IPage[]>();
-
-interface IState {
-  pages: IPage[];
-}
 const mutations: MutationTree<IState> = {
+  // 添加一个组件
   [MUTATION_TYPE.ADD_COMPONENT]: (
     state,
     {
@@ -28,16 +26,27 @@ const mutations: MutationTree<IState> = {
     } else {
       page.components.push(component);
     }
+    // 记录快照
     diffPatcher.saveSnapshots(leftPage, state.pages);
   },
-  [MUTATION_TYPE.UNDO]: (state, payload) => {
+  // 重做
+  [MUTATION_TYPE.UNDO]: (state) => {
     const result = diffPatcher.undo(state.pages);
-    console.log("undo", result);
     if (result) state.pages = result;
   },
-  [MUTATION_TYPE.REDO]: (state, payload) => {
+  // 撤销
+  [MUTATION_TYPE.REDO]: (state) => {
     const result = diffPatcher.redo(state.pages);
     if (result) state.pages = result;
+  },
+  [MUTATION_TYPE.ADD_PAGE]: (state) => {
+    const id = new Date().getTime().toString();
+    state.pages.push({
+      order: 0,
+      components: [],
+      id,
+    });
+    state.pageActive = id;
   },
 };
 export default mutations;

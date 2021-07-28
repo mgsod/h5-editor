@@ -19,19 +19,11 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  toRaw,
-  toRefs,
-  Ref,
-  ref,
-  reactive,
-  computed,
-} from "vue";
-import { useStore, mapState } from "vuex";
+import { defineComponent, reactive, computed, onBeforeMount } from "vue";
+import { useStore, mapGetters } from "vuex";
 import useDragEffect from "@/hooks/useDrag";
-import ComponentWrapper from "@/components/ComponentWrapper/index.vue";
-import { IPage } from "@/store/type";
+import ComponentWrapper from "@/components/RenderComponent/ComponentWrapper/index.vue";
+import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 
 export default defineComponent({
   name: "H5canvas",
@@ -46,22 +38,15 @@ export default defineComponent({
       height: 10,
     });
     const store = useStore();
-    console.log("store", store.state);
-
-    const page = computed<IPage>(() => {
-      return store.state.pages[0];
-    });
-    const components = computed(() => {
-      return page.value.components;
-    });
-
+    const a = store.state.editor;
+    console.log(a.pageActive);
     return {
       dragenter,
       dragleave,
       drop,
       dragover,
       store,
-      components,
+      components: [],
       x: () => {
         component.width += 1;
       },
