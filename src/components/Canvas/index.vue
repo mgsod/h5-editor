@@ -19,11 +19,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, onBeforeMount } from "vue";
-import { useStore, mapGetters } from "vuex";
+import { computed, defineComponent } from "vue";
+import { useStore } from "@/store";
 import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/RenderComponent/ComponentWrapper/index.vue";
-import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 
 export default defineComponent({
   name: "H5canvas",
@@ -33,23 +32,16 @@ export default defineComponent({
   components: { ComponentWrapper },
   setup(props, ctx) {
     const { dragenter, dragleave, drop, dragover } = useDragEffect();
-    const component = reactive({
-      width: 10,
-      height: 10,
-    });
     const store = useStore();
-    const a = store.state.editor;
-    console.log(a.pageActive);
     return {
       dragenter,
       dragleave,
       drop,
       dragover,
       store,
-      components: [],
-      x: () => {
-        component.width += 1;
-      },
+      components: computed(() => {
+        return store.getters.currentPage.components;
+      }),
     };
   },
 });

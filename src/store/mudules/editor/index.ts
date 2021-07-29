@@ -1,6 +1,8 @@
 import { Module } from "vuex";
 import mutations from "@/store/mudules/editor/mutations";
 import Component from "@/components/RenderComponent/Component";
+import { state } from "@/store";
+
 export interface IPage {
   order: number;
   components: Component[];
@@ -10,7 +12,8 @@ export interface IState {
   pages: IPage[];
   pageActive: string;
 }
-const module: Module<IState, IState> = {
+
+const module: Module<IState, state> = {
   state: {
     pageActive: "",
     pages: [],
@@ -20,7 +23,7 @@ const module: Module<IState, IState> = {
   },
   getters: {
     currentPage: (state) => {
-      return state.pages.find((item) => item.id === state.pageActive);
+      return state.pages.find((item) => item.id === state.pageActive) || [];
     },
   },
 };

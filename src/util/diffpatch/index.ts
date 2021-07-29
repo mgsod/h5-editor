@@ -1,5 +1,4 @@
 import { Config, create, Delta } from "jsondiffpatch";
-
 const diffPatcher = create(<Config>{
   // used to match objects when diffing arrays, by default only === operator is used
   // 在对象数组中，根据objectHash来匹配对象
@@ -51,6 +50,8 @@ export class DiffPatcher<T> {
   // 存储快照最大数
   private readonly maxSnapshotLength: number;
 
+  left: T | undefined;
+
   constructor(maxSnapshotLength = 20) {
     this.maxSnapshotLength = maxSnapshotLength;
   }
@@ -92,29 +93,29 @@ export class DiffPatcher<T> {
 
   /**
    * 重做
-   * @param left 源数据
    */
-  redo(left: T): T | false {
+  redo(): T | false {
     this.index += 1;
     const index = this.index;
-    if (!this.snapshots[index]) return false;
+    if (!this.snapshots[index] || !this.left) return false;
     const delta = this.snapshots[index];
-    const cloneLeft = diffPatcher.clone(left);
+    const cloneLeft = diffPatcher.clone(this.left);
     this.lastModifyAction = DiffPatcher.getModifyType(delta);
-    return diffPatcher.patch(cloneLeft, delta);
+    this.left = diffPatcher.patch(cloneLeft, delta);
+    return <T>this.left;
   }
 
   /**
    * 撤销
-   * @param left 源数据
    */
-  undo(left: T): T | false {
-    if (this.snapshots.length < 1) return false;
-    const cloneLeft = diffPatcher.clone(left);
+  undo(): T | false {
+    if (this.snapshots.length < 1 || !this.left) return false;
+    const cloneLeft = diffPatcher.clone(this.left);
     const delta = this.snapshots[this.index];
     this.index -= 1;
     this.lastModifyAction = DiffPatcher.getModifyType(delta);
-    return diffPatcher.unpatch(cloneLeft, delta);
+    this.left = diffPatcher.unpatch(cloneLeft, delta);
+    return <T>this.left;
   }
 
   /**
@@ -137,6 +138,7 @@ export class DiffPatcher<T> {
     if (this.snapshots.length > this.maxSnapshotLength) {
       this.snapshots = this.snapshots.slice(-this.maxSnapshotLength);
     }
+    this.left = left;
   }
 
   getModifyType(): ModifyAction {

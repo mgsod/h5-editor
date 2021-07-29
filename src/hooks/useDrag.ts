@@ -1,7 +1,7 @@
 import { ComponentType } from "@/components/RenderComponent/types";
 import ComponentFactory from "@/components/RenderComponent/Factory";
 const dragEnterClass = "enterContainer";
-import { useStore } from "vuex";
+import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import { IComponent } from "@/components/RenderComponent/Component";
 
@@ -28,9 +28,7 @@ export default () => {
     const target = <HTMLElement>e.target;
     removeEnterClass(target);
     const component = ComponentFactory.createComponent(ComponentType.Container);
-    console.log("new component", component);
     store.commit(`${MUTATION_TYPE.ADD_COMPONENT}`, {
-      pageId: "1",
       targetComponent: targetComponent,
       component: component,
     });

@@ -22,6 +22,9 @@ import { defineComponent, computed, PropType } from "vue";
 import { TComponent } from "@/components/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
 import { Layout } from "@/components/RenderComponent/Layout";
+import { useStore } from "@/store";
+import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
+
 interface IDomComponent {
   property: TComponent;
 }
@@ -36,6 +39,7 @@ export default defineComponent({
   },
   components: {},
   setup(props: IDomComponent) {
+    const store = useStore();
     // eslint-disable-next-line vue/no-setup-props-destructure
     const property = props.property;
     const style = computed(() => {
@@ -66,7 +70,9 @@ export default defineComponent({
       dragover,
       drop,
       x: (item: TComponent) => {
-        item.width += 10;
+        const payload = JSON.parse(JSON.stringify(item));
+        payload.width += 10;
+        store.commit(MUTATION_TYPE.UPDATE_COMPONENT, payload);
       },
     };
   },

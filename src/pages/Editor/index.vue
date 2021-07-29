@@ -10,8 +10,9 @@
 import Sidebar from "@/components/Sidebar/index.vue";
 import PropertyBar from "@/components/PropertyBar/index.vue";
 import H5Canvas from "@/components/Canvas/index.vue";
-import { useStore } from "vuex";
-
+import { useStore } from "@/store";
+import { onMounted } from "vue";
+import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 export default {
   name: "Index",
   props: {},
@@ -20,7 +21,25 @@ export default {
     PropertyBar,
     H5Canvas,
   },
-  setup() {},
+  setup() {
+    const store = useStore();
+    store.commit(MUTATION_TYPE.INIT);
+    onMounted(() => {
+      document.addEventListener("keydown", (e) => {
+        switch (e.code) {
+          case "KeyZ":
+            if (e.ctrlKey) {
+              store.commit(MUTATION_TYPE.UNDO);
+            }
+            break;
+          case "KeyY":
+            if (e.ctrlKey) {
+              store.commit(MUTATION_TYPE.REDO);
+            }
+        }
+      });
+    });
+  },
 };
 </script>
 

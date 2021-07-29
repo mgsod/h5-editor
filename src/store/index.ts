@@ -1,6 +1,11 @@
-import { createStore } from "vuex";
-import moduleEditor from "./mudules/editor";
-export default createStore({
+import { createStore, Store, useStore as baseUseStore } from "vuex";
+import moduleEditor, { IState } from "./mudules/editor";
+import { InjectionKey } from "vue";
+export interface state {
+  editor: IState;
+}
+export default createStore<state>({
+  strict: true,
   modules: {
     editor: moduleEditor,
   },
@@ -10,3 +15,7 @@ export default createStore({
     },
   },
 });
+export const key: InjectionKey<Store<state>> = Symbol();
+export function useStore() {
+  return baseUseStore<state>(key);
+}
