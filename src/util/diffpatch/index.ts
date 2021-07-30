@@ -140,7 +140,6 @@ export class DiffPatcher<T> {
     if (this.snapshots.length > this.maxSnapshotLength) {
       this.snapshots = this.snapshots.slice(-this.maxSnapshotLength);
     }
-    console.log("保存快照", left);
     this.left = left;
   }
 

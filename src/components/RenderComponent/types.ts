@@ -14,7 +14,6 @@ export interface IComponentItem {
   name: string;
 }
 export const ComponentList: IComponentItem[] = [
-  { type: ComponentType.Base, icon: "xxx", name: "基础组件" },
   { type: ComponentType.Container, icon: "xxx", name: "容器" },
   { type: ComponentType.Img, icon: "xxx", name: "图片" },
   { type: ComponentType.Button, icon: "xxx", name: "按钮" },

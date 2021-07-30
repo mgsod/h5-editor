@@ -26,11 +26,8 @@ import ComponentWrapper from "@/components/RenderComponent/ComponentWrapper/inde
 
 export default defineComponent({
   name: "H5canvas",
-  props: {
-    a: Number,
-  },
   components: { ComponentWrapper },
-  setup(props, ctx) {
+  setup() {
     const { dragenter, dragleave, drop, dragover } = useDragEffect();
     const store = useStore();
     return {
@@ -53,9 +50,9 @@ export default defineComponent({
   justify-content: center;
   .wrapper-grid {
     width: 375px;
-    height: 90vh;
+    height: 90%;
     position: relative;
-    top: calc(50% - 45vh);
+    top: calc(50% - 45%);
     background-color: white;
     background-image: linear-gradient(
         90deg,

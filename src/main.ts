@@ -2,9 +2,10 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store, { key } from "./store";
-import { ElButton, ElSelect, ElOption } from "element-plus";
-import "./assets/css/reset.css";
+import elementUI from "./plugins/ElementUI";
+import "@/assets/css/index.less";
 
 const app = createApp(App);
+elementUI(app);
 app.use(store, key);
-app.use(router).use(ElButton).use(ElSelect).use(ElOption).mount("#app");
+app.use(router).mount("#app");

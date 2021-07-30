@@ -1,16 +1,21 @@
 <template>
   <div class="sidebar">
-    <div class="components">
-      <div
-        class="component"
-        draggable="true"
-        @dragstart="dragstart($event, item)"
-        v-for="item in ComponentList"
-        :key="item.type"
-      >
-        {{ item.name }}
-      </div>
-    </div>
+    <el-tabs tab-position="left">
+      <el-tab-pane label="组件">
+        <div class="components">
+          <div
+            class="component"
+            draggable="true"
+            @dragstart="dragstart($event, item)"
+            v-for="item in ComponentList"
+            :key="item.type"
+          >
+            {{ item.name }}
+          </div>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="DOM树"> </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
@@ -31,6 +36,7 @@ export default {
     return {
       dragstart,
       ComponentList,
+      active: 0,
     };
   },
 };
@@ -42,33 +48,27 @@ export default {
   box-sizing: border-box;
   background: white;
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
-  .page-menu {
-    flex: 0 0 70px;
-    border-right: 1px solid #ccd5db;
-    overflow-y: auto;
-    .page {
-      text-align: center;
-      padding: 10px 0;
-      transition: all 0.3s;
-      cursor: pointer;
-      &.active,
-      &:hover {
-        color: #fff;
-        background: #1593ff;
-      }
-    }
-  }
-  .components {
-    flex: auto;
-    display: flex;
-    flex-wrap: wrap;
-    cursor: default;
-    .component {
-      flex: 1 1 50px;
-      height: 50px;
-      padding: 8px;
-      border: 1px solid #ccc;
+  padding: 8px 0;
+  .el-tabs {
+    flex: 0 0 300px;
+    width: 100%;
+    /deep/.components {
+      flex: auto;
+      display: flex;
+      flex-wrap: wrap;
       cursor: default;
+      .component {
+        flex: 0 0 65px;
+        height: 65px;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        cursor: default;
+        margin: 0 -1px 0px 0;
+      }
     }
   }
 }

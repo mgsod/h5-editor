@@ -1,0 +1,97 @@
+<template>
+  <div class="setting-bar">
+    <div class="toolbar">
+      <div class="tool-item" @click="undo">
+        <div class="icon">
+          <i class="el-icon-refresh-left"></i>
+        </div>
+        <div>撤销</div>
+      </div>
+      <div class="tool-item" @click="redo">
+        <div class="icon">
+          <i class="el-icon-refresh-right"></i>
+        </div>
+        <div>重做</div>
+      </div>
+    </div>
+    <el-tabs v-model="active">
+      <el-tab-pane
+        v-for="item in tabs"
+        :key="item.name"
+        :label="item.label"
+        :name="item.name"
+      ></el-tab-pane>
+    </el-tabs>
+  </div>
+</template>
+
+<script>
+import { useStore } from "@/store";
+import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
+
+export default {
+  name: "property",
+  props: {},
+  components: {},
+  setup() {
+    const store = useStore();
+    return {
+      tabs: [
+        {
+          label: "属性",
+          name: "prop",
+        },
+        {
+          label: "事件",
+          name: "event",
+        },
+      ],
+      active: "prop",
+      undo() {
+        store.commit(MUTATION_TYPE.UNDO);
+      },
+      redo() {
+        store.commit(MUTATION_TYPE.REDO);
+      },
+    };
+  },
+};
+</script>
+
+<style scoped lang="less">
+.setting-bar {
+  box-sizing: border-box;
+  width: 300px;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
+  .toolbar {
+    flex: 0 0 40px;
+    border-right: 1px solid #e4e7ed;
+    font-size: 12px;
+    .tool-item {
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      user-select: none;
+      .icon {
+        margin-bottom: 2px;
+      }
+      &:hover {
+        background-color: #409eff;
+        color: white;
+      }
+    }
+  }
+  .el-tabs {
+    flex: 0 0 260px;
+    padding-left: 8px;
+  }
+}
+</style>

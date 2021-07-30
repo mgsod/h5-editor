@@ -13,17 +13,21 @@ const removeEnterClass = (target: HTMLElement) => {
 };
 export default () => {
   const store = useStore();
-  const dragenter = (e: DragEvent) => {
-    addEnterClass(<HTMLElement>e.target);
-    e.stopPropagation();
+  const dragenter = (e: DragEvent, targetComponent?: TComponent) => {
+    if (targetComponent?.isContainer) {
+      addEnterClass(<HTMLElement>e.target);
+      e.stopPropagation();
+    }
   };
 
-  const dragleave = (e: MouseEvent) => {
-    removeEnterClass(<HTMLElement>e.target);
-    e.stopPropagation();
+  const dragleave = (e: MouseEvent, targetComponent?: TComponent) => {
+    if (targetComponent?.isContainer) {
+      removeEnterClass(<HTMLElement>e.target);
+      e.stopPropagation();
+    }
   };
 
-  const drop = (e: DragEvent, targetComponent: TComponent | undefined) => {
+  const drop = (e: DragEvent, targetComponent?: TComponent) => {
     e.stopPropagation();
     const target = <HTMLElement>e.target;
     removeEnterClass(target);
