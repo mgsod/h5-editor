@@ -1,4 +1,4 @@
-import { ComponentType } from "@/components/RenderComponent/types";
+import { ComponentType, TComponent } from "@/components/RenderComponent/types";
 import ComponentFactory from "@/components/RenderComponent/Factory";
 const dragEnterClass = "enterContainer";
 import { useStore } from "@/store";
@@ -23,15 +23,18 @@ export default () => {
     e.stopPropagation();
   };
 
-  const drop = (e: DragEvent, targetComponent: IComponent | undefined) => {
+  const drop = (e: DragEvent, targetComponent: TComponent | undefined) => {
     e.stopPropagation();
     const target = <HTMLElement>e.target;
     removeEnterClass(target);
-    const component = ComponentFactory.createComponent(ComponentType.Container);
-    store.commit(`${MUTATION_TYPE.ADD_COMPONENT}`, {
-      targetComponent: targetComponent,
-      component: component,
-    });
+    const type = <ComponentType>e.dataTransfer!.getData("type");
+    const component = ComponentFactory.createComponent(type);
+    if (targetComponent?.isContainer) {
+      store.commit(`${MUTATION_TYPE.ADD_COMPONENT}`, {
+        targetComponent: targetComponent,
+        component: component,
+      });
+    }
   };
 
   const dragover = (e: DragEvent) => {

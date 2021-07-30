@@ -95,6 +95,7 @@ export class DiffPatcher<T> {
    * 重做
    */
   redo(): T | false {
+    if (this.index === this.snapshots.length) return false;
     this.index += 1;
     const index = this.index;
     if (!this.snapshots[index] || !this.left) return false;
@@ -109,6 +110,7 @@ export class DiffPatcher<T> {
    * 撤销
    */
   undo(): T | false {
+    if (this.index < 0) return false;
     if (this.snapshots.length < 1 || !this.left) return false;
     const cloneLeft = diffPatcher.clone(this.left);
     const delta = this.snapshots[this.index];
@@ -138,6 +140,7 @@ export class DiffPatcher<T> {
     if (this.snapshots.length > this.maxSnapshotLength) {
       this.snapshots = this.snapshots.slice(-this.maxSnapshotLength);
     }
+    console.log("保存快照", left);
     this.left = left;
   }
 

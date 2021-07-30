@@ -1,10 +1,11 @@
-import { TComponent } from "@/components/RenderComponent/types";
-import { IPage } from "./index";
+import { ComponentType, TComponent } from "@/components/RenderComponent/types";
+import { IPage, IState } from "./index";
 import { MUTATION_TYPE } from "./mutation-type";
 import { MutationTree } from "vuex";
 import { DiffPatcher } from "@/util/diffpatch";
-import { IState } from "./index";
 import { v4 as uuidv4 } from "uuid";
+import ComponentFactory from "@/components/RenderComponent/Factory";
+import { IContainer } from "@/components/RenderComponent/Container";
 
 const diffPatcher = new DiffPatcher<IPage[]>();
 const addPage = (state: IState) => {
@@ -35,7 +36,7 @@ const mutations: MutationTree<IState> = {
       targetComponent,
       component,
     }: {
-      targetComponent: TComponent | undefined;
+      targetComponent: IContainer | undefined;
       component: TComponent;
     }
   ) => {
@@ -70,6 +71,13 @@ const mutations: MutationTree<IState> = {
   [MUTATION_TYPE.INIT]: (state) => {
     state.pages = [];
     addPage(state);
+    state.pages[0].components.push(
+      ComponentFactory.createComponent(ComponentType.Container, {
+        id: "root",
+        width: "100%",
+        height: "100%",
+      })
+    );
   },
   [MUTATION_TYPE.UPDATE_COMPONENT]: (state, payload: TComponent) => {
     mutationWithSnapshot(state, () => {

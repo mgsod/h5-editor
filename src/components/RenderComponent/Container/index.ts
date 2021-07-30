@@ -9,7 +9,7 @@ import Util from "@/util";
 import { ComponentType } from "@/components/RenderComponent/types";
 export interface IContainer extends IComponent, Layout {
   isContainer: boolean;
-  children: Component[];
+  children: IComponent[];
 }
 
 /**
@@ -18,10 +18,12 @@ export interface IContainer extends IComponent, Layout {
 class Container extends Component implements IContainer {
   type = ComponentType.Container;
   isContainer = true;
-  children: Component[] = [];
+  children: IComponent[] = [];
   textAlign: TextAlign = "left";
   JustifyContent: JustifyContent = "flex-start";
   AlignItems: AlignItems = "flex-start";
+  width = 200;
+  height = 200;
   constructor(props?: IContainer) {
     super(props);
     Util.FastInitProps(props, this);

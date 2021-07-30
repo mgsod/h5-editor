@@ -1,11 +1,11 @@
 import { Module } from "vuex";
 import mutations from "@/store/mudules/editor/mutations";
-import Component from "@/components/RenderComponent/Component";
+import Component, { IComponent } from "@/components/RenderComponent/Component";
 import { state } from "@/store";
 
 export interface IPage {
   order: number;
-  components: Component[];
+  components: IComponent[];
   id: string;
 }
 export interface IState {

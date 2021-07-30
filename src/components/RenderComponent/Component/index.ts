@@ -5,8 +5,8 @@ import { ComponentType } from "@/components/RenderComponent/types";
 export interface IComponent {
   type: ComponentType;
   id: string;
-  width: number;
-  height: number;
+  width: number | string;
+  height: number | string;
   position: Position;
 }
 
@@ -18,9 +18,9 @@ export type optionalAttrs = "type" | "id" | "position";
 class Component implements IComponent {
   type = ComponentType.Base;
   id: string;
-  width = 200;
-  height = 200;
-  position: Position = "absolute";
+  width = 50;
+  height = 50;
+  position: Position = "relative";
   constructor(props?: IComponent) {
     this.id = uuidv4();
     Util.FastInitProps(props, this);

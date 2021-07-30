@@ -4,27 +4,33 @@
       <div
         class="component"
         draggable="true"
-        @dragstart="dragstart"
-        v-for="item in 50"
-        :key="item"
+        @dragstart="dragstart($event, item)"
+        v-for="item in ComponentList"
+        :key="item.type"
       >
-        组件{{ item + 1 }}
+        {{ item.name }}
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import {
+  ComponentList,
+  IComponentItem,
+} from "@/components/RenderComponent/types";
+
 export default {
   name: "Sidebar",
   props: {},
   components: {},
   setup() {
-    const dragstart = (e: DragEvent) => {
-      e.dataTransfer!.setData("x", "1");
+    const dragstart = (e: DragEvent, item: IComponentItem) => {
+      e.dataTransfer!.setData("type", item.type);
     };
     return {
       dragstart,
+      ComponentList,
     };
   },
 };
@@ -59,6 +65,7 @@ export default {
     cursor: default;
     .component {
       flex: 1 1 50px;
+      height: 50px;
       padding: 8px;
       border: 1px solid #ccc;
       cursor: default;
