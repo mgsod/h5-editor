@@ -15,37 +15,24 @@
       </div>
     </div>
     <el-tabs v-model="active">
-      <el-tab-pane
-        v-for="item in tabs"
-        :key="item.name"
-        :label="item.label"
-        :name="item.name"
-      ></el-tab-pane>
+      <el-tab-pane label="属性" name="prop">
+        <property-bar />
+      </el-tab-pane>
+      <el-tab-pane label="事件" name="event"></el-tab-pane>
     </el-tabs>
   </div>
 </template>
-
 <script>
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
-
+import propertyBar from "./property-bar.vue";
 export default {
   name: "property",
   props: {},
-  components: {},
+  components: { propertyBar },
   setup() {
     const store = useStore();
     return {
-      tabs: [
-        {
-          label: "属性",
-          name: "prop",
-        },
-        {
-          label: "事件",
-          name: "event",
-        },
-      ],
       active: "prop",
       undo() {
         store.commit(MUTATION_TYPE.UNDO);
@@ -61,7 +48,7 @@ export default {
 <style scoped lang="less">
 .setting-bar {
   box-sizing: border-box;
-  width: 300px;
+  width: 340px;
   height: 100%;
   background: #fff;
   display: flex;
@@ -90,8 +77,8 @@ export default {
     }
   }
   .el-tabs {
-    flex: 0 0 260px;
-    padding-left: 8px;
+    flex: 0 0 300px;
+    padding: 0 8px;
   }
 }
 </style>

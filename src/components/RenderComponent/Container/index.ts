@@ -5,7 +5,7 @@ import {
   Layout,
   TextAlign,
 } from "@/components/RenderComponent/Layout";
-import Util from "@/util";
+import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/RenderComponent/types";
 export interface IContainer extends IComponent, Layout {
   isContainer: boolean;
@@ -26,7 +26,7 @@ class Container extends Component implements IContainer {
   height = 200;
   constructor(props?: IContainer) {
     super(props);
-    Util.FastInitProps(props, this);
+    fastInitProps(props, this);
   }
 }
 export default Container;

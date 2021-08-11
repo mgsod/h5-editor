@@ -1,5 +1,5 @@
 import Component, { IComponent } from "@/components/RenderComponent/Component";
-import Util from "@/util";
+import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/RenderComponent/types";
 export type objectFit = "cover" | "contain";
 export interface IImg extends IComponent {
@@ -15,6 +15,6 @@ export default class Img extends Component implements IImg {
   height = 70;
   constructor(props: IImg) {
     super(props);
-    Util.FastInitProps(props, this);
+    fastInitProps(props, this);
   }
 }

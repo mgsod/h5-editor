@@ -1,12 +1,12 @@
 import { Position } from "@/components/RenderComponent/Layout";
 import { v4 as uuidv4 } from "uuid";
-import Util from "@/util";
+import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/RenderComponent/types";
 export interface IComponent {
   type: ComponentType;
   id: string;
-  width: number | string;
-  height: number | string;
+  width: number;
+  height: number;
   position: Position;
 }
 
@@ -23,7 +23,7 @@ class Component implements IComponent {
   position: Position = "relative";
   constructor(props?: IComponent) {
     this.id = uuidv4();
-    Util.FastInitProps(props, this);
+    fastInitProps(props, this);
   }
 }
 

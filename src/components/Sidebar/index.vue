@@ -14,7 +14,13 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="DOM树"> </el-tab-pane>
+      <el-tab-pane label="DOM树">
+        <el-tree
+          :data="domTree"
+          :default-expand-all="true"
+          :props="{ label: 'type' }"
+        ></el-tree>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -23,7 +29,10 @@
 import {
   ComponentList,
   IComponentItem,
+  TComponent,
 } from "@/components/RenderComponent/types";
+import { computed } from "vue";
+import { useStore } from "@/store";
 
 export default {
   name: "Sidebar",
@@ -33,10 +42,15 @@ export default {
     const dragstart = (e: DragEvent, item: IComponentItem) => {
       e.dataTransfer!.setData("type", item.type);
     };
+    const store = useStore();
+    const domTree = computed(() => {
+      return store.getters.currentPage.components;
+    });
     return {
       dragstart,
       ComponentList,
       active: 0,
+      domTree,
     };
   },
 };

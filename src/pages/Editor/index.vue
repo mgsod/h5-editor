@@ -33,12 +33,14 @@ export default {
       document.addEventListener("keydown", (e) => {
         switch (e.code) {
           case "KeyZ":
-            if (e.ctrlKey) {
+            if (e.ctrlKey || e.metaKey) {
+              e.preventDefault();
               store.commit(MUTATION_TYPE.UNDO);
             }
             break;
           case "KeyY":
-            if (e.ctrlKey) {
+            if (e.ctrlKey || e.metaKey) {
+              e.preventDefault();
               store.commit(MUTATION_TYPE.REDO);
             }
         }
@@ -71,8 +73,9 @@ export default {
     .canvas-wrapper {
       flex: auto;
     }
-    .property {
-      flex: 0 0 300px;
+    .setting-bar {
+      flex: 0 0 341px;
+      width: 340px;
       box-sizing: border-box;
     }
   }

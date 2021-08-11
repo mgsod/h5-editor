@@ -6,6 +6,10 @@ import {
   ElTabs,
   ElTabPane,
   ElIcon,
+  ElTree,
+  ElForm,
+  ElFormItem,
+  ElInput,
 } from "element-plus";
 
 export default (app: App) => {
@@ -18,5 +22,10 @@ export default (app: App) => {
     .use(ElOption)
     .use(ElTabs)
     .use(ElTabPane)
+    .use(ElTree)
+    .use(ElForm)
+    .use(ElFormItem)
+    .use(ElInput)
+
     .use(ElIcon);
 };

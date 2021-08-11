@@ -8,7 +8,7 @@
     @dragover="dragover"
     :id="property.id"
     :type="property.type"
-    @click="x(property)"
+    @click="select($event, property)"
   >
     <component :is="property.type" v-bind="property">
       <component-wrapper
@@ -72,10 +72,9 @@ export default defineComponent({
       dragleave,
       dragover,
       drop,
-      x: (item: TComponent) => {
-        //const payload = JSON.parse(JSON.stringify(item));
-        //payload.width += 10;
-        //store.commit(MUTATION_TYPE.UPDATE_COMPONENT, payload);
+      select: (e: Event, item: TComponent) => {
+        e.stopPropagation();
+        store.commit(MUTATION_TYPE.SELECT_COMPONENT, item);
       },
     };
   },

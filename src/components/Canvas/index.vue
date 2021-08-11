@@ -50,9 +50,9 @@ export default defineComponent({
   justify-content: center;
   .wrapper-grid {
     width: 375px;
-    height: 90%;
+    height: 600px;
     position: relative;
-    top: calc(50% - 45%);
+    top: calc(50% - 300px);
     background-color: white;
     background-image: linear-gradient(
         90deg,

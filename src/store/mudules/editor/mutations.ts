@@ -6,7 +6,8 @@ import { DiffPatcher } from "@/util/diffpatch";
 import { v4 as uuidv4 } from "uuid";
 import ComponentFactory from "@/components/RenderComponent/Factory";
 import { IContainer } from "@/components/RenderComponent/Container";
-
+import { findItemById } from "@/util";
+import { IComponent } from "@/components/RenderComponent/Component";
 const diffPatcher = new DiffPatcher<IPage[]>();
 const addPage = (state: IState) => {
   const id = uuidv4();
@@ -17,6 +18,19 @@ const addPage = (state: IState) => {
   });
   state.pageActive = id;
 };
+const updateSelectedComponent = (state: IState) => {
+  if (state.selectedComponents) {
+    const currentPage = state.pages.find(
+      (item) => item.id === state.pageActive
+    ) as IPage;
+    const target = findItemById<IComponent>(
+      currentPage.components,
+      state.selectedComponents.id as string
+    );
+    state.selectedComponents = target as TComponent;
+  }
+};
+
 /**
  * 带快照的更改
  * @param state
@@ -54,12 +68,18 @@ const mutations: MutationTree<IState> = {
   // 重做
   [MUTATION_TYPE.UNDO]: (state) => {
     const result = diffPatcher.undo();
-    if (result) state.pages = result;
+    if (result) {
+      state.pages = result;
+      updateSelectedComponent(state);
+    }
   },
   // 撤销
   [MUTATION_TYPE.REDO]: (state) => {
     const result = diffPatcher.redo();
-    if (result) state.pages = result;
+    if (result) {
+      state.pages = result;
+      updateSelectedComponent(state);
+    }
   },
   // 新增一页
   [MUTATION_TYPE.ADD_PAGE]: (state) => {
@@ -74,8 +94,8 @@ const mutations: MutationTree<IState> = {
     state.pages[0].components.push(
       ComponentFactory.createComponent(ComponentType.Container, {
         id: "root",
-        width: "100%",
-        height: "100%",
+        width: 375,
+        height: 600,
       })
     );
   },
@@ -83,12 +103,18 @@ const mutations: MutationTree<IState> = {
     mutationWithSnapshot(state, () => {
       const currentPage = state.pages.find(
         (item) => item.id === state.pageActive
+      ) as IPage;
+      const target = findItemById<IComponent>(
+        currentPage.components,
+        payload.id
       );
-      const index = (<IPage>currentPage).components.findIndex(
-        (item) => item.id === payload.id
-      );
-      currentPage!.components[index] = payload;
+      if (target) {
+        Object.assign(target, { ...payload });
+      }
     });
+  },
+  [MUTATION_TYPE.SELECT_COMPONENT]: (state, payload: TComponent) => {
+    state.selectedComponents = payload;
   },
 };
 export default mutations;
