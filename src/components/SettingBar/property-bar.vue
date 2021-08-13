@@ -1,6 +1,6 @@
 <template>
   <div v-if="Object.keys(componentProps).length > 0">
-    <el-form label-position="left" label-width="8" :model="componentProps">
+    <el-form label-position="left" label-width="75px" :model="componentProps">
       <el-form-item label="尺寸" class="flex">
         <el-input type="number" v-model.number="componentProps.width">
           <template #prepend>宽</template>
@@ -9,20 +9,25 @@
           <template #prepend>高</template>
         </el-input>
       </el-form-item>
+      <img-setting
+        v-model:componentProps="componentProps"
+        v-if="componentProps.type === 'Img'"
+      />
     </el-form>
   </div>
-  <template v-else> 请选中一个组件 </template>
+  <div v-else class="no-component-selected">请选中一个组件</div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, reactive } from "vue";
+import { defineComponent, computed, watch, reactive, nextTick } from "vue";
 import { TComponent } from "@/components/RenderComponent/types";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import { getDebounceCommit, objectMerge } from "@/util";
+import ImgSetting from "@/components/RenderComponent/Img/setting.vue";
 export default defineComponent({
   name: "property-bar",
-  components: {},
+  components: { ImgSetting },
   setup() {
     const store = useStore();
     const origin = computed(() => {
@@ -35,6 +40,7 @@ export default defineComponent({
       () => {
         change = true;
         objectMerge(origin.value || {}, componentProps);
+        change = false;
       },
       { deep: true }
     );
@@ -45,6 +51,7 @@ export default defineComponent({
     watch(componentProps, (a, b) => {
       if (!change) {
         debounceCommit(componentProps);
+        change = false;
       }
       change = false;
     });
@@ -64,11 +71,20 @@ export default defineComponent({
         display: flex;
         & > div {
           flex: 1;
-          margin: 0 5px;
           width: 0;
+          margin: 0 5px;
+          &:first-child {
+            margin-left: 0;
+          }
+          &:last-child {
+            margin-right: 0;
+          }
         }
       }
     }
   }
+}
+.no-component-selected {
+  color: var(--el-color-info);
 }
 </style>

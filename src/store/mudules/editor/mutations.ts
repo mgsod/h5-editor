@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import ComponentFactory from "@/components/RenderComponent/Factory";
 import { IContainer } from "@/components/RenderComponent/Container";
 import { findItemById } from "@/util";
-import { IComponent } from "@/components/RenderComponent/Component";
+import Component, { IComponent } from "@/components/RenderComponent/Component";
 const diffPatcher = new DiffPatcher<IPage[]>();
 const addPage = (state: IState) => {
   const id = uuidv4();
@@ -23,11 +23,10 @@ const updateSelectedComponent = (state: IState) => {
     const currentPage = state.pages.find(
       (item) => item.id === state.pageActive
     ) as IPage;
-    const target = findItemById<IComponent>(
+    state.selectedComponents = findItemById<Component>(
       currentPage.components,
       state.selectedComponents.id as string
     );
-    state.selectedComponents = target as TComponent;
   }
 };
 
@@ -104,7 +103,7 @@ const mutations: MutationTree<IState> = {
       const currentPage = state.pages.find(
         (item) => item.id === state.pageActive
       ) as IPage;
-      const target = findItemById<IComponent>(
+      const target = findItemById<Component>(
         currentPage.components,
         payload.id
       );

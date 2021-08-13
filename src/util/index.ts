@@ -49,6 +49,7 @@ export function findItemById<T extends ITree<T>>(
 
 export function getDebounceCommit<T>(commit: Commit, commitType: string) {
   const commitHandel = (payload?: T) => {
+    console.log("ccc");
     commit(commitType, payload);
   };
   return debounce(commitHandel, 500);

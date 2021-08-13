@@ -18,7 +18,7 @@ export interface IContainer extends IComponent, Layout {
 class Container extends Component implements IContainer {
   type = ComponentType.Container;
   isContainer = true;
-  children: IComponent[] = [];
+  children: Component[] = [];
   textAlign: TextAlign = "left";
   JustifyContent: JustifyContent = "flex-start";
   AlignItems: AlignItems = "flex-start";

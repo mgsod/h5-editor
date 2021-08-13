@@ -1,25 +1,25 @@
 import { Module } from "vuex";
 import mutations from "@/store/mudules/editor/mutations";
-import Component, { IComponent } from "@/components/RenderComponent/Component";
+import Component from "@/components/RenderComponent/Component";
 import { state } from "@/store";
 import { TComponent } from "@/components/RenderComponent/types";
 
 export interface IPage {
   order: number;
-  components: IComponent[];
+  components: Component[];
   id: string;
 }
 export interface IState {
   pages: IPage[];
   pageActive: string;
-  selectedComponents: Partial<TComponent>;
+  selectedComponents: Component | null;
 }
 
 const module: Module<IState, state> = {
   state: {
     pageActive: "",
     pages: [],
-    selectedComponents: {},
+    selectedComponents: null,
   },
   mutations: {
     ...mutations,
