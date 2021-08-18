@@ -8,9 +8,8 @@ export interface IComponent {
   width: number;
   height: number;
   position: Position;
+  alias?: string;
 }
-
-export type optionalAttrs = "type" | "id" | "position";
 
 /**
  *基础组件类，包含一个组件最基本的信息
@@ -20,9 +19,11 @@ class Component implements IComponent {
   id: string;
   width = 50;
   height = 50;
-  position: Position = "relative";
+  position: Position = "static";
+  alias?: string = "";
   constructor(props?: IComponent) {
     this.id = uuidv4();
+    this.alias = props?.type;
     fastInitProps(props, this);
   }
 }

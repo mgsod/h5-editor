@@ -19,7 +19,15 @@
           :data="domTree"
           :default-expand-all="true"
           :props="{ label: 'type' }"
-        ></el-tree>
+          :expand-on-click-node="false"
+          @nodeClick="selectNode"
+        >
+          <template #default="{ data }">
+            <span class="custom-tree-node">
+              <span>{{ data.alias || data.type }}</span>
+            </span>
+          </template>
+        </el-tree>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -33,6 +41,7 @@ import {
 } from "@/components/RenderComponent/types";
 import { computed } from "vue";
 import { useStore } from "@/store";
+import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 
 export default {
   name: "Sidebar",
@@ -51,6 +60,9 @@ export default {
       ComponentList,
       active: 0,
       domTree,
+      selectNode(data: TComponent) {
+        store.commit(MUTATION_TYPE.SELECT_COMPONENT, data);
+      },
     };
   },
 };

@@ -107,6 +107,7 @@ const mutations: MutationTree<IState> = {
         currentPage.components,
         payload.id
       );
+      console.log("shoudao", target, currentPage.components, payload.id);
       if (target) {
         Object.assign(target, { ...payload });
       }

@@ -13,9 +13,10 @@
 <script lang="ts">
 import { defineComponent, PropType, computed } from "vue";
 import { IImg } from "@/components/RenderComponent/Img/index";
+import { ComponentSettingType } from "@/components/RenderComponent/types";
 
 export default defineComponent({
-  name: "setting",
+  name: ComponentSettingType.Img,
   props: {
     componentProps: Object as PropType<IImg>,
   },

@@ -1,17 +1,14 @@
 <template>
   <div v-if="Object.keys(componentProps).length > 0">
     <el-form label-position="left" label-width="75px" :model="componentProps">
-      <el-form-item label="尺寸" class="flex">
-        <el-input type="number" v-model.number="componentProps.width">
-          <template #prepend>宽</template>
-        </el-input>
-        <el-input type="number" v-model.number="componentProps.height">
-          <template #prepend>高</template>
-        </el-input>
-      </el-form-item>
+      <base-setting v-model:component-props="componentProps" />
+      <container-setting
+        v-model:component-props="componentProps"
+        v-if="componentProps.type === ComponentType.Container"
+      />
       <img-setting
         v-model:componentProps="componentProps"
-        v-if="componentProps.type === 'Img'"
+        v-if="componentProps.type === ComponentType.Img"
       />
     </el-form>
   </div>
@@ -19,15 +16,18 @@
 </template>
 
 <script lang="ts">
+import { ComponentType } from "@/components/RenderComponent/types";
 import { defineComponent, computed, watch, reactive, nextTick } from "vue";
 import { TComponent } from "@/components/RenderComponent/types";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import { getDebounceCommit, objectMerge } from "@/util";
-import ImgSetting from "@/components/RenderComponent/Img/setting.vue";
+import ImgSetting from "@/components/RenderComponent/Img/ImgSetting.vue";
+import BaseSetting from "@/components/RenderComponent/Component/BaseSetting.vue";
+import ContainerSetting from "@/components/RenderComponent/Container/ContainerSetting.vue";
 export default defineComponent({
   name: "property-bar",
-  components: { ImgSetting },
+  components: { ImgSetting, BaseSetting, ContainerSetting },
   setup() {
     const store = useStore();
     const origin = computed(() => {
@@ -49,15 +49,18 @@ export default defineComponent({
       MUTATION_TYPE.UPDATE_COMPONENT
     );
     watch(componentProps, (a, b) => {
+      console.log("改版，", { ...componentProps });
       if (!change) {
         debounceCommit(componentProps);
         change = false;
+        console.log("commit");
       }
       change = false;
     });
 
     return {
       componentProps,
+      ComponentType,
     };
   },
 });
@@ -65,20 +68,18 @@ export default defineComponent({
 
 <style scoped lang="less">
 .el-form {
-  .el-form-item {
-    &.flex {
-      /deep/.el-form-item__content {
-        display: flex;
-        & > div {
-          flex: 1;
-          width: 0;
-          margin: 0 5px;
-          &:first-child {
-            margin-left: 0;
-          }
-          &:last-child {
-            margin-right: 0;
-          }
+  /deep/.el-form-item {
+    .el-form-item__content {
+      display: flex;
+      & > div {
+        flex: 1;
+        width: 0;
+        margin: 0 5px;
+        &:first-child {
+          margin-left: 0;
+        }
+        &:last-child {
+          margin-right: 0;
         }
       }
     }

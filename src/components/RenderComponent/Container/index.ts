@@ -4,6 +4,7 @@ import {
   JustifyContent,
   Layout,
   TextAlign,
+  display,
 } from "@/components/RenderComponent/Layout";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/RenderComponent/types";
@@ -24,6 +25,7 @@ class Container extends Component implements IContainer {
   AlignItems: AlignItems = "flex-start";
   width = 200;
   height = 200;
+  display: display = "block";
   constructor(props?: IContainer) {
     super(props);
     fastInitProps(props, this);

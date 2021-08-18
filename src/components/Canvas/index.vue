@@ -66,9 +66,10 @@ export default defineComponent({
       box-sizing: border-box;
       height: 100%;
       width: 100%;
+      overflow: hidden;
       &.enterContainer,
       /deep/div.enterContainer {
-        box-shadow: 0 0 0 2px #1593ff !important;
+        outline: 2px dashed var(--el-color-primary);
       }
     }
   }

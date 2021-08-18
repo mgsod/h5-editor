@@ -3,8 +3,6 @@ import ComponentFactory from "@/components/RenderComponent/Factory";
 const dragEnterClass = "enterContainer";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
-import { IComponent } from "@/components/RenderComponent/Component";
-
 const addEnterClass = (target: HTMLElement) => {
   target.classList.add(dragEnterClass);
 };

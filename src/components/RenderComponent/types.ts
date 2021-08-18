@@ -2,17 +2,26 @@ import { IComponent } from "./Component";
 import { IContainer } from "./Container";
 import { IImg } from "@/components/RenderComponent/Img";
 
+// 所有组件类型及名称
 export enum ComponentType {
   Base = "Base",
-  Container = "Container",
-  Img = "Img",
-  Button = "Button",
+  Container = "HContainer",
+  Img = "HImg",
+  Button = "HButton",
 }
+export enum ComponentSettingType {
+  Base = "BaseSetting",
+  Container = "ContainerSetting",
+  Img = `ImgSetting`,
+  Button = "ButtonSetting",
+}
+// 用于侧边栏组件列表中单个组件的接口
 export interface IComponentItem {
   type: ComponentType;
   icon: string;
   name: string;
 }
+// 侧边栏组件列表
 export const ComponentList: IComponentItem[] = [
   { type: ComponentType.Container, icon: "xxx", name: "容器" },
   { type: ComponentType.Img, icon: "xxx", name: "图片" },

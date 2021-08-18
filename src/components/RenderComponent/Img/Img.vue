@@ -6,11 +6,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, toRefs } from "vue";
+import { defineComponent, PropType, computed } from "vue";
 import { objectFit } from "@/components/RenderComponent/Img/index";
+import { ComponentType } from "@/components/RenderComponent/types";
 
 export default defineComponent({
-  name: "Img",
+  name: ComponentType.Img,
   props: {
     src: String,
     objectFit: String as PropType<objectFit>,

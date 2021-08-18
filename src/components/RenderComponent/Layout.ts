@@ -1,5 +1,21 @@
 // 定位
-export type Position = "relative" | "absolute";
+export type Position = "static" | "relative" | "absolute";
+export const positionList = [
+  { name: "无", value: "static" },
+  { name: "相对定位", value: "relative" },
+  { name: "绝对定位", value: "absolute" },
+];
+
+export const layoutType = [
+  {
+    name: "默认布局",
+    value: "block",
+  },
+  {
+    name: "弹性布局",
+    value: "flex",
+  },
+];
 // 文本对齐
 export type TextAlign = "left" | "center" | "right";
 // 主轴（横轴）方向上的对齐方式
@@ -37,8 +53,9 @@ export type Padding =
   | "padding-bottom"
   | `${padding}-left`;
 
+export type display = "block" | "flex";
 export interface Layout {
-  display?: "flex";
+  display: display;
   textAlign?: TextAlign;
   JustifyContent?: JustifyContent;
   AlignItems?: AlignItems;

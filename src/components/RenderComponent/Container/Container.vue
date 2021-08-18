@@ -9,17 +9,19 @@ import { defineComponent, computed } from "vue";
 
 export default defineComponent({
   name: "Container",
+  inheritAttrs: false,
   props: {
     type: String,
     textAlign: String,
     JustifyContent: String,
     AlignItems: String,
     children: Array,
+    display: String,
   },
   setup(props) {
     const containerStyle = computed(() => {
       return {
-        display: "flex",
+        display: props.display,
         textAlign: props.textAlign,
         JustifyContent: props.JustifyContent,
         AlignItems: props.AlignItems,

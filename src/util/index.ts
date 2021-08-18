@@ -34,14 +34,13 @@ export function findItemById<T extends ITree<T>>(
 ): T | null {
   let result = null;
   tree.forEach((item) => {
-    if (item.children) {
+    if (item.id === id) {
+      result = item;
+      return;
+    }
+    if (item.children && item.children?.length > 0) {
       result = findItemById<T>(item.children, id);
       return;
-    } else {
-      if (item.id === id) {
-        result = item;
-        return;
-      }
     }
   });
   return result;
@@ -49,7 +48,6 @@ export function findItemById<T extends ITree<T>>(
 
 export function getDebounceCommit<T>(commit: Commit, commitType: string) {
   const commitHandel = (payload?: T) => {
-    console.log("ccc");
     commit(commitType, payload);
   };
   return debounce(commitHandel, 500);
