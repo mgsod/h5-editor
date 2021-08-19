@@ -97,15 +97,19 @@ export class DiffPatcher<T> {
    */
   redo(): T | false {
     if (this.index === this.snapshots.length) return false;
+    // 取下一个补丁
     this.index += 1;
     const index = this.index;
-    if (!this.snapshots[index] || !this.left) return false;
+    if (!this.snapshots[index] || !this.left) {
+      this.index -= 1;
+      return false;
+    }
     const delta = this.snapshots[index];
     const cloneLeft = diffPatcher.clone(this.left);
     this.lastModifyAction = DiffPatcher.getModifyType(delta);
-    this.left = this.right;
-    this.right = diffPatcher.patch(cloneLeft, delta);
-    return <T>this.right;
+    // 打补丁
+    this.left = diffPatcher.patch(cloneLeft, delta); // 把右边的赋值到左边
+    return <T>this.left;
   }
 
   /**
@@ -115,11 +119,13 @@ export class DiffPatcher<T> {
     if (this.index < 0) return false;
     if (this.snapshots.length < 1 || !this.right) return false;
     const cloneRight = diffPatcher.clone(this.right);
+    // 获取当前索引快照
     const delta = this.snapshots[this.index];
-    this.index -= 1;
     this.lastModifyAction = DiffPatcher.getModifyType(delta);
-    this.right = this.left;
+    // 左边卸载布丁
     this.left = diffPatcher.unpatch(cloneRight, delta);
+    // 索引位 - 1
+    this.index -= 1;
     return <T>this.left;
   }
 
@@ -145,7 +151,6 @@ export class DiffPatcher<T> {
     }
     this.left = left;
     this.right = right;
-    console.log(this);
   }
 
   getModifyType(): ModifyAction {
