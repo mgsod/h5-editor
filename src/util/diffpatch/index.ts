@@ -103,8 +103,9 @@ export class DiffPatcher<T> {
     const delta = this.snapshots[index];
     const cloneLeft = diffPatcher.clone(this.left);
     this.lastModifyAction = DiffPatcher.getModifyType(delta);
-    this.left = diffPatcher.patch(cloneLeft, delta);
-    return <T>this.left;
+    this.left = this.right;
+    this.right = diffPatcher.patch(cloneLeft, delta);
+    return <T>this.right;
   }
 
   /**
@@ -112,12 +113,13 @@ export class DiffPatcher<T> {
    */
   undo(): T | false {
     if (this.index < 0) return false;
-    if (this.snapshots.length < 1 || !this.left) return false;
-    const cloneLeft = diffPatcher.clone(this.left);
+    if (this.snapshots.length < 1 || !this.right) return false;
+    const cloneRight = diffPatcher.clone(this.right);
     const delta = this.snapshots[this.index];
     this.index -= 1;
     this.lastModifyAction = DiffPatcher.getModifyType(delta);
-    this.left = diffPatcher.unpatch(cloneLeft, delta);
+    this.right = this.left;
+    this.left = diffPatcher.unpatch(cloneRight, delta);
     return <T>this.left;
   }
 
@@ -143,6 +145,7 @@ export class DiffPatcher<T> {
     }
     this.left = left;
     this.right = right;
+    console.log(this);
   }
 
   getModifyType(): ModifyAction {

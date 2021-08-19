@@ -40,7 +40,6 @@ export default defineComponent({
         return props.componentProps;
       },
       set(val) {
-        console.log("gogogogo");
         emit("update:componentProps", val);
       },
     });
