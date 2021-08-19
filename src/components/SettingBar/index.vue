@@ -13,6 +13,12 @@
         </div>
         <div>重做</div>
       </div>
+      <div class="tool-item" @click="del">
+        <div class="icon del">
+          <i class="el-icon-error"></i>
+        </div>
+        <div>删除</div>
+      </div>
     </div>
     <el-tabs v-model="active">
       <el-tab-pane label="属性" name="prop">
@@ -40,6 +46,9 @@ export default {
       redo() {
         store.commit(MUTATION_TYPE.REDO);
       },
+      del() {
+        store.commit(MUTATION_TYPE.REMOVE_COMPONENT);
+      },
     };
   },
 };
@@ -48,7 +57,7 @@ export default {
 <style scoped lang="less">
 .setting-bar {
   box-sizing: border-box;
-  width: 340px;
+  width: 360px;
   height: 100%;
   background: #fff;
   display: flex;
@@ -69,15 +78,19 @@ export default {
       user-select: none;
       .icon {
         margin-bottom: 2px;
+        &.del {
+          color: var(--el-color-danger);
+        }
       }
-      &:hover {
+      &:hover,
+      &:hover .icon {
         background-color: #409eff;
         color: white;
       }
     }
   }
   .el-tabs {
-    flex: 0 0 300px;
+    flex: 0 0 320px;
     padding: 0 8px;
   }
 }

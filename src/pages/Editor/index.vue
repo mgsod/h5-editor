@@ -73,11 +73,6 @@ export default {
     .canvas-wrapper {
       flex: auto;
     }
-    .setting-bar {
-      flex: 0 0 341px;
-      width: 340px;
-      box-sizing: border-box;
-    }
   }
 }
 </style>

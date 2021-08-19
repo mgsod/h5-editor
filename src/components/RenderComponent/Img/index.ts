@@ -12,8 +12,8 @@ export default class Img extends Component implements IImg {
   objectFit: objectFit = "cover";
   src?: string =
     "https://cn.bing.com/th?id=OHR.UbehebeCrater_ZH-CN0157876978_1920x1080.jpg&rf=LaDigue_1920x1080.jpg";
-  width = 270;
-  height = 270;
+  width = 300;
+  height = 200;
   constructor(props: IImg) {
     super(props);
     fastInitProps(props, this);

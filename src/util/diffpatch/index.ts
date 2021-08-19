@@ -51,6 +51,7 @@ export class DiffPatcher<T> {
   private readonly maxSnapshotLength: number;
 
   left: T | undefined;
+  right: T | undefined;
 
   constructor(maxSnapshotLength = 20) {
     this.maxSnapshotLength = maxSnapshotLength;
@@ -141,6 +142,7 @@ export class DiffPatcher<T> {
       this.snapshots = this.snapshots.slice(-this.maxSnapshotLength);
     }
     this.left = left;
+    this.right = right;
   }
 
   getModifyType(): ModifyAction {

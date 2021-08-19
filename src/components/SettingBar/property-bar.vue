@@ -1,6 +1,6 @@
 <template>
   <div v-if="Object.keys(componentProps).length > 0">
-    <el-form label-position="left" label-width="75px" :model="componentProps">
+    <el-form label-position="left" label-width="90px" :model="componentProps">
       <base-setting v-model:component-props="componentProps" />
       <container-setting
         v-model:component-props="componentProps"
@@ -49,11 +49,9 @@ export default defineComponent({
       MUTATION_TYPE.UPDATE_COMPONENT
     );
     watch(componentProps, (a, b) => {
-      console.log("改版，", { ...componentProps });
       if (!change) {
         debounceCommit(componentProps);
         change = false;
-        console.log("commit");
       }
       change = false;
     });

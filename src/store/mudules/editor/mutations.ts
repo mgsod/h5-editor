@@ -6,7 +6,7 @@ import { DiffPatcher } from "@/util/diffpatch";
 import { v4 as uuidv4 } from "uuid";
 import ComponentFactory from "@/components/RenderComponent/Factory";
 import { IContainer } from "@/components/RenderComponent/Container";
-import { findItemById } from "@/util";
+import { findItemAndParentById, findItemById } from "@/util";
 import Component, { IComponent } from "@/components/RenderComponent/Component";
 const diffPatcher = new DiffPatcher<IPage[]>();
 const addPage = (state: IState) => {
@@ -107,7 +107,6 @@ const mutations: MutationTree<IState> = {
         currentPage.components,
         payload.id
       );
-      console.log("shoudao", target, currentPage.components, payload.id);
       if (target) {
         Object.assign(target, { ...payload });
       }
@@ -115,6 +114,23 @@ const mutations: MutationTree<IState> = {
   },
   [MUTATION_TYPE.SELECT_COMPONENT]: (state, payload: TComponent) => {
     state.selectedComponents = payload;
+  },
+  [MUTATION_TYPE.REMOVE_COMPONENT]: (state) => {
+    if (state.selectedComponents) {
+      mutationWithSnapshot(state, () => {
+        const currentPage = state.pages.find(
+          (item) => item.id === state.pageActive
+        ) as IPage;
+        const target = findItemAndParentById<Component>(
+          currentPage.components,
+          state!.selectedComponents!.id
+        );
+        if (target) {
+          target.parent.splice(target.index, 1);
+          console.log(diffPatcher);
+        }
+      });
+    }
   },
 };
 export default mutations;

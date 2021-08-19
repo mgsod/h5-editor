@@ -1,6 +1,6 @@
 import Component, { IComponent } from "@/components/RenderComponent/Component";
 import Container, { IContainer } from "@/components/RenderComponent/Container";
-import { ALlComponent, ComponentType, TypeMapping } from "./types";
+import { ALlComponent, ComponentType } from "./types";
 import Img, { IImg } from "@/components/RenderComponent/Img";
 
 /**

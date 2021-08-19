@@ -18,14 +18,6 @@ export const layoutType = [
 ];
 // 文本对齐
 export type TextAlign = "left" | "center" | "right";
-// 主轴（横轴）方向上的对齐方式
-export type JustifyContent =
-  | "flex-start"
-  | "center"
-  | " flex-end"
-  | "space-around"
-  | "space-between"
-  | "space-evenly";
 
 // 交叉轴（纵轴）方向上的对齐方式
 export type AlignItems =
@@ -54,11 +46,3 @@ export type Padding =
   | `${padding}-left`;
 
 export type display = "block" | "flex";
-export interface Layout {
-  display: display;
-  textAlign?: TextAlign;
-  JustifyContent?: JustifyContent;
-  AlignItems?: AlignItems;
-  AlignSelf?: AlignSelf;
-  AlignContent?: AlignContent;
-}
