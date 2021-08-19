@@ -96,7 +96,8 @@ export class DiffPatcher<T> {
    * 重做
    */
   redo(): T | false {
-    if (this.index === this.snapshots.length) return false;
+    // TODO
+    if (this.index === this.snapshots.length - 1) return false;
     // 取下一个补丁
     this.index += 1;
     const index = this.index;
@@ -116,8 +117,8 @@ export class DiffPatcher<T> {
    * 撤销
    */
   undo(): T | false {
-    if (this.index < 0) return false;
-    if (this.snapshots.length < 1 || !this.right) return false;
+    // 已经撤回到第一步 或者 没有快照
+    if (this.index < 0 || this.snapshots.length < 1) return false;
     const cloneRight = diffPatcher.clone(this.right);
     // 获取当前索引快照
     const delta = this.snapshots[this.index];
