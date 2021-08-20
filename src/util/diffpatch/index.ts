@@ -96,20 +96,15 @@ export class DiffPatcher<T> {
    * 重做
    */
   redo(): T | false {
-    // TODO
+    // 如果索引在最后一位，无法继续重做
     if (this.index === this.snapshots.length - 1) return false;
     // 取下一个补丁
     this.index += 1;
-    const index = this.index;
-    if (!this.snapshots[index] || !this.left) {
-      this.index -= 1;
-      return false;
-    }
-    const delta = this.snapshots[index];
+    const delta = this.snapshots[this.index];
     const cloneLeft = diffPatcher.clone(this.left);
     this.lastModifyAction = DiffPatcher.getModifyType(delta);
     // 打补丁
-    this.left = diffPatcher.patch(cloneLeft, delta); // 把右边的赋值到左边
+    this.left = diffPatcher.patch(cloneLeft, delta);
     return <T>this.left;
   }
 
@@ -156,5 +151,11 @@ export class DiffPatcher<T> {
 
   getModifyType(): ModifyAction {
     return this.lastModifyAction;
+  }
+  allowRedo() {
+    return this.index < this.snapshots.length - 1;
+  }
+  allowUndo() {
+    return this.index > -1 && this.snapshots.length > 0;
   }
 }

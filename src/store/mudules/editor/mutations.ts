@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from "uuid";
 import ComponentFactory from "@/components/RenderComponent/Factory";
 import { IContainer } from "@/components/RenderComponent/Container";
 import { findItemAndParentById, findItemById } from "@/util";
-import Component, { IComponent } from "@/components/RenderComponent/Component";
+import Component from "@/components/RenderComponent/Component";
 const diffPatcher = new DiffPatcher<IPage[]>();
 const addPage = (state: IState) => {
   const id = uuidv4();
@@ -30,6 +30,10 @@ const updateSelectedComponent = (state: IState) => {
   }
 };
 
+const updateRedoUndoState = (state: IState) => {
+  state.allowUndo = diffPatcher.allowUndo();
+  state.allowRedo = diffPatcher.allowRedo();
+};
 /**
  * 带快照的更改
  * @param state
@@ -40,6 +44,7 @@ const mutationWithSnapshot = (state: IState, callback: () => void) => {
   callback();
   // 记录快照
   diffPatcher.saveSnapshots(left, state.pages);
+  updateRedoUndoState(state);
 };
 const mutations: MutationTree<IState> = {
   // 添加一个组件
@@ -70,6 +75,7 @@ const mutations: MutationTree<IState> = {
     if (result) {
       state.pages = result;
       updateSelectedComponent(state);
+      updateRedoUndoState(state);
     }
   },
   // 撤销
@@ -78,6 +84,7 @@ const mutations: MutationTree<IState> = {
     if (result) {
       state.pages = result;
       updateSelectedComponent(state);
+      updateRedoUndoState(state);
     }
   },
   // 新增一页
@@ -113,7 +120,7 @@ const mutations: MutationTree<IState> = {
     });
   },
   [MUTATION_TYPE.SELECT_COMPONENT]: (state, payload: TComponent) => {
-    state.selectedComponents = payload;
+    state.selectedComponents = { ...payload };
   },
   [MUTATION_TYPE.REMOVE_COMPONENT]: (state) => {
     if (state.selectedComponents) {

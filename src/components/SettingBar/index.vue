@@ -1,13 +1,13 @@
 <template>
   <div class="setting-bar">
     <div class="toolbar">
-      <div class="tool-item" @click="undo">
+      <div class="tool-item" :class="{ disabled: !allowUndo }" @click="undo">
         <div class="icon">
           <i class="el-icon-refresh-left"></i>
         </div>
         <div>撤销</div>
       </div>
-      <div class="tool-item" @click="redo">
+      <div class="tool-item" :class="{ disabled: !allowRedo }" @click="redo">
         <div class="icon">
           <i class="el-icon-refresh-right"></i>
         </div>
@@ -28,16 +28,24 @@
     </el-tabs>
   </div>
 </template>
-<script>
+<script lang="ts">
+import { computed, defineComponent } from "vue";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import propertyBar from "./property-bar.vue";
-export default {
+
+export default defineComponent({
   name: "property",
   props: {},
   components: { propertyBar },
   setup() {
     const store = useStore();
+    const allowUndo = computed(() => {
+      return store.state.editor.allowUndo;
+    });
+    const allowRedo = computed(() => {
+      return store.state.editor.allowRedo;
+    });
     return {
       active: "prop",
       undo() {
@@ -49,9 +57,11 @@ export default {
       del() {
         store.commit(MUTATION_TYPE.REMOVE_COMPONENT);
       },
+      allowRedo,
+      allowUndo,
     };
   },
-};
+});
 </script>
 
 <style scoped lang="less">
@@ -86,6 +96,10 @@ export default {
       &:hover .icon {
         background-color: #409eff;
         color: white;
+      }
+      &.disabled {
+        opacity: 0.3;
+        pointer-events: none;
       }
     }
   }

@@ -13,6 +13,8 @@ export interface IState {
   pages: IPage[];
   pageActive: string;
   selectedComponents: Component | null;
+  allowUndo: boolean;
+  allowRedo: boolean;
 }
 
 const module: Module<IState, state> = {
@@ -20,6 +22,8 @@ const module: Module<IState, state> = {
     pageActive: "",
     pages: [],
     selectedComponents: null,
+    allowRedo: false,
+    allowUndo: false,
   },
   mutations: {
     ...mutations,
