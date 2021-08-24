@@ -69,7 +69,7 @@ export default defineComponent({
       overflow: hidden;
       &.enterContainer,
       /deep/div.enterContainer {
-        outline: 2px dashed var(--el-color-primary);
+        outline: 1px dashed var(--el-color-warning);
       }
     }
   }

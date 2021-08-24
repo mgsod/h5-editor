@@ -1,4 +1,4 @@
-import { debounce } from "lodash";
+import { debounce, throttle } from "lodash";
 import { Commit } from "vuex";
 
 // 树桩结构接口
@@ -69,4 +69,11 @@ export function getDebounceCommit<T>(commit: Commit, commitType: string) {
     commit(commitType, payload);
   };
   return debounce(commitHandel, 500);
+}
+
+export function getThrottleCommit<T>(commit: Commit, commitType: string) {
+  const commitHandel = (payload?: T) => {
+    commit(commitType, payload);
+  };
+  return throttle(commitHandel, 500);
 }

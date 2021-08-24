@@ -19,7 +19,7 @@ class Component implements IComponent {
   id: string;
   width = 50;
   height = 50;
-  position: Position = "static";
+  position: Position = "relative";
   alias?: string = "";
   constructor(props?: IComponent) {
     this.id = uuidv4();

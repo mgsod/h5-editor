@@ -8,6 +8,8 @@ import ComponentFactory from "@/components/RenderComponent/Factory";
 import { IContainer } from "@/components/RenderComponent/Container";
 import { findItemAndParentById, findItemById } from "@/util";
 import Component from "@/components/RenderComponent/Component";
+import { debounce } from "lodash";
+
 const diffPatcher = new DiffPatcher<IPage[]>();
 const addPage = (state: IState) => {
   const id = uuidv4();
@@ -34,6 +36,16 @@ const updateRedoUndoState = (state: IState) => {
   state.allowUndo = diffPatcher.allowUndo();
   state.allowRedo = diffPatcher.allowRedo();
 };
+
+/**
+ * 快照截流
+ */
+const resizeWithSnapshot = debounce((left, state) => {
+  diffPatcher.saveSnapshots(left, state.pages);
+  updateRedoUndoState(state);
+  console.log("save", diffPatcher);
+}, 500);
+
 /**
  * 带快照的更改
  * @param state
@@ -46,6 +58,7 @@ const mutationWithSnapshot = (state: IState, callback: () => void) => {
   diffPatcher.saveSnapshots(left, state.pages);
   updateRedoUndoState(state);
 };
+
 const mutations: MutationTree<IState> = {
   // 添加一个组件
   [MUTATION_TYPE.ADD_COMPONENT]: (
@@ -105,6 +118,7 @@ const mutations: MutationTree<IState> = {
       })
     );
   },
+  // 更新组件信息
   [MUTATION_TYPE.UPDATE_COMPONENT]: (state, payload: TComponent) => {
     mutationWithSnapshot(state, () => {
       const currentPage = state.pages.find(

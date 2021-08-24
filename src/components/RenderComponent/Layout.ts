@@ -1,7 +1,9 @@
 // 定位
-export type Position = "static" | "relative" | "absolute";
-export const positionList = [
-  { name: "无", value: "static" },
+export type Position = "relative" | "absolute";
+export const positionList: {
+  name: string;
+  value: Position;
+}[] = [
   { name: "相对定位", value: "relative" },
   { name: "绝对定位", value: "absolute" },
 ];

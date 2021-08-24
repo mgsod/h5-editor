@@ -20,17 +20,30 @@
         :property="item"
       ></component-wrapper>
     </component>
+    <template v-if="focusedId === property.id && property.id !== 'root'">
+      <div
+        class="point"
+        :class="item"
+        v-for="item in resizePoint"
+        :key="item"
+        @mousedown="mouseDown"
+        @mousemove="mouseMove"
+        @mouseup="mouseUp"
+      ></div>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, toRefs } from "vue";
+import { defineComponent, computed, PropType, watch } from "vue";
 import { TComponent } from "@/components/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
+import useResize from "@/hooks/useResize";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import HImg from "@/components/RenderComponent/Img/Img.vue";
 import HContainer from "@/components/RenderComponent/Container/Container.vue";
+import Component from "@/components/RenderComponent/Component";
 interface IDomComponent {
   property: TComponent;
 }
@@ -61,6 +74,17 @@ export default defineComponent({
     const focusedId = computed(() => {
       return store.state.editor.selectedComponents?.id;
     });
+    const resizePoint = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
+    const { mouseDown, mouseMove, mouseUp, offsetY, offsetX } = useResize();
+    watch([offsetX, offsetY], () => {
+      const component = store.state.editor.selectedComponents;
+      const { width, height } = component as Component;
+      store.commit(MUTATION_TYPE.UPDATE_COMPONENT, {
+        ...component,
+        width: width + offsetX.value,
+        height: height + offsetY.value,
+      });
+    });
     return {
       style,
       dragenter,
@@ -72,6 +96,10 @@ export default defineComponent({
         store.commit(MUTATION_TYPE.SELECT_COMPONENT, item);
       },
       focusedId,
+      resizePoint,
+      mouseDown,
+      mouseMove,
+      mouseUp,
     };
   },
 });
@@ -79,9 +107,70 @@ export default defineComponent({
 
 <style scoped lang="less">
 .component-wrapper {
-  outline: 1px solid #ccc;
+  border: 1px solid #ccc;
   &.focused {
-    outline: 2px solid var(--el-color-primary);
+    border: 1px solid var(--el-color-primary);
+    .point {
+      position: absolute;
+      background: #fff;
+      border: 1px solid #59c7f9;
+      width: 6px;
+      height: 6px;
+      z-index: 1;
+      border-radius: 50%;
+      &.lt {
+        margin-left: -3px;
+        margin-top: -3px;
+        left: 0;
+        top: 0;
+        cursor: nw-resize;
+      }
+      &.rt {
+        margin-right: -3px;
+        margin-top: -3px;
+        right: 0;
+        top: 0;
+        cursor: ne-resize;
+      }
+      &.rb {
+        margin-right: -3px;
+        margin-bottom: -3px;
+        right: 0;
+        bottom: 0;
+        cursor: se-resize;
+      }
+      &.lb {
+        margin-left: -3px;
+        margin-bottom: -3px;
+        left: 0;
+        bottom: 0;
+        cursor: se-resize;
+      }
+      &.l {
+        margin-left: -4px;
+        left: 0;
+        top: calc(50% - 3px);
+        cursor: w-resize;
+      }
+      &.r {
+        margin-right: -4px;
+        right: 0;
+        top: calc(50% - 3px);
+        cursor: e-resize;
+      }
+      &.t {
+        margin-top: -4px;
+        left: calc(50% - 3px);
+        top: 0;
+        cursor: n-resize;
+      }
+      &.b {
+        margin-bottom: -4px;
+        left: calc(50% - 3px);
+        bottom: 0;
+        cursor: n-resize;
+      }
+    }
   }
 }
 </style>
