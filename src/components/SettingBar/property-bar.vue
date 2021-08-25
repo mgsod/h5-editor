@@ -10,6 +10,17 @@
         v-model:componentProps="componentProps"
         v-if="componentProps.type === ComponentType.Img"
       />
+      <around-value
+        :padding="componentProps.padding"
+        :margin="componentProps.margin"
+        :border="componentProps.border"
+        :top="componentProps.top"
+        :right="componentProps.right"
+        :bottom="componentProps.bottom"
+        :left="componentProps.left"
+        :width="componentProps.width"
+        :height="componentProps.height"
+      />
     </el-form>
   </div>
   <div v-else class="no-component-selected">请选中一个组件</div>
@@ -25,9 +36,10 @@ import { getDebounceCommit, objectMerge } from "@/util";
 import ImgSetting from "@/components/RenderComponent/Img/ImgSetting.vue";
 import BaseSetting from "@/components/RenderComponent/Component/BaseSetting.vue";
 import ContainerSetting from "@/components/RenderComponent/Container/ContainerSetting.vue";
+import AroundValue from "@/components/AroundValue/AroundValue.vue";
 export default defineComponent({
   name: "property-bar",
-  components: { ImgSetting, BaseSetting, ContainerSetting },
+  components: { ImgSetting, BaseSetting, ContainerSetting, AroundValue },
   setup() {
     const store = useStore();
     const origin = computed(() => {

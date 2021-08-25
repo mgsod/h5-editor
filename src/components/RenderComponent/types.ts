@@ -7,13 +7,11 @@ export enum ComponentType {
   Base = "Base",
   Container = "HContainer",
   Img = "HImg",
-  Button = "HButton",
 }
 export enum ComponentSettingType {
   Base = "BaseSetting",
   Container = "ContainerSetting",
   Img = `ImgSetting`,
-  Button = "ButtonSetting",
 }
 // 用于侧边栏组件列表中单个组件的接口
 export interface IComponentItem {
@@ -25,15 +23,7 @@ export interface IComponentItem {
 export const ComponentList: IComponentItem[] = [
   { type: ComponentType.Container, icon: "xxx", name: "容器" },
   { type: ComponentType.Img, icon: "xxx", name: "图片" },
-  { type: ComponentType.Button, icon: "xxx", name: "按钮" },
 ];
-
-export interface TypeMapping {
-  [ComponentType.Base]: Partial<IComponent>;
-  [ComponentType.Container]: Partial<IContainer>;
-  [ComponentType.Img]: Partial<IImg>;
-  [ComponentType.Button]: Partial<IContainer>;
-}
 
 export type TComponent = IComponent & IContainer & IImg;
 export type propKeys = keyof TComponent;

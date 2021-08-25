@@ -2,6 +2,12 @@ import { Position } from "@/components/RenderComponent/Layout";
 import { v4 as uuidv4 } from "uuid";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/RenderComponent/types";
+export interface IAroundValue {
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+}
 export interface IComponent {
   type: ComponentType;
   id: string;
@@ -9,6 +15,13 @@ export interface IComponent {
   height: number;
   position: Position;
   alias?: string;
+  top?: number;
+  left?: number;
+  right?: number;
+  bottom?: number;
+  padding?: IAroundValue;
+  margin?: IAroundValue;
+  border?: IAroundValue;
 }
 
 /**

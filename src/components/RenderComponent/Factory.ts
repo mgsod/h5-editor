@@ -19,8 +19,6 @@ export default class ComponentFactory {
         return new Container(<IContainer>component);
       case ComponentType.Img:
         return new Img(<IImg>component);
-      case ComponentType.Button:
-        return new Img(<IImg>component);
     }
   }
 }

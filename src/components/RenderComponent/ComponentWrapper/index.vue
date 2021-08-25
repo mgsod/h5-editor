@@ -26,16 +26,21 @@
         :class="item"
         v-for="item in resizePoint"
         :key="item"
-        @mousedown="mouseDown"
-        @mousemove="mouseMove"
-        @mouseup="mouseUp"
+        @mousedown="mouseDown($event, item)"
       ></div>
     </template>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, watch } from "vue";
+import {
+  defineComponent,
+  computed,
+  PropType,
+  watch,
+  toRefs,
+  reactive,
+} from "vue";
 import { TComponent } from "@/components/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
 import useResize from "@/hooks/useResize";
@@ -44,6 +49,9 @@ import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import HImg from "@/components/RenderComponent/Img/Img.vue";
 import HContainer from "@/components/RenderComponent/Container/Container.vue";
 import Component from "@/components/RenderComponent/Component";
+import { diffPatcher } from "@/store/mudules/editor/mutations";
+import { cloneDeep } from "lodash";
+
 interface IDomComponent {
   property: TComponent;
 }
@@ -63,11 +71,16 @@ export default defineComponent({
   },
   setup(props: IDomComponent) {
     const store = useStore();
+    const { property } = reactive(props);
     const style = computed(() => {
       return {
-        height: props.property.height + "px",
-        width: props.property.width + "px",
-        position: props.property.position,
+        height: property.height + "px",
+        width: property.width + "px",
+        position: property.position,
+        top: property.top + "px",
+        left: property.left + "px",
+        right: property.right + "px",
+        bottom: property.bottom + "px",
       };
     });
     const { dragenter, dragleave, dragover, drop } = useDragEffect();
@@ -75,16 +88,7 @@ export default defineComponent({
       return store.state.editor.selectedComponents?.id;
     });
     const resizePoint = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
-    const { mouseDown, mouseMove, mouseUp, offsetY, offsetX } = useResize();
-    watch([offsetX, offsetY], () => {
-      const component = store.state.editor.selectedComponents;
-      const { width, height } = component as Component;
-      store.commit(MUTATION_TYPE.UPDATE_COMPONENT, {
-        ...component,
-        width: width + offsetX.value,
-        height: height + offsetY.value,
-      });
-    });
+    const { mouseDown } = useResize();
     return {
       style,
       dragenter,
@@ -98,8 +102,6 @@ export default defineComponent({
       focusedId,
       resizePoint,
       mouseDown,
-      mouseMove,
-      mouseUp,
     };
   },
 });
@@ -107,9 +109,13 @@ export default defineComponent({
 
 <style scoped lang="less">
 .component-wrapper {
-  border: 1px solid #ccc;
+  outline: 1px solid #ccc;
+  &,
+  & > div {
+    transition: all 0.3s;
+  }
   &.focused {
-    border: 1px solid var(--el-color-primary);
+    outline: 1px solid var(--el-color-primary);
     .point {
       position: absolute;
       background: #fff;
@@ -144,7 +150,7 @@ export default defineComponent({
         margin-bottom: -3px;
         left: 0;
         bottom: 0;
-        cursor: se-resize;
+        cursor: sw-resize;
       }
       &.l {
         margin-left: -4px;
@@ -168,7 +174,7 @@ export default defineComponent({
         margin-bottom: -4px;
         left: calc(50% - 3px);
         bottom: 0;
-        cursor: n-resize;
+        cursor: s-resize;
       }
     }
   }

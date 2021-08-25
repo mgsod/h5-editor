@@ -13,7 +13,7 @@
         </div>
         <div>重做</div>
       </div>
-      <div class="tool-item" @click="del">
+      <div class="tool-item" :class="{ disabled: !hasSelected }" @click="del">
         <div class="icon del">
           <i class="el-icon-error"></i>
         </div>
@@ -59,6 +59,11 @@ export default defineComponent({
       },
       allowRedo,
       allowUndo,
+      hasSelected: computed(() => {
+        const selected = store.state.editor.selectedComponents;
+        if (!selected) return false;
+        return selected.id !== "root";
+      }),
     };
   },
 });

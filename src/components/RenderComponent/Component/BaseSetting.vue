@@ -2,6 +2,14 @@
   <el-form-item label="别名">
     <el-input v-model="base.alias"></el-input>
   </el-form-item>
+  <el-form-item label="尺寸">
+    <el-input type="number" v-model.number="base.width">
+      <template #prepend>宽</template>
+    </el-input>
+    <el-input type="number" v-model.number="base.height">
+      <template #prepend>高</template>
+    </el-input>
+  </el-form-item>
   <el-form-item label="定位">
     <el-select v-model="base.position">
       <el-option
@@ -12,14 +20,6 @@
       ></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item label="尺寸">
-    <el-input type="number" v-model.number="base.width">
-      <template #prepend>宽</template>
-    </el-input>
-    <el-input type="number" v-model.number="base.height">
-      <template #prepend>高</template>
-    </el-input>
-  </el-form-item>
 </template>
 
 <script lang="ts">
@@ -27,7 +27,6 @@ import { defineComponent, PropType, computed, ref, toRefs } from "vue";
 import { IComponent } from "@/components/RenderComponent/Component/index";
 import { ComponentSettingType } from "@/components/RenderComponent/types";
 import { positionList } from "@/components/RenderComponent/Layout";
-
 export default defineComponent({
   name: ComponentSettingType.Base,
   props: {

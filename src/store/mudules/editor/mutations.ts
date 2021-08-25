@@ -8,9 +8,8 @@ import ComponentFactory from "@/components/RenderComponent/Factory";
 import { IContainer } from "@/components/RenderComponent/Container";
 import { findItemAndParentById, findItemById } from "@/util";
 import Component from "@/components/RenderComponent/Component";
-import { debounce } from "lodash";
 
-const diffPatcher = new DiffPatcher<IPage[]>();
+export const diffPatcher = new DiffPatcher<IPage[]>();
 const addPage = (state: IState) => {
   const id = uuidv4();
   state.pages.push({
@@ -25,10 +24,15 @@ const updateSelectedComponent = (state: IState) => {
     const currentPage = state.pages.find(
       (item) => item.id === state.pageActive
     ) as IPage;
-    state.selectedComponents = findItemById<Component>(
+    const find = findItemById<Component>(
       currentPage.components,
       state.selectedComponents.id as string
     );
+    if (find) {
+      state.selectedComponents = { ...find };
+    } else {
+      state.selectedComponents = null;
+    }
   }
 };
 
@@ -36,15 +40,6 @@ const updateRedoUndoState = (state: IState) => {
   state.allowUndo = diffPatcher.allowUndo();
   state.allowRedo = diffPatcher.allowRedo();
 };
-
-/**
- * 快照截流
- */
-const resizeWithSnapshot = debounce((left, state) => {
-  diffPatcher.saveSnapshots(left, state.pages);
-  updateRedoUndoState(state);
-  console.log("save", diffPatcher);
-}, 500);
 
 /**
  * 带快照的更改
@@ -115,8 +110,25 @@ const mutations: MutationTree<IState> = {
         id: "root",
         width: 375,
         height: 600,
+        position: "relative",
       })
     );
+    (state.pages[0].components[0] as IContainer).children.push(
+      ComponentFactory.createComponent(ComponentType.Img, {
+        id: "xx",
+        width: 200,
+        height: 200,
+      })
+    );
+  },
+  [MUTATION_TYPE.RESIZE]: (state: IState, payload: TComponent) => {
+    const currentPage = state.pages.find(
+      (item) => item.id === state.pageActive
+    ) as IPage;
+    const target = findItemById<Component>(currentPage.components, payload.id);
+    if (target) {
+      Object.assign(target, { ...payload });
+    }
   },
   // 更新组件信息
   [MUTATION_TYPE.UPDATE_COMPONENT]: (state, payload: TComponent) => {

@@ -12,6 +12,7 @@ import { ComponentType } from "@/components/RenderComponent/types";
 
 export default defineComponent({
   name: ComponentType.Img,
+  inheritAttrs: false,
   props: {
     src: String,
     objectFit: String as PropType<objectFit>,
