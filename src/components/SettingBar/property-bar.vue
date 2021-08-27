@@ -11,13 +11,14 @@
         v-if="componentProps.type === ComponentType.Img"
       />
       <around-value
-        :padding="componentProps.padding"
-        :margin="componentProps.margin"
-        :border="componentProps.border"
-        :top="componentProps.top"
-        :right="componentProps.right"
-        :bottom="componentProps.bottom"
-        :left="componentProps.left"
+        v-show="componentProps.id !== 'root'"
+        v-model:padding="componentProps.padding"
+        v-model:margin="componentProps.margin"
+        v-model:border="componentProps.border"
+        v-model:top="componentProps.top"
+        v-model:right="componentProps.right"
+        v-model:bottom="componentProps.bottom"
+        v-model:left="componentProps.left"
         :width="componentProps.width"
         :height="componentProps.height"
       />

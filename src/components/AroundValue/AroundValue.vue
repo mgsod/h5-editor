@@ -1,110 +1,197 @@
 <template>
-  <el-form-item label="模型">
-    <div class="around">
-      <div class="computed">
-        <div class="position" @click="selectedArea($event, 'position')">
-          <span class="tip">定位</span>
-          <span
-            class="value"
-            v-for="item in position"
-            :key="`position_${item}`"
-            :class="item"
+  <div class="setting">
+    <div class="top">
+      <el-input
+        type="number"
+        :disabled="!selected"
+        v-model.number="aroundValues.top"
+      />
+    </div>
+    <div class="center">
+      <div class="left">
+        <el-input
+          :disabled="!selected"
+          v-model.number="aroundValues.left"
+          type="number"
+        />
+      </div>
+      <div class="around">
+        <div class="computed">
+          <computed-model
+            @selected="selectedArea"
+            :selected="selected"
+            :model-tree="computedModelTree"
           >
-            {{ defaultValue($props[item]) }}</span
-          >
-          <div class="margin" @click="selectedArea($event, 'margin')">
-            <span class="tip">外边距</span>
-            <span
-              class="value"
-              v-for="item in position"
-              :key="`position_${item}`"
-              :class="item"
-            >
-              {{ defaultValue($props.margin ? $props.margin[item] : "") }}</span
-            >
-            <div class="border" @click="selectedArea($event, 'border')">
-              <span class="tip">边框</span>
-              <span
-                class="value"
-                v-for="item in position"
-                :key="`position_${item}`"
-                :class="item"
-              >
-                {{
-                  defaultValue($props.border ? $props.border[item] : "")
-                }}</span
-              >
-              <div class="padding" @click="selectedArea($event, 'padding')">
-                <span class="tip">内边距</span>
-                <span
-                  class="value"
-                  v-for="item in position"
-                  :key="`position_${item}`"
-                  :class="item"
-                >
-                  {{
-                    defaultValue($props.padding ? $props.padding[item] : "")
-                  }}</span
-                >
-                <div class="content">
-                  <span class="tip">内容</span>
-                  {{ $props.width }}*{{ $props.height }}
-                </div>
-              </div>
+            <div class="content">
+              <span class="tip">内容</span>
+              {{ $props.width }}*{{ $props.height }}
             </div>
-          </div>
+          </computed-model>
         </div>
       </div>
-    </div>
-  </el-form-item>
-  <el-form-item :label="label" v-show="label">
-    <div class="setting">
-      <div class="top">
-        <el-input type="number" />
+      <div class="right">
+        <el-input
+          :disabled="!selected"
+          v-model.number="aroundValues.right"
+          type="number"
+        />
       </div>
-      <div class="center">
-        <div class="left"><el-input type="number" /></div>
-        <div class="empty">&nbsp;</div>
-        <div class="right"><el-input type="number" /></div>
-      </div>
-      <div class="bottom"><el-input type="number" /></div>
     </div>
-  </el-form-item>
+    <div class="bottom">
+      <el-input
+        :disabled="!selected"
+        v-model.number="aroundValues.bottom"
+        type="number"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, PropType, reactive, ref, watch } from "vue";
 import { IAroundValue } from "@/components/RenderComponent/Component";
-type areaKey = "padding" | "margin" | "border" | "position";
+import ComputedModel from "@/components/AroundValue/ComputedModel.vue";
+export type areaKey = "padding" | "margin" | "border" | "position";
+type areaColor = Record<areaKey, string>;
+export type positionKey = "top" | "right" | "bottom" | "left";
+interface IModelValue {
+  name: positionKey;
+  value: string | number | undefined;
+}
+export interface IModel {
+  name: areaKey;
+  label: string;
+  values: IModelValue[];
+  child?: IModel;
+}
+import { useStore } from "@/store";
+
 export default defineComponent({
   name: "AroundValue",
   props: {
     padding: Object as PropType<IAroundValue>,
     margin: Object as PropType<IAroundValue>,
     border: Object as PropType<IAroundValue>,
-    top: Number,
-    right: Number,
-    bottom: Number,
-    left: Number,
+    left: [Number],
+    top: [Number],
+    right: [Number],
+    bottom: [Number],
     height: Number,
     width: Number,
   },
-  setup() {
-    const position = ["top", "right", "bottom", "left"];
-    const label = ref("");
-    const areaName = {
-      padding: "内边距",
-      margin: "外边距",
-      border: "边框",
-      position: "定位",
+  components: { ComputedModel },
+  setup(props, { emit }) {
+    const store = useStore();
+    const position: positionKey[] = ["top", "right", "bottom", "left"];
+    const selected = ref<areaKey | "">("");
+    const isChange = ref(false);
+    const aroundValues: {
+      top?: number;
+      left?: number;
+      right?: number;
+      bottom?: number;
+    } = reactive({
+      top: undefined,
+      left: undefined,
+      right: undefined,
+      bottom: undefined,
+    });
+    const selectedArea = (select: areaKey) => {
+      isChange.value = true;
+      selected.value = select;
+      console.log(select);
+      let top, left, bottom, right;
+      if (select === "position") {
+        ({ top, left, bottom, right } = props);
+      } else if (props[select]) {
+        ({ top, left, bottom, right } = props[select] as IAroundValue);
+      }
+      aroundValues.top = top;
+      aroundValues.left = left;
+      aroundValues.bottom = bottom;
+      aroundValues.right = right;
+      setTimeout(() => {
+        isChange.value = false;
+      });
     };
-    const selectedArea = (e: MouseEvent, select: areaKey) => {
-      e.stopPropagation();
-      label.value = areaName[select];
-    };
+
+    watch(aroundValues, (a, b) => {
+      if (isChange.value || !selected.value) return;
+      console.log("update aroundValues");
+      if (selected.value === "position") {
+        position.forEach((item: positionKey) => {
+          emit(`update:${item}`, aroundValues[item]);
+        });
+      } else {
+        emit(`update:${selected.value}`, { ...aroundValues });
+      }
+    });
+
+    const computedModelTree: IModel = reactive({
+      name: "position",
+      label: "定位",
+      values: position.map((item) => {
+        return {
+          name: item,
+          value: computed(() => {
+            return props[item] || "-";
+          }),
+        };
+      }),
+      child: {
+        name: "margin",
+        label: "外边距",
+        values: position.map((item) => {
+          return {
+            name: item,
+            value: computed(() => {
+              return props.margin ? props.margin[item] : "-";
+            }),
+          };
+        }),
+        child: {
+          name: "border",
+          label: "边框",
+          values: position.map((item) => {
+            return {
+              name: item,
+              value: computed(() => {
+                return props.border ? props.border[item] : "-";
+              }),
+            };
+          }),
+          child: {
+            name: "padding",
+            label: "内边距",
+            values: position.map((item) => {
+              return {
+                name: item,
+                value: computed(() => {
+                  return props.padding ? props.padding[item] : "-";
+                }),
+              };
+            }),
+          },
+        },
+      },
+    });
+
+    const selectedComponents = computed(() => {
+      return store.state.editor.selectedComponents || {};
+    });
+    watch(selectedComponents, () => {
+      selected.value = "";
+      aroundValues.top = undefined;
+      aroundValues.bottom = undefined;
+      aroundValues.left = undefined;
+      aroundValues.right = undefined;
+    });
+
     return {
-      label,
+      aroundValues,
       position,
+      selected,
+      computedModelTree,
       defaultValue(val?: number) {
         return val || "-";
       },
@@ -116,17 +203,21 @@ export default defineComponent({
 
 <style scoped lang="less">
 .around {
-  .computed {
+  margin: 15px auto;
+  /deep/.computed {
     cursor: default;
-
-    div {
+    .position,
+    .margin,
+    .border,
+    .padding,
+    .content {
       display: flex;
       align-items: center;
       margin: 0 auto;
-      padding: 15px;
+      padding: 15px 13px;
       border: 1px dotted #000;
       position: relative;
-      transform: scale(1);
+      color: #000;
       flex: 1;
       .tip,
       .value {
@@ -148,12 +239,12 @@ export default defineComponent({
           left: calc(50% - 25px);
         }
         &.left {
-          left: 0;
+          left: -2px;
           top: calc(50% - 8px);
           writing-mode: vertical-lr;
         }
         &.right {
-          right: -35px;
+          right: -38px;
           top: calc(50% - 8px);
           writing-mode: vertical-lr;
         }
@@ -162,25 +253,29 @@ export default defineComponent({
           left: calc(50% - 25px);
         }
       }
-      .margin {
-        border-style: dashed;
-        background: rgb(243, 206, 165);
+      &.selected {
+        background: var(--el-color-primary);
+        color: #fff;
       }
-      .border {
-        border-style: solid;
-        background: rgb(248, 222, 164);
-      }
-      .padding {
-        border-style: dashed;
-        background: rgb(198, 208, 147);
-      }
-      .content {
-        background: rgb(150, 181, 192);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-      }
+    }
+    .content {
+      background: rgb(150, 181, 192);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+    .margin {
+      border-style: dashed;
+      background: rgb(243, 206, 165);
+    }
+    .border {
+      border-style: solid;
+      background: rgb(248, 222, 164);
+    }
+    .padding {
+      border-style: dashed;
+      background: rgb(198, 208, 147);
     }
   }
 }
@@ -189,14 +284,26 @@ export default defineComponent({
   .bottom {
     display: flex;
     justify-content: center;
+    width: 99px;
+    margin: 0 auto;
   }
   .center {
     display: flex;
     justify-content: space-between;
-  }
-  .el-input,
-  .empty {
-    width: 70px;
+    align-items: center;
+    .around {
+      flex: 0 0 188px;
+      margin: 8px;
+    }
+    .left,
+    .right {
+      flex: 1;
+      .el-input {
+        /deep/input {
+          padding: 0 2px 0 5px !important;
+        }
+      }
+    }
   }
 }
 </style>

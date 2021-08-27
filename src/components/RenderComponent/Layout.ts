@@ -40,11 +40,16 @@ export type Margin =
   | "margin-bottom"
   | "margin-left";
 // 内边距
-type padding = "padding";
 export type Padding =
   | "padding-top"
   | "padding-right"
   | "padding-bottom"
-  | `${padding}-left`;
+  | `padding-left`;
+
+export type Border =
+  | "border-top-width"
+  | "border-right-width"
+  | "border-bottom-width"
+  | `border-left-width`;
 
 export type display = "block" | "flex";

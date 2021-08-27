@@ -33,14 +33,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  PropType,
-  watch,
-  toRefs,
-  reactive,
-} from "vue";
+import { defineComponent, computed, PropType, reactive } from "vue";
 import { TComponent } from "@/components/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
 import useResize from "@/hooks/useResize";
@@ -48,10 +41,8 @@ import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import HImg from "@/components/RenderComponent/Img/Img.vue";
 import HContainer from "@/components/RenderComponent/Container/Container.vue";
-import Component from "@/components/RenderComponent/Component";
-import { diffPatcher } from "@/store/mudules/editor/mutations";
-import { cloneDeep } from "lodash";
-
+import { areaKey, positionKey } from "@/components/AroundValue/AroundValue.vue";
+import { Border, Margin, Padding } from "@/components/RenderComponent/Layout";
 interface IDomComponent {
   property: TComponent;
 }
@@ -72,22 +63,119 @@ export default defineComponent({
   setup(props: IDomComponent) {
     const store = useStore();
     const { property } = reactive(props);
+    const formatPositionValues = (val?: number) => {
+      return val ? `${val}px` : "";
+    };
+    const positionKey: positionKey[] = ["top", "right", "bottom", "left"];
+    const positionValues: Record<positionKey, string> = {
+      left: "",
+      right: "",
+      top: "",
+      bottom: "",
+    };
+    const paddingValues: Record<Padding, string> = {
+      "padding-top": "",
+      "padding-right": "",
+      "padding-bottom": "",
+      "padding-left": "",
+    };
+    const paddingKey: Padding[] = [
+      "padding-top",
+      "padding-right",
+      "padding-bottom",
+      "padding-left",
+    ];
+    const marginKey: Margin[] = [
+      "margin-top",
+      "margin-right",
+      "margin-bottom",
+      "margin-left",
+    ];
+    const marginValues: Record<Margin, string> = {
+      "margin-top": "",
+      "margin-right": "",
+      "margin-bottom": "",
+      "margin-left": "",
+    };
+
+    const borderKey: Border[] = [
+      "border-top-width",
+      "border-right-width",
+      "border-bottom-width",
+      "border-left-width",
+    ];
+    const borderValues: Record<Border, string> = {
+      "border-top-width": "",
+      "border-right-width": "",
+      "border-bottom-width": "",
+      "border-left-width": "",
+    };
+
+    const getPositionValues = (area: areaKey) => {
+      if (area === "position") {
+        positionKey.forEach((item: positionKey) => {
+          positionValues[item] = formatPositionValues(property[item]);
+        });
+        return positionValues;
+      } else {
+        switch (area) {
+          case "border":
+            borderKey.forEach((item: Border, index) => {
+              borderValues[item] = formatPositionValues(
+                property["border"]
+                  ? property["border"][positionKey[index]]
+                  : undefined
+              );
+            });
+            return borderValues;
+          case "padding":
+            paddingKey.forEach((item: Padding, index) => {
+              paddingValues[item] = formatPositionValues(
+                property["padding"]
+                  ? property["padding"][positionKey[index]]
+                  : undefined
+              );
+            });
+            return paddingValues;
+          case "margin":
+            marginKey.forEach((item: Margin, index) => {
+              marginValues[item] = formatPositionValues(
+                property["margin"]
+                  ? property["margin"][positionKey[index]]
+                  : undefined
+              );
+            });
+            return marginValues;
+        }
+      }
+    };
+
     const style = computed(() => {
       return {
         height: property.height + "px",
         width: property.width + "px",
         position: property.position,
-        top: property.top + "px",
-        left: property.left + "px",
-        right: property.right + "px",
-        bottom: property.bottom + "px",
+        ...getPositionValues("position"),
+        ...getPositionValues("border"),
+        ...getPositionValues("margin"),
+        ...getPositionValues("padding"),
       };
     });
     const { dragenter, dragleave, dragover, drop } = useDragEffect();
     const focusedId = computed(() => {
       return store.state.editor.selectedComponents?.id;
     });
-    const resizePoint = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
+    const resizePoint = computed(() => {
+      let points = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
+      // 相对定位只能拖拽r，rb，b 三个点
+      if (property.position === "relative") {
+        return points.filter(
+          (item) => !["lt", "rt", "lb", "l", "t"].includes(item)
+        );
+      }
+      return points;
+    });
+
     const { mouseDown } = useResize();
     return {
       style,
@@ -110,10 +198,7 @@ export default defineComponent({
 <style scoped lang="less">
 .component-wrapper {
   outline: 1px solid #ccc;
-  &,
-  & > div {
-    transition: all 0.3s;
-  }
+  overflow: hidden;
   &.focused {
     outline: 1px solid var(--el-color-primary);
     .point {
@@ -156,25 +241,25 @@ export default defineComponent({
         margin-left: -4px;
         left: 0;
         top: calc(50% - 3px);
-        cursor: w-resize;
+        cursor: ew-resize;
       }
       &.r {
         margin-right: -4px;
         right: 0;
         top: calc(50% - 3px);
-        cursor: e-resize;
+        cursor: ew-resize;
       }
       &.t {
         margin-top: -4px;
         left: calc(50% - 3px);
         top: 0;
-        cursor: n-resize;
+        cursor: ns-resize;
       }
       &.b {
         margin-bottom: -4px;
         left: calc(50% - 3px);
         bottom: 0;
-        cursor: s-resize;
+        cursor: ns-resize;
       }
     }
   }
