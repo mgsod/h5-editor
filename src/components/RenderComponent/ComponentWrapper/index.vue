@@ -41,8 +41,6 @@ import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import HImg from "@/components/RenderComponent/Img/Img.vue";
 import HContainer from "@/components/RenderComponent/Container/Container.vue";
-import { areaKey, positionKey } from "@/components/AroundValue/AroundValue.vue";
-import { Border, Margin, Padding } from "@/components/RenderComponent/Layout";
 interface IDomComponent {
   property: TComponent;
 }
@@ -66,99 +64,28 @@ export default defineComponent({
     const formatPositionValues = (val?: number) => {
       return val ? `${val}px` : "";
     };
-    const positionKey: positionKey[] = ["top", "right", "bottom", "left"];
-    const positionValues: Record<positionKey, string> = {
-      left: "",
-      right: "",
-      top: "",
-      bottom: "",
-    };
-    const paddingValues: Record<Padding, string> = {
-      "padding-top": "",
-      "padding-right": "",
-      "padding-bottom": "",
-      "padding-left": "",
-    };
-    const paddingKey: Padding[] = [
-      "padding-top",
-      "padding-right",
-      "padding-bottom",
-      "padding-left",
-    ];
-    const marginKey: Margin[] = [
-      "margin-top",
-      "margin-right",
-      "margin-bottom",
-      "margin-left",
-    ];
-    const marginValues: Record<Margin, string> = {
-      "margin-top": "",
-      "margin-right": "",
-      "margin-bottom": "",
-      "margin-left": "",
-    };
-
-    const borderKey: Border[] = [
-      "border-top-width",
-      "border-right-width",
-      "border-bottom-width",
-      "border-left-width",
-    ];
-    const borderValues: Record<Border, string> = {
-      "border-top-width": "",
-      "border-right-width": "",
-      "border-bottom-width": "",
-      "border-left-width": "",
-    };
-
-    const getPositionValues = (area: areaKey) => {
-      if (area === "position") {
-        positionKey.forEach((item: positionKey) => {
-          positionValues[item] = formatPositionValues(property[item]);
-        });
-        return positionValues;
-      } else {
-        switch (area) {
-          case "border":
-            borderKey.forEach((item: Border, index) => {
-              borderValues[item] = formatPositionValues(
-                property["border"]
-                  ? property["border"][positionKey[index]]
-                  : undefined
-              );
-            });
-            return borderValues;
-          case "padding":
-            paddingKey.forEach((item: Padding, index) => {
-              paddingValues[item] = formatPositionValues(
-                property["padding"]
-                  ? property["padding"][positionKey[index]]
-                  : undefined
-              );
-            });
-            return paddingValues;
-          case "margin":
-            marginKey.forEach((item: Margin, index) => {
-              marginValues[item] = formatPositionValues(
-                property["margin"]
-                  ? property["margin"][positionKey[index]]
-                  : undefined
-              );
-            });
-            return marginValues;
-        }
-      }
-    };
 
     const style = computed(() => {
       return {
         height: property.height + "px",
         width: property.width + "px",
         position: property.position,
-        ...getPositionValues("position"),
-        ...getPositionValues("border"),
-        ...getPositionValues("margin"),
-        ...getPositionValues("padding"),
+        top: formatPositionValues(property.top),
+        left: formatPositionValues(property.left),
+        right: formatPositionValues(property.right),
+        bottom: formatPositionValues(property.bottom),
+        paddingTop: formatPositionValues(property?.padding?.top),
+        paddingLeft: formatPositionValues(property?.padding?.left),
+        paddingRight: formatPositionValues(property?.padding?.right),
+        paddingBottom: formatPositionValues(property?.padding?.bottom),
+        marginTop: formatPositionValues(property?.margin?.top),
+        marginLeft: formatPositionValues(property?.margin?.left),
+        marginRight: formatPositionValues(property?.margin?.right),
+        marginBottom: formatPositionValues(property?.margin?.bottom),
+        borderTopWidth: formatPositionValues(property?.border?.top),
+        borderLeftWidth: formatPositionValues(property?.border?.left),
+        borderRightWidth: formatPositionValues(property?.border?.right),
+        borderBottomWidth: formatPositionValues(property?.border?.bottom),
       };
     });
     const { dragenter, dragleave, dragover, drop } = useDragEffect();
