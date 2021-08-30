@@ -75,7 +75,7 @@ export default () => {
       }
     }
     store.commit(MUTATION_TYPE.RESIZE, {
-      ...component,
+      id: component?.id,
       width,
       height,
       top,

@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, reactive } from "vue";
+import { defineComponent, computed, PropType, reactive, toRefs } from "vue";
 import { TComponent } from "@/components/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
 import useResize from "@/hooks/useResize";
@@ -41,6 +41,7 @@ import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import HImg from "@/components/RenderComponent/Img/Img.vue";
 import HContainer from "@/components/RenderComponent/Container/Container.vue";
+import HText from "@/components/RenderComponent/Text/Text.vue";
 interface IDomComponent {
   property: TComponent;
 }
@@ -52,40 +53,42 @@ export default defineComponent({
       type: Object as PropType<TComponent>,
       required: true,
     },
-    a: Number,
   },
   components: {
     HImg,
     HContainer,
+    HText,
   },
   setup(props: IDomComponent) {
     const store = useStore();
-    const { property } = reactive(props);
+    const { property } = toRefs(props);
     const formatPositionValues = (val?: number) => {
-      return val ? `${val}px` : "";
+      if (val === 0 || val) {
+        return `${val}px`;
+      }
+      return "";
     };
-
     const style = computed(() => {
       return {
-        height: property.height + "px",
-        width: property.width + "px",
-        position: property.position,
-        top: formatPositionValues(property.top),
-        left: formatPositionValues(property.left),
-        right: formatPositionValues(property.right),
-        bottom: formatPositionValues(property.bottom),
-        paddingTop: formatPositionValues(property?.padding?.top),
-        paddingLeft: formatPositionValues(property?.padding?.left),
-        paddingRight: formatPositionValues(property?.padding?.right),
-        paddingBottom: formatPositionValues(property?.padding?.bottom),
-        marginTop: formatPositionValues(property?.margin?.top),
-        marginLeft: formatPositionValues(property?.margin?.left),
-        marginRight: formatPositionValues(property?.margin?.right),
-        marginBottom: formatPositionValues(property?.margin?.bottom),
-        borderTopWidth: formatPositionValues(property?.border?.top),
-        borderLeftWidth: formatPositionValues(property?.border?.left),
-        borderRightWidth: formatPositionValues(property?.border?.right),
-        borderBottomWidth: formatPositionValues(property?.border?.bottom),
+        height: property.value.height + "px",
+        width: property.value.width + "px",
+        position: property.value.position,
+        top: formatPositionValues(property.value.top),
+        left: formatPositionValues(property.value.left),
+        right: formatPositionValues(property.value.right),
+        bottom: formatPositionValues(property.value.bottom),
+        paddingTop: formatPositionValues(property?.value.padding?.top),
+        paddingLeft: formatPositionValues(property?.value.padding?.left),
+        paddingRight: formatPositionValues(property?.value.padding?.right),
+        paddingBottom: formatPositionValues(property?.value.padding?.bottom),
+        marginTop: formatPositionValues(property?.value.margin?.top),
+        marginLeft: formatPositionValues(property?.value.margin?.left),
+        marginRight: formatPositionValues(property?.value.margin?.right),
+        marginBottom: formatPositionValues(property?.value.margin?.bottom),
+        borderTopWidth: formatPositionValues(property?.value.border?.top),
+        borderLeftWidth: formatPositionValues(property?.value.border?.left),
+        borderRightWidth: formatPositionValues(property?.value.border?.right),
+        borderBottomWidth: formatPositionValues(property?.value.border?.bottom),
       };
     });
     const { dragenter, dragleave, dragover, drop } = useDragEffect();
@@ -95,7 +98,7 @@ export default defineComponent({
     const resizePoint = computed(() => {
       let points = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
       // 相对定位只能拖拽r，rb，b 三个点
-      if (property.position === "relative") {
+      if (property.value.position === "relative") {
         return points.filter(
           (item) => !["lt", "rt", "lb", "l", "t"].includes(item)
         );
@@ -125,7 +128,6 @@ export default defineComponent({
 <style scoped lang="less">
 .component-wrapper {
   outline: 1px solid #ccc;
-  overflow: hidden;
   &.focused {
     outline: 1px solid var(--el-color-primary);
     .point {

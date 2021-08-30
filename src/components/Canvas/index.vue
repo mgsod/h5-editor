@@ -1,13 +1,7 @@
 <template>
   <div class="canvas-wrapper">
     <div class="wrapper-grid">
-      <div
-        class="canvas"
-        @drop="drop"
-        @dragenter="dragenter"
-        @dragleave="dragleave"
-        @dragover="dragover"
-      >
+      <div class="canvas">
         <component-wrapper
           v-for="item in components"
           :key="item.id"
@@ -69,7 +63,7 @@ export default defineComponent({
       overflow: hidden;
       &.enterContainer,
       /deep/div.enterContainer {
-        outline: 1px dashed var(--el-color-warning);
+        outline: 1px dashed var(--el-color-warning) !important;
       }
     }
   }

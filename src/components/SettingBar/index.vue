@@ -73,9 +73,10 @@ export default defineComponent({
 .setting-bar {
   box-sizing: border-box;
   width: 360px;
-  height: 100%;
+  height: calc(100vh - 45px);
   background: #fff;
   display: flex;
+  overflow: hidden;
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
   .toolbar {
     flex: 0 0 40px;
@@ -108,9 +109,16 @@ export default defineComponent({
       }
     }
   }
-  .el-tabs {
+  /deep/.el-tabs {
     flex: 0 0 320px;
     padding: 0 8px;
+    .el-tabs__content {
+      height: calc(100% - 55px);
+      overflow: auto;
+      .el-tab-pane {
+        padding-bottom: 20px;
+      }
+    }
   }
 }
 </style>

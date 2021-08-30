@@ -2,6 +2,7 @@ import Component, { IComponent } from "@/components/RenderComponent/Component";
 import Container, { IContainer } from "@/components/RenderComponent/Container";
 import { ALlComponent, ComponentType } from "./types";
 import Img, { IImg } from "@/components/RenderComponent/Img";
+import Text, { IText } from "@/components/RenderComponent/Text";
 
 /**
  *构造组件的工厂函数
@@ -19,6 +20,8 @@ export default class ComponentFactory {
         return new Container(<IContainer>component);
       case ComponentType.Img:
         return new Img(<IImg>component);
+      case ComponentType.Text:
+        return new Text(<IText>component);
     }
   }
 }

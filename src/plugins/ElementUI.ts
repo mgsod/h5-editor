@@ -10,6 +10,8 @@ import {
   ElForm,
   ElFormItem,
   ElInput,
+  ElColorPicker,
+  ElInputNumber,
 } from "element-plus";
 
 export default (app: App) => {
@@ -26,6 +28,7 @@ export default (app: App) => {
     .use(ElForm)
     .use(ElFormItem)
     .use(ElInput)
-
-    .use(ElIcon);
+    .use(ElIcon)
+    .use(ElInputNumber)
+    .use(ElColorPicker);
 };

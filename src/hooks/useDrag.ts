@@ -12,23 +12,24 @@ const removeEnterClass = (target: HTMLElement) => {
 export default () => {
   const store = useStore();
   const dragenter = (e: DragEvent, targetComponent?: TComponent) => {
+    e.stopPropagation();
     if (targetComponent?.isContainer) {
-      addEnterClass(<HTMLElement>e.target);
-      e.stopPropagation();
+      console.log(2, targetComponent.id);
+      addEnterClass(<HTMLElement>(<HTMLElement>e.target).parentNode);
     }
   };
 
   const dragleave = (e: MouseEvent, targetComponent?: TComponent) => {
+    e.stopPropagation();
     if (targetComponent?.isContainer) {
-      removeEnterClass(<HTMLElement>e.target);
-      e.stopPropagation();
+      removeEnterClass(<HTMLElement>(<HTMLElement>e.target).parentNode);
     }
   };
 
   const drop = (e: DragEvent, targetComponent?: TComponent) => {
     e.stopPropagation();
     const target = <HTMLElement>e.target;
-    removeEnterClass(target);
+    removeEnterClass(<HTMLElement>target.parentNode);
     const type = <ComponentType>e.dataTransfer!.getData("type");
     const component = ComponentFactory.createComponent(type);
     if (targetComponent?.isContainer) {

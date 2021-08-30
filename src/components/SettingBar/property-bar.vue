@@ -1,6 +1,6 @@
 <template>
   <div v-if="Object.keys(componentProps).length > 0">
-    <el-form label-position="left" label-width="90px" :model="componentProps">
+    <el-form label-position="left" label-width="80px" :model="componentProps">
       <base-setting v-model:component-props="componentProps" />
       <container-setting
         v-model:component-props="componentProps"
@@ -10,6 +10,11 @@
         v-model:componentProps="componentProps"
         v-if="componentProps.type === ComponentType.Img"
       />
+      <text-setting
+        v-model:component-props="componentProps"
+        v-if="componentProps.type === ComponentType.Text"
+      />
+
       <around-value
         v-show="componentProps.id !== 'root'"
         v-model:padding="componentProps.padding"
@@ -37,10 +42,17 @@ import { getDebounceCommit, objectMerge } from "@/util";
 import ImgSetting from "@/components/RenderComponent/Img/ImgSetting.vue";
 import BaseSetting from "@/components/RenderComponent/Component/BaseSetting.vue";
 import ContainerSetting from "@/components/RenderComponent/Container/ContainerSetting.vue";
+import TextSetting from "@/components/RenderComponent/Text/TextSetting.vue";
 import AroundValue from "@/components/AroundValue/AroundValue.vue";
 export default defineComponent({
   name: "property-bar",
-  components: { ImgSetting, BaseSetting, ContainerSetting, AroundValue },
+  components: {
+    ImgSetting,
+    BaseSetting,
+    ContainerSetting,
+    AroundValue,
+    TextSetting,
+  },
   setup() {
     const store = useStore();
     const origin = computed(() => {
@@ -80,6 +92,10 @@ export default defineComponent({
 <style scoped lang="less">
 .el-form {
   /deep/.el-form-item {
+    margin-bottom: 15px;
+    .el-form-item__label {
+      font-size: 12px;
+    }
     .el-form-item__content {
       display: flex;
       & > div {
