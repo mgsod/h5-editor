@@ -1,4 +1,19 @@
 <template>
+  <div v-show="selected === 'border'">
+    <el-form-item label="边框样式">
+      <el-select v-model="BorderStyle">
+        <el-option
+          v-for="item in borderStyleList"
+          :key="item.value"
+          :label="item.name"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item label="边框颜色">
+      <el-color-picker v-model="BorderColor" show-alpha></el-color-picker>
+    </el-form-item>
+  </div>
   <div class="setting">
     <div class="top">
       <el-input
@@ -24,7 +39,7 @@
           >
             <div class="content">
               <span class="tip">内容</span>
-              {{ $props.width }}x{{ $props.height }}
+              {{ componentSize }}
             </div>
           </computed-model>
         </div>
@@ -48,9 +63,25 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, reactive, ref, watch } from "vue";
-import { IAroundValue } from "@/components/RenderComponent/Component";
+import {
+  computed,
+  defineComponent,
+  PropType,
+  reactive,
+  ref,
+  watch,
+  watchEffect,
+} from "vue";
+import {
+  IAroundValue,
+  IComponent,
+} from "@/components/RenderComponent/Component";
 import ComputedModel from "@/components/AroundValue/ComputedModel.vue";
+import {
+  BorderStyle,
+  borderStyleList,
+} from "@/components/RenderComponent/Layout";
+
 export type areaKey = "padding" | "margin" | "border" | "position";
 type areaColor = Record<areaKey, string>;
 export type positionKey = "top" | "right" | "bottom" | "left";
@@ -72,12 +103,12 @@ export default defineComponent({
     padding: Object as PropType<IAroundValue>,
     margin: Object as PropType<IAroundValue>,
     border: Object as PropType<IAroundValue>,
+    borderStyle: String as PropType<BorderStyle>,
+    borderColor: String,
     left: [Number],
     top: [Number],
     right: [Number],
     bottom: [Number],
-    height: Number,
-    width: Number,
   },
   components: { ComputedModel },
   setup(props, { emit }) {
@@ -113,18 +144,7 @@ export default defineComponent({
         isChange.value = false;
       });
     };
-
-    watch(aroundValues, (a, b) => {
-      if (isChange.value || !selected.value) return;
-      if (selected.value === "position") {
-        position.forEach((item: positionKey) => {
-          emit(`update:${item}`, aroundValues[item]);
-        });
-      } else {
-        emit(`update:${selected.value}`, { ...aroundValues });
-      }
-    });
-
+    const componentSize = ref("");
     const computedModelTree: IModel = reactive({
       name: "position",
       label: "定位",
@@ -173,9 +193,35 @@ export default defineComponent({
         },
       },
     });
-
     const selectedComponents = computed(() => {
       return store.state.editor.selectedComponents || {};
+    });
+    const BorderStyle = computed({
+      get() {
+        return props.borderStyle;
+      },
+      set(val) {
+        emit("update:borderStyle", val);
+      },
+    });
+    const BorderColor = computed({
+      get() {
+        return props.borderColor;
+      },
+      set(val) {
+        emit("update:borderColor", val);
+      },
+    });
+
+    watch(aroundValues, (a, b) => {
+      if (isChange.value || !selected.value) return;
+      if (selected.value === "position") {
+        position.forEach((item: positionKey) => {
+          emit(`update:${item}`, aroundValues[item]);
+        });
+      } else {
+        emit(`update:${selected.value}`, { ...aroundValues });
+      }
     });
     watch(selectedComponents, () => {
       selected.value = "";
@@ -184,12 +230,37 @@ export default defineComponent({
       aroundValues.left = undefined;
       aroundValues.right = undefined;
     });
+    watchEffect(() => {
+      const select = store.state.editor.selectedComponents as IComponent;
+      const { id } = select;
+
+      let horizontal = 0,
+        vertical = 0;
+      if (props.border) {
+        const { left = 0, right = 0, top = 0, bottom = 0 } = props.border;
+        horizontal += left + right;
+        vertical += top + bottom;
+      }
+      if (props.padding) {
+        const { left = 0, right = 0, top = 0, bottom = 0 } = props.padding;
+        horizontal += left + right;
+        vertical += top + bottom;
+      }
+      const dom = document.getElementById(id) as HTMLElement;
+      componentSize.value = `${dom.offsetWidth - horizontal}x${
+        dom.offsetHeight - vertical
+      }`;
+    });
 
     return {
       aroundValues,
       position,
       selected,
       computedModelTree,
+      componentSize,
+      borderStyleList,
+      BorderColor,
+      BorderStyle,
       defaultValue(val?: number) {
         return val || "-";
       },

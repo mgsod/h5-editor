@@ -7,13 +7,14 @@
     <el-color-picker v-model="text.color" show-alpha></el-color-picker>
   </el-form-item>
   <el-form-item label="字体大小">
-    <el-input-number
-      :min="12"
-      :max="28"
-      controls-position="right"
-      v-model="text.fontSie"
-    >
-    </el-input-number>
+    <el-input type="number" v-model="text.fontSize">
+      <template #append>px</template>
+    </el-input>
+  </el-form-item>
+  <el-form-item label="行高">
+    <el-input type="number" v-model="text.lineHeight">
+      <template #append>px</template>
+    </el-input>
   </el-form-item>
   <el-form-item label="字重">
     <el-select v-model="text.fontWeight">
@@ -37,6 +38,18 @@
       <el-option value="center" label="居中对齐"></el-option>
       <el-option value="right" label="右对齐"></el-option>
     </el-select>
+  </el-form-item>
+  <el-form-item label="溢出省略">
+    <el-switch v-model="text.overflow"> </el-switch>
+  </el-form-item>
+  <el-form-item label="最大行数" v-show="text.overflow">
+    <el-input-number
+      :min="1"
+      :max="5"
+      controls-position="right"
+      v-model="text.maxLines"
+    >
+    </el-input-number>
   </el-form-item>
 </template>
 

@@ -1,4 +1,4 @@
-import { Position } from "@/components/RenderComponent/Layout";
+import { BorderStyle, Position } from "@/components/RenderComponent/Layout";
 import { v4 as uuidv4 } from "uuid";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/RenderComponent/types";
@@ -22,6 +22,8 @@ export interface IComponent {
   padding?: IAroundValue;
   margin?: IAroundValue;
   border?: IAroundValue;
+  borderStyle: BorderStyle;
+  borderColor: string;
 }
 
 /**
@@ -34,6 +36,8 @@ class Component implements IComponent {
   height = 50;
   position: Position = "relative";
   alias?: string = "";
+  borderColor = "#000";
+  borderStyle: BorderStyle = "solid";
   constructor(props?: IComponent) {
     this.id = uuidv4();
     this.alias = props?.type;

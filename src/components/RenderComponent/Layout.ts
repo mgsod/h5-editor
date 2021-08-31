@@ -52,4 +52,11 @@ export type Border =
   | "border-bottom-width"
   | `border-left-width`;
 
+export type BorderStyle = "dotted" | "solid" | "dashed";
+export const borderStyleList: { name: string; value: BorderStyle }[] = [
+  { name: "点状", value: "dotted" },
+  { name: "实线", value: "solid" },
+  { name: "虚线", value: "dashed" },
+];
+
 export type display = "block" | "flex";

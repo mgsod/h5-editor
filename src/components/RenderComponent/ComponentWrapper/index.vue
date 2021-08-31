@@ -70,14 +70,14 @@ export default defineComponent({
     };
     const style = computed(() => {
       return {
-        height: property.value.height + "px",
-        width: property.value.width + "px",
+        height: property.value.height ? property.value.height + "px" : "auto",
+        width: property.value.width ? property.value.width + "px" : "auto",
         position: property.value.position,
         top: formatPositionValues(property.value.top),
         left: formatPositionValues(property.value.left),
         right: formatPositionValues(property.value.right),
         bottom: formatPositionValues(property.value.bottom),
-        paddingTop: formatPositionValues(property?.value.padding?.top),
+        paddingTop: formatPositionValues(property.value.padding?.top),
         paddingLeft: formatPositionValues(property?.value.padding?.left),
         paddingRight: formatPositionValues(property?.value.padding?.right),
         paddingBottom: formatPositionValues(property?.value.padding?.bottom),
@@ -89,6 +89,8 @@ export default defineComponent({
         borderLeftWidth: formatPositionValues(property?.value.border?.left),
         borderRightWidth: formatPositionValues(property?.value.border?.right),
         borderBottomWidth: formatPositionValues(property?.value.border?.bottom),
+        borderStyle: property.value.borderStyle,
+        borderColor: property.value.borderColor,
       };
     });
     const { dragenter, dragleave, dragover, drop } = useDragEffect();

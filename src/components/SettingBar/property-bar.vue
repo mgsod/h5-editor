@@ -20,6 +20,8 @@
         v-model:padding="componentProps.padding"
         v-model:margin="componentProps.margin"
         v-model:border="componentProps.border"
+        v-model:border-style="componentProps.borderStyle"
+        v-model:border-color="componentProps.borderColor"
         v-model:top="componentProps.top"
         v-model:right="componentProps.right"
         v-model:bottom="componentProps.bottom"
@@ -98,6 +100,7 @@ export default defineComponent({
     }
     .el-form-item__content {
       display: flex;
+      align-items: center;
       & > div {
         flex: 1;
         width: 0;
