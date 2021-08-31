@@ -1,5 +1,6 @@
 <template>
   <div
+    :id="property.id"
     class="component-wrapper"
     :class="{
       focused: focusedId === property.id,
@@ -9,9 +10,8 @@
     @dragenter="dragenter($event, property)"
     @dragleave="dragleave($event, property)"
     @dragover="dragover"
-    :id="property.id"
-    :type="property.type"
     @click="select($event, property)"
+    @mousedown="mouseDown($event, property)"
   >
     <component :is="property.type" v-bind="property">
       <component-wrapper

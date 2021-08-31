@@ -24,7 +24,7 @@
           >
             <div class="content">
               <span class="tip">内容</span>
-              {{ $props.width }}*{{ $props.height }}
+              {{ $props.width }}x{{ $props.height }}
             </div>
           </computed-model>
         </div>
@@ -99,7 +99,6 @@ export default defineComponent({
     const selectedArea = (select: areaKey) => {
       isChange.value = true;
       selected.value = select;
-      console.log(select);
       let top, left, bottom, right;
       if (select === "position") {
         ({ top, left, bottom, right } = props);
@@ -117,7 +116,6 @@ export default defineComponent({
 
     watch(aroundValues, (a, b) => {
       if (isChange.value || !selected.value) return;
-      console.log("update aroundValues");
       if (selected.value === "position") {
         position.forEach((item: positionKey) => {
           emit(`update:${item}`, aroundValues[item]);
