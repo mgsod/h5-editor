@@ -1,15 +1,27 @@
 <template>
-  <div class="header"></div>
+  <div class="header" @click="exportJson">导出JSON</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useStore } from "@/store";
+import { downLoadContent } from "@/util";
 
 export default defineComponent({
   name: "Header",
   props: {},
   components: {},
-  setup() {},
+  setup() {
+    const store = useStore();
+    return {
+      exportJson() {
+        downLoadContent(
+          `${new Date().getTime()}.json`,
+          JSON.stringify(store.state.editor.pages)
+        );
+      },
+    };
+  },
 });
 </script>
 
@@ -22,5 +34,6 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 15px;
 }
 </style>

@@ -129,7 +129,6 @@ export default defineComponent({
 
 <style scoped lang="less">
 .component-wrapper {
-  outline: 1px solid #ccc;
   &.focused {
     outline: 1px solid var(--el-color-primary);
     .point {

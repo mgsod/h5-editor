@@ -77,3 +77,11 @@ export function getThrottleCommit<T>(commit: Commit, commitType: string) {
   };
   return throttle(commitHandel, 500);
 }
+
+export function downLoadContent(name: string, content: string) {
+  const link = URL.createObjectURL(new Blob([content]));
+  const a = document.createElement("a");
+  a.download = name;
+  a.href = link;
+  a.click();
+}

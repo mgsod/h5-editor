@@ -1,63 +1,65 @@
 <template>
-  <div v-show="selected === 'border'">
-    <el-form-item label="边框样式">
-      <el-select v-model="BorderStyle">
-        <el-option
-          v-for="item in borderStyleList"
-          :key="item.value"
-          :label="item.name"
-          :value="item.value"
-        ></el-option>
-      </el-select>
-    </el-form-item>
-    <el-form-item label="边框颜色">
-      <el-color-picker v-model="BorderColor" show-alpha></el-color-picker>
-    </el-form-item>
-  </div>
-  <div class="setting">
-    <div class="top">
-      <el-input
-        type="number"
-        :disabled="!selected"
-        v-model.number="aroundValues.top"
-      />
+  <div>
+    <div v-show="selected === 'border'">
+      <el-form-item label="边框样式">
+        <el-select v-model="BorderStyle">
+          <el-option
+            v-for="item in borderStyleList"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="边框颜色">
+        <el-color-picker v-model="BorderColor" show-alpha></el-color-picker>
+      </el-form-item>
     </div>
-    <div class="center">
-      <div class="left">
+    <div class="setting">
+      <div class="top">
         <el-input
-          :disabled="!selected"
-          v-model.number="aroundValues.left"
           type="number"
+          :disabled="!selected"
+          v-model.number="aroundValues.top"
         />
       </div>
-      <div class="around">
-        <div class="computed">
-          <computed-model
-            @selected="selectedArea"
-            :selected="selected"
-            :model-tree="computedModelTree"
-          >
-            <div class="content">
-              <span class="tip">内容</span>
-              {{ componentSize }}
-            </div>
-          </computed-model>
+      <div class="center">
+        <div class="left">
+          <el-input
+            :disabled="!selected"
+            v-model.number="aroundValues.left"
+            type="number"
+          />
+        </div>
+        <div class="around">
+          <div class="computed">
+            <computed-model
+              @selected="selectedArea"
+              :selected="selected"
+              :model-tree="computedModelTree"
+            >
+              <div class="content">
+                <span class="tip">内容</span>
+                {{ componentSize }}
+              </div>
+            </computed-model>
+          </div>
+        </div>
+        <div class="right">
+          <el-input
+            :disabled="!selected"
+            v-model.number="aroundValues.right"
+            type="number"
+          />
         </div>
       </div>
-      <div class="right">
+      <div class="bottom">
         <el-input
           :disabled="!selected"
-          v-model.number="aroundValues.right"
+          v-model.number="aroundValues.bottom"
           type="number"
         />
       </div>
-    </div>
-    <div class="bottom">
-      <el-input
-        :disabled="!selected"
-        v-model.number="aroundValues.bottom"
-        type="number"
-      />
     </div>
   </div>
 </template>
@@ -85,6 +87,7 @@ import {
 export type areaKey = "padding" | "margin" | "border" | "position";
 type areaColor = Record<areaKey, string>;
 export type positionKey = "top" | "right" | "bottom" | "left";
+type areaValue = number | string | undefined;
 interface IModelValue {
   name: positionKey;
   value: string | number | undefined;
@@ -105,10 +108,10 @@ export default defineComponent({
     border: Object as PropType<IAroundValue>,
     borderStyle: String as PropType<BorderStyle>,
     borderColor: String,
-    left: [Number],
-    top: [Number],
-    right: [Number],
-    bottom: [Number],
+    left: [Number, String],
+    top: [Number, String],
+    right: [Number, String],
+    bottom: [Number, String],
   },
   components: { ComputedModel },
   setup(props, { emit }) {
@@ -117,10 +120,10 @@ export default defineComponent({
     const selected = ref<areaKey | "">("");
     const isChange = ref(false);
     const aroundValues: {
-      top?: number;
-      left?: number;
-      right?: number;
-      bottom?: number;
+      top: areaValue;
+      left: areaValue;
+      right: areaValue;
+      bottom: areaValue;
     } = reactive({
       top: undefined,
       left: undefined,

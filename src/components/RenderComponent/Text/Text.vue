@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, ref, toRefs } from "vue";
+import { defineComponent } from "vue";
 import { ComponentType } from "@/components/RenderComponent/types";
 
 export default defineComponent({
