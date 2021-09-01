@@ -1,8 +1,11 @@
-import { ComponentType, TComponent } from "@/components/RenderComponent/types";
-import ComponentFactory from "@/components/RenderComponent/Factory";
+import {
+  ComponentType,
+  TComponent,
+} from "@/components/Editor/RenderComponent/types";
+import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
 const dragEnterClass = "enterContainer";
 import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
+import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
 const addEnterClass = (target: HTMLElement) => {
   target.classList.add(dragEnterClass);
 };

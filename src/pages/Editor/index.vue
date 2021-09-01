@@ -10,13 +10,13 @@
 </template>
 
 <script lang="ts">
-import Sidebar from "@/components/Sidebar/index.vue";
-import PropertyBar from "@/components/SettingBar/index.vue";
-import H5Canvas from "@/components/Canvas/index.vue";
+import Sidebar from "@/components/Editor/Sidebar/index.vue";
+import PropertyBar from "@/components/Editor/SettingBar/index.vue";
+import H5Canvas from "@/components/Editor/Canvas/index.vue";
 import { useStore } from "@/store";
 import { onMounted } from "vue";
-import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
-import Header from "@/components/Header/Header.vue";
+import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
+import Header from "@/components/Editor/Header/Header.vue";
 export default {
   name: "Index",
   props: {},

@@ -1,5 +1,5 @@
 import { createStore, Store, useStore as baseUseStore } from "vuex";
-import moduleEditor, { IState } from "./mudules/editor";
+import moduleEditor, { IState } from "./Editor";
 import { InjectionKey } from "vue";
 
 export interface state {

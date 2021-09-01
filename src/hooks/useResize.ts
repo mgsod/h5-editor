@@ -1,10 +1,10 @@
 import { ref } from "vue";
 import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
+import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
 import { cloneDeep } from "lodash";
-import { diffPatcher } from "@/store/mudules/editor/mutations";
-import { IComponent } from "@/components/RenderComponent/Component";
-import { TComponent } from "@/components/RenderComponent/types";
+import { diffPatcher } from "@/store/Editor/mutations";
+import { IComponent } from "@/components/Editor/RenderComponent/Component";
+import { TComponent } from "@/components/Editor/RenderComponent/types";
 
 const CRITICAL = 20;
 

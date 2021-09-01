@@ -2,9 +2,9 @@
  * 给组件绑定自定义事件
  */
 import { ref, onMounted } from "vue";
-import { EventType, IEvent } from "@/event";
-import { ActionFactory } from "@/action/factory";
-import { Action } from "@/action";
+import { EventType, IEvent } from "@/components/Editor/event";
+import { ActionFactory } from "@/components/Editor/action/factory";
+import { Action } from "@/components/Editor/action/abstractAction";
 
 type EventTypeKey = Record<EventType, IEvent[]>;
 export default (events?: IEvent[]) => {
