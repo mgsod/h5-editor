@@ -24,7 +24,9 @@
       <el-tab-pane label="属性" name="prop">
         <property-bar />
       </el-tab-pane>
-      <el-tab-pane label="事件" name="event"></el-tab-pane>
+      <el-tab-pane label="事件" name="event">
+        <event-bar />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -33,11 +35,12 @@ import { computed, defineComponent } from "vue";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import propertyBar from "./property-bar.vue";
+import eventBar from "./event-bar.vue";
 
 export default defineComponent({
   name: "property",
   props: {},
-  components: { propertyBar },
+  components: { propertyBar, eventBar },
   setup() {
     const store = useStore();
     const allowUndo = computed(() => {

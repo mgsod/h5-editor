@@ -7,7 +7,8 @@ import { v4 as uuidv4 } from "uuid";
 import ComponentFactory from "@/components/RenderComponent/Factory";
 import { IContainer } from "@/components/RenderComponent/Container";
 import { findItemAndParentById, findItemById } from "@/util";
-import Component from "@/components/RenderComponent/Component";
+import Component, { IComponent } from "@/components/RenderComponent/Component";
+import { IEvent } from "@/event";
 
 export const diffPatcher = new DiffPatcher<IPage[]>();
 const addPage = (state: IState) => {
@@ -118,6 +119,7 @@ const mutations: MutationTree<IState> = {
         id: "xx",
         width: 200,
         height: 200,
+        events: [],
       })
     );
   },
@@ -163,6 +165,53 @@ const mutations: MutationTree<IState> = {
         }
       });
     }
+  },
+  [MUTATION_TYPE.ADD_EVENT]: (state, event: IEvent) => {
+    mutationWithSnapshot(state, () => {
+      const currentPage = state.pages.find(
+        (item) => item.id === state.pageActive
+      ) as IPage;
+      const target = findItemById<IComponent>(
+        currentPage.components,
+        state!.selectedComponents!.id
+      );
+      if (target) {
+        const events = target.events || [];
+        events.push(event);
+        target.events = events;
+        updateSelectedComponent(state);
+      }
+    });
+  },
+  [MUTATION_TYPE.REMOVE_EVENT]: (state, eventIndex: number) => {
+    mutationWithSnapshot(state, () => {
+      const currentPage = state.pages.find(
+        (item) => item.id === state.pageActive
+      ) as IPage;
+      const target = findItemById<IComponent>(
+        currentPage.components,
+        state!.selectedComponents!.id
+      );
+      if (target) {
+        const events = target.events;
+        events?.splice(eventIndex, 1);
+      }
+    });
+  },
+  [MUTATION_TYPE.UPDATE_EVENT]: (state, { eventIndex, event }) => {
+    mutationWithSnapshot(state, () => {
+      const currentPage = state.pages.find(
+        (item) => item.id === state.pageActive
+      ) as IPage;
+      const target = findItemById<IComponent>(
+        currentPage.components,
+        state!.selectedComponents!.id
+      );
+      if (target) {
+        const events = target.events as IEvent[];
+        events[eventIndex] = { ...event };
+      }
+    });
   },
 };
 export default mutations;

@@ -13,6 +13,10 @@ import {
   ElColorPicker,
   ElSwitch,
   ElInputNumber,
+  ElTable,
+  ElTableColumn,
+  ElLink,
+  ElDialog,
 } from "element-plus";
 
 export default (app: App) => {
@@ -32,5 +36,9 @@ export default (app: App) => {
     .use(ElIcon)
     .use(ElSwitch)
     .use(ElInputNumber)
-    .use(ElColorPicker);
+    .use(ElColorPicker)
+    .use(ElTable)
+    .use(ElTableColumn)
+    .use(ElDialog)
+    .use(ElLink);
 };

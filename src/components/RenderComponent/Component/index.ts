@@ -2,6 +2,7 @@ import { BorderStyle, Position } from "@/components/RenderComponent/Layout";
 import { v4 as uuidv4 } from "uuid";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/RenderComponent/types";
+import { IEvent } from "@/event";
 export interface IAroundValue {
   top?: number;
   right?: number;
@@ -24,6 +25,7 @@ export interface IComponent {
   border?: IAroundValue;
   borderStyle: BorderStyle;
   borderColor: string;
+  events?: IEvent[];
 }
 
 /**

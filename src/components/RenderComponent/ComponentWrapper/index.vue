@@ -2,6 +2,7 @@
   <div
     :id="property.id"
     class="component-wrapper"
+    ref="root"
     :class="{
       focused: focusedId === property.id,
     }"
@@ -33,7 +34,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, reactive, toRefs } from "vue";
+import {
+  defineComponent,
+  computed,
+  PropType,
+  ref,
+  toRefs,
+  onMounted,
+} from "vue";
 import { TComponent } from "@/components/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
 import useResize from "@/hooks/useResize";
@@ -42,6 +50,7 @@ import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import HImg from "@/components/RenderComponent/Img/Img.vue";
 import HContainer from "@/components/RenderComponent/Container/Container.vue";
 import HText from "@/components/RenderComponent/Text/Text.vue";
+import useBindEvent from "@/hooks/useBindEvent";
 interface IDomComponent {
   property: TComponent;
 }
@@ -61,6 +70,7 @@ export default defineComponent({
   },
   setup(props: IDomComponent) {
     const store = useStore();
+    const { root } = useBindEvent(props.property.events);
     const { property } = toRefs(props);
     const formatPositionValues = (val?: number) => {
       if (val === 0 || val) {
@@ -110,7 +120,11 @@ export default defineComponent({
 
     const { mouseDown } = useResize();
     return {
+      focusedId,
+      resizePoint,
+      mouseDown,
       style,
+      root,
       dragenter,
       dragleave,
       dragover,
@@ -119,9 +133,6 @@ export default defineComponent({
         e.stopPropagation();
         store.commit(MUTATION_TYPE.SELECT_COMPONENT, item);
       },
-      focusedId,
-      resizePoint,
-      mouseDown,
     };
   },
 });
