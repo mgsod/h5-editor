@@ -11,6 +11,3 @@ export const EventTypeList: { name: string; value: EventType }[] = [
   { name: "鼠标进入", value: "mouseenter" },
   { name: "鼠标离开", value: "mouseleave" },
 ];
-export const EventHandleList: { name: string; value: ActionType }[] = [
-  { name: "链接跳转", value: "redirect" },
-];

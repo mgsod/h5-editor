@@ -16,3 +16,7 @@ export abstract class Action {
   }
   abstract handle(): void;
 }
+
+export const ActionList: { name: string; value: ActionType }[] = [
+  { name: "链接跳转", value: "redirect" },
+];

@@ -41,7 +41,7 @@
         <el-form-item label="触发动作">
           <el-select v-model="eventForm.actionType">
             <el-option
-              v-for="item in EventHandleList"
+              v-for="item in ActionList"
               :key="item.value"
               :value="item.value"
               :label="item.name"
@@ -69,13 +69,8 @@
 import { defineComponent, computed, ref, reactive } from "vue";
 import { useStore } from "@/store";
 import { IComponent } from "@/components/RenderComponent/Component";
-import {
-  EventTypeList,
-  EventHandleList,
-  EventType,
-  IEvent,
-} from "@/event/index";
-import { ActionType } from "@/action";
+import { EventTypeList, EventType, IEvent } from "@/event/index";
+import { ActionType, ActionList } from "@/action";
 import { MUTATION_TYPE } from "@/store/mudules/editor/mutation-type";
 import useDialog from "@/hooks/useDialog";
 export default defineComponent({
@@ -120,7 +115,7 @@ export default defineComponent({
       })?.name;
     };
     const getEventHandleName = (handle: ActionType) => {
-      return EventHandleList.find((item) => {
+      return ActionList.find((item) => {
         return item.value === handle;
       })?.name;
     };
@@ -129,7 +124,7 @@ export default defineComponent({
       eventList,
       eventForm,
       EventTypeList,
-      EventHandleList,
+      ActionList,
       confirm,
       getEventTypeName,
       getEventHandleName,
