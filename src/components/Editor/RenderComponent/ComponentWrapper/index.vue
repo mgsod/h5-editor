@@ -34,14 +34,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  PropType,
-  ref,
-  toRefs,
-  onMounted,
-} from "vue";
+import { defineComponent, computed, PropType, toRefs, toRef } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
 import useResize from "@/hooks/useResize";
@@ -51,9 +44,7 @@ import HImg from "@/components/Editor/RenderComponent/Img/Img.vue";
 import HContainer from "@/components/Editor/RenderComponent/Container/Container.vue";
 import HText from "@/components/Editor/RenderComponent/Text/Text.vue";
 import useBindEvent from "@/hooks/useBindEvent";
-interface IDomComponent {
-  property: TComponent;
-}
+import useStyle from "@/hooks/useStyle";
 export default defineComponent({
   name: "ComponentWrapper",
   inheritAttrs: false,
@@ -68,57 +59,20 @@ export default defineComponent({
     HContainer,
     HText,
   },
-  setup(props: IDomComponent) {
+  setup(props) {
     const store = useStore();
     const { root } = useBindEvent(props.property.events);
     const { property } = toRefs(props);
-    const formatPositionValues = (val?: number) => {
-      if (val === 0 || val) {
-        return `${val}px`;
-      }
-      return "";
-    };
-    const style = computed(() => {
-      return {
-        height: property.value.height ? property.value.height + "px" : "auto",
-        width: property.value.width ? property.value.width + "px" : "auto",
-        position: property.value.position,
-        top: formatPositionValues(property.value.top),
-        left: formatPositionValues(property.value.left),
-        right: formatPositionValues(property.value.right),
-        bottom: formatPositionValues(property.value.bottom),
-        paddingTop: formatPositionValues(property.value.padding?.top),
-        paddingLeft: formatPositionValues(property?.value.padding?.left),
-        paddingRight: formatPositionValues(property?.value.padding?.right),
-        paddingBottom: formatPositionValues(property?.value.padding?.bottom),
-        marginTop: formatPositionValues(property?.value.margin?.top),
-        marginLeft: formatPositionValues(property?.value.margin?.left),
-        marginRight: formatPositionValues(property?.value.margin?.right),
-        marginBottom: formatPositionValues(property?.value.margin?.bottom),
-        borderTopWidth: formatPositionValues(property?.value.border?.top),
-        borderLeftWidth: formatPositionValues(property?.value.border?.left),
-        borderRightWidth: formatPositionValues(property?.value.border?.right),
-        borderBottomWidth: formatPositionValues(property?.value.border?.bottom),
-        borderStyle: property.value.borderStyle,
-        borderColor: property.value.borderColor,
-      };
-    });
+    const style = useStyle(property);
+    // 拖拽添加组件
     const { dragenter, dragleave, dragover, drop } = useDragEffect();
+    // 拖拽/更改组件大小位置
+    const { mouseDown, resizePoint } = useResize(
+      toRef(property.value, "position")
+    );
     const focusedId = computed(() => {
       return store.state.editor.selectedComponents?.id;
     });
-    const resizePoint = computed(() => {
-      let points = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
-      // 相对定位只能拖拽r，rb，b 三个点
-      if (property.value.position === "relative") {
-        return points.filter(
-          (item) => !["lt", "rt", "lb", "l", "t"].includes(item)
-        );
-      }
-      return points;
-    });
-
-    const { mouseDown } = useResize();
     return {
       focusedId,
       resizePoint,

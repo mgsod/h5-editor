@@ -1,14 +1,15 @@
-import { ref } from "vue";
+import { computed, Ref, ref } from "vue";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
 import { cloneDeep } from "lodash";
 import { diffPatcher } from "@/store/Editor/mutations";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
+import { Position } from "@/components/Editor/RenderComponent/Layout";
 
 const CRITICAL = 20;
 
-export default () => {
+export default (position: Ref<Position>) => {
   const store = useStore();
   const startX = ref(0);
   const startY = ref(0);
@@ -16,6 +17,16 @@ export default () => {
   const offsetY = ref(0);
   const resize = ref(false);
   const rePosition = ref(false);
+  const resizePoint = computed(() => {
+    const points = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
+    // 相对定位只能拖拽r，rb，b 三个点
+    if (position.value === "relative") {
+      return points.filter(
+        (item) => !["lt", "rt", "lb", "l", "t"].includes(item)
+      );
+    }
+    return points;
+  });
   // 当前状态
   let left = cloneDeep(store.state.editor.pages);
   let resizeHandle: string;
@@ -131,5 +142,6 @@ export default () => {
 
   return {
     mouseDown,
+    resizePoint,
   };
 };
