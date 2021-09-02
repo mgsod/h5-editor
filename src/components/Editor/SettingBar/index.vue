@@ -35,9 +35,21 @@
       </el-tab-pane>
     </el-tabs>
   </div>
-  <el-dialog v-model="showDialog">
-    <div style="border: 5px solid #ccc">
-      <previewer />
+  <el-dialog v-model="showDialog" top="3vh" width="600px">
+    <div
+      style="
+        border: 20px solid #ccc;
+        border-right-width: 10px;
+        border-left-width: 10px;
+        height: 600px;
+        width: 375px;
+        margin: 0 auto;
+        overflow: auto;
+        border-radius: 10px;
+        box-sizing: content-box !important;
+      "
+    >
+      <previewer :rem="false" />
     </div>
   </el-dialog>
 </template>

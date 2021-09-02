@@ -62,15 +62,13 @@ export default defineComponent({
     });
     let componentProps = reactive<Partial<TComponent>>({});
     let change = true;
-    watch(
-      origin,
-      () => {
-        change = true;
-        objectMerge(origin.value || {}, componentProps);
+    watch(origin, () => {
+      change = true;
+      objectMerge(origin.value || {}, componentProps);
+      setTimeout(() => {
         change = false;
-      },
-      { deep: true }
-    );
+      });
+    });
     const debounceCommit = getDebounceCommit<Partial<TComponent>>(
       store.commit,
       MUTATION_TYPE.UPDATE_COMPONENT

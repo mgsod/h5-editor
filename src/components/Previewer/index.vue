@@ -1,5 +1,12 @@
 <template>
-  <render v-for="item in components" :key="item.id" :property="item" />
+  <div class="dom-render">
+    <render
+      :rem="rem"
+      v-for="item in components"
+      :key="item.id"
+      :property="item"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -9,7 +16,12 @@ import { useStore } from "@/store";
 export default defineComponent({
   name: "previewer",
   inheritAttrs: false,
-  props: {},
+  props: {
+    rem: {
+      type: Boolean,
+      default: true,
+    },
+  },
   components: { Render },
   setup(props) {
     const store = useStore();
@@ -22,4 +34,10 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="less"></style>
+<style scoped lang="less">
+.dom-render {
+  & > div {
+    min-height: 100%;
+  }
+}
+</style>

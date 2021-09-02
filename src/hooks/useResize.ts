@@ -9,6 +9,16 @@ import { Position } from "@/components/Editor/RenderComponent/Layout";
 
 const CRITICAL = 20;
 
+let currentDomSize: { width: number; height: number } | null = null;
+function getDomSize(id: string) {
+  if (currentDomSize) return currentDomSize;
+  const currentDom = document.getElementById(id) as HTMLElement;
+  currentDomSize = {
+    width: currentDom.offsetWidth,
+    height: currentDom.offsetHeight,
+  };
+  return currentDomSize;
+}
 export default (position: Ref<Position>) => {
   const store = useStore();
   const startX = ref(0);
@@ -45,6 +55,9 @@ export default (position: Ref<Position>) => {
     if (typeof handle === "string") {
       resize.value = true;
       resizeHandle = handle;
+      currentComponent = {
+        ...(store.state.editor.selectedComponents as TComponent),
+      };
     } else {
       rePosition.value = true;
       currentComponent = { ...handle };
@@ -71,14 +84,16 @@ export default (position: Ref<Position>) => {
     offsetX.value = clientX - startX.value;
     offsetY.value = clientY - startY.value;
     let width, height, top, left;
+
     // 如果是更改大小
     if (resize.value) {
-      ({
-        width,
-        height,
-        top = 0,
-        left = 0,
-      } = store.state.editor.selectedComponents as IComponent);
+      ({ width, height, top = 0, left = 0 } = currentComponent as TComponent);
+      if (width === "") {
+        width = getDomSize((currentComponent as TComponent).id).width;
+      }
+      if (height === "") {
+        height = getDomSize((currentComponent as TComponent).id).height;
+      }
       if (resizeHandle.includes("r")) {
         width += offsetX.value;
       }
@@ -138,6 +153,7 @@ export default (position: Ref<Position>) => {
     resizeHandle = "";
     offsetY.value = 0;
     offsetX.value = 0;
+    currentDomSize = null;
   };
 
   return {

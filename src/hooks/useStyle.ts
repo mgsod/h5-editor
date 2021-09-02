@@ -1,17 +1,24 @@
 import { computed, Ref } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 
-export default (property: Ref<TComponent>) => {
+export default (property: Ref<TComponent>, rem = false) => {
   const formatPositionValues = (val?: number) => {
     if (val === 0 || val) {
+      if (rem) {
+        return `${val / 37.5}rem`;
+      }
       return `${val}px`;
     }
     return "";
   };
   return computed(() => {
     return {
-      height: property.value.height ? property.value.height + "px" : "auto",
-      width: property.value.width ? property.value.width + "px" : "auto",
+      height: property.value.height
+        ? formatPositionValues(property.value.height)
+        : "auto",
+      width: property.value.width
+        ? formatPositionValues(property.value.width)
+        : "auto",
       position: property.value.position,
       top: formatPositionValues(property.value.top),
       left: formatPositionValues(property.value.left),

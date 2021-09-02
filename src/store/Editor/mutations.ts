@@ -113,6 +113,7 @@ const mutations: MutationTree<IState> = {
       ComponentFactory.createComponent(ComponentType.Container, {
         id: "root",
         width: 375,
+        height: "",
         position: "relative",
       })
     );
@@ -154,6 +155,7 @@ const mutations: MutationTree<IState> = {
       );
       if (target) {
         Object.assign(target, { ...payload });
+        updateSelectedComponent(state);
       }
     });
   },

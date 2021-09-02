@@ -15,8 +15,8 @@ export interface IAroundValue {
 export interface IComponent {
   type: ComponentType;
   id: string;
-  width: number;
-  height: number;
+  width: number | "";
+  height: number | "";
   position: Position;
   alias?: string;
   top?: number;

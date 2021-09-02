@@ -3,7 +3,11 @@
     <el-input v-model="base.alias"></el-input>
   </el-form-item>
   <el-form-item label="尺寸">
-    <el-input type="number" v-model.number="base.width">
+    <el-input
+      type="number"
+      v-model.number="base.width"
+      :disabled="base.id === 'root'"
+    >
       <template #prepend>宽</template>
     </el-input>
     <el-input type="number" v-model.number="base.height">

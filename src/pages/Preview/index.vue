@@ -1,6 +1,5 @@
 <template>
   <div class="page">
-    <div v-for="item in 500" :key="item">{{ item }}</div>
     <previewer />
   </div>
 </template>
@@ -20,7 +19,7 @@ export default defineComponent({
 .page {
   background: #fff;
   height: 500px;
-  width: 376px;
+  width: 300px;
   box-sizing: content-box !important;
   border-top: 40px solid #ccc;
   border-bottom: 40px solid #ccc;

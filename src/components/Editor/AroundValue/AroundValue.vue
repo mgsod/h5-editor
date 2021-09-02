@@ -71,6 +71,8 @@ import {
   PropType,
   reactive,
   ref,
+  toRef,
+  toRefs,
   watch,
   watchEffect,
 } from "vue";
@@ -197,7 +199,7 @@ export default defineComponent({
       },
     });
     const selectedComponents = computed(() => {
-      return store.state.editor.selectedComponents || {};
+      return store.state.editor.selectedComponents || { id: "none" };
     });
     const BorderStyle = computed({
       get() {
@@ -226,13 +228,20 @@ export default defineComponent({
         emit(`update:${selected.value}`, { ...aroundValues });
       }
     });
-    watch(selectedComponents, () => {
-      selected.value = "";
-      aroundValues.top = undefined;
-      aroundValues.bottom = undefined;
-      aroundValues.left = undefined;
-      aroundValues.right = undefined;
-    });
+    // 只有切换了选择的组件才会触发
+    watch(
+      toRef(selectedComponents.value, "id"),
+      () => {
+        selected.value = "";
+        aroundValues.top = undefined;
+        aroundValues.bottom = undefined;
+        aroundValues.left = undefined;
+        aroundValues.right = undefined;
+      },
+      {
+        deep: true,
+      }
+    );
     watchEffect(() => {
       const select = store.state.editor.selectedComponents as IComponent;
       const { id } = select;
