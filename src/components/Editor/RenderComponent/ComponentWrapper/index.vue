@@ -61,7 +61,6 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const { root } = useBindEvent(props.property.events);
     const { property } = toRefs(props);
     const style = useStyle(property);
     // 拖拽添加组件
@@ -78,7 +77,6 @@ export default defineComponent({
       resizePoint,
       mouseDown,
       style,
-      root,
       dragenter,
       dragleave,
       dragover,

@@ -1,21 +1,17 @@
 <template>
-  <component-wrapper
-    v-for="item in components"
-    :key="item.id"
-    :property="item"
-  />
+  <render v-for="item in components" :key="item.id" :property="item" />
 </template>
 
 <script lang="ts">
-import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
-import { defineComponent, PropType, computed, ref, toRefs } from "vue";
+import { defineComponent, computed } from "vue";
+import Render from "./render.vue";
 import { useStore } from "@/store";
-
 export default defineComponent({
-  name: "index",
+  name: "previewer",
+  inheritAttrs: false,
   props: {},
-  components: { ComponentWrapper },
-  setup() {
+  components: { Render },
+  setup(props) {
     const store = useStore();
     return {
       components: computed(() => {

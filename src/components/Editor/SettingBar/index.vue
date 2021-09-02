@@ -19,6 +19,12 @@
         </div>
         <div>删除</div>
       </div>
+      <div class="tool-item" @click="preview">
+        <div class="icon">
+          <i class="el-icon-view" />
+        </div>
+        <div>预览</div>
+      </div>
     </div>
     <el-tabs v-model="active">
       <el-tab-pane label="属性" name="prop">
@@ -29,6 +35,11 @@
       </el-tab-pane>
     </el-tabs>
   </div>
+  <el-dialog v-model="showDialog">
+    <div style="border: 5px solid #ccc">
+      <previewer />
+    </div>
+  </el-dialog>
 </template>
 <script lang="ts">
 import { computed, defineComponent } from "vue";
@@ -36,13 +47,16 @@ import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
 import propertyBar from "./property-bar.vue";
 import eventBar from "./event-bar.vue";
+import useDialog from "@/hooks/useDialog";
+import Previewer from "@/components/Previewer/index.vue";
 
 export default defineComponent({
   name: "property",
   props: {},
-  components: { propertyBar, eventBar },
+  components: { propertyBar, eventBar, Previewer },
   setup() {
     const store = useStore();
+    const { showDialog } = useDialog();
     const allowUndo = computed(() => {
       return store.state.editor.allowUndo;
     });
@@ -66,6 +80,13 @@ export default defineComponent({
         const selected = store.state.editor.selectedComponents;
         if (!selected) return false;
         return selected.id !== "root";
+      }),
+      showDialog,
+      preview() {
+        showDialog.value = true;
+      },
+      components: computed(() => {
+        return store.getters.currentPage.components;
       }),
     };
   },

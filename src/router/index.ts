@@ -11,7 +11,13 @@ const routes: Array<RouteRecordRaw> = [
     path: "/editor",
     name: "editor",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../pages/Editor/index.vue"),
+      import(/* webpackChunkName: "editor" */ "../pages/Editor/index.vue"),
+  },
+  {
+    path: "/preview",
+    name: "preview",
+    component: () =>
+      import(/* webpackChunkName: "preview" */ "../pages/Preview/index.vue"),
   },
   // {
   //   path: "/about",
