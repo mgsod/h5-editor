@@ -10,9 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
 import { IContainer } from "@/components/Editor/RenderComponent/Container";
 import { findItemAndParentById, findItemById } from "@/util";
-import Component, {
-  IComponent,
-} from "@/components/Editor/RenderComponent/Component";
+import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { IEvent } from "@/components/Editor/event";
 
 export const diffPatcher = new DiffPatcher<IPage[]>();
@@ -30,7 +28,7 @@ const updateSelectedComponent = (state: IState) => {
     const currentPage = state.pages.find(
       (item) => item.id === state.pageActive
     ) as IPage;
-    const find = findItemById<Component>(
+    const find = findItemById<IComponent>(
       currentPage.components,
       state.selectedComponents.id as string
     );
@@ -140,7 +138,7 @@ const mutations: MutationTree<IState> = {
     const currentPage = state.pages.find(
       (item) => item.id === state.pageActive
     ) as IPage;
-    const target = findItemById<Component>(currentPage.components, payload.id);
+    const target = findItemById<IComponent>(currentPage.components, payload.id);
     if (target) {
       Object.assign(target, { ...payload });
     }
@@ -151,7 +149,7 @@ const mutations: MutationTree<IState> = {
       const currentPage = state.pages.find(
         (item) => item.id === state.pageActive
       ) as IPage;
-      const target = findItemById<Component>(
+      const target = findItemById<IComponent>(
         currentPage.components,
         payload.id
       );
@@ -169,7 +167,7 @@ const mutations: MutationTree<IState> = {
         const currentPage = state.pages.find(
           (item) => item.id === state.pageActive
         ) as IPage;
-        const target = findItemAndParentById<Component>(
+        const target = findItemAndParentById<IComponent>(
           currentPage.components,
           state!.selectedComponents!.id
         );

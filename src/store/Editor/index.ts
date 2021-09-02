@@ -1,17 +1,17 @@
 import { Module } from "vuex";
 import mutations from "@/store/Editor/mutations";
-import Component from "@/components/Editor/RenderComponent/Component";
+import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { state } from "@/store";
 
 export interface IPage {
   order: number;
-  components: Component[];
+  components: IComponent[];
   id: string;
 }
 export interface IState {
   pages: IPage[];
   pageActive: string;
-  selectedComponents: Component | null;
+  selectedComponents: IComponent | null;
   allowUndo: boolean;
   allowRedo: boolean;
 }
