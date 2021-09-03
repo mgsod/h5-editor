@@ -39,7 +39,7 @@ class Component implements IComponent {
   id: string;
   width = 50;
   height = 50;
-  position: Position = "relative";
+  position: Position = "static";
   alias?: string = "";
   borderColor = "#000";
   borderStyle: BorderStyle = "solid";

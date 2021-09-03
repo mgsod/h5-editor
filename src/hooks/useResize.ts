@@ -83,11 +83,17 @@ export default (position: Ref<Position>) => {
     const { clientX, clientY } = event;
     offsetX.value = clientX - startX.value;
     offsetY.value = clientY - startY.value;
-    let width, height, top, left;
+    let width, height, top, left, margin;
 
     // 如果是更改大小
     if (resize.value) {
-      ({ width, height, top = 0, left = 0 } = currentComponent as TComponent);
+      ({
+        width,
+        height,
+        top = 0,
+        left = 0,
+        margin,
+      } = currentComponent as TComponent);
       if (width === "") {
         width = getDomSize((currentComponent as TComponent).id).width;
       }
@@ -126,9 +132,30 @@ export default (position: Ref<Position>) => {
 
     // 如果是更改位置
     if (rePosition.value) {
-      ({ top = 0, left = 0, width, height } = currentComponent as IComponent);
-      top += offsetY.value;
-      left += offsetX.value;
+      ({
+        top = 0,
+        left = 0,
+        width,
+        height,
+        margin,
+      } = currentComponent as IComponent);
+      if (position.value === "static") {
+        if (margin) {
+          const { top: marginTop = 0, left: marginLeft = 0 } = margin;
+          margin = {
+            top: marginTop + offsetY.value,
+            left: marginLeft + offsetX.value,
+          };
+        } else {
+          margin = {
+            top: offsetY.value,
+            left: offsetX.value,
+          };
+        }
+      } else {
+        top += offsetY.value;
+        left += offsetX.value;
+      }
     }
 
     store.commit(MUTATION_TYPE.RESIZE, {
@@ -137,6 +164,7 @@ export default (position: Ref<Position>) => {
       height,
       top,
       left,
+      margin,
     });
   };
   const mouseUp = (event: MouseEvent) => {

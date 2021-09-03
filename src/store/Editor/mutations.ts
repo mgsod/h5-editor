@@ -117,7 +117,7 @@ const mutations: MutationTree<IState> = {
         position: "relative",
       })
     );
-    (state.pages[0].components[0] as IContainer).children.push(
+    /*(state.pages[0].components[0] as IContainer).children.push(
       ComponentFactory.createComponent(ComponentType.Img, {
         id: "xx",
         width: 200,
@@ -132,7 +132,7 @@ const mutations: MutationTree<IState> = {
           },
         ],
       })
-    );
+    );*/
   },
   [MUTATION_TYPE.RESIZE]: (state: IState, payload: TComponent) => {
     const currentPage = state.pages.find(

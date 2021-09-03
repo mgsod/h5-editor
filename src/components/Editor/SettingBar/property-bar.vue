@@ -16,7 +16,6 @@
       />
 
       <around-value
-        v-show="componentProps.id !== 'root'"
         v-model:padding="componentProps.padding"
         v-model:margin="componentProps.margin"
         v-model:border="componentProps.border"
