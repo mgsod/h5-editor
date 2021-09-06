@@ -73,6 +73,7 @@ export default defineComponent({
       MUTATION_TYPE.UPDATE_COMPONENT
     );
     watch(componentProps, (a, b) => {
+      console.log("change");
       if (!change) {
         debounceCommit(componentProps);
         change = false;

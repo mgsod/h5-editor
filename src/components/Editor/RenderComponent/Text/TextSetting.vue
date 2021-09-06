@@ -7,7 +7,7 @@
     <el-color-picker v-model="text.color" show-alpha></el-color-picker>
   </el-form-item>
   <el-form-item label="字体大小">
-    <el-input type="number" v-model="text.fontSize">
+    <el-input type="number" v-model.number="text.fontSize">
       <template #append>px</template>
     </el-input>
   </el-form-item>

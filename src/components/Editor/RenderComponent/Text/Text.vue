@@ -1,5 +1,6 @@
 <template>
   <div
+    class="h-text"
     :style="{
       fontStyle,
       color,

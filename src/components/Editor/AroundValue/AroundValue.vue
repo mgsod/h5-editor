@@ -68,6 +68,7 @@
 import {
   computed,
   defineComponent,
+  nextTick,
   PropType,
   reactive,
   ref,
@@ -258,10 +259,12 @@ export default defineComponent({
         horizontal += left + right;
         vertical += top + bottom;
       }
-      const dom = document.getElementById(id) as HTMLElement;
-      componentSize.value = `${dom.offsetWidth - horizontal}x${
-        dom.offsetHeight - vertical
-      }`;
+      nextTick(() => {
+        const dom = document.getElementById(id) as HTMLElement;
+        componentSize.value = `${dom.offsetWidth - horizontal}x${
+          dom.offsetHeight - vertical
+        }`;
+      });
     });
 
     return {

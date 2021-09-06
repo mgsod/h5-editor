@@ -1,11 +1,10 @@
-import { computed, Ref, ref } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
 import { cloneDeep } from "lodash";
 import { diffPatcher } from "@/store/Editor/mutations";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
-import { Position } from "@/components/Editor/RenderComponent/Layout";
 
 const CRITICAL = 20;
 
@@ -19,7 +18,7 @@ function getDomSize(id: string) {
   };
   return currentDomSize;
 }
-export default (position: Ref<Position>) => {
+export default () => {
   const store = useStore();
   const startX = ref(0);
   const startY = ref(0);
@@ -27,45 +26,52 @@ export default (position: Ref<Position>) => {
   const offsetY = ref(0);
   const resize = ref(false);
   const rePosition = ref(false);
+  let currentComponent: IComponent | null = null;
+  // 设置拖拽点
   const resizePoint = computed(() => {
-    const points = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
-    // 相对定位只能拖拽r，rb，b 三个点
-    if (position.value === "relative") {
-      return points.filter(
-        (item) => !["lt", "rt", "lb", "l", "t"].includes(item)
-      );
+    const all = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
+    if (store.state.editor.selectedComponents) {
+      if (store.state.editor.selectedComponents.id === "root") return [];
+      const position = store.state.editor.selectedComponents.position;
+      if (position === "relative" || position === "static") {
+        // 相对定位只能拖拽r，rb，b 三个点
+        return all.filter(
+          (item) => !["lt", "rt", "lb", "l", "t"].includes(item)
+        );
+      }
     }
-    return points;
+    return all;
   });
+
+  const position = computed(() => {
+    return store.state.editor.selectedComponents?.position || "";
+  });
+
   // 当前状态
   let left = cloneDeep(store.state.editor.pages);
   let resizeHandle: string;
 
-  let currentComponent: TComponent | null = null;
-
   function mouseDown(event: MouseEvent, handle: string): void;
-  function mouseDown(event: MouseEvent, handle: TComponent): void;
-  function mouseDown(event: MouseEvent, handle: TComponent | string) {
+  function mouseDown(event: MouseEvent, handle?: string) {
     event.preventDefault();
     event.stopPropagation();
     const { clientX, clientY } = event;
     startX.value = clientX;
     startY.value = clientY;
-
-    if (typeof handle === "string") {
-      resize.value = true;
-      resizeHandle = handle;
-      currentComponent = {
-        ...(store.state.editor.selectedComponents as TComponent),
-      };
-    } else {
-      rePosition.value = true;
-      currentComponent = { ...handle };
-      if (handle.id === "root") return;
+    currentComponent = {
+      ...store.state.editor.selectedComponents,
+    } as IComponent;
+    if (currentComponent) {
+      if (handle) {
+        resize.value = true;
+        resizeHandle = handle;
+      } else {
+        rePosition.value = true;
+        if (currentComponent.id === "root") return;
+      }
+      document.body.addEventListener("mousemove", mouseMove);
+      document.body.addEventListener("mouseup", mouseUp);
     }
-
-    document.body.addEventListener("mousemove", mouseMove);
-    document.body.addEventListener("mouseup", mouseUp);
   }
   /**
    * 鼠标按下
@@ -157,9 +163,8 @@ export default (position: Ref<Position>) => {
         left += offsetX.value;
       }
     }
-
     store.commit(MUTATION_TYPE.RESIZE, {
-      id: currentComponent?.id,
+      id: (currentComponent as IComponent).id,
       width,
       height,
       top,

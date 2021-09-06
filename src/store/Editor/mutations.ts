@@ -80,6 +80,7 @@ const mutations: MutationTree<IState> = {
         page.components.push(component);
       }
     });
+    state.selectedComponents = { ...component };
   },
   // 重做
   [MUTATION_TYPE.UNDO]: (state) => {
@@ -141,6 +142,7 @@ const mutations: MutationTree<IState> = {
     const target = findItemById<IComponent>(currentPage.components, payload.id);
     if (target) {
       Object.assign(target, { ...payload });
+      updateSelectedComponent(state);
     }
   },
   // 更新组件信息
@@ -160,6 +162,7 @@ const mutations: MutationTree<IState> = {
     });
   },
   [MUTATION_TYPE.SELECT_COMPONENT]: (state, payload: TComponent) => {
+    if (payload.id === state.selectedComponents?.id) return;
     state.selectedComponents = { ...payload };
   },
   [MUTATION_TYPE.REMOVE_COMPONENT]: (state) => {
