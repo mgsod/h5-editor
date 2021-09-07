@@ -81,6 +81,7 @@ const mutations: MutationTree<IState> = {
       }
     });
     state.selectedComponents = { ...component };
+    state.isDrag = false;
   },
   // 重做
   [MUTATION_TYPE.UNDO]: (state) => {
@@ -144,6 +145,10 @@ const mutations: MutationTree<IState> = {
       Object.assign(target, { ...payload });
       updateSelectedComponent(state);
     }
+  },
+  // 拖拽一个组件
+  [MUTATION_TYPE.DRAG_COMPONENT]: (state, payload = true) => {
+    state.isDrag = payload;
   },
   // 更新组件信息
   [MUTATION_TYPE.UPDATE_COMPONENT]: (state, payload: TComponent) => {

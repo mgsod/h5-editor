@@ -7,7 +7,12 @@
           :key="item.id"
           :property="item"
         />
-        <div class="border" :style="borderStyle" @mousedown="mouseDown($event)">
+        <div
+          class="border"
+          :style="borderStyle"
+          :class="{ lowZIndex, isDragNew }"
+          @mousedown="mouseDown($event)"
+        >
           <div
             class="point"
             :class="item"
@@ -38,6 +43,13 @@ export default defineComponent({
     const { borderStyle, borderTransition } = useVirtualBorder();
     // 拖拽/更改组件大小位置
     const { mouseDown, resizePoint } = useResize();
+    const isDragNew = computed(() => {
+      return store.state.editor.isDrag;
+    });
+    const lowZIndex = computed(() => {
+      const isRoot = store.state.editor.selectedComponents?.id === "root";
+      return isDragNew.value || isRoot;
+    });
     return {
       dragenter,
       dragleave,
@@ -51,6 +63,8 @@ export default defineComponent({
       borderTransition,
       mouseDown,
       resizePoint,
+      lowZIndex,
+      isDragNew,
     };
   },
 });
@@ -87,14 +101,12 @@ export default defineComponent({
       .border {
         position: fixed;
         outline: 1px solid var(--el-color-primary);
-        z-index: 2;
         .point {
           position: absolute;
           background: #fff;
           border: 1px solid #59c7f9;
           width: 6px;
           height: 6px;
-          z-index: 1;
           border-radius: 50%;
           &.lt {
             margin-left: -3px;
@@ -148,6 +160,10 @@ export default defineComponent({
             bottom: 0;
             cursor: ns-resize;
           }
+        }
+        z-index: 2;
+        &.lowZIndex {
+          z-index: 1;
         }
       }
     }

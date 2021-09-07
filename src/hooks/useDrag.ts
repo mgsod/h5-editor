@@ -17,7 +17,6 @@ export default () => {
   const dragenter = (e: DragEvent, targetComponent?: TComponent) => {
     e.stopPropagation();
     if (targetComponent?.isContainer) {
-      console.log(2, targetComponent.id);
       addEnterClass(<HTMLElement>(<HTMLElement>e.target).parentNode);
     }
   };

@@ -12,17 +12,12 @@ export default () => {
     const selected = store.state.editor.selectedComponents;
     if (selected && currentDom) {
       const { left, top, width, height } = currentDom.getBoundingClientRect();
-      const style = {
+      return {
         left: left + "px",
         top: top + "px",
         width: width + "px",
         height: height + "px",
-        zIndex: 2,
       };
-      if (selected.id === "root") {
-        style.zIndex = 1;
-      }
-      return style;
     }
     return {
       display: "none",

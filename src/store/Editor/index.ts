@@ -14,6 +14,7 @@ export interface IState {
   selectedComponents: IComponent | null;
   allowUndo: boolean;
   allowRedo: boolean;
+  isDrag: boolean;
 }
 
 const module: Module<IState, state> = {
@@ -23,6 +24,7 @@ const module: Module<IState, state> = {
     selectedComponents: null,
     allowRedo: false,
     allowUndo: false,
+    isDrag: false,
   },
   mutations: {
     ...mutations,

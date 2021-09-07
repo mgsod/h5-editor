@@ -7,6 +7,7 @@
             class="component"
             draggable="true"
             @dragstart="dragstart($event, item)"
+            @dragend="dragend"
             v-for="item in ComponentList"
             :key="item.type"
           >
@@ -48,10 +49,12 @@ export default {
   props: {},
   components: {},
   setup() {
+    const store = useStore();
     const dragstart = (e: DragEvent, item: IComponentItem) => {
       e.dataTransfer!.setData("type", item.type);
+      store.commit(MUTATION_TYPE.DRAG_COMPONENT);
     };
-    const store = useStore();
+
     const domTree = computed(() => {
       return store.getters.currentPage.components;
     });
@@ -62,6 +65,9 @@ export default {
       domTree,
       selectNode(data: TComponent) {
         store.commit(MUTATION_TYPE.SELECT_COMPONENT, data);
+      },
+      dragend() {
+        store.commit(MUTATION_TYPE.DRAG_COMPONENT, false);
       },
     };
   },
