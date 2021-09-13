@@ -24,7 +24,10 @@
           @nodeClick="selectNode"
         >
           <template #default="{ data }">
-            <span class="custom-tree-node">
+            <span
+              class="custom-tree-node"
+              :class="{ selected: selectedId === data.id }"
+            >
               <span>{{ data.alias || data.type }}</span>
             </span>
           </template>
@@ -58,11 +61,15 @@ export default {
     const domTree = computed(() => {
       return store.getters.currentPage.components;
     });
+    const selectedId = computed(() => {
+      return store.state.editor.selectedComponents?.id;
+    });
     return {
       dragstart,
       ComponentList,
       active: 0,
       domTree,
+      selectedId,
       selectNode(data: TComponent) {
         store.commit(MUTATION_TYPE.SELECT_COMPONENT, data);
       },
@@ -101,6 +108,11 @@ export default {
         cursor: default;
         margin: 0 -1px 0px 0;
       }
+    }
+  }
+  .el-tree {
+    .selected {
+      color: var(--el-color-primary);
     }
   }
 }
