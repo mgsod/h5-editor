@@ -18,6 +18,7 @@ export interface IComponent {
   width: number | "";
   height: number | "";
   position: Position;
+  parentId?: string;
   alias?: string;
   top?: number;
   left?: number;

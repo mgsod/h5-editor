@@ -1,6 +1,7 @@
 import { useStore } from "@/store";
 import { computed, nextTick, ref, watch } from "vue";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
+import { findItemById } from "@/util";
 
 export default () => {
   const store = useStore();
@@ -22,6 +23,23 @@ export default () => {
     return {
       display: "none",
     };
+  };
+  const findAllParentContainer = (
+    component: IComponent,
+    result: string[] = []
+  ): string[] => {
+    if (component.parentId) {
+      result.push(component.parentId);
+
+      return findAllParentContainer(
+        findItemById(
+          store.getters.currentPage.components,
+          component.parentId
+        ) as IComponent,
+        result
+      );
+    }
+    return result;
   };
   // 选中组件
   const selectComponentId = computed(() => {
@@ -77,6 +95,21 @@ export default () => {
     nextTick(() => {
       currentDom = document.getElementById(current) as HTMLElement;
       borderStyle.value = computedBorderStyle();
+      const parents = findAllParentContainer(
+        findItemById(
+          store.getters.currentPage.components,
+          current
+        ) as IComponent
+      );
+      parents.forEach((item) => {
+        const dom = (document.getElementById(item) as HTMLElement)
+          .firstElementChild as HTMLElement;
+        // 已经有滚动事件，不需要再绑定
+        if (dom.onscroll) return;
+        dom.onscroll = () => {
+          borderStyle.value = computedBorderStyle();
+        };
+      });
       (document.getElementById("canvas") as HTMLElement).onscroll = () => {
         borderStyle.value = computedBorderStyle();
       };

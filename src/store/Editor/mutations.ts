@@ -75,7 +75,10 @@ const mutations: MutationTree<IState> = {
         state.pages.find((item: IPage) => item.id === state.pageActive)
       );
       if (targetComponent) {
-        targetComponent.children.push(component);
+        targetComponent.children.push({
+          ...component,
+          parentId: targetComponent.id,
+        });
       } else {
         page.components.push(component);
       }
