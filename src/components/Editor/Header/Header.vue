@@ -17,7 +17,7 @@ export default defineComponent({
       exportJson() {
         downLoadContent(
           `${new Date().getTime()}.json`,
-          JSON.stringify(store.state.editor.pages)
+          JSON.stringify(store.state.editor.pages, null, 2)
         );
       },
     };
