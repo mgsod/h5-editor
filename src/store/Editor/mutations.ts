@@ -83,7 +83,7 @@ const mutations: MutationTree<IState> = {
     state.selectedComponents = { ...component };
     state.isDrag = false;
   },
-  // 重做
+  // 撤销
   [MUTATION_TYPE.UNDO]: (state) => {
     const result = diffPatcher.undo();
     if (result) {
@@ -92,7 +92,7 @@ const mutations: MutationTree<IState> = {
       updateRedoUndoState(state);
     }
   },
-  // 撤销
+  // 重做
   [MUTATION_TYPE.REDO]: (state) => {
     const result = diffPatcher.redo();
     if (result) {

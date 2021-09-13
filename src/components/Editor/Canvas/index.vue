@@ -1,7 +1,7 @@
 <template>
   <div class="canvas-wrapper">
     <div class="wrapper-grid">
-      <div class="canvas">
+      <div class="canvas" id="canvas">
         <component-wrapper
           v-for="item in components"
           :key="item.id"
@@ -11,6 +11,7 @@
           class="border"
           :style="borderStyle"
           :class="{ lowZIndex, isDragNew }"
+          v-show="selectedComponentId"
           @mousedown="mouseDown($event)"
         >
           <div
@@ -65,6 +66,9 @@ export default defineComponent({
       resizePoint,
       lowZIndex,
       isDragNew,
+      selectedComponentId: computed(() => {
+        return store.state.editor.selectedComponents?.id;
+      }),
     };
   },
 });
@@ -93,7 +97,7 @@ export default defineComponent({
       height: 100%;
       width: 100%;
       position: relative;
-      overflow: hidden;
+      overflow-y: auto;
       &.enterContainer,
       /deep/div.enterContainer {
         outline: 1px dashed var(--el-color-warning) !important;

@@ -81,12 +81,12 @@ export class DiffPatcher<T> {
       if (Array.isArray(modify)) {
         return ModifyAction.Update;
       }
-      return ModifyAction.Create;
+      return ModifyAction.Remove;
     } else {
       const modify = firstDelta;
       if (modify[1] === 0 && modify[2] === 0) {
         // 删除
-        return ModifyAction.Remove;
+        return ModifyAction.Create;
       }
       return ModifyAction.Move;
     }

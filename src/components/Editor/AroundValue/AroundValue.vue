@@ -244,27 +244,29 @@ export default defineComponent({
       }
     );
     watchEffect(() => {
-      const select = store.state.editor.selectedComponents as IComponent;
-      const { id } = select;
+      const select = store.state.editor.selectedComponents;
+      if (select) {
+        const { id } = select;
 
-      let horizontal = 0,
-        vertical = 0;
-      if (props.border) {
-        const { left = 0, right = 0, top = 0, bottom = 0 } = props.border;
-        horizontal += left + right;
-        vertical += top + bottom;
+        let horizontal = 0,
+          vertical = 0;
+        if (props.border) {
+          const { left = 0, right = 0, top = 0, bottom = 0 } = props.border;
+          horizontal += left + right;
+          vertical += top + bottom;
+        }
+        if (props.padding) {
+          const { left = 0, right = 0, top = 0, bottom = 0 } = props.padding;
+          horizontal += left + right;
+          vertical += top + bottom;
+        }
+        nextTick(() => {
+          const dom = document.getElementById(id) as HTMLElement;
+          componentSize.value = `${dom.offsetWidth - horizontal}x${
+            dom.offsetHeight - vertical
+          }`;
+        });
       }
-      if (props.padding) {
-        const { left = 0, right = 0, top = 0, bottom = 0 } = props.padding;
-        horizontal += left + right;
-        vertical += top + bottom;
-      }
-      nextTick(() => {
-        const dom = document.getElementById(id) as HTMLElement;
-        componentSize.value = `${dom.offsetWidth - horizontal}x${
-          dom.offsetHeight - vertical
-        }`;
-      });
     });
 
     return {

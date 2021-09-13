@@ -77,6 +77,9 @@ export default () => {
     nextTick(() => {
       currentDom = document.getElementById(current) as HTMLElement;
       borderStyle.value = computedBorderStyle();
+      (document.getElementById("canvas") as HTMLElement).onscroll = () => {
+        borderStyle.value = computedBorderStyle();
+      };
     });
   });
 
