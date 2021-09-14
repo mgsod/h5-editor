@@ -50,8 +50,7 @@ export class DiffPatcher<T> {
   // 存储快照最大数
   private readonly maxSnapshotLength: number;
 
-  left: T | undefined;
-  right: T | undefined;
+  current: T | undefined;
 
   constructor(maxSnapshotLength = 20) {
     this.maxSnapshotLength = maxSnapshotLength;
@@ -101,11 +100,11 @@ export class DiffPatcher<T> {
     // 取下一个补丁
     this.index += 1;
     const delta = this.snapshots[this.index];
-    const cloneLeft = diffPatcher.clone(this.left);
+    const current = diffPatcher.clone(this.current);
     this.lastModifyAction = DiffPatcher.getModifyType(delta);
     // 打补丁
-    this.left = diffPatcher.patch(cloneLeft, delta);
-    return <T>this.left;
+    this.current = diffPatcher.patch(current, delta);
+    return <T>this.current;
   }
 
   /**
@@ -114,15 +113,15 @@ export class DiffPatcher<T> {
   undo(): T | false {
     // 已经撤回到第一步 或者 没有快照
     if (this.index < 0 || this.snapshots.length < 1) return false;
-    const cloneRight = diffPatcher.clone(this.right);
+    const current = diffPatcher.clone(this.current);
     // 获取当前索引快照
     const delta = this.snapshots[this.index];
     this.lastModifyAction = DiffPatcher.getModifyType(delta);
-    // 左边卸载布丁
-    this.left = diffPatcher.unpatch(cloneRight, delta);
+    // 卸载布丁
+    this.current = diffPatcher.unpatch(current, delta);
     // 索引位 - 1
     this.index -= 1;
-    return <T>this.left;
+    return <T>this.current;
   }
 
   /**
@@ -145,8 +144,7 @@ export class DiffPatcher<T> {
     if (this.snapshots.length > this.maxSnapshotLength) {
       this.snapshots = this.snapshots.slice(-this.maxSnapshotLength);
     }
-    this.left = left;
-    this.right = right;
+    this.current = right;
   }
 
   getModifyType(): ModifyAction {
