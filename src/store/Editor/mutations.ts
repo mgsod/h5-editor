@@ -236,5 +236,13 @@ const mutations: MutationTree<IState> = {
       }
     });
   },
+  [MUTATION_TYPE.DRAG_TREE]: (state, payload: IComponent[]) => {
+    mutationWithSnapshot(state, () => {
+      const currentPage = state.pages.find(
+        (item) => item.id === state.pageActive
+      );
+      (currentPage as IPage).components = payload;
+    });
+  },
 };
 export default mutations;
