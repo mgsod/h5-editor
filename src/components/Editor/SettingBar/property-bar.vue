@@ -91,7 +91,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 .el-form {
-  /deep/.el-form-item {
+  :deep(.el-form-item) {
     margin-bottom: 15px;
     .el-form-item__label {
       font-size: 12px;

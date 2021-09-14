@@ -99,7 +99,7 @@ export default defineComponent({
       position: relative;
       overflow-y: auto;
       &.enterContainer,
-      /deep/div.enterContainer {
+      :deep(div.enterContainer) {
         outline: 1px dashed var(--el-color-warning) !important;
       }
       .border {

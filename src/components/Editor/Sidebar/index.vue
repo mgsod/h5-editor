@@ -91,7 +91,7 @@ export default {
   .el-tabs {
     flex: 0 0 300px;
     width: 100%;
-    /deep/.components {
+    :deep(.components) {
       flex: auto;
       display: flex;
       flex-wrap: wrap;

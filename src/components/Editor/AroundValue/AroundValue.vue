@@ -290,7 +290,7 @@ export default defineComponent({
 <style scoped lang="less">
 .around {
   margin: 15px auto;
-  /deep/.computed {
+  :deep(.computed) {
     cursor: default;
     .position,
     .margin,
@@ -385,7 +385,7 @@ export default defineComponent({
     .right {
       flex: 1;
       .el-input {
-        /deep/input {
+        :deep(input) {
           padding: 0 2px 0 5px !important;
         }
       }

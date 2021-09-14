@@ -145,7 +145,7 @@ export default defineComponent({
       }
     }
   }
-  /deep/.el-tabs {
+  :deep(.el-tabs) {
     flex: 0 0 320px;
     padding: 0 8px;
     .el-tabs__content {

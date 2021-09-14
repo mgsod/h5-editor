@@ -181,7 +181,7 @@ const mutations: MutationTree<IState> = {
         ) as IPage;
         const target = findItemAndParentById<IComponent>(
           currentPage.components,
-          state!.selectedComponents!.id
+          (state.selectedComponents as IComponent).id
         );
         if (target) {
           target.parent.splice(target.index, 1);
@@ -196,7 +196,7 @@ const mutations: MutationTree<IState> = {
       ) as IPage;
       const target = findItemById<IComponent>(
         currentPage.components,
-        state!.selectedComponents!.id
+        (state.selectedComponents as IComponent).id
       );
       if (target) {
         const events = target.events || [];
@@ -213,7 +213,7 @@ const mutations: MutationTree<IState> = {
       ) as IPage;
       const target = findItemById<IComponent>(
         currentPage.components,
-        state!.selectedComponents!.id
+        (state.selectedComponents as IComponent).id
       );
       if (target) {
         const events = target.events;
@@ -228,7 +228,7 @@ const mutations: MutationTree<IState> = {
       ) as IPage;
       const target = findItemById<IComponent>(
         currentPage.components,
-        state!.selectedComponents!.id
+        (state.selectedComponents as IComponent).id
       );
       if (target) {
         const events = target.events as IEvent[];
