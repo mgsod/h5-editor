@@ -92,12 +92,14 @@ export default {
         type: DropType
       ) {
         const targetNode: TComponent = dropNode.data as TComponent;
-        // 目标如果是根结点
-        if (targetNode.id === "root") {
-          // 只能放在里面，不允许放在prev和next类型下
-          return type === "inner";
+        // 如果DropType 为inner
+        if (type === "inner") {
+          // 目标节点必须是一个容器
+          return targetNode.isContainer;
+        } else {
+          // 如果是next 和prev 不能是根结点。根结点不允许有兄弟元素
+          return targetNode.id !== "root";
         }
-        return targetNode.isContainer;
       },
       allowDrag(draggingNode: TreeNodeOptions) {
         return (draggingNode.data as IComponent).id !== "root";
