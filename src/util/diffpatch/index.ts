@@ -138,12 +138,15 @@ export class DiffPatcher<T> {
       // 删掉当前索引之后的所有快照
       this.snapshots = this.snapshots.slice(0, this.index + 1);
     }
-    // 添加索引
-    this.index = this.snapshots.push(delta) - 1;
+
+    this.snapshots.push(delta);
+
     // 如果超出最大快照数，截取掉前面部分
     if (this.snapshots.length > this.maxSnapshotLength) {
       this.snapshots = this.snapshots.slice(-this.maxSnapshotLength);
     }
+    // 最后再设置索引
+    this.index = this.snapshots.length - 1;
     this.current = right;
   }
 
