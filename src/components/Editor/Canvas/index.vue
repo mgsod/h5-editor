@@ -170,6 +170,9 @@ export default defineComponent({
           z-index: 1;
         }
       }
+      #root {
+        height: 0 !important;
+      }
     }
   }
 }

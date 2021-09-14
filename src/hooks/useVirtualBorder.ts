@@ -92,28 +92,30 @@ export default () => {
     if (old) {
       borderTransition.value = true;
     }
-    nextTick(() => {
-      currentDom = document.getElementById(current) as HTMLElement;
-      borderStyle.value = computedBorderStyle();
-      const parents = findAllParentContainer(
-        findItemById(
-          store.getters.currentPage.components,
-          current
-        ) as IComponent
-      );
-      parents.forEach((item) => {
-        const dom = (document.getElementById(item) as HTMLElement)
-          .firstElementChild as HTMLElement;
-        // 已经有滚动事件，不需要再绑定
-        if (dom.onscroll) return;
-        dom.onscroll = () => {
+    if (current) {
+      nextTick(() => {
+        currentDom = document.getElementById(current) as HTMLElement;
+        borderStyle.value = computedBorderStyle();
+        const parents = findAllParentContainer(
+          findItemById(
+            store.getters.currentPage.components,
+            current
+          ) as IComponent
+        );
+        parents.forEach((item) => {
+          const dom = (document.getElementById(item) as HTMLElement)
+            .firstElementChild as HTMLElement;
+          // 已经有滚动事件，不需要再绑定
+          if (dom.onscroll) return;
+          dom.onscroll = () => {
+            borderStyle.value = computedBorderStyle();
+          };
+        });
+        (document.getElementById("canvas") as HTMLElement).onscroll = () => {
           borderStyle.value = computedBorderStyle();
         };
       });
-      (document.getElementById("canvas") as HTMLElement).onscroll = () => {
-        borderStyle.value = computedBorderStyle();
-      };
-    });
+    }
   });
 
   return {

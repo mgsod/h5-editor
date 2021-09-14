@@ -58,9 +58,6 @@ export default defineComponent({
     const store = useStore();
     const { property } = toRefs(props);
     const style = useStyle(property);
-    if (property.value.id === "root") {
-      //style.value.height = "0";
-    }
     // 拖拽添加组件
     const { dragenter, dragleave, dragover, drop } = useDragEffect();
     // 拖拽/更改组件大小位置

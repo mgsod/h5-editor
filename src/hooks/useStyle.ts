@@ -15,6 +15,8 @@ export default (property: Ref<TComponent>, rem = false) => {
     return {
       height: property.value.height
         ? formatPositionValues(property.value.height)
+        : property.value.id === "root"
+        ? 0
         : "auto",
       width: property.value.width
         ? formatPositionValues(property.value.width)

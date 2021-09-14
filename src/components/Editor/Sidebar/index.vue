@@ -50,10 +50,12 @@ import {
 import { computed } from "vue";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
-import { TreeNodeOptions } from "element-plus/es/el-tree/src/tree.type";
 import { cloneDeep } from "lodash";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
-import { DropType } from "element-plus/lib/el-tree/src/tree.type";
+import {
+  DropType,
+  TreeNodeOptions,
+} from "element-plus/lib/el-tree/src/tree.type";
 export default {
   name: "Sidebar",
   props: {},

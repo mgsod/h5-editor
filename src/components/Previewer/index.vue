@@ -36,6 +36,7 @@ export default defineComponent({
 
 <style scoped lang="less">
 .dom-render {
+  height: 100%;
   & > div {
     min-height: 100%;
   }
