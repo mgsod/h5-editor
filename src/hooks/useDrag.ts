@@ -32,7 +32,9 @@ export default () => {
     e.stopPropagation();
     const target = <HTMLElement>e.target;
     removeEnterClass(<HTMLElement>target.parentNode);
-    const type = <ComponentType>e.dataTransfer!.getData("type");
+    const type = <ComponentType>(
+      (e.dataTransfer as DataTransfer).getData("type")
+    );
     const component = ComponentFactory.createComponent(type);
     if (targetComponent?.isContainer) {
       store.commit(`${MUTATION_TYPE.ADD_COMPONENT}`, {

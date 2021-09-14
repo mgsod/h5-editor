@@ -54,7 +54,7 @@ export default {
   setup() {
     const store = useStore();
     const dragstart = (e: DragEvent, item: IComponentItem) => {
-      e.dataTransfer!.setData("type", item.type);
+      (e.dataTransfer as DataTransfer).setData("type", item.type);
       store.commit(MUTATION_TYPE.DRAG_COMPONENT);
     };
 
