@@ -18,5 +18,6 @@ export default createStore<state>({
 });
 export const key: InjectionKey<Store<state>> = Symbol();
 export function useStore() {
+  (window as any).store = baseUseStore<state>(key);
   return baseUseStore<state>(key);
 }

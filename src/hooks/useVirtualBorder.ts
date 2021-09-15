@@ -1,7 +1,8 @@
 import { useStore } from "@/store";
-import { computed, nextTick, ref, watch } from "vue";
+import { nextTick, ref } from "vue";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { findItemById } from "@/util";
+import eventBus, { EventType } from "@/hooks/useEventBus";
 
 export default () => {
   const store = useStore();
@@ -24,6 +25,7 @@ export default () => {
       display: "none",
     };
   };
+
   const findAllParentContainer = (
     component: IComponent,
     result: string[] = []
@@ -41,59 +43,14 @@ export default () => {
     }
     return result;
   };
-  // 选中组件
-  const selectComponentId = computed(() => {
-    return store.state.editor.selectedComponents?.id || "";
-  });
 
-  // 选中组件尺寸变化
-  const selectComponentSize = computed(() => {
-    if (selectComponentId.value) {
-      const { left, right, top, bottom, width, height, margin } = store.state
-        .editor.selectedComponents as IComponent;
-      return {
-        left,
-        right,
-        top,
-        bottom,
-        width,
-        height,
-        margin,
-      };
-    }
-    return {
-      left: "",
-      right: "",
-      top: "",
-      bottom: "",
-      width: "",
-      height: "",
-      margin: "",
-    };
-  });
-
-  // 监听尺寸变化
-  watch(
-    selectComponentSize,
-    () => {
-      nextTick(() => {
-        borderStyle.value = computedBorderStyle();
-      });
-    },
-    { deep: true }
-  );
-
-  window.addEventListener("resize", () => {
-    borderTransition.value = false;
-    borderStyle.value = computedBorderStyle();
-  });
-  // 选中组件变化
-  watch(selectComponentId, (current, old) => {
-    if (old) {
-      borderTransition.value = true;
-    }
+  // 监听updateBorder 更新border样式
+  eventBus.$on(EventType.updateBorder, (current) => {
+    nextTick().then(() => {
+      borderStyle.value = computedBorderStyle();
+    });
     if (current) {
-      nextTick(() => {
+      nextTick().then(() => {
         currentDom = document.getElementById(current) as HTMLElement;
         borderStyle.value = computedBorderStyle();
         const parents = findAllParentContainer(
@@ -116,6 +73,10 @@ export default () => {
         };
       });
     }
+  });
+  window.addEventListener("resize", () => {
+    borderTransition.value = false;
+    borderStyle.value = computedBorderStyle();
   });
 
   return {

@@ -12,6 +12,7 @@ import { IContainer } from "@/components/Editor/RenderComponent/Container";
 import { findItemAndParentById, findItemById } from "@/util";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { IEvent } from "@/components/Editor/event";
+import eventBus, { EventType } from "@/hooks/useEventBus";
 
 export const diffPatcher = new DiffPatcher<IPage[]>();
 const addPage = (state: IState) => {
@@ -75,15 +76,12 @@ const mutations: MutationTree<IState> = {
         state.pages.find((item: IPage) => item.id === state.pageActive)
       );
       if (targetComponent) {
-        targetComponent.children.push({
-          ...component,
-          parentId: targetComponent.id,
-        });
+        component.parentId = targetComponent.id;
+        targetComponent.children.push(component);
       } else {
         page.components.push(component);
       }
     });
-    state.selectedComponents = { ...component };
     state.isDrag = false;
   },
   // 撤销
@@ -147,6 +145,7 @@ const mutations: MutationTree<IState> = {
     if (target) {
       Object.assign(target, { ...payload });
       updateSelectedComponent(state);
+      eventBus.$emit(EventType.updateBorder);
     }
   },
   // 拖拽一个组件
@@ -172,6 +171,7 @@ const mutations: MutationTree<IState> = {
   [MUTATION_TYPE.SELECT_COMPONENT]: (state, payload: TComponent) => {
     if (payload.id === state.selectedComponents?.id) return;
     state.selectedComponents = { ...payload };
+    eventBus.$emit(EventType.updateBorder, payload.id);
   },
   [MUTATION_TYPE.REMOVE_COMPONENT]: (state) => {
     if (state.selectedComponents) {
@@ -186,7 +186,7 @@ const mutations: MutationTree<IState> = {
         if (target) {
           target.parent.splice(target.index, 1);
         }
-        updateSelectedComponent(state)
+        updateSelectedComponent(state);
       });
     }
   },
@@ -244,6 +244,7 @@ const mutations: MutationTree<IState> = {
       );
       (currentPage as IPage).components = payload;
     });
+    eventBus.$emit(EventType.updateBorder);
   },
 };
 export default mutations;

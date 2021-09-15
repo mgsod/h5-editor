@@ -41,6 +41,7 @@ export default () => {
         targetComponent: targetComponent,
         component: component,
       });
+      store.commit(MUTATION_TYPE.SELECT_COMPONENT, component);
     }
   };
 
