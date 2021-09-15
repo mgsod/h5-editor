@@ -186,6 +186,7 @@ const mutations: MutationTree<IState> = {
         if (target) {
           target.parent.splice(target.index, 1);
         }
+        updateSelectedComponent(state)
       });
     }
   },
