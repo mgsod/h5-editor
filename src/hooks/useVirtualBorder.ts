@@ -1,5 +1,5 @@
 import { useStore } from "@/store";
-import { nextTick, ref } from "vue";
+import { nextTick, ref, watch, computed } from "vue";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { findItemById } from "@/util";
 import eventBus, { EventType } from "@/hooks/useEventBus";
@@ -26,29 +26,48 @@ export default () => {
     };
   };
 
-  const findAllParentContainer = (
-    component: IComponent,
-    result: string[] = []
-  ): string[] => {
-    if (component.parentId) {
-      result.push(component.parentId);
+  // 选中组件
+  const selectComponentId = computed(() => {
+    return store.state.editor.selectedComponents?.id || "";
+  });
 
-      return findAllParentContainer(
-        findItemById(
-          store.getters.currentPage.components,
-          component.parentId
-        ) as IComponent,
-        result
-      );
+  // 选中组件尺寸变化
+  const selectComponentSize = computed(() => {
+    if (store.state.editor.selectedComponents?.id) {
+      const { left, right, top, bottom, width, height, margin } = store.state
+        .editor.selectedComponents as IComponent;
+      return {
+        left,
+        right,
+        top,
+        bottom,
+        width,
+        height,
+        margin,
+      };
     }
-    return result;
-  };
+    return {
+      left: "",
+      right: "",
+      top: "",
+      bottom: "",
+      width: "",
+      height: "",
+      margin: "",
+    };
+  });
 
-  // 监听updateBorder 更新border样式
-  eventBus.$on(EventType.updateBorder, (current) => {
-    nextTick().then(() => {
-      borderStyle.value = computedBorderStyle();
-    });
+  // 监听尺寸变化
+  watch(
+    selectComponentSize,
+    () => {
+      nextTick(() => {
+        borderStyle.value = computedBorderStyle();
+      });
+    },
+    { deep: true }
+  );
+  watch(selectComponentId, (current) => {
     if (current) {
       nextTick().then(() => {
         currentDom = document.getElementById(current) as HTMLElement;
@@ -73,6 +92,31 @@ export default () => {
         };
       });
     }
+  });
+
+  const findAllParentContainer = (
+    component: IComponent,
+    result: string[] = []
+  ): string[] => {
+    if (component.parentId) {
+      result.push(component.parentId);
+
+      return findAllParentContainer(
+        findItemById(
+          store.getters.currentPage.components,
+          component.parentId
+        ) as IComponent,
+        result
+      );
+    }
+    return result;
+  };
+
+  // 监听updateBorder 更新border样式
+  eventBus.$on(EventType.updateBorder, (current) => {
+    nextTick(() => {
+      borderStyle.value = computedBorderStyle();
+    });
   });
   window.addEventListener("resize", () => {
     borderTransition.value = false;

@@ -113,7 +113,4 @@ export default defineComponent({
     }
   }
 }
-.no-component-selected {
-  color: var(--el-color-info);
-}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="selectedId">
     <el-button type="primary" @click="showDialog = true">新增</el-button>
     <el-table :data="eventList" empty-text="暂无事">
       <el-table-column type="index" label="序号"></el-table-column>
@@ -26,43 +26,47 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog width="30%" title="新增/编辑事件" v-model="showDialog">
-      <el-form :model="eventForm">
-        <el-form-item label="事件类型">
-          <el-select v-model="eventForm.eventType">
-            <el-option
-              v-for="item in EventTypeList"
-              :key="item.value"
-              :value="item.value"
-              :label="item.name"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="触发动作">
-          <el-select v-model="eventForm.actionType">
-            <el-option
-              v-for="item in ActionList"
-              :key="item.value"
-              :value="item.value"
-              :label="item.name"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          label="跳转地址"
-          v-show="eventForm.actionType === 'redirect'"
-        >
-          <el-input v-model="eventForm.actionProps.url"></el-input>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="showDialog = false">取 消</el-button>
-          <el-button type="primary" @click="confirm">确 定</el-button>
-        </span>
-      </template>
-    </el-dialog>
   </div>
+  <template v-else>
+    <div class="no-component-selected">请选中一个组件</div>
+  </template>
+
+  <el-dialog width="30%" title="新增/编辑事件" v-model="showDialog">
+    <el-form :model="eventForm">
+      <el-form-item label="事件类型">
+        <el-select v-model="eventForm.eventType">
+          <el-option
+            v-for="item in EventTypeList"
+            :key="item.value"
+            :value="item.value"
+            :label="item.name"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="触发动作">
+        <el-select v-model="eventForm.actionType">
+          <el-option
+            v-for="item in ActionList"
+            :key="item.value"
+            :value="item.value"
+            :label="item.name"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item
+        label="跳转地址"
+        v-show="eventForm.actionType === 'redirect'"
+      >
+        <el-input v-model="eventForm.actionProps.url"></el-input>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="showDialog = false">取 消</el-button>
+        <el-button type="primary" @click="confirm">确 定</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -79,6 +83,9 @@ export default defineComponent({
   components: {},
   setup() {
     const store = useStore();
+    const selectedId = computed(() => {
+      return store.state.editor.selectedComponents?.id;
+    });
     const { showDialog } = useDialog();
     const editIndex = ref(-1);
     let eventForm = reactive<IEvent>({
@@ -126,6 +133,7 @@ export default defineComponent({
       eventForm,
       EventTypeList,
       ActionList,
+      selectedId,
       confirm,
       getEventTypeName,
       getEventHandleName,

@@ -73,19 +73,16 @@ import {
   reactive,
   ref,
   toRef,
-  toRefs,
   watch,
   watchEffect,
 } from "vue";
-import {
-  IAroundValue,
-  IComponent,
-} from "@/components/Editor/RenderComponent/Component";
+import { IAroundValue } from "@/components/Editor/RenderComponent/Component";
 import ComputedModel from "@/components/Editor/AroundValue/ComputedModel.vue";
 import {
   BorderStyle,
   borderStyleList,
 } from "@/components/Editor/RenderComponent/Layout";
+import { useStore } from "@/store";
 
 export type areaKey = "padding" | "margin" | "border" | "position";
 type areaColor = Record<areaKey, string>;
@@ -101,7 +98,6 @@ export interface IModel {
   values: IModelValue[];
   child?: IModel;
 }
-import { useStore } from "@/store";
 
 export default defineComponent({
   name: "AroundValue",

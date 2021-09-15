@@ -155,6 +155,9 @@ export default defineComponent({
         padding-bottom: 20px;
       }
     }
+    .no-component-selected {
+      color: var(--el-color-info);
+    }
   }
 }
 </style>
