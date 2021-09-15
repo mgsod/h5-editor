@@ -5,10 +5,12 @@ import { cloneDeep } from "lodash";
 import { diffPatcher } from "@/store/Editor/mutations";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
+import { IPage } from "@/store/Editor";
 
 const CRITICAL = 20;
 
 let currentDomSize: { width: number; height: number } | null = null;
+
 function getDomSize(id: string) {
   if (currentDomSize) return currentDomSize;
   const currentDom = document.getElementById(id) as HTMLElement;
@@ -18,6 +20,7 @@ function getDomSize(id: string) {
   };
   return currentDomSize;
 }
+
 export default () => {
   const store = useStore();
   const startX = ref(0);
@@ -48,13 +51,15 @@ export default () => {
   });
 
   // 当前状态
-  let left = cloneDeep(store.state.editor.pages);
+  let left: IPage[];
   let resizeHandle: string;
 
   function mouseDown(event: MouseEvent, handle: string): void;
   function mouseDown(event: MouseEvent, handle?: string) {
     event.preventDefault();
     event.stopPropagation();
+    // 更新left
+    left = cloneDeep(store.state.editor.pages);
     const { clientX, clientY } = event;
     startX.value = clientX;
     startY.value = clientY;
@@ -181,8 +186,6 @@ export default () => {
     document.body.removeEventListener("mouseup", mouseUp);
     // 记录一次快照
     diffPatcher.saveSnapshots(left, store.state.editor.pages);
-    // 更新left
-    left = cloneDeep(store.state.editor.pages);
     resizeHandle = "";
     offsetY.value = 0;
     offsetX.value = 0;
