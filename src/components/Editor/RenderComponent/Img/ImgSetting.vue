@@ -4,15 +4,22 @@
   </el-form-item>
   <el-form-item label="内容适应">
     <el-select v-model="img.objectFit">
-      <el-option value="cover"></el-option>
-      <el-option value="contain"></el-option>
+      <el-option
+        v-for="item in objectFitList"
+        :key="item.value"
+        :value="item.value"
+        :label="item.name"
+      ></el-option>
     </el-select>
   </el-form-item>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, computed } from "vue";
-import { IImg } from "@/components/Editor/RenderComponent/Img/index";
+import {
+  IImg,
+  objectFitList,
+} from "@/components/Editor/RenderComponent/Img/index";
 import { ComponentSettingType } from "@/components/Editor/RenderComponent/types";
 
 export default defineComponent({
@@ -32,6 +39,7 @@ export default defineComponent({
     });
     return {
       img,
+      objectFitList,
     };
   },
 });
