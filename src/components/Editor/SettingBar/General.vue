@@ -10,10 +10,7 @@
     v-model:componentProps="base"
     v-if="componentProps.type === ComponentType.Img"
   />
-  <text-setting
-    v-model:component-props="base"
-    v-if="componentProps.type === ComponentType.Text"
-  />
+  <text-setting v-model:component-props="base" />
 </template>
 
 <script lang="ts">

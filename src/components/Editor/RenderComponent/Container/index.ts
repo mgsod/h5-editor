@@ -8,6 +8,7 @@ import {
 } from "@/components/Editor/RenderComponent/Layout";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
+import { IText } from "@/components/Editor/RenderComponent/Text";
 
 // 主轴（横轴）方向上的对齐方式
 export enum JUSTIFY_CONTENT {
@@ -59,7 +60,6 @@ export const displayList = [
 
 export interface Layout {
   display: display;
-  textAlign?: TextAlign;
   JustifyContent?: JUSTIFY_CONTENT;
   AlignItems?: AlignItems;
 }
@@ -76,7 +76,6 @@ class Container extends Component implements IContainer {
   type = ComponentType.Container;
   isContainer = true;
   children: Component[] = [];
-  textAlign: TextAlign = "left";
   JustifyContent: JUSTIFY_CONTENT = JUSTIFY_CONTENT.START;
   AlignItems: ALIGN_ITEMS = ALIGN_ITEMS.STRETCH;
   width = 200;

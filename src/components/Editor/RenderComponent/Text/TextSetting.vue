@@ -1,22 +1,22 @@
 <template>
-  <el-form-item label="文本内容">
+  <el-form-item label="文本内容" v-if="hasProperty('text')">
     <el-input type="textarea" v-model="text.text" />
   </el-form-item>
-  <el-form-item label="字体"></el-form-item>
-  <el-form-item label="字体颜色">
+  <el-form-item label="字体" v-if="hasProperty('fontFamily')"></el-form-item>
+  <el-form-item label="字体颜色" v-if="hasProperty('color')">
     <el-color-picker v-model="text.color" show-alpha></el-color-picker>
   </el-form-item>
-  <el-form-item label="字体大小">
+  <el-form-item label="字体大小" v-if="hasProperty('fontSize')">
     <el-input type="number" v-model.number="text.fontSize">
       <template #append>px</template>
     </el-input>
   </el-form-item>
-  <el-form-item label="行高">
+  <el-form-item label="行高" v-if="hasProperty('lineHeight')">
     <el-input type="number" v-model="text.lineHeight">
       <template #append>px</template>
     </el-input>
   </el-form-item>
-  <el-form-item label="字重">
+  <el-form-item label="字重" v-if="hasProperty('fontWeight')">
     <el-select v-model="text.fontWeight">
       <el-option
         v-for="item in fontWeightList"
@@ -26,23 +26,27 @@
       ></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item label="字体样式">
+  <el-form-item label="字体样式" v-if="hasProperty('fontStyle')">
     <el-select v-model="text.fontStyle">
       <el-option value="normal" label="常规"></el-option>
       <el-option value="italic" label="斜体"></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item label="文本对齐">
+  <el-form-item label="文本对齐" v-if="hasProperty('textAlign')">
     <el-select v-model="text.textAlign">
       <el-option value="left" label="左对齐"></el-option>
       <el-option value="center" label="居中对齐"></el-option>
       <el-option value="right" label="右对齐"></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item label="溢出省略">
+  <el-form-item label="溢出省略" v-if="hasProperty('overflow')">
     <el-switch v-model="text.overflow"> </el-switch>
   </el-form-item>
-  <el-form-item label="最大行数" v-show="text.overflow">
+  <el-form-item
+    label="最大行数"
+    v-show="text.overflow"
+    v-if="hasProperty('maxLines')"
+  >
     <el-input-number
       :min="1"
       :max="5"
@@ -89,6 +93,12 @@ export default defineComponent({
     return {
       text,
       fontWeightList,
+      hasProperty(property: string) {
+        return Object.prototype.hasOwnProperty.call(
+          props.componentProps,
+          property
+        );
+      },
     };
   },
 });
