@@ -27,10 +27,6 @@
       </el-table-column>
     </el-table>
   </div>
-  <template v-else>
-    <div class="no-component-selected">请选中一个组件</div>
-  </template>
-
   <el-dialog width="30%" title="新增/编辑事件" v-model="showDialog">
     <el-form :model="eventForm">
       <el-form-item label="事件类型">

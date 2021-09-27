@@ -1,105 +1,78 @@
 <template>
   <div class="setting-bar">
-    <div class="toolbar">
-      <div class="tool-item" :class="{ disabled: !allowUndo }" @click="undo">
-        <div class="icon">
-          <i class="el-icon-refresh-left"></i>
+    <tool-bar />
+    <el-form label-position="left" label-width="80px" :model="componentProps">
+      <el-tabs v-model="active">
+        <el-tab-pane label="常规" name="prop">
+          <general :component-props="componentProps" v-if="showSetting" />
+        </el-tab-pane>
+        <el-tab-pane label="布局" name="layout">
+          <layout v-if="showSetting" :component-props="componentProps" />
+        </el-tab-pane>
+        <el-tab-pane label="事件" name="event">
+          <event-bar v-if="showSetting" />
+        </el-tab-pane>
+        <div v-if="!showSetting" class="no-component-selected">
+          请选中一个组件
         </div>
-        <div>撤销</div>
-      </div>
-      <div class="tool-item" :class="{ disabled: !allowRedo }" @click="redo">
-        <div class="icon">
-          <i class="el-icon-refresh-right"></i>
-        </div>
-        <div>重做</div>
-      </div>
-      <div class="tool-item" :class="{ disabled: !hasSelected }" @click="del">
-        <div class="icon del">
-          <i class="el-icon-error"></i>
-        </div>
-        <div>删除</div>
-      </div>
-      <div class="tool-item" @click="preview">
-        <div class="icon">
-          <i class="el-icon-view" />
-        </div>
-        <div>预览</div>
-      </div>
-    </div>
-    <el-tabs v-model="active">
-      <el-tab-pane label="属性" name="prop">
-        <property-bar />
-      </el-tab-pane>
-      <el-tab-pane label="事件" name="event">
-        <event-bar />
-      </el-tab-pane>
-    </el-tabs>
+      </el-tabs>
+    </el-form>
   </div>
-  <el-dialog v-model="showDialog" top="3vh" width="600px">
-    <div
-      style="
-        border: 20px solid #ccc;
-        border-right-width: 10px;
-        border-left-width: 10px;
-        height: 600px;
-        width: 375px;
-        margin: 0 auto;
-        overflow: auto;
-        border-radius: 10px;
-        box-sizing: content-box !important;
-      "
-    >
-      <previewer :rem="false" />
-    </div>
-  </el-dialog>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, watch, reactive } from "vue";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
-import propertyBar from "./property-bar.vue";
-import eventBar from "./event-bar.vue";
-import useDialog from "@/hooks/useDialog";
-import Previewer from "@/components/Previewer/index.vue";
+import General from "./General.vue";
+import EventBar from "./EventBar.vue";
+import Layout from "@/components/Editor/SettingBar/Layout.vue";
+import ToolBar from "@/components/Editor/SettingBar/ToolBar.vue";
+import {
+  ComponentType,
+  TComponent,
+} from "@/components/Editor/RenderComponent/types";
+import { getDebounceCommit, objectMerge } from "@/util";
 
 export default defineComponent({
   name: "property",
   props: {},
-  components: { propertyBar, eventBar, Previewer },
+  components: { General, EventBar, Layout, ToolBar },
   setup() {
     const store = useStore();
-    const { showDialog } = useDialog();
-    const allowUndo = computed(() => {
-      return store.state.editor.allowUndo;
+    const origin = computed(() => {
+      return store.state.editor.selectedComponents;
     });
-    const allowRedo = computed(() => {
-      return store.state.editor.allowRedo;
+    let componentProps = reactive<Partial<TComponent>>({});
+    let change = true;
+    watch(origin, () => {
+      change = true;
+      objectMerge(origin.value || {}, componentProps);
+      setTimeout(() => {
+        change = false;
+      });
     });
+    const debounceCommit = getDebounceCommit<Partial<TComponent>>(
+      store.commit,
+      MUTATION_TYPE.UPDATE_COMPONENT
+    );
+    watch(componentProps, (a, b) => {
+      if (!change) {
+        debounceCommit(componentProps);
+        change = false;
+      }
+      change = false;
+    });
+
+    const showSetting = computed(() => {
+      return Object.keys(componentProps).length > 0;
+    });
+
     return {
       active: "prop",
-      undo() {
-        store.commit(MUTATION_TYPE.UNDO);
-      },
-      redo() {
-        store.commit(MUTATION_TYPE.REDO);
-      },
-      del() {
-        store.commit(MUTATION_TYPE.REMOVE_COMPONENT);
-      },
-      allowRedo,
-      allowUndo,
-      hasSelected: computed(() => {
-        const selected = store.state.editor.selectedComponents;
-        if (!selected) return false;
-        return selected.id !== "root";
-      }),
-      showDialog,
-      preview() {
-        showDialog.value = true;
-      },
-      components: computed(() => {
-        return store.getters.currentPage.components;
-      }),
+      componentProps,
+      ComponentType,
+      origin,
+      showSetting,
     };
   },
 });
@@ -114,39 +87,29 @@ export default defineComponent({
   display: flex;
   overflow: hidden;
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
-  .toolbar {
-    flex: 0 0 40px;
-    border-right: 1px solid #e4e7ed;
-    font-size: 12px;
-    .tool-item {
-      width: 40px;
-      height: 40px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: default;
-      user-select: none;
-      .icon {
-        margin-bottom: 2px;
-        &.del {
-          color: var(--el-color-danger);
+  .el-form {
+    flex: 0 0 320px;
+    :deep(.el-form-item) {
+      margin-bottom: 15px;
+      .el-form-item__label {
+        font-size: 12px;
+      }
+      .el-form-item__content {
+        display: flex;
+        align-items: center;
+        & > div {
+          flex: 1;
+          width: 0;
+          margin: 0 5px;
+          &:first-child {
+            margin-left: 0;
+          }
+          &:last-child {
+            margin-right: 0;
+          }
         }
       }
-      &:hover,
-      &:hover .icon {
-        background-color: #409eff;
-        color: white;
-      }
-      &.disabled {
-        opacity: 0.3;
-        pointer-events: none;
-      }
     }
-  }
-  :deep(.el-tabs) {
-    flex: 0 0 320px;
     padding: 0 8px;
     .el-tabs__content {
       height: calc(100% - 55px);
@@ -157,6 +120,7 @@ export default defineComponent({
     }
     .no-component-selected {
       color: var(--el-color-info);
+      margin-top: -20px;
     }
   }
 }
