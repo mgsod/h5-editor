@@ -8,7 +8,7 @@
       fontFamily,
       textAlign,
       lineHeight: lineHeight ? `${lineHeight}px` : 1,
-      fontSize: fontSize + 'px',
+      fontSize: fontSize ? `${fontSize}px` : 'inherit',
     }"
     :class="['text-overflow', overflow ? `line${maxLines}` : '']"
   >

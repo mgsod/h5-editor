@@ -10,7 +10,7 @@
     v-model:componentProps="base"
     v-if="componentProps.type === ComponentType.Img"
   />
-  <text-setting v-model:component-props="base" />
+  <text-setting v-model:component-props="base" :key="base.id" />
 </template>
 
 <script lang="ts">

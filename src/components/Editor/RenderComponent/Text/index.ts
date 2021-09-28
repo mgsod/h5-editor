@@ -1,34 +1,30 @@
-import Component, {
-  IComponent,
-} from "@/components/Editor/RenderComponent/Component";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
+import {
+  CommonText,
+  ICommonText,
+} from "@/components/Editor/RenderComponent/CommonClass/Text";
+import { fastInitProps } from "@/util";
 
-export interface IText extends IComponent {
+export interface IText extends ICommonText {
   text?: string;
-  color: string;
-  fontFamily: string;
-  fontSize: number;
-  fontWeight: string;
-  fontStyle: string;
-  textAlign: string;
   overflow: boolean;
-  lineHeight?: string;
   maxLines?: number;
+  fontSize: string | number;
 }
-class Text extends Component implements IText {
+class Text extends CommonText implements IText {
   type = ComponentType.Text;
-  text = "Text";
-  color = "#000";
-  fontFamily =
-    "'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial,  sans-serif, 'Droid Sans Fallback'";
-  fontSize = 14;
-  fontStyle = "normal";
-  fontWeight = "normal";
-  textAlign = "left";
+  text = "text";
+  color = "";
+  fontFamily = "inherit";
+  textAlign = "inherit";
+  fontStyle = "inherit";
+  fontWeight = "inherit";
   overflow = false;
+  fontSize = "";
   maxLines = 1;
   constructor(props?: IText) {
     super(props);
+    fastInitProps(props, this);
   }
 }
 

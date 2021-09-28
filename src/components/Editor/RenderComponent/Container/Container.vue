@@ -17,6 +17,12 @@ export default defineComponent({
     AlignItems: String,
     children: Array,
     display: String,
+    color: String,
+    fontFamily: String,
+    fontSize: Number,
+    fontWeight: String,
+    fontStyle: String,
+    lineHeight: String,
   },
   setup(props) {
     const containerStyle = computed(() => {
@@ -25,6 +31,12 @@ export default defineComponent({
         textAlign: props.textAlign,
         JustifyContent: props.JustifyContent,
         AlignItems: props.AlignItems,
+        fontStyle: props.fontStyle,
+        color: props.color,
+        fontWeight: props.fontWeight,
+        fontFamily: props.fontFamily,
+        lineHeight: props.lineHeight ? `${props.lineHeight}px` : 1,
+        fontSize: props.fontSize ? `${props.fontSize}px` : "inherit",
       };
     });
     return {

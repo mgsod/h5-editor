@@ -9,6 +9,10 @@ import {
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
 import { IText } from "@/components/Editor/RenderComponent/Text";
+import {
+  CommonText,
+  ICommonText,
+} from "@/components/Editor/RenderComponent/CommonClass/Text";
 
 // 主轴（横轴）方向上的对齐方式
 export enum JUSTIFY_CONTENT {
@@ -64,7 +68,7 @@ export interface Layout {
   AlignItems?: AlignItems;
 }
 
-export interface IContainer extends IComponent, Layout {
+export interface IContainer extends ICommonText, Layout {
   isContainer: boolean;
   children: IComponent[];
 }
@@ -72,7 +76,7 @@ export interface IContainer extends IComponent, Layout {
 /**
  * 容器组件，继承与基础组件，实现容器的接口
  */
-class Container extends Component implements IContainer {
+class Container extends CommonText implements IContainer {
   type = ComponentType.Container;
   isContainer = true;
   children: Component[] = [];
