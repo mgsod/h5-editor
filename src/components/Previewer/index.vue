@@ -10,9 +10,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent } from "vue";
 import Render from "./render.vue";
-import { useStore } from "@/store";
 export default defineComponent({
   name: "previewer",
   inheritAttrs: false,
@@ -21,16 +20,13 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    components: {
+      type: Array,
+      default: () => [],
+    },
   },
   components: { Render },
-  setup(props) {
-    const store = useStore();
-    return {
-      components: computed(() => {
-        return store.getters.currentPage.components;
-      }),
-    };
-  },
+  setup() {},
 });
 </script>
 
