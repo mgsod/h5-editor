@@ -27,7 +27,7 @@ export default defineComponent({
     text: String,
     color: String,
     fontFamily: String,
-    fontSize: Number,
+    fontSize: [Number, String],
     fontWeight: String,
     fontStyle: String,
     textAlign: String,

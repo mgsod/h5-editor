@@ -12,11 +12,9 @@ export default {
       // 匹配基础组件文件名的正则表达式
       /\w+\.(vue)$/
     );
-
     requireComponent.keys().forEach((fileName: string) => {
       // 获取组件配置
       const componentConfig = requireComponent(fileName);
-      console.log(fileName);
       // 获取组件的 PascalCase 命名
       const componentName = upperFirst(
         camelCase(

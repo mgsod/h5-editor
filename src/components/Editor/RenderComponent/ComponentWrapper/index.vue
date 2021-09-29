@@ -23,22 +23,12 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  PropType,
-  toRefs,
-  toRef,
-  reactive,
-} from "vue";
+import { defineComponent, computed, PropType, toRefs } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
 import useResize from "@/hooks/useResize";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
-import HImg from "@/components/Editor/RenderComponent/Img/Img.vue";
-import HContainer from "@/components/Editor/RenderComponent/Container/Container.vue";
-import HText from "@/components/Editor/RenderComponent/Text/Text.vue";
 import useStyle from "@/hooks/useStyle";
 export default defineComponent({
   name: "ComponentWrapper",
@@ -48,11 +38,6 @@ export default defineComponent({
       type: Object as PropType<TComponent>,
       required: true,
     },
-  },
-  components: {
-    HImg,
-    HContainer,
-    HText,
   },
   setup(props) {
     const store = useStore();

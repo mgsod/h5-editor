@@ -5,8 +5,9 @@ import store, { key } from "./store";
 import elementUI from "./plugins/ElementUI";
 import "element-plus/lib/theme-chalk/el-var.css";
 import "@/assets/css/index.less";
-
+import register from "@/components/Editor/RenderComponent/register";
 const app = createApp(App);
 elementUI(app);
 app.use(store, key);
+app.use(register);
 app.use(router).mount("#app");

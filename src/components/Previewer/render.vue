@@ -12,8 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, toRefs } from "vue";
-import { useStore } from "@/store";
+import { defineComponent, PropType, toRefs } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import useStyle from "@/hooks/useStyle";
 import HImg from "@/components/Editor/RenderComponent/Img/Img.vue";
@@ -40,14 +39,10 @@ export default defineComponent({
     HText,
   },
   setup(props) {
-    const store = useStore();
     const { property } = toRefs(props);
     const style = useStyle(property, props.rem);
     const { root } = useBindEvent(props.property.events);
     return {
-      components: computed(() => {
-        return store.getters.currentPage.components;
-      }),
       style,
       root,
     };

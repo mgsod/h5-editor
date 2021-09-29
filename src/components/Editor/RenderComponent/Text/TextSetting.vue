@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, onMounted } from "vue";
+import { defineComponent, PropType, computed } from "vue";
 import { IText } from "@/components/Editor/RenderComponent/Text/index";
 
 export default defineComponent({
@@ -70,9 +70,6 @@ export default defineComponent({
   },
   components: {},
   setup(props, { emit }) {
-    onMounted(() => {
-      console.log(1);
-    });
     let fontWeightList = new Array(9).fill("").map((item, index) => {
       const value = ((index + 1) * 100).toString();
       return {

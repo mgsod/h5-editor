@@ -39,7 +39,7 @@
         box-sizing: content-box !important;
       "
     >
-      <previewer :rem="false" />
+      <previewer :rem="false" :components="components" />
     </div>
   </el-dialog>
 </template>
@@ -68,6 +68,9 @@ export default defineComponent({
       allowUndo,
       allowRedo,
       showDialog,
+      components: computed(() => {
+        return store.getters.currentPage.components;
+      }),
       hasSelected: computed(() => {
         const selected = store.state.editor.selectedComponents;
         if (!selected) return false;
