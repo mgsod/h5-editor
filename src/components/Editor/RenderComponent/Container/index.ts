@@ -3,16 +3,11 @@ import Component, {
 } from "@/components/Editor/RenderComponent/Component";
 import {
   AlignItems,
-  TextAlign,
   display,
 } from "@/components/Editor/RenderComponent/Layout";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
-import { IText } from "@/components/Editor/RenderComponent/Text";
-import {
-  CommonText,
-  ICommonText,
-} from "@/components/Editor/RenderComponent/CommonClass/Text";
+import { ICommonText } from "@/components/Editor/RenderComponent/CommonInterface/Text";
 
 // 主轴（横轴）方向上的对齐方式
 export enum JUSTIFY_CONTENT {
@@ -68,7 +63,7 @@ export interface Layout {
   AlignItems?: AlignItems;
 }
 
-export interface IContainer extends ICommonText, Layout {
+export interface IContainer extends IComponent, ICommonText, Layout {
   isContainer: boolean;
   children: IComponent[];
 }
@@ -76,7 +71,7 @@ export interface IContainer extends ICommonText, Layout {
 /**
  * 容器组件，继承与基础组件，实现容器的接口
  */
-class Container extends CommonText implements IContainer {
+class Container extends Component implements IContainer {
   type = ComponentType.Container;
   isContainer = true;
   children: Component[] = [];
@@ -85,6 +80,13 @@ class Container extends CommonText implements IContainer {
   width = 200;
   height = 200;
   display: DISPLAY = DISPLAY.BLOCK;
+  color = "#000";
+  fontFamily =
+    "'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial,  sans-serif, 'Droid Sans Fallback'";
+  fontSize: string | number = 14;
+  fontStyle = "normal";
+  fontWeight = "normal";
+  textAlign = "left";
   constructor(props?: IContainer) {
     super(props);
     fastInitProps(props, this);

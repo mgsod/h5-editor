@@ -1,7 +1,5 @@
-import {
-  BorderStyle,
-  Position,
-} from "@/components/Editor/RenderComponent/Layout";
+import { Position } from "@/components/Editor/RenderComponent/Layout";
+import { BorderStyle } from "@/components/Editor/RenderComponent/Layout";
 import { v4 as uuidv4 } from "uuid";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
