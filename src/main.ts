@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store, { key } from "./store";
 import elementUI from "./plugins/ElementUI";
-import "element-plus/lib/theme-chalk/el-var.css";
+import "element-plus/theme-chalk/index.css";
 import "@/assets/css/index.less";
 import register from "@/components/Editor/RenderComponent/register";
 const app = createApp(App);

@@ -55,7 +55,7 @@ import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import {
   DropType,
   TreeNodeOptions,
-} from "element-plus/lib/el-tree/src/tree.type";
+} from "element-plus/lib/components/tree/src/tree.type";
 export default {
   name: "Sidebar",
   props: {},

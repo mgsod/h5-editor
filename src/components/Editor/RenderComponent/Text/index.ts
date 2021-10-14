@@ -15,6 +15,7 @@ class Text extends Component implements IText {
   type = ComponentType.Text;
   text = "text";
   color = "";
+  lineHeight = "inherit";
   fontFamily = "inherit";
   textAlign = "inherit";
   fontStyle = "inherit";
