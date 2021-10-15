@@ -35,7 +35,7 @@ export default defineComponent({
 });
 </script>
 
-<style  lang="less">
+<style lang="less">
 img {
   -webkit-user-drag: none;
   width: 100%;
