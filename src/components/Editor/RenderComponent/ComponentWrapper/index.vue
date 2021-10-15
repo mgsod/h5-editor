@@ -68,7 +68,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .component-wrapper {
   &#root {
     min-height: 100%;

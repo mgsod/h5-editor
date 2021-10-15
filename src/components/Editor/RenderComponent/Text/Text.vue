@@ -10,7 +10,7 @@
       lineHeight: lineHeight ? `${lineHeight}px` : 1,
       fontSize: fontSize ? `${fontSize}px` : 'inherit',
     }"
-    :class="['text-overflow', overflow ? `line${maxLines}` : '']"
+    :class="[overflow ? `line${maxLines}` : '']"
   >
     {{ text }}
   </div>
@@ -40,8 +40,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="less">
-.text-overflow {
+<style lang="less">
+.h-text {
   word-break: break-all;
   &.line1 {
     overflow: hidden;
