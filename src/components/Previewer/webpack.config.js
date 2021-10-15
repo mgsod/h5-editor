@@ -12,11 +12,8 @@ module.exports = {
     plugins: [
       new CopyPlugin([
         {
-          from: path.resolve(
-            __dirname,
-            "src/components/Previewer/package.json"
-          ),
-          to: path.resolve(__dirname, "previewer/"),
+          from: path.resolve(__dirname, "./package.json"),
+          to: "",
         },
       ]),
     ],

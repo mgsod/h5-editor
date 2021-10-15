@@ -30,8 +30,13 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="less">
+<style lang="less">
 .dom-render {
+  // 下层div盒模型全部设置为border-box;
+  div {
+    box-sizing: border-box;
+    border-width: 0;
+  }
   height: 100%;
   & > div {
     min-height: 100%;
