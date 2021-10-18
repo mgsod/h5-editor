@@ -30,7 +30,7 @@
     <el-select v-model="text.fontStyle">
       <el-option value="normal" label="常规"></el-option>
       <el-option value="italic" label="斜体"></el-option>
-      <el-option value="inherit" label="继承父级"></el-option>
+      <el-option value="" label="继承父级"></el-option>
     </el-select>
   </el-form-item>
   <el-form-item label="文本对齐" v-if="hasProperty('textAlign')">
@@ -38,7 +38,7 @@
       <el-option value="left" label="左对齐"></el-option>
       <el-option value="center" label="居中对齐"></el-option>
       <el-option value="right" label="右对齐"></el-option>
-      <el-option value="inherit" label="继承父级"></el-option>
+      <el-option value="" label="继承父级"></el-option>
     </el-select>
   </el-form-item>
   <el-form-item label="溢出省略" v-if="hasProperty('overflow')">
@@ -83,7 +83,7 @@ export default defineComponent({
       { name: "粗体", value: "bold" },
       { name: "加粗", value: "bolder" },
       { name: "细", value: "lighter" },
-      { name: "继承父级", value: "inherit" }
+      { name: "继承父级", value: "" }
     );
     const text = computed({
       get() {

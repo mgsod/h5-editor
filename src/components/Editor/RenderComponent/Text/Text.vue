@@ -7,8 +7,8 @@
       fontWeight,
       fontFamily,
       textAlign,
-      lineHeight: lineHeight ? `${lineHeight}px` : 1,
-      fontSize: fontSize ? `${fontSize}px` : 'inherit',
+      lineHeight: lineHeight ? `${lineHeight}px` : '',
+      fontSize: fontSize ? `${fontSize}px` : '',
     }"
     :class="[overflow ? `line${maxLines}` : '']"
   >
