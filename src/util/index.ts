@@ -35,19 +35,18 @@ export const objectMerge = (source: any, target: any) => {
 export function findItemById<T extends ITree<T>>(
   tree: T[],
   id: string
-): T | null {
+): T | undefined {
   let result = null;
-  tree.forEach((item) => {
+  for (let i = 0; i < tree.length; i++) {
+    const item = tree[i];
     if (item.id === id) {
-      result = item;
-      return;
+      return item;
     }
     if (item.children && item.children?.length > 0) {
       result = findItemById<T>(item.children, id);
-      return;
+      if (result) return result;
     }
-  });
-  return result;
+  }
 }
 
 export function findItemAndParentById<T extends ITree<T>>(

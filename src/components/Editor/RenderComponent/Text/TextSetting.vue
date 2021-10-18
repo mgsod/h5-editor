@@ -2,7 +2,16 @@
   <el-form-item label="文本内容" v-if="hasProperty('text')">
     <el-input type="textarea" v-model="text.text" />
   </el-form-item>
-  <el-form-item label="字体" v-if="hasProperty('fontFamily')"></el-form-item>
+  <el-form-item label="字体" v-if="hasProperty('fontFamily')">
+    <el-select v-model="text.fontFamily">
+      <el-option
+        v-for="item in fontFamilyList"
+        :key="item"
+        :value="item.value"
+        :label="item.name"
+      ></el-option>
+    </el-select>
+  </el-form-item>
   <el-form-item label="字体颜色" v-if="hasProperty('color')">
     <el-color-picker v-model="text.color" show-alpha></el-color-picker>
   </el-form-item>
@@ -61,7 +70,10 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed } from "vue";
-import { IText } from "@/components/Editor/RenderComponent/Text/index";
+import {
+  fontFamilyList,
+  IText,
+} from "@/components/Editor/RenderComponent/Text/index";
 
 export default defineComponent({
   name: "TextSetting",
@@ -96,6 +108,7 @@ export default defineComponent({
     return {
       text,
       fontWeightList,
+      fontFamilyList,
       hasProperty(property: string) {
         return Object.prototype.hasOwnProperty.call(
           props.componentProps,

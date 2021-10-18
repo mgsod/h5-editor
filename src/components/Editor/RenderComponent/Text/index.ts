@@ -5,6 +5,17 @@ import Component, {
   IComponent,
 } from "@/components/Editor/RenderComponent/Component";
 
+export const fontFamilyList: { name: string; value: string }[] = [
+  {
+    name: "默认",
+    value:
+      "'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial,  sans-serif, 'Droid Sans Fallback'",
+  },
+  { name: "PingFang-SC-Regular", value: "PingFang-SC-Regular, PingFang-SC" },
+  { name: "PingFangSC-Medium", value: "PingFangSC-Medium, PingFang SC" },
+  { name: "DINAlternate-Bold", value: "DINAlternate-Bold, DINAlternate;" },
+  { name: "继承父级", value: "" },
+];
 export interface IText extends IComponent, ICommonText {
   text?: string;
   overflow: boolean;
