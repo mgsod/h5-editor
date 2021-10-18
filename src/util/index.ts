@@ -1,4 +1,4 @@
-import { debounce, throttle } from "lodash";
+import { cloneDeep, debounce, throttle } from "lodash";
 import { Commit } from "vuex";
 
 // 树桩结构接口
@@ -17,7 +17,11 @@ export const fastInitProps = (source: any, target: any) => {
 export const objectMerge = (source: any, target: any) => {
   if (source) {
     for (const prop in source) {
-      target[prop] = source[prop];
+      if (typeof source === "object") {
+        target[prop] = cloneDeep(source[prop]);
+      } else {
+        target[prop] = source[prop];
+      }
     }
     for (const prop in target) {
       // eslint-disable-next-line no-prototype-builtins

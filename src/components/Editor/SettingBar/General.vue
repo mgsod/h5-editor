@@ -30,14 +30,9 @@ export default defineComponent({
     ContainerSetting,
     TextSetting,
   },
-  setup(props, { emit }) {
-    const base = computed({
-      get() {
-        return props.componentProps;
-      },
-      set(val) {
-        emit("update:componentProps", val);
-      },
+  setup(props) {
+    const base = computed(() => {
+      return props.componentProps;
     });
     return {
       base,
