@@ -6,7 +6,6 @@
 
 <script lang="ts">
 import { defineComponent, computed, PropType } from "vue";
-import { IBackground } from "@/components/Editor/RenderComponent/Container/index";
 
 export default defineComponent({
   name: "Container",
@@ -24,7 +23,6 @@ export default defineComponent({
     fontWeight: String,
     fontStyle: String,
     lineHeight: String,
-    background: Object as PropType<IBackground>,
   },
   setup(props) {
     const containerStyle = computed(() => {
@@ -39,7 +37,6 @@ export default defineComponent({
         fontFamily: props.fontFamily,
         lineHeight: props.lineHeight ? `${props.lineHeight}px` : 1,
         fontSize: props.fontSize ? `${props.fontSize}px` : "inherit",
-        background: props.background?.img || props.background?.color,
       };
     });
     return {

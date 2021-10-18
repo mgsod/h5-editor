@@ -2,6 +2,12 @@
   <el-form-item label="别名">
     <el-input v-model="base.alias"></el-input>
   </el-form-item>
+  <el-form-item label="背景">
+    <el-color-picker
+      show-alpha
+      v-model="base.background.color"
+    ></el-color-picker>
+  </el-form-item>
   <container-setting
     v-model:component-props="base"
     v-if="componentProps.type === ComponentType.Container"

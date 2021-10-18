@@ -62,14 +62,9 @@ export interface Layout {
   JustifyContent?: JUSTIFY_CONTENT;
   AlignItems?: AlignItems;
 }
-export interface IBackground {
-  color?: string;
-  img?: string;
-}
 export interface IContainer extends IComponent, ICommonText, Layout {
   isContainer: boolean;
   children: IComponent[];
-  background: IBackground;
 }
 
 /**
@@ -91,7 +86,6 @@ class Container extends Component implements IContainer {
   fontStyle = "normal";
   fontWeight = "normal";
   textAlign = "left";
-  background: IBackground = { color: "", img: "" };
   constructor(props?: IContainer) {
     super(props);
     fastInitProps(props, this);

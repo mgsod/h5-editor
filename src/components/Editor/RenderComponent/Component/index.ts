@@ -4,6 +4,10 @@ import { v4 as uuidv4 } from "uuid";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
 import { IEvent } from "@/components/Editor/event";
+export interface IBackground {
+  color?: string;
+  img?: string;
+}
 export interface IAroundValue {
   top?: number;
   right?: number;
@@ -16,6 +20,7 @@ export interface IComponent {
   width: number | "";
   height: number | "";
   position: Position;
+  background: IBackground;
   parentId?: string;
   alias?: string;
   top?: number;
@@ -43,6 +48,7 @@ class Component implements IComponent {
   alias?: string = "";
   borderRadius?: string = "0,0,0,0";
   borderStyle: BorderStyle = "solid";
+  background: IBackground = { color: "", img: "" };
   constructor(props?: IComponent) {
     this.id = uuidv4();
     this.alias = props?.type;

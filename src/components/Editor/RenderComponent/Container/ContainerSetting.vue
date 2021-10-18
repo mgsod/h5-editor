@@ -1,10 +1,4 @@
 <template>
-  <el-form-item label="背景">
-    <el-color-picker
-      show-alpha
-      v-model="container.background.color"
-    ></el-color-picker>
-  </el-form-item>
   <el-form-item label="布局方式">
     <el-select v-model="container.display">
       <el-option

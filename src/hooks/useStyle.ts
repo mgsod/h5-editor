@@ -52,6 +52,8 @@ export default (property: Ref<TComponent>, rem = false) => {
       borderStyle: property.value.borderStyle,
       borderColor: property.value.borderColor,
       ...getBorderRadius(property.value.borderRadius),
+      background:
+        property.value.background?.img || property.value.background?.color,
     };
   });
 };
