@@ -25,8 +25,9 @@ export interface IComponent {
   padding?: IAroundValue;
   margin?: IAroundValue;
   border?: IAroundValue;
-  borderStyle: BorderStyle;
-  borderColor: string;
+  borderStyle?: BorderStyle;
+  borderColor?: string;
+  borderRadius?: string;
   events?: IEvent[];
 }
 
@@ -40,7 +41,7 @@ class Component implements IComponent {
   height = 50;
   position: Position = "static";
   alias?: string = "";
-  borderColor = "#000";
+  borderRadius?: string = "0,0,0,0";
   borderStyle: BorderStyle = "solid";
   constructor(props?: IComponent) {
     this.id = uuidv4();

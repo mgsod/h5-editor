@@ -2,6 +2,17 @@ import { computed, Ref } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 
 export default (property: Ref<TComponent>, rem = false) => {
+  const getBorderRadius = (borderRadius?: string) => {
+    const arr = borderRadius?.split(",").map((item) => `${item}px`) || [
+      0, 0, 0, 0,
+    ];
+    return {
+      "border-top-left-radius": arr[0],
+      "border-top-right-radius": arr[1],
+      "border-bottom-right-radius": arr[2],
+      "border-bottom-left-radius": arr[3],
+    };
+  };
   const formatPositionValues = (val?: number) => {
     if (val === 0 || val) {
       if (rem) {
@@ -40,6 +51,7 @@ export default (property: Ref<TComponent>, rem = false) => {
       borderBottomWidth: formatPositionValues(property?.value.border?.bottom),
       borderStyle: property.value.borderStyle,
       borderColor: property.value.borderColor,
+      ...getBorderRadius(property.value.borderRadius),
     };
   });
 };

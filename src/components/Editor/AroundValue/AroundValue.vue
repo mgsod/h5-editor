@@ -14,6 +14,13 @@
       <el-form-item label="边框颜色">
         <el-color-picker v-model="BorderColor" show-alpha></el-color-picker>
       </el-form-item>
+      <el-form-item label="圆角">
+        <el-input v-model="BorderRadius">
+          <!--          <template #append>
+            <i class="el-icon-s-operation"></i>
+          </template>-->
+        </el-input>
+      </el-form-item>
     </div>
     <div class="setting">
       <div class="top">
@@ -111,6 +118,7 @@ export default defineComponent({
     top: [Number, String],
     right: [Number, String],
     bottom: [Number, String],
+    borderRadius: [String],
   },
   components: { ComputedModel },
   setup(props, { emit }) {
@@ -128,6 +136,27 @@ export default defineComponent({
       left: undefined,
       right: undefined,
       bottom: undefined,
+    });
+    const BorderRadius = computed({
+      get() {
+        return props.borderRadius;
+      },
+      set(val?: string) {
+        let arr: string[] = [];
+        if (val) {
+          arr = val.split(",");
+          const hasLength = arr.length;
+          if (arr.length < 4) {
+            for (let i = hasLength; i < 4; i++) {
+              arr.push("0");
+            }
+          }
+          if (arr.length > 4) {
+            arr.length = 4;
+          }
+        }
+        emit("update:borderRadius", arr.toString());
+      },
     });
     const selectedArea = (select: areaKey) => {
       isChange.value = true;
@@ -274,6 +303,7 @@ export default defineComponent({
       borderStyleList,
       BorderColor,
       BorderStyle,
+      BorderRadius,
       defaultValue(val?: number) {
         return val || "-";
       },

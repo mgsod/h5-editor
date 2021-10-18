@@ -31,6 +31,7 @@
     v-model:right="layout.right"
     v-model:bottom="layout.bottom"
     v-model:left="layout.left"
+    v-model:border-radius="layout.borderRadius"
     :width="componentProps.width"
     :height="componentProps.height"
   />
