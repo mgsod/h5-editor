@@ -9,12 +9,18 @@ import { DiffPatcher } from "@/util/diffpatch";
 import { v4 as uuidv4 } from "uuid";
 import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
 import { IContainer } from "@/components/Editor/RenderComponent/Container";
-import { findItemAndParentById, findItemById } from "@/util";
+import { findItemAndParentById, findItemById, getCache } from "@/util";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { IEvent } from "@/components/Editor/event";
 import eventBus, { EventType } from "@/hooks/useEventBus";
 
-export const diffPatcher = new DiffPatcher<IPage[]>();
+export const CACHE_KEY = "editorData";
+export interface IEditorCache {
+  editorData: IState;
+  diffPatcher: DiffPatcher<IPage[]>;
+}
+const cache = getCache<IEditorCache>(CACHE_KEY);
+export const diffPatcher = new DiffPatcher<IPage[]>(cache?.diffPatcher);
 const addPage = (state: IState) => {
   const id = uuidv4();
   state.pages.push({
@@ -45,7 +51,6 @@ const updateRedoUndoState = (state: IState) => {
   state.allowUndo = diffPatcher.allowUndo();
   state.allowRedo = diffPatcher.allowRedo();
 };
-
 /**
  * 带快照的更改
  * @param state
@@ -57,6 +62,13 @@ const mutationWithSnapshot = (state: IState, callback: () => void) => {
   // 记录快照
   diffPatcher.saveSnapshots(left, state.pages);
   updateRedoUndoState(state);
+  // localStorage.setItem(
+  //   CACHE_KEY,
+  //   JSON.stringify({
+  //     editorData: state,
+  //     diffPatcher,
+  //   })
+  // );
 };
 
 const mutations: MutationTree<IState> = {
@@ -109,7 +121,9 @@ const mutations: MutationTree<IState> = {
     });
   },
   // 初始化
-  [MUTATION_TYPE.INIT]: (state) => {
+  [MUTATION_TYPE.INIT]: (state: IState) => {
+    // 如果已经存在，不需要在初始化
+    if (state.pages.length > 0) return;
     state.pages = [];
     addPage(state);
     state.pages[0].components.push(
@@ -120,22 +134,6 @@ const mutations: MutationTree<IState> = {
         position: "relative",
       })
     );
-    /*(state.pages[0].components[0] as IContainer).children.push(
-      ComponentFactory.createComponent(ComponentType.Img, {
-        id: "xx",
-        width: 200,
-        height: 200,
-        events: [
-          {
-            eventType: "click",
-            actionType: "alert",
-            actionProps: {
-              content: "1",
-            },
-          },
-        ],
-      })
-    );*/
   },
   [MUTATION_TYPE.RESIZE]: (state: IState, payload: TComponent) => {
     const currentPage = state.pages.find(
@@ -168,8 +166,13 @@ const mutations: MutationTree<IState> = {
       }
     });
   },
-  [MUTATION_TYPE.SELECT_COMPONENT]: (state, payload: TComponent) => {
-    if (payload.id === state.selectedComponents?.id) return;
+  [MUTATION_TYPE.SELECT_COMPONENT]: (state: IState, payload?: TComponent) => {
+    if (payload) {
+      if (payload.id === state.selectedComponents?.id) return;
+    } else {
+      payload = <TComponent>state.selectedComponents;
+    }
+    if (!payload) return;
     state.selectedComponents = { ...payload };
     eventBus.$emit(EventType.updateBorder, payload.id);
   },

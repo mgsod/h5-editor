@@ -88,3 +88,7 @@ export function downLoadContent(name: string, content: string) {
   a.href = link;
   a.click();
 }
+export function getCache<T>(key: string): undefined | T {
+  const cache = localStorage.getItem(key);
+  return cache ? <T>JSON.parse(cache) : undefined;
+}

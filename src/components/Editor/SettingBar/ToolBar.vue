@@ -189,7 +189,7 @@ export default defineComponent({
   }
   .dom-render {
     margin-left: 30px;
-    height: calc(100% - 97px);
+    height: calc(100% - 124px);
   }
 }
 </style>

@@ -1,7 +1,8 @@
 import { Module } from "vuex";
-import mutations from "@/store/Editor/mutations";
+import mutations, { CACHE_KEY, IEditorCache } from "@/store/Editor/mutations";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { state } from "@/store";
+import { getCache } from "@/util";
 
 export interface IPage {
   order: number;
@@ -18,7 +19,7 @@ export interface IState {
 }
 
 const module: Module<IState, state> = {
-  state: {
+  state: getCache<IEditorCache>(CACHE_KEY)?.editorData || {
     pageActive: "",
     pages: [],
     selectedComponents: null,
