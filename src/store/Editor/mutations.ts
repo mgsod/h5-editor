@@ -5,71 +5,19 @@ import {
 import { IPage, IState } from "./index";
 import { MUTATION_TYPE } from "./mutation-type";
 import { MutationTree } from "vuex";
-import { DiffPatcher } from "@/util/diffpatch";
-import { v4 as uuidv4 } from "uuid";
 import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
 import { IContainer } from "@/components/Editor/RenderComponent/Container";
-import { findItemAndParentById, findItemById, getCache } from "@/util";
+import { findItemAndParentById, findItemById } from "@/util";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { IEvent } from "@/components/Editor/event";
 import eventBus, { EventType } from "@/hooks/useEventBus";
-
-export const CACHE_KEY = "editorData";
-export interface IEditorCache {
-  editorData: IState;
-  diffPatcher: DiffPatcher<IPage[]>;
-}
-const cache = getCache<IEditorCache>(CACHE_KEY);
-export const diffPatcher = new DiffPatcher<IPage[]>(cache?.diffPatcher);
-const addPage = (state: IState) => {
-  const id = uuidv4();
-  state.pages.push({
-    order: 0,
-    components: [],
-    id,
-  });
-  state.pageActive = id;
-};
-const updateSelectedComponent = (state: IState) => {
-  if (state.selectedComponents) {
-    const currentPage = state.pages.find(
-      (item) => item.id === state.pageActive
-    ) as IPage;
-    const find = findItemById<IComponent>(
-      currentPage.components,
-      state.selectedComponents.id as string
-    );
-    if (find) {
-      state.selectedComponents = { ...find };
-    } else {
-      state.selectedComponents = null;
-    }
-  }
-};
-
-const updateRedoUndoState = (state: IState) => {
-  state.allowUndo = diffPatcher.allowUndo();
-  state.allowRedo = diffPatcher.allowRedo();
-};
-/**
- * 带快照的更改
- * @param state
- * @param callback
- */
-const mutationWithSnapshot = (state: IState, callback: () => void) => {
-  const left = DiffPatcher.clone(state.pages);
-  callback();
-  // 记录快照
-  diffPatcher.saveSnapshots(left, state.pages);
-  updateRedoUndoState(state);
-  // localStorage.setItem(
-  //   CACHE_KEY,
-  //   JSON.stringify({
-  //     editorData: state,
-  //     diffPatcher,
-  //   })
-  // );
-};
+import {
+  addPage,
+  mutationWithSnapshot,
+  updateSelectedComponent,
+  updateRedoUndoState,
+  diffPatcher,
+} from "@/store/Editor/util";
 
 const mutations: MutationTree<IState> = {
   // 添加一个组件
