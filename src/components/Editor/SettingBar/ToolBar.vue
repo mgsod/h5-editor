@@ -57,6 +57,9 @@
         </div>
       </div>
       <previewer :rem="false" :components="components" />
+      <div class="screen-footer" style="height: 34px">
+        <div class="footer-widgets"></div>
+      </div>
     </div>
   </el-dialog>
 </template>
@@ -189,7 +192,26 @@ export default defineComponent({
   }
   .dom-render {
     margin-left: 30px;
-    height: calc(100% - 97px);
+    height: calc(100% - 127px);
+  }
+  .screen-footer {
+    display: flex;
+    align-items: center;
+    .footer-widgets {
+      width: 134px;
+      height: 5px;
+      background-color: rgb(0, 0, 0);
+      border-style: none;
+      border-color: unset;
+      border-radius: 3px;
+      font-size: 14px;
+      padding: 0px;
+      text-align: center;
+      line-height: 20px;
+      font-weight: normal;
+      font-style: normal;
+      margin: 0 auto;
+    }
   }
 }
 </style>
