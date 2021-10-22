@@ -67,30 +67,33 @@ export default () => {
     },
     { deep: true }
   );
-  watch(selectComponentId, (current) => {
-    if (current) {
-      nextTick().then(() => {
-        currentDom = document.getElementById(current) as HTMLElement;
-        borderStyle.value = computedBorderStyle();
-        const parents = findAllParentContainer(
-          findItemById(
-            store.getters.currentPage.components,
-            current
-          ) as IComponent
-        );
-        parents.forEach((item) => {
-          const dom = (document.getElementById(item) as HTMLElement)
-            .firstElementChild as HTMLElement;
-          // 已经有滚动事件，不需要再绑定
-          if (dom.onscroll) return;
-          dom.onscroll = () => {
-            borderStyle.value = computedBorderStyle();
-          };
-        });
-        (document.getElementById("canvas") as HTMLElement).onscroll = () => {
+  function bindScroll(current: string) {
+    nextTick().then(() => {
+      currentDom = document.getElementById(current) as HTMLElement;
+      borderStyle.value = computedBorderStyle();
+      const parents = findAllParentContainer(
+        findItemById(
+          store.getters.currentPage.components,
+          current
+        ) as IComponent
+      );
+      parents.forEach((item) => {
+        const dom = (document.getElementById(item) as HTMLElement)
+          .firstElementChild as HTMLElement;
+        // 已经有滚动事件，不需要再绑定
+        if (dom.onscroll) return;
+        dom.onscroll = () => {
           borderStyle.value = computedBorderStyle();
         };
       });
+      (document.getElementById("canvas") as HTMLElement).onscroll = () => {
+        borderStyle.value = computedBorderStyle();
+      };
+    });
+  }
+  watch(selectComponentId, (current) => {
+    if (current) {
+      bindScroll(current);
     }
   });
 
@@ -113,8 +116,11 @@ export default () => {
   };
 
   // 监听updateBorder 更新border样式
-  eventBus.$on(EventType.updateBorder, (current) => {
+  eventBus.$on(EventType.updateBorder, (current?: string) => {
     nextTick(() => {
+      if (current) {
+        bindScroll(current);
+      }
       borderStyle.value = computedBorderStyle();
     });
   });

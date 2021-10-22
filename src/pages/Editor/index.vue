@@ -30,6 +30,7 @@ export default {
     const store = useStore();
     store.commit(MUTATION_TYPE.INIT);
     onMounted(() => {
+      store.commit(MUTATION_TYPE.SELECT_COMPONENT);
       document.addEventListener("keydown", (e) => {
         switch (e.code) {
           case "KeyZ":

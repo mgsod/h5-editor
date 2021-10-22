@@ -52,8 +52,19 @@ export class DiffPatcher<T> {
 
   current: T | undefined;
 
-  constructor(maxSnapshotLength = 20) {
-    this.maxSnapshotLength = maxSnapshotLength;
+  constructor(props?: number);
+  constructor(props?: DiffPatcher<T>);
+  constructor(props: number | DiffPatcher<T> = 20) {
+    if (typeof props === "number") {
+      this.maxSnapshotLength = props;
+    } else {
+      const { snapshots, maxSnapshotLength, index, current } =
+        props as DiffPatcher<T>;
+      this.snapshots = snapshots;
+      this.index = index;
+      this.maxSnapshotLength = maxSnapshotLength;
+      this.current = current;
+    }
   }
 
   // 静态clone函数
