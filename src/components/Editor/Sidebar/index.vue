@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
-    <el-tabs tab-position="left">
-      <el-tab-pane label="组件">
+    <el-tabs tab-position="left" v-model="active">
+      <el-tab-pane name="components" label="组件">
         <div class="components">
           <div
             class="component"
@@ -15,7 +15,7 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="DOM树">
+      <el-tab-pane name="domTree" label="DOM树">
         <el-tree
           draggable
           :data="domTree"
@@ -37,6 +37,24 @@
           </template>
         </el-tree>
       </el-tab-pane>
+      <el-tab-pane name="pages" label="页面">
+        <div class="pages">
+          <div class="page-list">
+            <div
+              class="page-item"
+              :class="{ active: item.id === activePageId }"
+              v-for="item in pages"
+              :key="item.id"
+              @click="selectPage(item.id)"
+            >
+              {{ item.name }}
+            </div>
+          </div>
+          <div class="action">
+            <el-button type="primary" @click="addPage">新增页面</el-button>
+          </div>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -47,7 +65,7 @@ import {
   IComponentItem,
   TComponent,
 } from "@/components/Editor/RenderComponent/types";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
 import { cloneDeep } from "lodash";
@@ -56,6 +74,7 @@ import {
   DropType,
   TreeNodeOptions,
 } from "element-plus/lib/components/tree/src/tree.type";
+import { IPage } from "@/store/Editor";
 export default {
   name: "Sidebar",
   props: {},
@@ -73,12 +92,26 @@ export default {
     const selectedId = computed(() => {
       return store.state.editor.selectedComponents?.id;
     });
+
+    const pages = computed<Omit<IPage, "components">[]>(() => {
+      return store.state.editor.pages.map((item) => {
+        return {
+          id: item.id,
+          order: item.order,
+          name: item.name,
+        };
+      });
+    });
     return {
       dragstart,
       ComponentList,
-      active: 0,
+      pages,
+      active: ref("pages"),
       domTree,
       selectedId,
+      activePageId: computed(() => {
+        return store.state.editor.pageActive;
+      }),
       selectNode(data: TComponent) {
         store.commit(MUTATION_TYPE.SELECT_COMPONENT, data);
       },
@@ -106,6 +139,12 @@ export default {
       allowDrag(draggingNode: TreeNodeOptions) {
         return (draggingNode.data as IComponent).id !== "root";
       },
+      addPage() {
+        store.commit(MUTATION_TYPE.ADD_PAGE);
+      },
+      selectPage(id: string) {
+        store.commit(MUTATION_TYPE.SELECT_PAGE, id);
+      },
     };
   },
 };
@@ -121,22 +160,48 @@ export default {
   .el-tabs {
     flex: 0 0 300px;
     width: 100%;
-    :deep(.components) {
-      flex: auto;
-      display: flex;
-      flex-wrap: wrap;
-      cursor: default;
-      .component {
-        flex: 0 0 65px;
-        height: 65px;
-        padding: 8px;
+    :deep(.el-tabs__content),
+    .el-tab-pane {
+      height: 100%;
+      & > div {
+        height: 100%;
+      }
+      .components {
+        flex: auto;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        box-sizing: border-box;
-        border: 1px solid #ccc;
+        flex-wrap: wrap;
         cursor: default;
-        margin: 0 -1px 0px 0;
+        .component {
+          flex: 0 0 65px;
+          height: 65px;
+          padding: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-sizing: border-box;
+          border: 1px solid #ccc;
+          cursor: default;
+          margin: 0 -1px 0px 0;
+        }
+      }
+      .pages {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-right: 8px;
+        .page-item {
+          padding: 10px 8px;
+          border-bottom: 1px solid #f0f4f5;
+          border-radius: 5px;
+          cursor: pointer;
+          &.active {
+            background: var(--el-color-primary);
+            color: #fff;
+          }
+        }
+        .action {
+          text-align: center;
+        }
       }
     }
   }

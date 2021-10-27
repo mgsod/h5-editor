@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from "uuid";
 import { findItemById, getCache } from "@/util";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { DiffPatcher } from "@/util/diffpatch";
+import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
+import { ComponentType } from "@/components/Editor/RenderComponent/types";
 
 // 缓存key
 export const CACHE_KEY = "editorData";
@@ -24,8 +26,17 @@ export const addPage = (state: IState) => {
     order: 0,
     components: [],
     id,
+    name: `页面${state.pages.length + 1}`,
   });
   state.pageActive = id;
+  (state.pages.find((item) => item.id === id) as IPage).components.push(
+    ComponentFactory.createComponent(ComponentType.Container, {
+      id: "root",
+      width: 375,
+      height: "",
+      position: "relative",
+    })
+  );
 };
 
 /**

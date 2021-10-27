@@ -1,11 +1,7 @@
-import {
-  ComponentType,
-  TComponent,
-} from "@/components/Editor/RenderComponent/types";
+import { TComponent } from "@/components/Editor/RenderComponent/types";
 import { IPage, IState } from "./index";
 import { MUTATION_TYPE } from "./mutation-type";
 import { MutationTree } from "vuex";
-import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
 import { IContainer } from "@/components/Editor/RenderComponent/Container";
 import { findItemAndParentById, findItemById } from "@/util";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
@@ -68,20 +64,17 @@ const mutations: MutationTree<IState> = {
       addPage(state);
     });
   },
+  [MUTATION_TYPE.SELECT_PAGE]: (state, payload: string) => {
+    if (payload === state.pageActive) return;
+    state.selectedComponents = null;
+    state.pageActive = payload;
+  },
   // 初始化
   [MUTATION_TYPE.INIT]: (state: IState) => {
     // 如果已经存在，不需要在初始化
     if (state.pages.length > 0) return;
     state.pages = [];
     addPage(state);
-    state.pages[0].components.push(
-      ComponentFactory.createComponent(ComponentType.Container, {
-        id: "root",
-        width: 375,
-        height: "",
-        position: "relative",
-      })
-    );
   },
   [MUTATION_TYPE.RESIZE]: (state: IState, payload: TComponent) => {
     const currentPage = state.pages.find(

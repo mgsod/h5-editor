@@ -9,6 +9,7 @@ export interface IPage {
   order: number;
   components: IComponent[];
   id: string;
+  name: string;
 }
 export interface IState {
   pages: IPage[];

@@ -28,7 +28,6 @@ export const ComponentList: IComponentItem[] = [
 ];
 
 export type TComponent = IComponent & IContainer & IImg;
-export type propKeys = keyof TComponent;
 export type ALlComponent =
   | Partial<IComponent>
   | Partial<IContainer>
