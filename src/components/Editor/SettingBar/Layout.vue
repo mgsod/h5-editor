@@ -7,12 +7,16 @@
     >
       <template #prepend>宽</template>
     </el-input>
-    <el-input type="number" v-model.number="layout.height">
+    <el-input
+      type="number"
+      v-model.number="layout.height"
+      :disabled="layout.id === 'root'"
+    >
       <template #prepend>高</template>
     </el-input>
   </el-form-item>
   <el-form-item label="定位">
-    <el-select v-model="layout.position">
+    <el-select v-model="layout.position" :disabled="layout.id === 'root'">
       <el-option
         v-for="item in positionList"
         :key="item.value"

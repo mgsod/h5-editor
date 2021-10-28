@@ -159,6 +159,7 @@ export default defineComponent({
       },
     });
     const selectedArea = (select: areaKey) => {
+      if (store.state.editor.selectedComponents?.id === "root") return;
       isChange.value = true;
       selected.value = select;
       let top, left, bottom, right;
