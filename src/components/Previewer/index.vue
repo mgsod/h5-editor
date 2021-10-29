@@ -10,8 +10,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import Render from "./render.vue";
+import { Router } from "@/components/Previewer/router";
+import { IPage } from "@/store/Editor";
+import { cloneDeep } from "lodash";
 export default defineComponent({
   name: "previewer",
   inheritAttrs: false,
@@ -20,13 +23,19 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    components: {
+    pages: {
       type: Array,
       default: () => [],
     },
   },
   components: { Render },
-  setup() {},
+  setup(props) {
+    const router = new Router(cloneDeep(props.pages) as IPage[], "hpath");
+    const components = router.getRouteComponents();
+    return {
+      components,
+    };
+  },
 });
 </script>
 
