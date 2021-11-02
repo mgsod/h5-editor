@@ -1,5 +1,7 @@
 <template>
   <div class="dom-render">
+    {{ homePageId }}
+    {{ components }}
     <render
       :rem="rem"
       v-for="item in components"
@@ -10,10 +12,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { defineComponent } from "vue";
 import Render from "./render.vue";
-import { Router } from "@/components/Previewer/router";
-import { IPage } from "@/store/Editor";
+import { IRoute, Router } from "@/components/Previewer/router";
 import { cloneDeep } from "lodash";
 export default defineComponent({
   name: "previewer",
@@ -27,13 +28,21 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
+    homePageId: {
+      type: String,
+    },
   },
   components: { Render },
   setup(props) {
-    const router = new Router(cloneDeep(props.pages) as IPage[], "hpath");
-    const components = router.getRouteComponents();
+    const router = new Router({
+      routes: cloneDeep(props.pages) as IRoute[],
+      homePage: "",
+    });
     return {
-      components,
+      components: router.renderComponents,
+      setPath(flag: string) {
+        router.setPath(flag);
+      },
     };
   },
 });

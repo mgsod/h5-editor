@@ -55,7 +55,12 @@
             </svg>
           </div>
         </div>
-        <previewer :rem="false" :pages="pages" />
+        <previewer
+          :rem="false"
+          :pages="pages"
+          ref="previewer"
+          :home-page-id="homePage"
+        />
         <div class="screen-footer" style="height: 34px">
           <div class="footer-widgets"></div>
         </div>
@@ -105,11 +110,13 @@ export default defineComponent({
     setInterval(() => {
       getTime();
     }, 1000 * 60);
+    const previewer = ref();
     return {
       time,
       allowUndo,
       allowRedo,
       showDialog,
+      previewer,
       pages: computed(() => {
         return store.state.editor.pages;
       }),
@@ -130,7 +137,12 @@ export default defineComponent({
       del() {
         store.commit(MUTATION_TYPE.REMOVE_COMPONENT);
       },
-      pageHandle(flag: string) {},
+      pageHandle(flag: string) {
+        previewer.value.setPath(flag);
+      },
+      homePage: computed(() => {
+        return store.state.editor.pageActive;
+      }),
     };
   },
 });
