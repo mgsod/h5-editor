@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from "uuid";
 import { ref, Ref } from "vue";
 type RouterMode = "query" | "hash";
+type PageActionType = "prev" | "next";
 export interface IRoute {
   components: [];
   id: string;
@@ -53,22 +54,74 @@ export class Router {
     if (!this.getRouteId()) {
       const homePage = this.homePage ? this.homePage : this.routes[0].id;
       // 如果有首页，设置首页
-      this.setPathByHash(homePage);
+      this.setPath(homePage);
     }
     this.renderComponents.value = this.getRouteComponents();
   }
-  getRouteId() {
-    if (this.mode === "query") return this.getRoureIdByQuery();
-    return this.getRouteIdByHash();
-  }
+
+  /**
+   * 通过hash获取路由id
+   * @private
+   */
   private getRouteIdByHash() {
     const hash = window.location.hash;
     return this.getRoureIdByQuery(hash);
   }
+  /**
+   * 通过query获取路由id
+   * @private
+   */
   private getRoureIdByQuery(search = window.location.search) {
     const routerMatch = search.match(this.reg);
     if (routerMatch) return routerMatch[0];
   }
+
+  /**
+   * 通过query设置path
+   * @param routeId
+   * @private
+   */
+  private setPathByQuery(routeId: string) {
+    let query = location.search;
+    if (!query) {
+      query = `?${this.routerKey}=${routeId}`;
+    } else {
+      const hasPath = query.match(this.reg);
+      if (hasPath) {
+        query = query.replace(this.reg, routeId);
+      } else {
+        query += `&${this.routerKey}=${routeId}`;
+      }
+    }
+    location.search = query;
+  }
+  /**
+   * 通过hash设置path
+   * @param routeId
+   * @private
+   */
+  private setPathByHash(routeId: string) {
+    let hash = location.hash;
+    const hasPath = hash.match(this.reg);
+    if (!hasPath) {
+      hash += `?${this.routerKey}=${routeId}`;
+    } else {
+      hash = hash.replace(this.reg, routeId);
+    }
+    location.hash = hash;
+  }
+
+  /**
+   * 获取路由id
+   */
+  getRouteId() {
+    if (this.mode === "query") return this.getRoureIdByQuery();
+    return this.getRouteIdByHash();
+  }
+
+  /**
+   * 获取当前路由下的组件
+   */
   getRouteComponents() {
     const routerId = this.getRouteId() || (this.routes[0] as IRoute).id;
     const page = (this.routes as IRoute[]).find((page) => page.id === routerId);
@@ -79,28 +132,31 @@ export class Router {
     }
     return [];
   }
-  setPath(flag: string) {
+
+  /**
+   * 设置路由
+   * @param param 路由id或分页类型
+   */
+  setPath(param: string | PageActionType) {
     let index = this.routes.findIndex((item) => item.id === this.current?.id);
     index = index < 0 ? 0 : index;
-    if (flag === "prev") {
-      index--;
-      index = index < 0 ? 0 : index;
+    let routerId = "";
+    // 如果是翻页
+    if (param === "next" || param === "prev") {
+      if (param === "prev") {
+        index--;
+        index = index < 0 ? 0 : index;
+      }
+      if (param === "next") {
+        index++;
+        index = index > this.routes.length - 1 ? this.routes.length - 1 : index;
+      }
+      routerId = this.routes[index].id;
     } else {
-      index++;
-      index = index > this.routes.length - 1 ? this.routes.length - 1 : index;
+      routerId = param;
     }
-    const routerId = this.routes[index].id;
-    this.setPathByHash(routerId);
-  }
-  setPathByQuery(routeId: string) {}
-  setPathByHash(routeId: string) {
-    let hash = location.hash;
-    const hasPath = hash.match(this.reg);
-    if (!hasPath) {
-      hash += `?${this.routerKey}=${routeId}`;
-    } else {
-      hash = hash.replace(this.reg, routeId);
-    }
-    location.hash = hash;
+    this.mode === "query"
+      ? this.setPathByQuery(routerId)
+      : this.setPathByHash(routerId);
   }
 }

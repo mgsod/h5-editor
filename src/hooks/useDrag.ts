@@ -5,7 +5,7 @@ import {
 import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
 const dragEnterClass = "enterContainer";
 import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
+import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 const addEnterClass = (target: HTMLElement) => {
   target.classList.add(dragEnterClass);
 };

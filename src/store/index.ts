@@ -1,7 +1,7 @@
 import { createStore, Store, useStore as baseUseStore } from "vuex";
 import moduleEditor, { IState } from "./Editor";
 import { InjectionKey } from "vue";
-import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
+import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { CACHE_KEY, diffPatcher } from "@/store/Editor/util";
 
 export interface state {

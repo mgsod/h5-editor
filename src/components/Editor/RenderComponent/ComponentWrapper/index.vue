@@ -28,7 +28,7 @@ import { TComponent } from "@/components/Editor/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
 import useResize from "@/hooks/useResize";
 import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
+import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import useStyle from "@/hooks/useStyle";
 export default defineComponent({
   name: "ComponentWrapper",

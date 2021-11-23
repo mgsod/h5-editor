@@ -22,7 +22,7 @@
 <script lang="ts">
 import { computed, defineComponent, watch, reactive } from "vue";
 import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
+import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import General from "./General.vue";
 import EventBar from "./EventBar.vue";
 import Layout from "@/components/Editor/SettingBar/Layout.vue";

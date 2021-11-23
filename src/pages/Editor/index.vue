@@ -15,7 +15,7 @@ import PropertyBar from "@/components/Editor/SettingBar/index.vue";
 import H5Canvas from "@/components/Editor/Canvas/index.vue";
 import { useStore } from "@/store";
 import { onMounted } from "vue";
-import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
+import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import Header from "@/components/Editor/Header/Header.vue";
 export default {
   name: "Index",

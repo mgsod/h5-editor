@@ -80,7 +80,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref } from "vue";
 import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
+import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import useDialog from "@/hooks/useDialog";
 import Previewer from "@/components/Previewer/index.vue";
 

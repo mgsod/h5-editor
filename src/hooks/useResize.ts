@@ -1,6 +1,6 @@
 import { computed, ref } from "vue";
 import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
+import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { cloneDeep } from "lodash";
 import { diffPatcher } from "@/store/Editor/util";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";

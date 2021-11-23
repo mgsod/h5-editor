@@ -71,7 +71,7 @@ import { useStore } from "@/store";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { EventTypeList, EventType, IEvent } from "@/components/Editor/event";
 import { ActionType, ActionList } from "@/components/Editor/action";
-import { MUTATION_TYPE } from "@/store/Editor/mutation-type";
+import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import useDialog from "@/hooks/useDialog";
 export default defineComponent({
   name: "event-bar",

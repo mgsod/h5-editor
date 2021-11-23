@@ -1,7 +1,5 @@
 <template>
   <div class="dom-render">
-    {{ homePageId }}
-    {{ components }}
     <render
       :rem="rem"
       v-for="item in components"
@@ -37,6 +35,7 @@ export default defineComponent({
     const router = new Router({
       routes: cloneDeep(props.pages) as IRoute[],
       homePage: "",
+      mode: "hash",
     });
     return {
       components: router.renderComponents,

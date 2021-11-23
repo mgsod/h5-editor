@@ -37,6 +37,7 @@ export const addPage = (state: IState) => {
       position: "relative",
     })
   );
+  state.selectedComponents = null;
 };
 
 /**
