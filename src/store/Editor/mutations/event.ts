@@ -10,6 +10,7 @@ import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { MutationTree } from "vuex";
 
 const eventMutations: MutationTree<IState> = {
+  // 添加一个事件
   [MUTATION_TYPE.ADD_EVENT]: (state, event: IEvent) => {
     mutationWithSnapshot(state, () => {
       const currentPage = state.pages.find(
@@ -27,6 +28,7 @@ const eventMutations: MutationTree<IState> = {
       }
     });
   },
+  // 移除事件
   [MUTATION_TYPE.REMOVE_EVENT]: (state, eventIndex: number) => {
     mutationWithSnapshot(state, () => {
       const currentPage = state.pages.find(
@@ -42,6 +44,7 @@ const eventMutations: MutationTree<IState> = {
       }
     });
   },
+  // 更新事件
   [MUTATION_TYPE.UPDATE_EVENT]: (state, { eventIndex, event }) => {
     mutationWithSnapshot(state, () => {
       const currentPage = state.pages.find(

@@ -12,6 +12,7 @@ import { IContainer } from "@/components/Editor/RenderComponent/Container";
 import { MutationTree } from "vuex";
 
 const componentMutations: MutationTree<IState> = {
+  // 新增一个组件
   [MUTATION_TYPE.ADD_COMPONENT]: (
     state: IState,
     {
@@ -26,6 +27,7 @@ const componentMutations: MutationTree<IState> = {
       const page = <IPage>(
         state.pages.find((item: IPage) => item.id === state.pageActive)
       );
+      // 是否添加到目标容器
       if (targetComponent) {
         component.parentId = targetComponent.id;
         targetComponent.children.push(component);
@@ -36,11 +38,11 @@ const componentMutations: MutationTree<IState> = {
     state.isDrag = false;
   },
   // 拖拽一个组件
-  [MUTATION_TYPE.DRAG_COMPONENT]: (state, payload = true) => {
+  [MUTATION_TYPE.DRAG_COMPONENT]: (state: IState, payload = true) => {
     state.isDrag = payload;
   },
   // 更新组件信息
-  [MUTATION_TYPE.UPDATE_COMPONENT]: (state, payload: TComponent) => {
+  [MUTATION_TYPE.UPDATE_COMPONENT]: (state: IState, payload: TComponent) => {
     mutationWithSnapshot(state, () => {
       const currentPage = state.pages.find(
         (item) => item.id === state.pageActive
@@ -55,29 +57,40 @@ const componentMutations: MutationTree<IState> = {
       }
     });
   },
+  // 选中一个组件
   [MUTATION_TYPE.SELECT_COMPONENT]: (state: IState, payload?: TComponent) => {
     if (payload) {
+      // 如果选中的id和当前已选一致 不擦欧总
       if (payload.id === state.selectedComponents?.id) return;
     } else {
       payload = <TComponent>state.selectedComponents;
     }
+    // 如果不存在
     if (!payload) return;
+    // 设置当前选中的组件
     state.selectedComponents = { ...payload };
+    // 通知更新虚拟边框
     eventBus.$emit(EventType.updateBorder, payload.id);
   },
-  [MUTATION_TYPE.REMOVE_COMPONENT]: (state) => {
+  // 移除一个组件
+  [MUTATION_TYPE.REMOVE_COMPONENT]: (state: IState) => {
+    // 前提是当前已经有选中的组件
     if (state.selectedComponents) {
       mutationWithSnapshot(state, () => {
+        // 查询当前所在页面
         const currentPage = state.pages.find(
           (item) => item.id === state.pageActive
         ) as IPage;
+        // 找到容器
         const target = findItemAndParentById<IComponent>(
           currentPage.components,
           (state.selectedComponents as IComponent).id
         );
         if (target) {
+          // 删除
           target.parent.splice(target.index, 1);
         }
+        // 更新选中的组件信息
         updateSelectedComponent(state);
       });
     }

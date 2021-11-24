@@ -2,21 +2,25 @@
  * 给组件绑定自定义事件
  */
 import { ref, onMounted } from "vue";
-import { EventType, IEvent } from "@/components/Editor/event";
+import { EventType, IEvent, EventTypeKey } from "@/components/Editor/event";
 import { ActionFactory } from "@/components/Editor/action/factory";
 import { Action } from "@/components/Editor/action/abstractAction";
 
-type EventTypeKey = Record<EventType, IEvent[]>;
 export default (events?: IEvent[]) => {
   const root = ref();
   if (events) {
+    // 构建所有事件池对象
     const eventsObj: EventTypeKey = {
       click: [],
       mouseenter: [],
       mouseleave: [],
+      mounted: [],
     };
+    // 遍历组件中的所有事件
     events.forEach((item) => {
+      // 判断是否存在于所有事件池中
       const targetEvent = eventsObj[item.eventType];
+      // 如果没有，在对应的事件类型中添加事件
       if (!targetEvent) {
         eventsObj[item.eventType] = [item];
       } else {
@@ -24,23 +28,42 @@ export default (events?: IEvent[]) => {
       }
     });
 
+    /**
+     * 触发action
+     * @param actions
+     */
+    const trigger = (actions: Action[]) => {
+      // 执行action中的handle 触发事件
+      actions.forEach((item) => item.handle());
+    };
+
     onMounted(() => {
-      // 遍历事件类型
+      // 遍历所有事件池，click:[...events],mouseenter:[...events],mouseleave:[...events]...
       for (const eventType in eventsObj) {
-        // 取出当前事件类型下的所有handle
+        // 取出当前事件类型下的所有events
+        // 例如：click:[events1,events2,events3,....]
         const currentEvents = eventsObj[eventType as EventType] as IEvent[];
-        const eventHandlePool: Action[] = [];
+        // 初始化当前事件下对应的action
+        const handlePool: Action[] = [];
+        // 如果有这个事件类型绑定了事件
         if (currentEvents.length > 0) {
-          // 实例化事件，添加到事件池
+          // 遍历事件，通过ActionFactory.getAction工厂函数，根据事件中的actionType，actionProps实例化一个Action
           currentEvents.forEach((item) => {
-            eventHandlePool.push(ActionFactory.getAction(item));
+            // 实例化Action，添加到handlePool中。 [action,action,action,.....]
+            handlePool.push(ActionFactory.getAction(item));
           });
-          // 给当前组件绑定eventType,执行事件池的所有动作
-          (root.value as HTMLElement).addEventListener(eventType, () => {
-            eventHandlePool.forEach((item) => {
-              item.handle();
+
+          // 开始绑定事件
+
+          // 如果是初始化事件
+          if ((eventType as EventType) === "mounted") {
+            trigger(handlePool);
+          } else {
+            // 其他类型事件，均通过ref绑定在dom元素上
+            (root.value as HTMLElement).addEventListener(eventType, () => {
+              trigger(handlePool);
             });
-          });
+          }
         }
       }
     });

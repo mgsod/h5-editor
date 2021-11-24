@@ -10,6 +10,7 @@ const pageMutations: MutationTree<IState> = {
       addPage(state);
     });
   },
+  // 选择一页
   [MUTATION_TYPE.SELECT_PAGE]: (state, payload: string) => {
     if (payload === state.pageActive) return;
     state.selectedComponents = null;
