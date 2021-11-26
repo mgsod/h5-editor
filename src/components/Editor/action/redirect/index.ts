@@ -1,15 +1,30 @@
 import { Action } from "@/components/Editor/action/abstractAction";
-
+import { Router } from "@/components/Previewer/router";
+type RedirectType = "inside" | "outside";
+export const redirectTypeList: { name: string; value: RedirectType }[] = [
+  { name: "内部跳转", value: "inside" },
+  { name: "外部跳转", value: "outside" },
+];
 export interface IRedirect {
   url: string;
+  type: RedirectType;
 }
 export class Redirect extends Action implements IRedirect {
-  public url: string;
+  url: string;
+  type: RedirectType;
   constructor(event: IRedirect) {
     super();
     this.url = event.url;
+    this.type = event.type;
   }
   handle() {
-    location.href = this.url;
+    switch (this.type) {
+      case "inside":
+        Router.go(this.url);
+        break;
+      case "outside":
+        location.href = this.url;
+        break;
+    }
   }
 }

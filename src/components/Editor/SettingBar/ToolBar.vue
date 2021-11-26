@@ -24,7 +24,13 @@
       </div>
       <div>预览</div>
     </div>
-    <el-dialog v-model="showDialog" top="3vh" width="600px" :lock-scroll="true">
+    <el-dialog
+      :destroy-on-close="true"
+      v-model="showDialog"
+      top="3vh"
+      width="600px"
+      :lock-scroll="true"
+    >
       <div class="previewer-box">
         <div class="iPhoneX-StatusBar">
           <div class="StatusBarTime">{{ time }}</div>

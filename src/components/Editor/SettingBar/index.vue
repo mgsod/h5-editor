@@ -87,7 +87,7 @@ export default defineComponent({
   display: flex;
   overflow: hidden;
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
-  .el-form {
+  .el-form:not(.dialog-form) {
     flex: 0 0 320px;
     :deep(.el-form-item) {
       margin-bottom: 15px;

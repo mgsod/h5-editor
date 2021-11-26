@@ -42,6 +42,7 @@ const eventMutations: MutationTree<IState> = {
         const events = target.events;
         events?.splice(eventIndex, 1);
       }
+      updateSelectedComponent(state);
     });
   },
   // 更新事件
@@ -58,6 +59,7 @@ const eventMutations: MutationTree<IState> = {
         const events = target.events as IEvent[];
         events[eventIndex] = { ...event };
       }
+      updateSelectedComponent(state);
     });
   },
 };

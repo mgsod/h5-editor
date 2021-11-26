@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { ref, Ref } from "vue";
 type RouterMode = "query" | "hash";
 type PageActionType = "prev" | "next";
@@ -13,57 +12,85 @@ interface IRouter {
   homePage?: string;
 }
 export class Router {
+  // 路由参数标识符 key=xxxxxxx
+  static key = "";
+  static mode: RouterMode = "hash";
   // 路由表
-  routes: IRoute[];
-  // 路由key（用来标识这是当前类所属路由）
-  routerKey: string = uuidv4();
+  private routes: IRoute[];
   // 路由模式，hash或query。
-  mode: RouterMode;
+  private readonly mode: RouterMode;
+  private routerKey = "";
   // 上个路由
   from: IRoute | null = null;
   // 当前路由
   current: IRoute | null = null;
   // 匹配路由的正则
-  reg: RegExp;
-  // 路由change事件
-  onChange: (page: IRoute) => void = () => {};
+  private reg: RegExp;
   // 默认首页
-  homePage?: string;
+  private readonly homePage?: string;
   // 当前路由对应渲染的组件列表
   renderComponents: Ref<any[]> = ref([]);
+  history: IRoute[] = [];
+  onChange: (router: Router) => void = () => {};
   constructor({
     routes = [],
-    routerKey = "hpath",
     mode = "hash",
     homePage = "",
+    routerKey = "hpath",
   }: IRouter) {
+    Router.key = routerKey;
+    Router.mode = mode;
+
     this.routes = routes;
     this.routerKey = routerKey;
     this.mode = mode;
     this.homePage = homePage;
-    this.reg = new RegExp(`(?<=${this.routerKey}=)[^&/]*`);
+
+    this.reg = Router.generateRouterKeyReg();
 
     // 如果是hash模式，需要监听hashchange事件
     if (mode === "hash") {
       window.addEventListener("hashchange", () => {
-        this.onChange(this.current as IRoute);
         this.renderComponents.value = this.getRouteComponents();
+        if (this.onChange) {
+          this.onChange(this);
+        }
       });
     }
-    // 如果没有path参数
-    if (!this.getRouteId()) {
-      const homePage = this.homePage ? this.homePage : this.routes[0].id;
-      // 如果有首页，设置首页
-      this.setPath(homePage);
+
+    // 如果有首页，设置首页
+    if (this.homePage) {
+      Router.go(this.homePage);
+    } else {
+      // 如果没有path参数
+      if (!this.getRouteId()) {
+        const homePage = this.routes[0].id;
+        Router.go(homePage);
+      }
     }
     this.renderComponents.value = this.getRouteComponents();
   }
 
+  // 通过routerKey构建用来获取path的的正则表达式
+  static generateRouterKeyReg(): RegExp {
+    return new RegExp(`(?<=${this.key}=)[^&/]*`);
+  }
+
+  /**
+   * 路由跳转
+   * @param routerId
+   */
+  static go(routerId: string) {
+    const mode = this.mode;
+    mode === "query"
+      ? this.setPathByQuery(routerId)
+      : this.setPathByHash(routerId);
+  }
   /**
    * 通过hash获取路由id
    * @private
    */
-  private getRouteIdByHash() {
+  private static getRouteIdByHash() {
     const hash = window.location.hash;
     return this.getRoureIdByQuery(hash);
   }
@@ -71,8 +98,8 @@ export class Router {
    * 通过query获取路由id
    * @private
    */
-  private getRoureIdByQuery(search = window.location.search) {
-    const routerMatch = search.match(this.reg);
+  private static getRoureIdByQuery(search = window.location.search) {
+    const routerMatch = search.match(this.generateRouterKeyReg());
     if (routerMatch) return routerMatch[0];
   }
 
@@ -81,16 +108,18 @@ export class Router {
    * @param routeId
    * @private
    */
-  private setPathByQuery(routeId: string) {
+  private static setPathByQuery(routeId: string) {
     let query = location.search;
+    const routerKey = this.key;
+    const reg = this.generateRouterKeyReg();
     if (!query) {
-      query = `?${this.routerKey}=${routeId}`;
+      query = `?${routerKey}=${routeId}`;
     } else {
-      const hasPath = query.match(this.reg);
+      const hasPath = query.match(reg);
       if (hasPath) {
-        query = query.replace(this.reg, routeId);
+        query = query.replace(reg, routeId);
       } else {
-        query += `&${this.routerKey}=${routeId}`;
+        query += `&${routerKey}=${routeId}`;
       }
     }
     location.search = query;
@@ -100,42 +129,23 @@ export class Router {
    * @param routeId
    * @private
    */
-  private setPathByHash(routeId: string) {
+  private static setPathByHash(routeId: string) {
     let hash = location.hash;
-    const hasPath = hash.match(this.reg);
+    // 获取routerKey
+    const routerKey = this.key;
+    const reg = this.generateRouterKeyReg();
+    const hasPath = hash.match(reg);
     if (!hasPath) {
-      hash += `?${this.routerKey}=${routeId}`;
+      hash += `?${routerKey}=${routeId}`;
     } else {
-      hash = hash.replace(this.reg, routeId);
+      hash = hash.replace(reg, routeId);
     }
     location.hash = hash;
   }
 
   /**
-   * 获取路由id
-   */
-  getRouteId() {
-    if (this.mode === "query") return this.getRoureIdByQuery();
-    return this.getRouteIdByHash();
-  }
-
-  /**
-   * 获取当前路由下的组件
-   */
-  getRouteComponents() {
-    const routerId = this.getRouteId() || (this.routes[0] as IRoute).id;
-    const page = (this.routes as IRoute[]).find((page) => page.id === routerId);
-    if (page) {
-      this.from = this.current;
-      this.current = page;
-      return page.components;
-    }
-    return [];
-  }
-
-  /**
    * 设置路由
-   * @param param 路由id或分页类型
+   * @param param 路由id或者翻页动作
    */
   setPath(param: string | PageActionType) {
     let index = this.routes.findIndex((item) => item.id === this.current?.id);
@@ -155,8 +165,39 @@ export class Router {
     } else {
       routerId = param;
     }
-    this.mode === "query"
-      ? this.setPathByQuery(routerId)
-      : this.setPathByHash(routerId);
+    Router.go(routerId);
+  }
+
+  /**
+   * 跳转到指定步数，同vue-router go
+   * @param step
+   */
+  go(step: number) {
+    step = this.history.length - (1 - step);
+    step = step < 0 ? 0 : step;
+    const page = this.history[step];
+    Router.go(page.id);
+  }
+  /**
+   * 获取路由id
+   */
+  getRouteId() {
+    if (this.mode === "query") return Router.getRoureIdByQuery();
+    return Router.getRouteIdByHash();
+  }
+
+  /**
+   * 获取当前路由下的组件
+   */
+  getRouteComponents() {
+    const routerId = this.getRouteId() || (this.routes[0] as IRoute).id;
+    const page = (this.routes as IRoute[]).find((page) => page.id === routerId);
+    if (page) {
+      this.from = this.current;
+      this.current = page;
+      this.history.push(this.current);
+      return page.components;
+    }
+    return [];
   }
 }

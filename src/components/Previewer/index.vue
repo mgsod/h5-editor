@@ -34,9 +34,12 @@ export default defineComponent({
   setup(props) {
     const router = new Router({
       routes: cloneDeep(props.pages) as IRoute[],
-      homePage: "",
+      homePage: props.homePageId,
       mode: "hash",
     });
+    router.onChange = ($router) => {
+      console.log("1", $router);
+    };
     return {
       components: router.renderComponents,
       setPath(flag: string) {

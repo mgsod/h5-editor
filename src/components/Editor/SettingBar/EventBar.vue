@@ -1,6 +1,6 @@
 <template>
   <div v-if="selectedId">
-    <el-button type="primary" @click="showDialog = true">新增</el-button>
+    <el-button type="primary" @click="add">新增</el-button>
     <el-table :data="eventList" empty-text="暂无事">
       <el-table-column type="index" label="序号"></el-table-column>
       <el-table-column label="事件类型" width="80">
@@ -27,8 +27,13 @@
       </el-table-column>
     </el-table>
   </div>
-  <el-dialog width="30%" title="新增/编辑事件" v-model="showDialog">
-    <el-form :model="eventForm">
+  <el-dialog
+    :append-to-body="true"
+    width="30%"
+    title="新增/编辑事件"
+    v-model="showDialog"
+  >
+    <el-form :model="eventForm" class="dialog-form">
       <el-form-item label="事件类型">
         <el-select v-model="eventForm.eventType">
           <el-option
@@ -49,12 +54,45 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item
-        label="跳转地址"
-        v-show="eventForm.actionType === 'redirect'"
-      >
-        <el-input v-model="eventForm.actionProps.url"></el-input>
-      </el-form-item>
+      <template v-if="eventForm.actionType === 'redirect'">
+        <el-form-item label="跳转方式">
+          <el-select v-model="eventForm.actionProps.type">
+            <el-option
+              v-for="item in redirectTypeList"
+              :key="item.value"
+              :label="item.name"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="跳转页面"
+          v-if="eventForm.actionProps.type === 'inside'"
+          :prop="'actionProps.url'"
+          :rules="{
+            required: true,
+            message: 'domain can not be null',
+            trigger: 'blur',
+          }"
+        >
+          <el-select v-model="eventForm.actionProps.url">
+            <el-option
+              v-for="item in pages"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="跳转地址"
+          v-if="eventForm.actionProps.type === 'outside'"
+          :prop="'actionProps.url'"
+          :rules="urlValidateRules"
+        >
+          <el-input v-model="eventForm.actionProps.url"></el-input>
+        </el-form-item>
+      </template>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -72,7 +110,10 @@ import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { EventTypeList, EventType, IEvent } from "@/components/Editor/event";
 import { ActionType, ActionList } from "@/components/Editor/action";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
+import { redirectTypeList } from "@/components/Editor/action/redirect";
 import useDialog from "@/hooks/useDialog";
+import { cloneDeep } from "lodash";
+import { FormItemRule } from "element-plus/packages/components/form/src/form.type";
 export default defineComponent({
   name: "event-bar",
   props: {},
@@ -84,14 +125,34 @@ export default defineComponent({
     });
     const { showDialog } = useDialog();
     const editIndex = ref(-1);
-    let eventForm = reactive<IEvent>({
+    // 事件表单
+    const eventForm = reactive<IEvent>({
       eventType: "click",
       actionType: "redirect",
       actionProps: {
         url: "",
         content: "",
+        type: "inside",
       },
     });
+    // 跳转url验证
+    const urlValidateRules: FormItemRule[] = [
+      { required: true, message: "该项必填", trigger: "blur" },
+      {
+        pattern: /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/,
+        message: "请输入合法url地址",
+        trigger: "blur",
+      },
+    ];
+    const reset = () => {
+      eventForm.eventType = "click";
+      eventForm.actionType = "redirect";
+      eventForm.actionProps = {
+        url: "",
+        content: "",
+        type: "inside",
+      };
+    };
     const eventList = computed(() => {
       const currentComponent = store.state.editor
         .selectedComponents as IComponent;
@@ -99,16 +160,29 @@ export default defineComponent({
       return [];
     });
 
+    const pages = computed(() => {
+      return store.state.editor.pages.map((item) => {
+        return {
+          id: item.id,
+          order: item.order,
+          name: item.name,
+        };
+      });
+    });
+    const add = () => {
+      reset();
+      showDialog.value = true;
+    };
     const confirm = () => {
       // 编辑
       if (editIndex.value > -1) {
         store.commit(MUTATION_TYPE.UPDATE_EVENT, {
           eventIndex: editIndex.value,
-          event: eventForm,
+          event: cloneDeep(eventForm),
         });
       } else {
         // 新增
-        store.commit(MUTATION_TYPE.ADD_EVENT, eventForm);
+        store.commit(MUTATION_TYPE.ADD_EVENT, cloneDeep(eventForm));
       }
       editIndex.value = -1;
       showDialog.value = false;
@@ -124,6 +198,9 @@ export default defineComponent({
       })?.name;
     };
     return {
+      urlValidateRules,
+      pages,
+      redirectTypeList,
       showDialog,
       eventList,
       eventForm,
@@ -136,6 +213,7 @@ export default defineComponent({
       del(index: number) {
         store.commit(MUTATION_TYPE.REMOVE_EVENT, index);
       },
+      add,
       edit(row: IEvent, index: number) {
         showDialog.value = true;
         eventForm.eventType = row.eventType;
@@ -143,6 +221,7 @@ export default defineComponent({
         eventForm.actionProps = {
           url: row.actionProps.url,
           content: "",
+          type: row.actionProps.type,
         };
         editIndex.value = index;
         return;
