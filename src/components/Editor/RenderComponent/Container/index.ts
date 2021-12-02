@@ -8,6 +8,7 @@ import {
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
 import { ICommonText } from "@/components/Editor/RenderComponent/CommonInterface/Text";
+import { ICommonContainer } from "@/components/Editor/RenderComponent/CommonInterface/Container";
 
 // 主轴（横轴）方向上的对齐方式
 export enum JUSTIFY_CONTENT {
@@ -62,10 +63,7 @@ export interface Layout {
   JustifyContent?: JUSTIFY_CONTENT;
   AlignItems?: AlignItems;
 }
-export interface IContainer extends IComponent, ICommonText, Layout {
-  isContainer: boolean;
-  children: IComponent[];
-}
+export interface IContainer extends ICommonContainer, ICommonText, Layout {}
 
 /**
  * 容器组件，继承与基础组件，实现容器的接口
@@ -73,7 +71,7 @@ export interface IContainer extends IComponent, ICommonText, Layout {
 class Container extends Component implements IContainer {
   type = ComponentType.Container;
   isContainer = true;
-  children: Component[] = [];
+  children: IComponent[] = [];
   JustifyContent: JUSTIFY_CONTENT = JUSTIFY_CONTENT.START;
   AlignItems: ALIGN_ITEMS = ALIGN_ITEMS.STRETCH;
   width = 200;
@@ -86,7 +84,7 @@ class Container extends Component implements IContainer {
   fontStyle = "normal";
   fontWeight = "normal";
   textAlign = "left";
-  constructor(props?: IContainer) {
+  constructor(props?: Partial<IContainer>) {
     super(props);
     fastInitProps(props, this);
   }

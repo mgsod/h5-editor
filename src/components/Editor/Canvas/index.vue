@@ -34,6 +34,8 @@ import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
 import useVirtualBorder from "@/hooks/useVirtualBorder";
 import useResize from "@/hooks/useResize";
+import { IContainer } from "@/components/Editor/RenderComponent/Container";
+import { TComponent } from "@/components/Editor/RenderComponent/types";
 
 export default defineComponent({
   name: "H5canvas",
@@ -47,8 +49,12 @@ export default defineComponent({
     const isDragNew = computed(() => {
       return store.state.editor.isDrag;
     });
+    // 低层级
+    // 虚拟边框是盖在组件上面的，为了能选中里面的组件，根组件需要设置低层级
+    // 在拖拽新的组件时也需要设置低层级，以让鼠标可以拖拽到内部容器中
     const lowZIndex = computed(() => {
-      const isRoot = store.state.editor.selectedComponents?.id === "root";
+      const isRoot = (store.state.editor.selectedComponents as TComponent)
+        ?.isRoot;
       return isDragNew.value || isRoot;
     });
     return {

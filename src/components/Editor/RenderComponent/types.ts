@@ -8,6 +8,7 @@ export enum ComponentType {
   Container = "HContainer",
   Img = "HImg",
   Text = "HText",
+  Tab = "HTab",
 }
 export enum ComponentSettingType {
   Base = "BaseSetting",
@@ -25,6 +26,7 @@ export const ComponentList: IComponentItem[] = [
   { type: ComponentType.Container, icon: "xxx", name: "容器" },
   { type: ComponentType.Img, icon: "xxx", name: "图片" },
   { type: ComponentType.Text, icon: "xxx", name: "文本" },
+  { type: ComponentType.Tab, icon: "xxx", name: "选项卡" },
 ];
 
 export type TComponent = IComponent & IContainer & IImg;

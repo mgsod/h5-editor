@@ -1,9 +1,12 @@
 import { Module } from "vuex";
 import mutations from "@/store/Editor/mutations";
-import { IComponent } from "@/components/Editor/RenderComponent/Component";
+import Component, {
+  IComponent,
+} from "@/components/Editor/RenderComponent/Component";
 import { state } from "@/store";
 import { getCache } from "@/util";
 import { CACHE_KEY, IEditorCache } from "@/store/Editor/util";
+import { TComponent } from "@/components/Editor/RenderComponent/types";
 
 export interface IPage {
   order: number;

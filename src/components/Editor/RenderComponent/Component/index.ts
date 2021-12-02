@@ -49,7 +49,7 @@ class Component implements IComponent {
   borderRadius?: string = "0,0,0,0";
   borderStyle: BorderStyle = "solid";
   background: IBackground = { color: "", img: "" };
-  constructor(props?: IComponent) {
+  constructor(props?: Partial<IComponent>) {
     this.id = uuidv4();
     this.alias = props?.type;
     fastInitProps(props, this);

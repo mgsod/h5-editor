@@ -29,12 +29,16 @@ export default () => {
   const offsetY = ref(0);
   const resize = ref(false);
   const rePosition = ref(false);
-  let currentComponent: IComponent | null = null;
+  let currentComponent: TComponent | null = null;
   // 设置拖拽点
   const resizePoint = computed(() => {
     const all = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
     if (store.state.editor.selectedComponents) {
-      if (store.state.editor.selectedComponents.id === "root") return [];
+      if (
+        store.state.editor.selectedComponents.id === "root" ||
+        (store.state.editor.selectedComponents as TComponent).isRoot
+      )
+        return [];
       const position = store.state.editor.selectedComponents.position;
       if (position === "relative" || position === "static") {
         // 相对定位只能拖拽r，rb，b 三个点
@@ -65,14 +69,17 @@ export default () => {
     startY.value = clientY;
     currentComponent = {
       ...store.state.editor.selectedComponents,
-    } as IComponent;
-    if (currentComponent) {
+    } as TComponent;
+    if (
+      currentComponent &&
+      currentComponent.id !== "root" &&
+      !currentComponent.isRoot
+    ) {
       if (handle) {
         resize.value = true;
         resizeHandle = handle;
       } else {
         rePosition.value = true;
-        if (currentComponent.id === "root") return;
       }
       document.body.addEventListener("mousemove", mouseMove);
       document.body.addEventListener("mouseup", mouseUp);

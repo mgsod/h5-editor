@@ -35,6 +35,7 @@ export const addPage = (state: IState) => {
       width: 375,
       height: "",
       position: "relative",
+      isRoot: true,
     })
   );
   state.selectedComponents = null;

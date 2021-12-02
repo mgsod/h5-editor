@@ -1,5 +1,8 @@
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { TComponent } from "@/components/Editor/RenderComponent/types";
+import {
+  ComponentType,
+  TComponent,
+} from "@/components/Editor/RenderComponent/types";
 import {
   mutationWithSnapshot,
   updateSelectedComponent,
@@ -10,6 +13,7 @@ import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import eventBus, { EventType } from "@/hooks/useEventBus";
 import { IContainer } from "@/components/Editor/RenderComponent/Container";
 import { MutationTree } from "vuex";
+import { ITab } from "@/components/Editor/RenderComponent/Tab";
 
 const componentMutations: MutationTree<IState> = {
   // 新增一个组件
@@ -19,7 +23,7 @@ const componentMutations: MutationTree<IState> = {
       targetComponent,
       component,
     }: {
-      targetComponent: IContainer | undefined;
+      targetComponent: IContainer | undefined | ITab;
       component: TComponent;
     }
   ) => {
@@ -27,10 +31,17 @@ const componentMutations: MutationTree<IState> = {
       const page = <IPage>(
         state.pages.find((item: IPage) => item.id === state.pageActive)
       );
+
       // 是否添加到目标容器
       if (targetComponent) {
-        component.parentId = targetComponent.id;
-        targetComponent.children.push(component);
+        let _target = targetComponent;
+        if (targetComponent.type === ComponentType.Tab) {
+          _target = (targetComponent as ITab).children[
+            (targetComponent as ITab).active
+          ];
+        }
+        component.parentId = _target.id;
+        _target.children.push(component);
       } else {
         page.components.push(component);
       }

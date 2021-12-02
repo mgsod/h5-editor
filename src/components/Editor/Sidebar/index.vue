@@ -171,6 +171,7 @@ export default {
         display: flex;
         flex-wrap: wrap;
         cursor: default;
+        height: auto;
         .component {
           flex: 0 0 65px;
           height: 65px;
@@ -181,7 +182,12 @@ export default {
           box-sizing: border-box;
           border: 1px solid #ccc;
           cursor: default;
-          margin: 0 -1px 0px 0;
+          margin: 0 -1px -1px 0;
+          &:hover {
+            border: 1px solid #000;
+            position: relative;
+            z-index: 2;
+          }
         }
       }
       .pages {

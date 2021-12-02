@@ -7,6 +7,7 @@ import Container, {
 import { ALlComponent, ComponentType } from "./types";
 import Img, { IImg } from "@/components/Editor/RenderComponent/Img";
 import Text, { IText } from "@/components/Editor/RenderComponent/Text";
+import Tab, { ITab } from "@/components/Editor/RenderComponent/Tab";
 
 /**
  *构造组件的工厂函数
@@ -26,6 +27,8 @@ export default class ComponentFactory {
         return new Img(<IImg>component);
       case ComponentType.Text:
         return new Text(<IText>component);
+      case ComponentType.Tab:
+        return new Tab(<ITab>component);
     }
   }
 }
