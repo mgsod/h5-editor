@@ -17,6 +17,10 @@
     v-if="componentProps.type === ComponentType.Img"
   />
   <text-setting v-model:component-props="base" :key="base.id" />
+  <tab-setting
+    v-model:componentProps="base"
+    v-if="componentProps.type === ComponentType.Tab"
+  />
 </template>
 
 <script lang="ts">
@@ -26,6 +30,7 @@ import ImgSetting from "@/components/Editor/RenderComponent/Img/ImgSetting.vue";
 import ContainerSetting from "@/components/Editor/RenderComponent/Container/ContainerSetting.vue";
 import TextSetting from "@/components/Editor/RenderComponent/Text/TextSetting.vue";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
+import TabSetting from "@/components/Editor/RenderComponent/Tab/TabSetting.vue";
 export default defineComponent({
   name: "property-bar",
   props: {
@@ -35,6 +40,7 @@ export default defineComponent({
     ImgSetting,
     ContainerSetting,
     TextSetting,
+    TabSetting,
   },
   setup(props) {
     const base = computed(() => {

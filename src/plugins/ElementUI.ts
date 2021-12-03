@@ -17,6 +17,7 @@ import {
   ElTableColumn,
   ElLink,
   ElDialog,
+  ElPopconfirm,
 } from "element-plus";
 
 export default (app: App) => {
@@ -40,5 +41,6 @@ export default (app: App) => {
     .use(ElTable)
     .use(ElTableColumn)
     .use(ElDialog)
+    .use(ElPopconfirm)
     .use(ElLink);
 };

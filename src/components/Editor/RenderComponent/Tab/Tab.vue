@@ -31,6 +31,7 @@ import { defineComponent, nextTick, onMounted, ref, watch } from "vue";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
 import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
 export default defineComponent({
+  inheritAttrs: false,
   name: ComponentType.Tab,
   props: {
     children: Array,
@@ -77,12 +78,14 @@ export default defineComponent({
   .tab-title {
     flex: 0 0 30px;
     position: relative;
+    overflow: scroll;
     &-list {
       height: 18px;
       display: flex;
       align-items: center;
       margin-bottom: 10px;
       &-item {
+        flex: 0 0 auto;
         font-size: 16px;
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
