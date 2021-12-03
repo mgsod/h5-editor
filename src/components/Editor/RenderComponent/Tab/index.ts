@@ -15,11 +15,10 @@ export interface ITab extends ICommonContainer {
 export default class Tab extends CommonContainer implements ITab {
   type = ComponentType.Tab;
   children = [
-    new Container({ isRoot: true, width: "", height: "", alias: "标签页一" }),
-    new Container({ isRoot: true, width: "", height: "", alias: "标签页二" }),
+    new Container({ isRoot: true, width: "", height: "", alias: "标签1" }),
+    new Container({ isRoot: true, width: "", height: "", alias: "标签2" }),
   ];
   active = 0;
-  height = 300;
   constructor(props?: ITab) {
     super(props);
     fastInitProps(props, this);
