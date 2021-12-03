@@ -17,8 +17,8 @@ export interface IAroundValue {
 export interface IComponent {
   type: ComponentType;
   id: string;
-  width: number | "";
-  height: number | "";
+  width: number | string;
+  height: number | string;
   position: Position;
   background: IBackground;
   parentId?: string;
@@ -42,8 +42,8 @@ export interface IComponent {
 class Component implements IComponent {
   type = ComponentType.Base;
   id: string;
-  width = 50;
-  height = 50;
+  width: string | number = "";
+  height: string | number = 100;
   position: Position = "static";
   alias?: string = "";
   borderRadius?: string = "0,0,0,0";

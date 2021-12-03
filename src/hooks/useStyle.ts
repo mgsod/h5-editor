@@ -13,10 +13,10 @@ export default (property: Ref<TComponent>, rem = false) => {
       "border-bottom-left-radius": arr[3],
     };
   };
-  const formatPositionValues = (val?: number) => {
+  const formatPositionValues = (val?: number | string) => {
     if (val === 0 || val) {
       if (rem) {
-        return `${val / 37.5}rem`;
+        return `${(val as number) / 37.5}rem`;
       }
       return `${val}px`;
     }

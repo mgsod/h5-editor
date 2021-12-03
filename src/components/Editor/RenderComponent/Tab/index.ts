@@ -14,6 +14,8 @@ export interface ITab extends ICommonContainer {
 }
 export default class Tab extends CommonContainer implements ITab {
   type = ComponentType.Tab;
+  width = "";
+  height = 300;
   children = [
     new Container({ isRoot: true, width: "", height: "", alias: "标签1" }),
     new Container({ isRoot: true, width: "", height: "", alias: "标签2" }),

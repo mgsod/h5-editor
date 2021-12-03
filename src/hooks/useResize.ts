@@ -118,29 +118,29 @@ export default () => {
         height = getDomSize((currentComponent as TComponent).id).height;
       }
       if (resizeHandle.includes("r")) {
-        width += offsetX.value;
+        (width as number) += offsetX.value;
       }
       if (resizeHandle.includes("b")) {
-        height += offsetY.value;
+        (height as number) += offsetY.value;
       }
       if (resizeHandle.includes("t")) {
-        const tempHeight = height - offsetY.value;
+        const tempHeight = (height as number) - offsetY.value;
         if (tempHeight >= CRITICAL) {
           height = tempHeight;
           top = top + offsetY.value;
         } else {
-          const offset = height - CRITICAL;
+          const offset = (height as number) - CRITICAL;
           height = CRITICAL;
           top = top + offset;
         }
       }
       if (resizeHandle.includes("l")) {
-        const tempWidth = width - offsetX.value;
+        const tempWidth = (width as number) - offsetX.value;
         if (tempWidth >= CRITICAL) {
-          width -= offsetX.value;
+          (width as number) -= offsetX.value;
           left = left + offsetX.value;
         } else {
-          const offset = width - CRITICAL;
+          const offset = (width as number) - CRITICAL;
           width = CRITICAL;
           left = left + offset;
         }

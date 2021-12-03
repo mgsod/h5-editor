@@ -34,6 +34,7 @@ class Text extends Component implements IText {
   overflow = false;
   fontSize = "";
   maxLines = 1;
+  height = 50;
   constructor(props?: IText) {
     super(props);
     fastInitProps(props, this);
