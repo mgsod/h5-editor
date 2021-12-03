@@ -1,12 +1,18 @@
 import { useStore } from "@/store";
-import { nextTick, ref, watch, computed } from "vue";
+import { nextTick, ref, watch, computed, Ref } from "vue";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { findItemById } from "@/util";
 import eventBus, { EventType } from "@/hooks/useEventBus";
-
-export default () => {
+interface borderStyle {
+  left?: string;
+  top?: string;
+  width?: string;
+  height?: string;
+  display?: string;
+}
+export default (): { borderStyle: Ref<borderStyle> } => {
   const store = useStore();
-  const borderStyle = ref({});
+  const borderStyle = ref<borderStyle>({});
   const borderTransition = ref(false);
   let currentDom: HTMLElement | null = null;
   // 计算border样式
@@ -131,6 +137,5 @@ export default () => {
 
   return {
     borderStyle,
-    borderTransition,
   };
 };

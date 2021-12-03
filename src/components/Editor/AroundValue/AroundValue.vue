@@ -255,20 +255,17 @@ export default defineComponent({
         emit(`update:${selected.value}`, { ...aroundValues });
       }
     });
+    const selectedComponentId = computed(() => {
+      return selectedComponents.value.id;
+    });
     // 只有切换了选择的组件才会触发
-    watch(
-      toRef(selectedComponents.value, "id"),
-      () => {
-        selected.value = "";
-        aroundValues.top = undefined;
-        aroundValues.bottom = undefined;
-        aroundValues.left = undefined;
-        aroundValues.right = undefined;
-      },
-      {
-        deep: true,
-      }
-    );
+    watch(selectedComponentId, () => {
+      selected.value = "";
+      aroundValues.top = undefined;
+      aroundValues.bottom = undefined;
+      aroundValues.left = undefined;
+      aroundValues.right = undefined;
+    });
     watchEffect(() => {
       const select = store.state.editor.selectedComponents;
       if (select) {

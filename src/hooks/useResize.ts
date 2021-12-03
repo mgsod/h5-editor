@@ -58,7 +58,6 @@ export default () => {
   let left: IPage[];
   let resizeHandle: string;
 
-  function mouseDown(event: MouseEvent, handle: string): void;
   function mouseDown(event: MouseEvent, handle?: string) {
     event.preventDefault();
     event.stopPropagation();

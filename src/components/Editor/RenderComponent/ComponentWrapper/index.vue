@@ -9,6 +9,7 @@
     @dragleave="dragleave($event, property)"
     @dragover="dragover"
     @click="select($event, property)"
+    @mousedown="mouseDown"
   >
     <component :is="property.type" v-bind="property">
       <component-wrapper
@@ -61,7 +62,6 @@ export default defineComponent({
       drop,
       select: (e: Event, item: TComponent) => {
         e.stopPropagation();
-        console.log(222, item);
         store.commit(MUTATION_TYPE.SELECT_COMPONENT, item);
       },
     };

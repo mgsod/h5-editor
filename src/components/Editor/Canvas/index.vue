@@ -8,20 +8,19 @@
           :property="item"
         />
         <div
-          class="border"
-          :style="borderStyle"
-          :class="{ lowZIndex, isDragNew }"
-          v-show="selectedComponentId"
-          @mousedown="mouseDown($event)"
-        >
-          <div
-            class="point"
-            :class="item"
-            v-for="item in resizePoint"
-            :key="item"
-            @mousedown="mouseDown($event, item)"
-          ></div>
-        </div>
+          class="border-line"
+          v-for="item in borderLine"
+          :key="`border-${item}`"
+          :style="getBorderStyle(item)"
+        ></div>
+        <div
+          class="point"
+          :class="item"
+          v-for="item in resizePoint"
+          :key="item"
+          :style="getPointStyle(item)"
+          @mousedown="mouseDown($event, item)"
+        ></div>
       </div>
     </div>
   </div>
@@ -34,29 +33,20 @@ import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
 import useVirtualBorder from "@/hooks/useVirtualBorder";
 import useResize from "@/hooks/useResize";
-import { IContainer } from "@/components/Editor/RenderComponent/Container";
-import { TComponent } from "@/components/Editor/RenderComponent/types";
-
+type IDirection = "top" | "right" | "bottom" | "left";
 export default defineComponent({
   name: "H5canvas",
   components: { ComponentWrapper },
   setup() {
     const { dragenter, dragleave, drop, dragover } = useDragEffect();
     const store = useStore();
-    const { borderStyle, borderTransition } = useVirtualBorder();
+    const { borderStyle } = useVirtualBorder();
     // 拖拽/更改组件大小位置
     const { mouseDown, resizePoint } = useResize();
     const isDragNew = computed(() => {
       return store.state.editor.isDrag;
     });
-    // 低层级
-    // 虚拟边框是盖在组件上面的，为了能选中里面的组件，根组件需要设置低层级
-    // 在拖拽新的组件时也需要设置低层级，以让鼠标可以拖拽到内部容器中
-    const lowZIndex = computed(() => {
-      const isRoot = (store.state.editor.selectedComponents as TComponent)
-        ?.isRoot;
-      return isDragNew.value || isRoot;
-    });
+    const borderLine: IDirection[] = ["top", "right", "bottom", "left"];
     return {
       dragenter,
       dragleave,
@@ -67,14 +57,109 @@ export default defineComponent({
         return store.getters.currentPage.components;
       }),
       borderStyle,
-      borderTransition,
       mouseDown,
       resizePoint,
-      lowZIndex,
       isDragNew,
+      borderLine,
       selectedComponentId: computed(() => {
         return store.state.editor.selectedComponents?.id;
       }),
+      getBorderStyle(flag: IDirection) {
+        switch (flag) {
+          case "top":
+            return {
+              width: borderStyle.value.width,
+              left: borderStyle.value.left,
+              top: borderStyle.value.top,
+              display: borderStyle.value.display,
+            };
+          case "bottom":
+            return {
+              width: borderStyle.value.width,
+              left: borderStyle.value.left,
+              top: `${
+                parseFloat(borderStyle.value.top as string) +
+                parseFloat(borderStyle.value.height as string)
+              }px`,
+              display: borderStyle.value.display,
+            };
+          case "left":
+            return {
+              height: borderStyle.value.height,
+              left: borderStyle.value.left,
+              top: borderStyle.value.top,
+              display: borderStyle.value.display,
+            };
+          case "right":
+            return {
+              height: borderStyle.value.height,
+              left: `${
+                parseFloat(borderStyle.value.left as string) +
+                parseFloat(borderStyle.value.width as string)
+              }px`,
+              top: borderStyle.value.top,
+              display: borderStyle.value.display,
+            };
+        }
+      },
+      getPointStyle(flag: string) {
+        let {
+          left = "",
+          top = "",
+          height = "",
+          width = "",
+        } = borderStyle.value;
+        left = parseFloat(left) - 1.5 + "px";
+        top = parseFloat(top) - 1.5 + "px";
+        width = parseFloat(width) - 1.5 + "px";
+        height = parseFloat(height) - 1.5 + "px";
+        const maxWidth = `${parseFloat(left) + parseFloat(width)}px`;
+        const halfWidth = `${parseFloat(left) + parseFloat(width) / 2}px`;
+        const maxHeight = `${parseFloat(top) + parseFloat(height)}px`;
+        const halfHeight = `${parseFloat(top) + parseFloat(height) / 2}px`;
+        switch (flag) {
+          case "lt":
+            return {
+              left: left,
+              top,
+            };
+          case "rt":
+            return {
+              left: maxWidth,
+              top,
+            };
+          case "rb":
+            return {
+              left: maxWidth,
+              top: maxHeight,
+            };
+          case "lb":
+            return {
+              left,
+              top: maxHeight,
+            };
+          case "l":
+            return {
+              left,
+              top: halfHeight,
+            };
+          case "r":
+            return {
+              left: maxWidth,
+              top: halfHeight,
+            };
+          case "t":
+            return {
+              left: halfWidth,
+              top,
+            };
+          case "b":
+            return {
+              left: halfWidth,
+              top: maxHeight,
+            };
+        }
+      },
     };
   },
 });
@@ -107,6 +192,45 @@ export default defineComponent({
       &.enterContainer,
       :deep(div.enterContainer) {
         outline: 1px dashed var(--el-color-warning) !important;
+      }
+      .border-line {
+        position: fixed;
+        border-left: 1px solid var(--el-color-primary);
+        border-top: 1px solid var(--el-color-primary);
+        z-index: 2;
+      }
+      .point {
+        position: fixed;
+        background: #fff;
+        border: 1px solid #59c7f9;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        z-index: 2;
+        &.lt {
+          cursor: nw-resize;
+        }
+        &.rt {
+          cursor: ne-resize;
+        }
+        &.rb {
+          cursor: se-resize;
+        }
+        &.lb {
+          cursor: sw-resize;
+        }
+        &.l {
+          cursor: ew-resize;
+        }
+        &.r {
+          cursor: ew-resize;
+        }
+        &.t {
+          cursor: ns-resize;
+        }
+        &.b {
+          cursor: ns-resize;
+        }
       }
       .border {
         position: fixed;
@@ -172,9 +296,6 @@ export default defineComponent({
           }
         }
         z-index: 2;
-        &.lowZIndex {
-          z-index: 1;
-        }
       }
       #root {
         height: 0 !important;

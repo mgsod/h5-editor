@@ -25,7 +25,6 @@ export default {
             ?.replace(/\.\w+$/, "")
         )
       );
-      console.log("componentName", componentName);
       if (
         !componentName.includes("setting") &&
         !componentName.includes("Wrapper")
