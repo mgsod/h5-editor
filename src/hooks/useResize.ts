@@ -47,7 +47,7 @@ export default () => {
         );
       }
     }
-    return all;
+    return [];
   });
 
   const position = computed(() => {
