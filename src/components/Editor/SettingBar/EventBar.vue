@@ -29,7 +29,7 @@
   </div>
   <el-dialog
     :append-to-body="true"
-    width="30%"
+    width="35%"
     title="新增/编辑事件"
     v-model="showDialog"
   >
