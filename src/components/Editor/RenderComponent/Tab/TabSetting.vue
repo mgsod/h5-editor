@@ -2,9 +2,9 @@
   <el-form-item label="标签管理">
     <el-button @click="add" type="primary" size="mini">添加新标签</el-button>
   </el-form-item>
-  <div class="tab-list">
+  <div class="tab-list hidden-scrollbar">
     <div class="item" v-for="(item, index) in tab.children" :key="item.id">
-      {{ item.alias }}
+      <input class="tab-name-input" type="text" v-model="item.alias" />
       <el-popconfirm
         confirmButtonText="确定"
         cancelButtonText="取消"
@@ -61,13 +61,17 @@ export default defineComponent({
   display: flex;
   overflow: scroll;
   .item {
-    padding: 8px 15px;
-    flex-shrink: 0;
     flex-shrink: 0;
     border: 1px solid var(--el-color-primary);
     margin: 0 -1px 0 0;
     cursor: default;
     position: relative;
+    .tab-name-input {
+      padding: 8px 15px;
+      border: none;
+      outline: none;
+      max-width: 100px;
+    }
     .el-icon-remove {
       position: absolute;
       top: 0;

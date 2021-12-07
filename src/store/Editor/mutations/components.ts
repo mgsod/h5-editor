@@ -71,7 +71,7 @@ const componentMutations: MutationTree<IState> = {
   // 选中一个组件
   [MUTATION_TYPE.SELECT_COMPONENT]: (state: IState, payload?: TComponent) => {
     if (payload) {
-      // 如果选中的id和当前已选一致 不擦欧总
+      // 如果选中的id和当前已选一致
       if (payload.id === state.selectedComponents?.id) return;
     } else {
       payload = <TComponent>state.selectedComponents;

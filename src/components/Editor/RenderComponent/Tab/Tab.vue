@@ -1,6 +1,6 @@
 <template>
   <div class="tab">
-    <div class="tab-title">
+    <div class="tab-title hidden-scrollbar">
       <div class="tab-title-list">
         <div
           class="tab-title-list-item"
@@ -27,14 +27,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, onMounted, ref, watch } from "vue";
+import {
+  computed,
+  defineComponent,
+  nextTick,
+  onMounted,
+  ref,
+  watch,
+} from "vue";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
 import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
 export default defineComponent({
   inheritAttrs: false,
   name: ComponentType.Tab,
   props: {
-    children: Array,
+    children: {
+      type: Array,
+      required: true,
+    },
     active: {
       type: Number,
       required: true,
@@ -45,7 +55,8 @@ export default defineComponent({
     const privateActive = ref(props.active);
     const tabTitleRefs = ref([]);
     const transform = ref("");
-    const getTransform = () => {
+    const getTransform = async () => {
+      await nextTick();
       const $ref = tabTitleRefs.value[privateActive.value] as HTMLElement;
       const { offsetLeft, offsetWidth } = $ref;
       transform.value = `translateX(${
@@ -53,9 +64,17 @@ export default defineComponent({
       }px) translateX(-50%)`;
     };
     watch(privateActive, getTransform);
+    const tabsLength = computed(() => {
+      return props.children.length;
+    });
+    watch(tabsLength, () => {
+      privateActive.value =
+        privateActive.value > tabsLength.value - 1
+          ? tabsLength.value - 1
+          : privateActive.value;
+    });
 
-    onMounted(async () => {
-      await nextTick();
+    onMounted(() => {
       getTransform();
     });
     return {
@@ -76,11 +95,11 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   .tab-title {
-    flex: 0 0 30px;
+    flex: 0 0 32px;
     position: relative;
     overflow: scroll;
     &-list {
-      height: 18px;
+      height: 20px;
       display: flex;
       align-items: center;
       margin-bottom: 10px;
@@ -93,12 +112,13 @@ export default defineComponent({
         line-height: 14px;
         margin-right: 28px;
         cursor: default;
+        padding: 5px 10px;
         &.active {
           font-size: 20px;
           font-family: PingFangSC-Medium, PingFang SC;
           font-weight: 500;
           color: #333333;
-          line-height: 18px;
+          line-height: 20px;
         }
       }
     }
