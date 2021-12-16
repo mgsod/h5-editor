@@ -14,6 +14,12 @@
           :style="getBorderStyle(item)"
         ></div>
         <div
+          class="enter-container-border-line"
+          v-for="item in enterContainerBorderLine"
+          :key="`border-${item}`"
+          :style="getBorderStyle(item, true)"
+        ></div>
+        <div
           class="point"
           :class="item"
           v-for="item in resizePoint"
@@ -27,12 +33,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, watch } from "vue";
 import { useStore } from "@/store";
 import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
 import useVirtualBorder from "@/hooks/useVirtualBorder";
 import useResize from "@/hooks/useResize";
+
 type IDirection = "top" | "right" | "bottom" | "left";
 export default defineComponent({
   name: "H5canvas",
@@ -40,13 +47,21 @@ export default defineComponent({
   setup() {
     const { dragenter, dragleave, drop, dragover } = useDragEffect();
     const store = useStore();
-    const { borderStyle } = useVirtualBorder();
+    const { borderStyle, enterContainerBorderStyle } = useVirtualBorder();
     // 拖拽/更改组件大小位置
     const { mouseDown, resizePoint } = useResize();
+
     const isDragNew = computed(() => {
       return store.state.editor.isDrag;
     });
     const borderLine: IDirection[] = ["top", "right", "bottom", "left"];
+    const enterContainerBorderLine: IDirection[] = [
+      "top",
+      "right",
+      "bottom",
+      "left",
+    ];
+
     return {
       dragenter,
       dragleave,
@@ -61,44 +76,46 @@ export default defineComponent({
       resizePoint,
       isDragNew,
       borderLine,
+      enterContainerBorderLine,
       selectedComponentId: computed(() => {
         return store.state.editor.selectedComponents?.id;
       }),
-      getBorderStyle(flag: IDirection) {
+      getBorderStyle(flag: IDirection, isDrag = false) {
+        const border = isDrag ? enterContainerBorderStyle : borderStyle;
         switch (flag) {
           case "top":
             return {
-              width: borderStyle.value.width,
-              left: borderStyle.value.left,
-              top: borderStyle.value.top,
-              display: borderStyle.value.display,
+              width: border.value.width,
+              left: border.value.left,
+              top: border.value.top,
+              display: border.value.display,
             };
           case "bottom":
             return {
-              width: borderStyle.value.width,
-              left: borderStyle.value.left,
+              width: border.value.width,
+              left: border.value.left,
               top: `${
-                parseFloat(borderStyle.value.top as string) +
-                parseFloat(borderStyle.value.height as string)
+                parseFloat(border.value.top as string) +
+                parseFloat(border.value.height as string)
               }px`,
-              display: borderStyle.value.display,
+              display: border.value.display,
             };
           case "left":
             return {
-              height: borderStyle.value.height,
-              left: borderStyle.value.left,
-              top: borderStyle.value.top,
-              display: borderStyle.value.display,
+              height: border.value.height,
+              left: border.value.left,
+              top: border.value.top,
+              display: border.value.display,
             };
           case "right":
             return {
-              height: borderStyle.value.height,
+              height: border.value.height,
               left: `${
-                parseFloat(borderStyle.value.left as string) +
-                parseFloat(borderStyle.value.width as string)
+                parseFloat(border.value.left as string) +
+                parseFloat(border.value.width as string)
               }px`,
-              top: borderStyle.value.top,
-              display: borderStyle.value.display,
+              top: border.value.top,
+              display: border.value.display,
             };
         }
       },
@@ -169,6 +186,7 @@ export default defineComponent({
 .canvas-wrapper {
   display: flex;
   justify-content: center;
+
   .wrapper-grid {
     width: 375px;
     height: 600px;
@@ -183,22 +201,33 @@ export default defineComponent({
       linear-gradient(360deg, rgba(50, 0, 0, 0.05) 3%, rgba(0, 0, 0, 0) 3%);
     background-size: 20px 20px;
     background-repeat: repeat;
+
     .canvas {
       box-sizing: border-box;
       height: 100%;
       width: 100%;
       position: relative;
       overflow-y: auto;
+
       &.enterContainer,
       :deep(div.enterContainer) {
         outline: 1px dashed var(--el-color-warning) !important;
       }
+
       .border-line {
         position: fixed;
         border-left: 1px solid var(--el-color-primary);
         border-top: 1px solid var(--el-color-primary);
         z-index: 2;
       }
+
+      .enter-container-border-line {
+        position: fixed;
+        border-left: 1px dashed var(--el-color-warning);
+        border-top: 1px dashed var(--el-color-warning);
+        z-index: 2;
+      }
+
       .point {
         position: fixed;
         background: #fff;
@@ -207,34 +236,44 @@ export default defineComponent({
         height: 6px;
         border-radius: 50%;
         z-index: 2;
+
         &.lt {
           cursor: nw-resize;
         }
+
         &.rt {
           cursor: ne-resize;
         }
+
         &.rb {
           cursor: se-resize;
         }
+
         &.lb {
           cursor: sw-resize;
         }
+
         &.l {
           cursor: ew-resize;
         }
+
         &.r {
           cursor: ew-resize;
         }
+
         &.t {
           cursor: ns-resize;
         }
+
         &.b {
           cursor: ns-resize;
         }
       }
+
       .border {
         position: fixed;
         outline: 1px solid var(--el-color-primary);
+
         .point {
           position: absolute;
           background: #fff;
@@ -242,6 +281,7 @@ export default defineComponent({
           width: 6px;
           height: 6px;
           border-radius: 50%;
+
           &.lt {
             margin-left: -3px;
             margin-top: -3px;
@@ -249,6 +289,7 @@ export default defineComponent({
             top: 0;
             cursor: nw-resize;
           }
+
           &.rt {
             margin-right: -3px;
             margin-top: -3px;
@@ -256,6 +297,7 @@ export default defineComponent({
             top: 0;
             cursor: ne-resize;
           }
+
           &.rb {
             margin-right: -3px;
             margin-bottom: -3px;
@@ -263,6 +305,7 @@ export default defineComponent({
             bottom: 0;
             cursor: se-resize;
           }
+
           &.lb {
             margin-left: -3px;
             margin-bottom: -3px;
@@ -270,24 +313,28 @@ export default defineComponent({
             bottom: 0;
             cursor: sw-resize;
           }
+
           &.l {
             margin-left: -4px;
             left: 0;
             top: calc(50% - 3px);
             cursor: ew-resize;
           }
+
           &.r {
             margin-right: -4px;
             right: 0;
             top: calc(50% - 3px);
             cursor: ew-resize;
           }
+
           &.t {
             margin-top: -4px;
             left: calc(50% - 3px);
             top: 0;
             cursor: ns-resize;
           }
+
           &.b {
             margin-bottom: -4px;
             left: calc(50% - 3px);
@@ -295,8 +342,10 @@ export default defineComponent({
             cursor: ns-resize;
           }
         }
+
         z-index: 2;
       }
+
       #root {
         height: 0 !important;
       }

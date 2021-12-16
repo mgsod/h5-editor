@@ -14,6 +14,7 @@ export interface IPage {
   id: string;
   name: string;
 }
+
 export interface IState {
   pages: IPage[];
   pageActive: string;
@@ -21,6 +22,7 @@ export interface IState {
   allowUndo: boolean;
   allowRedo: boolean;
   isDrag: boolean;
+  enterContainer: IComponent | null;
 }
 
 const module: Module<IState, state> = {
@@ -31,6 +33,7 @@ const module: Module<IState, state> = {
     allowRedo: false,
     allowUndo: false,
     isDrag: false,
+    enterContainer: null,
   },
   mutations: {
     ...mutations,

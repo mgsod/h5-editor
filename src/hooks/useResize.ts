@@ -34,9 +34,17 @@ export default () => {
   const resizePoint = computed(() => {
     const all = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
     if (store.state.editor.selectedComponents) {
+      // 如果是根节点，或者带有根节点属性（例如tab组件中默认会又一个container容器，这个容器标识为根组件）
+      // 不需要拖拽点
       if (
         store.state.editor.selectedComponents.id === "root" ||
         (store.state.editor.selectedComponents as TComponent).isRoot
+      )
+        return [];
+      // 如果当前有组件拖拽进本组件，也不需要展示拖拽点。橙色虚线边控优先级高于选中边控
+      if (
+        store.state.editor.selectedComponents.id ===
+        store.state.editor.enterContainer?.id
       )
         return [];
       const position = store.state.editor.selectedComponents.position;
@@ -84,6 +92,7 @@ export default () => {
       document.body.addEventListener("mouseup", mouseUp);
     }
   }
+
   /**
    * 鼠标按下
    * @param event

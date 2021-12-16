@@ -3,6 +3,7 @@ import { nextTick, ref, watch, computed, Ref } from "vue";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { findItemById } from "@/util";
 import eventBus, { EventType } from "@/hooks/useEventBus";
+
 interface borderStyle {
   left?: string;
   top?: string;
@@ -10,15 +11,58 @@ interface borderStyle {
   height?: string;
   display?: string;
 }
-export default (): { borderStyle: Ref<borderStyle> } => {
+
+export default (): {
+  borderStyle: Ref<borderStyle>;
+  enterContainerBorderStyle: Ref<borderStyle>;
+} => {
   const store = useStore();
   const borderStyle = ref<borderStyle>({});
+  const enterContainerBorderStyle = ref<borderStyle>({});
   const borderTransition = ref(false);
   let currentDom: HTMLElement | null = null;
+  let enterContainerDom: HTMLElement | null = null;
+
+  const enterContainer = computed(() => {
+    return store.state.editor.enterContainer;
+  });
+  watch(enterContainer, () => {
+    if (enterContainer.value) {
+      enterContainerDom = document.getElementById(
+        enterContainer.value.id
+      ) as HTMLElement;
+    } else {
+      enterContainerDom = null;
+    }
+    enterContainerBorderStyle.value = computedEnterContainerBorderStyle();
+    borderStyle.value = computedBorderStyle();
+  });
+  const computedEnterContainerBorderStyle = () => {
+    const selected = store.state.editor.enterContainer;
+    if (selected && enterContainerDom) {
+      const { left, top, width, height } =
+        enterContainerDom.getBoundingClientRect();
+      return {
+        left: left + "px",
+        top: top + "px",
+        width: width + "px",
+        height: height + "px",
+      };
+    }
+    return {
+      display: "none",
+    };
+  };
+
   // 计算border样式
   const computedBorderStyle = () => {
     const selected = store.state.editor.selectedComponents;
-    if (selected && currentDom) {
+    if (
+      selected &&
+      currentDom &&
+      ((enterContainer.value && enterContainer.value.id !== selected.id) ||
+        !enterContainer.value)
+    ) {
       const { left, top, width, height } = currentDom.getBoundingClientRect();
       return {
         left: left + "px",
@@ -73,6 +117,7 @@ export default (): { borderStyle: Ref<borderStyle> } => {
     },
     { deep: true }
   );
+
   function bindScroll(current: string) {
     nextTick().then(() => {
       currentDom = document.getElementById(current) as HTMLElement;
@@ -97,6 +142,7 @@ export default (): { borderStyle: Ref<borderStyle> } => {
       };
     });
   }
+
   watch(selectComponentId, (current) => {
     if (current) {
       bindScroll(current);
@@ -137,5 +183,6 @@ export default (): { borderStyle: Ref<borderStyle> } => {
 
   return {
     borderStyle,
+    enterContainerBorderStyle,
   };
 };

@@ -46,11 +46,13 @@ const componentMutations: MutationTree<IState> = {
         page.components.push(component);
       }
     });
+    state.enterContainer = null;
     state.isDrag = false;
   },
   // 拖拽一个组件
   [MUTATION_TYPE.DRAG_COMPONENT]: (state: IState, payload = true) => {
     state.isDrag = payload;
+    state.enterContainer = null;
   },
   // 更新组件信息
   [MUTATION_TYPE.UPDATE_COMPONENT]: (state: IState, payload: TComponent) => {
@@ -105,6 +107,12 @@ const componentMutations: MutationTree<IState> = {
         updateSelectedComponent(state);
       });
     }
+  },
+  [MUTATION_TYPE.ENTER_CONTAINER]: (state: IState, target) => {
+    state.enterContainer = target;
+  },
+  [MUTATION_TYPE.LEAVE_CONTAINER]: (state: IState) => {
+    state.enterContainer = null;
   },
 };
 export default componentMutations;
