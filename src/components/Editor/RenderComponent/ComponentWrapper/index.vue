@@ -72,6 +72,7 @@ export default defineComponent({
 <style lang="less">
 .component-wrapper {
   overflow: hidden;
+  cursor: default;
   &#root {
     min-height: 100%;
     z-index: 2;

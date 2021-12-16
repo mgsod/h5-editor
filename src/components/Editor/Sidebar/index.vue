@@ -75,6 +75,7 @@ import {
   TreeNodeOptions,
 } from "element-plus/lib/components/tree/src/tree.type";
 import { IPage } from "@/store/Editor";
+
 export default {
   name: "Sidebar",
   props: {},
@@ -106,7 +107,7 @@ export default {
       dragstart,
       ComponentList,
       pages,
-      active: ref("pages"),
+      active: ref("components"),
       domTree,
       selectedId,
       activePageId: computed(() => {
@@ -157,21 +158,26 @@ export default {
   background: white;
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
   padding: 8px 0;
+
   .el-tabs {
     flex: 0 0 300px;
     width: 100%;
+
     :deep(.el-tabs__content),
     .el-tab-pane {
       height: 100%;
+
       & > div {
         height: 100%;
       }
+
       .components {
         flex: auto;
         display: flex;
         flex-wrap: wrap;
         cursor: default;
         height: auto;
+
         .component {
           flex: 0 0 65px;
           height: 65px;
@@ -183,36 +189,43 @@ export default {
           border: 1px solid #ccc;
           cursor: default;
           margin: 0 -1px -1px 0;
+
           &:hover {
-            border: 1px solid #000;
+            border: 1px solid var(--el-color-primary);
             position: relative;
             z-index: 2;
           }
         }
       }
+
       .pages {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         padding-right: 8px;
+
         .page-item {
           padding: 10px 8px;
           border-bottom: 1px solid #f0f4f5;
           border-radius: 5px;
           cursor: pointer;
+
           &.active {
             background: var(--el-color-primary);
             color: #fff;
           }
         }
+
         .action {
           text-align: center;
         }
       }
     }
   }
+
   .el-tree {
     user-select: none;
+
     .selected {
       color: var(--el-color-primary);
     }
