@@ -16,7 +16,7 @@ export default () => {
     }
   };
 
-  const dragleave = (e: MouseEvent, targetComponent?: TComponent) => {
+  const dragleave = (e: MouseEvent) => {
     e.stopPropagation();
   };
 

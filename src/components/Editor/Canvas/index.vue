@@ -6,6 +6,7 @@
           v-for="item in components"
           :key="item.id"
           :property="item"
+          @mousedown="mouseDown"
         />
         <div
           class="border-line"

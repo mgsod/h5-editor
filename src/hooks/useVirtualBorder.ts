@@ -19,24 +19,29 @@ export default (): {
   const store = useStore();
   const borderStyle = ref<borderStyle>({});
   const enterContainerBorderStyle = ref<borderStyle>({});
-  const borderTransition = ref(false);
   let currentDom: HTMLElement | null = null;
-  let enterContainerDom: HTMLElement | null = null;
 
+  let enterContainerDom: HTMLElement | null = null;
   const enterContainer = computed(() => {
     return store.state.editor.enterContainer;
   });
+  // 监听拖拽进目标容器的变化
   watch(enterContainer, () => {
+    // 如果有目标容器
     if (enterContainer.value) {
+      // 获取dom
       enterContainerDom = document.getElementById(
         enterContainer.value.id
       ) as HTMLElement;
     } else {
       enterContainerDom = null;
     }
+    // 计算目标容器的边框样式
     enterContainerBorderStyle.value = computedEnterContainerBorderStyle();
+    // 同时也需要再次计算默认边框的样式
     borderStyle.value = computedBorderStyle();
   });
+
   const computedEnterContainerBorderStyle = () => {
     const selected = store.state.editor.enterContainer;
     if (selected && enterContainerDom) {
@@ -57,6 +62,8 @@ export default (): {
   // 计算border样式
   const computedBorderStyle = () => {
     const selected = store.state.editor.selectedComponents;
+    // 如果当前有选中的组件 且找到了dom元素
+    // 且当前选中的组件不是正在被拖拽至容器的目标组件 或者 当前无正在拖拽的组件
     if (
       selected &&
       currentDom &&
@@ -110,37 +117,32 @@ export default (): {
   // 监听尺寸变化
   watch(
     selectComponentSize,
-    () => {
-      nextTick(() => {
-        borderStyle.value = computedBorderStyle();
-      });
+    async () => {
+      await nextTick();
+      borderStyle.value = computedBorderStyle();
     },
     { deep: true }
   );
 
-  function bindScroll(current: string) {
-    nextTick().then(() => {
-      currentDom = document.getElementById(current) as HTMLElement;
-      borderStyle.value = computedBorderStyle();
-      const parents = findAllParentContainer(
-        findItemById(
-          store.getters.currentPage.components,
-          current
-        ) as IComponent
-      );
-      parents.forEach((item) => {
-        const dom = (document.getElementById(item) as HTMLElement)
-          .firstElementChild as HTMLElement;
-        // 已经有滚动事件，不需要再绑定
-        if (dom.onscroll) return;
-        dom.onscroll = () => {
-          borderStyle.value = computedBorderStyle();
-        };
-      });
-      (document.getElementById("canvas") as HTMLElement).onscroll = () => {
+  async function bindScroll(current: string) {
+    await nextTick();
+    currentDom = document.getElementById(current) as HTMLElement;
+    borderStyle.value = computedBorderStyle();
+    const parents = findAllParentContainer(
+      findItemById(store.getters.currentPage.components, current) as IComponent
+    );
+    parents.forEach((item) => {
+      const dom = (document.getElementById(item) as HTMLElement)
+        .firstElementChild as HTMLElement;
+      // 已经有滚动事件，不需要再绑定
+      if (dom.onscroll) return;
+      dom.onscroll = () => {
         borderStyle.value = computedBorderStyle();
       };
     });
+    (document.getElementById("canvas") as HTMLElement).onscroll = () => {
+      borderStyle.value = computedBorderStyle();
+    };
   }
 
   watch(selectComponentId, (current) => {
@@ -168,16 +170,14 @@ export default (): {
   };
 
   // 监听updateBorder 更新border样式
-  eventBus.$on(EventType.updateBorder, (current?: string) => {
-    nextTick(() => {
-      if (current) {
-        bindScroll(current);
-      }
-      borderStyle.value = computedBorderStyle();
-    });
+  eventBus.$on(EventType.updateBorder, async (current?: string) => {
+    await nextTick();
+    if (current) {
+      bindScroll(current);
+    }
+    borderStyle.value = computedBorderStyle();
   });
   window.addEventListener("resize", () => {
-    borderTransition.value = false;
     borderStyle.value = computedBorderStyle();
   });
 

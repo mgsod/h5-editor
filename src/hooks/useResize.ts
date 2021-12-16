@@ -30,6 +30,12 @@ export default () => {
   const resize = ref(false);
   const rePosition = ref(false);
   let currentComponent: TComponent | null = null;
+
+  // 定位方式
+  const position = computed(() => {
+    return store.state.editor.selectedComponents?.position || "";
+  });
+
   // 设置拖拽点
   const resizePoint = computed(() => {
     const all = ["lt", "rt", "lb", "rb", "l", "t", "r", "b"];
@@ -45,21 +51,19 @@ export default () => {
       if (
         store.state.editor.selectedComponents.id ===
         store.state.editor.enterContainer?.id
-      )
+      ) {
         return [];
-      const position = store.state.editor.selectedComponents.position;
-      if (position === "relative" || position === "static") {
+      }
+      if (position.value === "relative" || position.value === "static") {
         // 相对定位只能拖拽r，rb，b 三个点
         return all.filter(
           (item) => !["lt", "rt", "lb", "l", "t"].includes(item)
         );
+      } else {
+        return all;
       }
     }
     return [];
-  });
-
-  const position = computed(() => {
-    return store.state.editor.selectedComponents?.position || "";
   });
 
   // 当前状态
