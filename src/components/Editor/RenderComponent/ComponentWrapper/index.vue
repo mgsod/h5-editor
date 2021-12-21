@@ -31,6 +31,7 @@ import useResize from "@/hooks/useResize";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import useStyle from "@/hooks/useStyle";
+import useContextmenu from "@/hooks/useContextmenu";
 
 export default defineComponent({
   name: "ComponentWrapper",
@@ -43,6 +44,7 @@ export default defineComponent({
   },
   emits: ["mousedown"],
   setup(props, { emit }) {
+    const { closeContextmenu } = useContextmenu();
     const store = useStore();
     const { property } = toRefs(props);
     const style = useStyle(property);
@@ -60,6 +62,7 @@ export default defineComponent({
       drop,
       select: (e: Event, item: TComponent) => {
         e.stopPropagation();
+        closeContextmenu();
         store.commit(MUTATION_TYPE.SELECT_COMPONENT, item);
       },
       mousedown(e: Event) {

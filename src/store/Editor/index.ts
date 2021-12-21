@@ -1,12 +1,10 @@
 import { Module } from "vuex";
 import mutations from "@/store/Editor/mutations";
-import Component, {
-  IComponent,
-} from "@/components/Editor/RenderComponent/Component";
+import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { state } from "@/store";
 import { getCache } from "@/util";
 import { CACHE_KEY, IEditorCache } from "@/store/Editor/util";
-import { TComponent } from "@/components/Editor/RenderComponent/types";
+import getters from "@/store/Editor/getters";
 
 export interface IPage {
   order: number;
@@ -39,9 +37,7 @@ const module: Module<IState, state> = {
     ...mutations,
   },
   getters: {
-    currentPage: (state) => {
-      return state.pages.find((item) => item.id === state.pageActive) || [];
-    },
+    ...getters,
   },
 };
 

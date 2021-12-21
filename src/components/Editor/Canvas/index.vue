@@ -1,7 +1,7 @@
 <template>
   <div class="canvas-wrapper">
     <div class="wrapper-grid">
-      <div class="canvas" id="canvas">
+      <div class="canvas" id="canvas" @contextmenu="preventDefault">
         <component-wrapper
           v-for="item in components"
           :key="item.id"
@@ -30,6 +30,7 @@
         ></div>
       </div>
     </div>
+    <contextmenu v-model="showContextmenu" :position="position"></contextmenu>
   </div>
 </template>
 
@@ -40,12 +41,16 @@ import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
 import useVirtualBorder from "@/hooks/useVirtualBorder";
 import useResize from "@/hooks/useResize";
+import useContextmenu from "@/hooks/useContextmenu";
+
+import contextmenu from "@/components/Editor/Contextmenu/index.vue";
 
 type IDirection = "top" | "right" | "bottom" | "left";
 export default defineComponent({
   name: "H5canvas",
-  components: { ComponentWrapper },
+  components: { ComponentWrapper, contextmenu },
   setup() {
+    const { preventDefault, position, showContextmenu } = useContextmenu();
     const { dragenter, dragleave, drop, dragover } = useDragEffect();
     const store = useStore();
     const { borderStyle, enterContainerBorderStyle } = useVirtualBorder();
@@ -178,6 +183,9 @@ export default defineComponent({
             };
         }
       },
+      preventDefault,
+      showContextmenu,
+      position,
     };
   },
 });

@@ -5,6 +5,9 @@ const getters: GetterTree<IState, any> = {
   currentPage: (state) => {
     return state.pages.find((item) => item.id === state.pageActive);
   },
+  isSelectRoot: (state) => {
+    return state.selectedComponents?.id === "root";
+  },
 };
 
 export default getters;
