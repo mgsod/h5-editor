@@ -14,6 +14,7 @@ import eventBus, { EventType } from "@/hooks/useEventBus";
 import { IContainer } from "@/components/Editor/RenderComponent/Container";
 import { MutationTree } from "vuex";
 import { ITab } from "@/components/Editor/RenderComponent/Tab";
+import { ElMessageBox } from "element-plus";
 
 const componentMutations: MutationTree<IState> = {
   // 新增一个组件
@@ -113,6 +114,22 @@ const componentMutations: MutationTree<IState> = {
   },
   [MUTATION_TYPE.LEAVE_CONTAINER]: (state: IState) => {
     state.enterContainer = null;
+  },
+  [MUTATION_TYPE.EXTRACT_COMPONENT]: (
+    state: IState,
+    { name, component }: { name: string; component: TComponent }
+  ) => {
+    if (state.extractComponents.find((item) => item.name === name)) {
+      return ElMessageBox({
+        type: "warning",
+        title: "错误",
+        message: `${name}组件已存在`,
+      });
+    }
+    state.extractComponents.push({
+      name,
+      payload: component,
+    });
   },
 };
 export default componentMutations;

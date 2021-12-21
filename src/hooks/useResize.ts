@@ -73,6 +73,7 @@ export default () => {
   function mouseDown(event: MouseEvent, handle?: string) {
     event.preventDefault();
     event.stopPropagation();
+    if (event.button !== 0) return;
     // 更新left
     left = cloneDeep(store.state.editor.pages);
     const { clientX, clientY } = event;

@@ -2,16 +2,52 @@
   <div class="sidebar">
     <el-tabs tab-position="left" v-model="active">
       <el-tab-pane name="components" label="组件">
-        <div class="components">
-          <div
-            class="component"
-            draggable="true"
-            @dragstart="dragstart($event, item)"
-            @dragend="dragend"
-            v-for="item in ComponentList"
-            :key="item.type"
-          >
-            {{ item.name }}
+        <div class="panel">
+          <div class="panel-title">基本组件</div>
+          <div class="components">
+            <div
+              class="component"
+              draggable="true"
+              @dragstart="dragstart($event, item)"
+              @dragend="dragend"
+              v-for="item in ComponentList"
+              :key="item.type"
+            >
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">
+            自定义组件
+            <el-popover
+              placement="top-start"
+              title="提示"
+              :width="260"
+              trigger="hover"
+              content=""
+            >
+              <template #reference>
+                <i class="el-icon-question" />
+              </template>
+              <div>
+                右键一个组件，选择
+                <span style="color: var(--el-color-primary)"> 做成组件 </span>
+                即可生成自定义组件
+              </div>
+            </el-popover>
+          </div>
+          <div class="components">
+            <div
+              class="component"
+              draggable="true"
+              @dragstart="dragstart($event, item, true)"
+              @dragend="dragend"
+              v-for="item in extractComponents"
+              :key="item.name"
+            >
+              {{ item.name }}
+            </div>
           </div>
         </div>
       </el-tab-pane>
@@ -62,7 +98,6 @@
 <script lang="ts">
 import {
   ComponentList,
-  IComponentItem,
   TComponent,
 } from "@/components/Editor/RenderComponent/types";
 import { computed, ref } from "vue";
@@ -75,6 +110,7 @@ import {
   TreeNodeOptions,
 } from "element-plus/lib/components/tree/src/tree.type";
 import { IPage } from "@/store/Editor";
+import useDrag from "@/hooks/useDrag";
 
 export default {
   name: "Sidebar",
@@ -82,10 +118,7 @@ export default {
   components: {},
   setup() {
     const store = useStore();
-    const dragstart = (e: DragEvent, item: IComponentItem) => {
-      (e.dataTransfer as DataTransfer).setData("type", item.type);
-      store.commit(MUTATION_TYPE.DRAG_COMPONENT);
-    };
+    const { dragstart } = useDrag();
 
     const domTree = computed(() => {
       return cloneDeep(store.getters.currentPage.components);
@@ -146,6 +179,9 @@ export default {
       selectPage(id: string) {
         store.commit(MUTATION_TYPE.SELECT_PAGE, id);
       },
+      extractComponents: computed(() => {
+        return store.getters.extractComponents;
+      }),
     };
   },
 };
@@ -167,33 +203,45 @@ export default {
     .el-tab-pane {
       height: 100%;
 
-      & > div {
-        height: 100%;
-      }
+      .panel {
+        margin-bottom: 20px;
 
-      .components {
-        flex: auto;
-        display: flex;
-        flex-wrap: wrap;
-        cursor: default;
-        height: auto;
+        .panel-title {
+          margin-bottom: 8px;
+          color: #282828;
+          border-left: 2px solid var(--el-color-primary-light-2);
+          padding-left: 5px;
 
-        .component {
-          flex: 0 0 65px;
-          height: 65px;
-          padding: 8px;
+          i {
+            cursor: pointer;
+            color: var(--el-color-warning);
+          }
+        }
+
+        .components {
+          flex: auto;
           display: flex;
-          align-items: center;
-          justify-content: center;
-          box-sizing: border-box;
-          border: 1px solid #ccc;
+          flex-wrap: wrap;
           cursor: default;
-          margin: 0 -1px -1px 0;
+          height: auto;
 
-          &:hover {
-            border: 1px solid var(--el-color-primary);
-            position: relative;
-            z-index: 2;
+          .component {
+            flex: 0 0 65px;
+            height: 65px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            cursor: default;
+            margin: 0 -1px -1px 0;
+
+            &:hover {
+              border: 1px solid var(--el-color-primary);
+              position: relative;
+              z-index: 2;
+            }
           }
         }
       }

@@ -53,8 +53,8 @@ export default {
             }
             break;
           case "Backspace":
-            e.preventDefault();
-            store.commit(MUTATION_TYPE.REMOVE_COMPONENT);
+            //e.preventDefault();
+            //store.commit(MUTATION_TYPE.REMOVE_COMPONENT);
             break;
         }
       });

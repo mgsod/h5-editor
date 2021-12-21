@@ -5,6 +5,7 @@ import { state } from "@/store";
 import { getCache } from "@/util";
 import { CACHE_KEY, IEditorCache } from "@/store/Editor/util";
 import getters from "@/store/Editor/getters";
+import { TComponent } from "@/components/Editor/RenderComponent/types";
 
 export interface IPage {
   order: number;
@@ -21,6 +22,7 @@ export interface IState {
   allowRedo: boolean;
   isDrag: boolean;
   enterContainer: IComponent | null;
+  extractComponents: { name: string; payload: TComponent }[];
 }
 
 const module: Module<IState, state> = {
@@ -32,6 +34,7 @@ const module: Module<IState, state> = {
     allowUndo: false,
     isDrag: false,
     enterContainer: null,
+    extractComponents: [],
   },
   mutations: {
     ...mutations,

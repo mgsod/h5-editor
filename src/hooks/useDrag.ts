@@ -1,14 +1,48 @@
 import {
-  ComponentType,
+  IComponentItem,
   TComponent,
 } from "@/components/Editor/RenderComponent/types";
 import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
-
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
+import { cloneDeep } from "lodash";
+import { v4 as uuidv4 } from "uuid";
+
+function componentsCopy<T extends TComponent>(
+  component: T,
+  parentId = "",
+  depth = 0
+): T {
+  component.id = uuidv4();
+  if (parent) {
+    component.parentId = parentId;
+  }
+  if (component.children) {
+    component.children.forEach((item) => {
+      componentsCopy(item as TComponent, component.id, ++depth);
+    });
+  } else {
+    if (!depth) return component;
+  }
+  return component;
+}
 
 export default () => {
   const store = useStore();
+  const dragstart = (
+    e: DragEvent,
+    item: IComponentItem,
+    isExtractCom = false
+  ) => {
+    const data = isExtractCom
+      ? {
+          type: "extract",
+          name: item.name,
+        }
+      : { type: item.type };
+    (e.dataTransfer as DataTransfer).setData("dragInfo", JSON.stringify(data));
+    store.commit(MUTATION_TYPE.DRAG_COMPONENT);
+  };
   const dragenter = (e: DragEvent, targetComponent?: TComponent) => {
     e.stopPropagation();
     if (targetComponent?.isContainer) {
@@ -22,11 +56,22 @@ export default () => {
 
   const drop = (e: DragEvent, targetComponent?: TComponent) => {
     e.stopPropagation();
-    const type = <ComponentType>(
-      (e.dataTransfer as DataTransfer).getData("type")
+    const dragInfo = JSON.parse(
+      (e.dataTransfer as DataTransfer).getData("dragInfo")
     );
-    const component = ComponentFactory.createComponent(type);
+    const { type, name } = dragInfo;
     if (targetComponent?.isContainer) {
+      let component;
+      if (type === "extract") {
+        component = (
+          store.state.editor.extractComponents.find(
+            (item) => item.name === name
+          ) as { payload: TComponent }
+        ).payload;
+        component = componentsCopy(cloneDeep(component));
+      } else {
+        component = ComponentFactory.createComponent(type);
+      }
       store.commit(`${MUTATION_TYPE.ADD_COMPONENT}`, {
         targetComponent: targetComponent,
         component: component,
@@ -39,6 +84,7 @@ export default () => {
     e.preventDefault();
   };
   return {
+    dragstart,
     dragenter,
     dragleave,
     drop,

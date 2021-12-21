@@ -8,6 +8,9 @@ const getters: GetterTree<IState, any> = {
   isSelectRoot: (state) => {
     return state.selectedComponents?.id === "root";
   },
+  extractComponents: (state) => {
+    return state.extractComponents;
+  },
 };
 
 export default getters;

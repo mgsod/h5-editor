@@ -1,12 +1,13 @@
 <template>
   <div class="canvas-wrapper">
     <div class="wrapper-grid">
-      <div class="canvas" id="canvas" @contextmenu="preventDefault">
+      <div class="canvas" id="canvas">
         <component-wrapper
           v-for="item in components"
           :key="item.id"
           :property="item"
           @mousedown="mouseDown"
+          @contextmenu="contextmenu"
         />
         <div
           class="border-line"
@@ -30,27 +31,32 @@
         ></div>
       </div>
     </div>
-    <contextmenu v-model="showContextmenu" :position="position"></contextmenu>
+    <contextmenu
+      v-model="showContextmenu"
+      :position="position"
+      :component="contextmenuComponent"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, watch } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useStore } from "@/store";
 import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
 import useVirtualBorder from "@/hooks/useVirtualBorder";
 import useResize from "@/hooks/useResize";
 import useContextmenu from "@/hooks/useContextmenu";
-
 import contextmenu from "@/components/Editor/Contextmenu/index.vue";
+import { TComponent } from "@/components/Editor/RenderComponent/types";
 
 type IDirection = "top" | "right" | "bottom" | "left";
 export default defineComponent({
   name: "H5canvas",
   components: { ComponentWrapper, contextmenu },
   setup() {
-    const { preventDefault, position, showContextmenu } = useContextmenu();
+    const { preventDefault, position, showContextmenu, closeContextmenu } =
+      useContextmenu();
     const { dragenter, dragleave, drop, dragover } = useDragEffect();
     const store = useStore();
     const { borderStyle, enterContainerBorderStyle } = useVirtualBorder();
@@ -67,7 +73,7 @@ export default defineComponent({
       "bottom",
       "left",
     ];
-
+    const contextmenuComponent = ref();
     return {
       dragenter,
       dragleave,
@@ -82,6 +88,10 @@ export default defineComponent({
       resizePoint,
       isDragNew,
       borderLine,
+      preventDefault,
+      position,
+      showContextmenu,
+      closeContextmenu,
       enterContainerBorderLine,
       selectedComponentId: computed(() => {
         return store.state.editor.selectedComponents?.id;
@@ -183,9 +193,13 @@ export default defineComponent({
             };
         }
       },
-      preventDefault,
-      showContextmenu,
-      position,
+      contextmenu(e: MouseEvent, item: TComponent) {
+        preventDefault(e);
+        e.stopPropagation();
+        console.log(item);
+        contextmenuComponent.value = item;
+      },
+      contextmenuComponent,
     };
   },
 });

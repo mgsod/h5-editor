@@ -173,7 +173,7 @@ export default (): {
   eventBus.$on(EventType.updateBorder, async (current?: string) => {
     await nextTick();
     if (current) {
-      bindScroll(current);
+      await bindScroll(current);
     }
     borderStyle.value = computedBorderStyle();
   });
