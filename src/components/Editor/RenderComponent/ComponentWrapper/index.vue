@@ -9,7 +9,7 @@
     @dragleave="dragleave($event)"
     @dragover="dragover"
     @click.stop="componentSelectHandler($event, property)"
-    @mousedown.stop="mouseDownEventHandler"
+    @mousedown.stop="mouseDownEventHandler($event, property)"
     @contextmenu.stop="contextmenuHandler($event, property)"
   >
     <component :is="property.type" v-bind="property">

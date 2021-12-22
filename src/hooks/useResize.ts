@@ -70,9 +70,15 @@ export default () => {
   let left: IPage[];
   let resizeHandle: string;
 
-  function mouseDown(event: MouseEvent, handle?: string) {
+  function mouseDown(event: MouseEvent, handle?: string | TComponent) {
     event.preventDefault();
     event.stopPropagation();
+    if (handle && typeof handle !== "string") {
+      if (handle.id !== store.state.editor.selectedComponents?.id) {
+        return;
+      }
+    }
+
     if (event.button !== 0) return;
     // 更新left
     left = cloneDeep(store.state.editor.pages);
@@ -89,7 +95,7 @@ export default () => {
     ) {
       if (handle) {
         resize.value = true;
-        resizeHandle = handle;
+        resizeHandle = handle as string;
       } else {
         rePosition.value = true;
       }

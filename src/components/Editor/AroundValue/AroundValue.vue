@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div v-show="selected === 'border'">
+    <!-- v-show="selected === 'border'"   -->
+    <div>
       <el-form-item label="边框样式">
         <el-select v-model="BorderStyle">
           <el-option
@@ -95,10 +96,12 @@ export type areaKey = "padding" | "margin" | "border" | "position";
 type areaColor = Record<areaKey, string>;
 export type positionKey = "top" | "right" | "bottom" | "left";
 type areaValue = number | string | undefined;
+
 interface IModelValue {
   name: positionKey;
   value: string | number | undefined;
 }
+
 export interface IModel {
   name: areaKey;
   label: string;
@@ -314,8 +317,10 @@ export default defineComponent({
 <style scoped lang="less">
 .around {
   margin: 15px auto;
+
   :deep(.computed) {
     cursor: default;
+
     .position,
     .margin,
     .border,
@@ -329,6 +334,7 @@ export default defineComponent({
       position: relative;
       color: #000;
       flex: 1;
+
       .tip,
       .value {
         position: absolute;
@@ -337,37 +343,45 @@ export default defineComponent({
         height: 15px;
         line-height: 15px;
       }
+
       .tip {
         top: 0;
         left: 0;
         transform: scale(0.8) translate(-3px, 1px);
       }
+
       .value {
         text-align: center;
+
         &.top {
           top: 0;
           left: calc(50% - 25px);
         }
+
         &.left {
           left: -2px;
           top: calc(50% - 8px);
           writing-mode: vertical-lr;
         }
+
         &.right {
           right: -38px;
           top: calc(50% - 8px);
           writing-mode: vertical-lr;
         }
+
         &.bottom {
           bottom: 0;
           left: calc(50% - 25px);
         }
       }
+
       &.selected {
         background: var(--el-color-primary);
         color: #fff;
       }
     }
+
     .content {
       background: rgb(150, 181, 192);
       display: flex;
@@ -375,20 +389,24 @@ export default defineComponent({
       justify-content: center;
       font-size: 12px;
     }
+
     .margin {
       border-style: dashed;
       background: rgb(243, 206, 165);
     }
+
     .border {
       border-style: solid;
       background: rgb(248, 222, 164);
     }
+
     .padding {
       border-style: dashed;
       background: rgb(198, 208, 147);
     }
   }
 }
+
 .setting {
   .top,
   .bottom {
@@ -397,17 +415,21 @@ export default defineComponent({
     width: 99px;
     margin: 0 auto;
   }
+
   .center {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .around {
       flex: 0 0 188px;
       margin: 8px;
     }
+
     .left,
     .right {
       flex: 1;
+
       .el-input {
         :deep(input) {
           padding: 0 2px 0 5px !important;

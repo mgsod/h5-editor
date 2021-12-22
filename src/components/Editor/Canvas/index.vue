@@ -65,10 +65,10 @@ export default defineComponent({
     // 为避免递归组件中事件一层一层上传（不是原生事件冒泡，而是要获取到最里面一层的组件，需要一层层往外传，这样每一层都会触发一次事件，过于浪费）
     // 在这个组件中提供一个 mouseDownEventHandler 鼠标按下的事件给所有自组件
     // 自组件只需要inject此事件即可从事件触发时的组件直接到这一级
-    provide("mouseDownEventHandler", (e: MouseEvent) => {
+    provide("mouseDownEventHandler", (e: MouseEvent, component: TComponent) => {
       e.preventDefault();
       e.stopPropagation();
-      mouseDown(e);
+      mouseDown(e, component);
     });
 
     // 同上
