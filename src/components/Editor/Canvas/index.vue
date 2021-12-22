@@ -13,12 +13,28 @@
           :key="`border-${item}`"
           :style="getBorderStyle(item)"
         ></div>
-        <div
-          class="enter-container-border-line"
+        <!--        <div
+                  class="enter-container-border-line"
+                  v-for="item in enterContainerBorderLine"
+                  :key="`border-${item}`"
+                  :style="getBorderStyle(item, true)"
+                ></div>-->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
           v-for="item in enterContainerBorderLine"
           :key="`border-${item}`"
           :style="getBorderStyle(item, true)"
-        ></div>
+          preserveAspectRatio="none"
+          :class="item"
+        >
+          <line
+            fill="none"
+            x1="0"
+            :x2="parseFloat(getBorderStyle(item, true).width || '0')"
+            y1="0"
+            :y2="parseFloat(getBorderStyle(item, true).height || '0')"
+          ></line>
+        </svg>
         <div
           class="point"
           :class="item"
@@ -386,6 +402,37 @@ export default defineComponent({
 
       #root {
         height: 0 !important;
+      }
+    }
+  }
+
+  svg {
+    position: fixed;
+    height: 2px;
+    width: 2px;
+    z-index: 66;
+
+    &.left {
+      transform: rotateX(180deg);
+      width: 2px;
+    }
+
+    &.bottom {
+      transform: rotatey(180deg);
+      height: 2px;
+    }
+
+    line {
+      stroke-dasharray: 8;
+      stroke-dashoffset: 1000;
+      animation: dash 50s linear infinite;
+      stroke: #0e2231;
+      stroke-width: 2;
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: 0;
       }
     }
   }
