@@ -6,8 +6,6 @@
           v-for="item in components"
           :key="item.id"
           :property="item"
-          @mousedown="mouseDown"
-          @contextmenu="contextmenu"
         />
         <div
           class="border-line"
@@ -40,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, provide } from "vue";
 import { useStore } from "@/store";
 import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
@@ -49,6 +47,7 @@ import useResize from "@/hooks/useResize";
 import useContextmenu from "@/hooks/useContextmenu";
 import contextmenu from "@/components/Editor/Contextmenu/index.vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
+import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 
 type IDirection = "top" | "right" | "bottom" | "left";
 export default defineComponent({
@@ -63,6 +62,28 @@ export default defineComponent({
     // 拖拽/更改组件大小位置
     const { mouseDown, resizePoint } = useResize();
 
+    // 为避免递归组件中事件一层一层上传（不是原生事件冒泡，而是要获取到最里面一层的组件，需要一层层往外传，这样每一层都会触发一次事件，过于浪费）
+    // 在这个组件中提供一个 mouseDownEventHandler 鼠标按下的事件给所有自组件
+    // 自组件只需要inject此事件即可从事件触发时的组件直接到这一级
+    provide("mouseDownEventHandler", (e: MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      mouseDown(e);
+    });
+
+    // 同上
+    provide("contextmenuHandler", (e: MouseEvent, item: TComponent) => {
+      preventDefault(e);
+      contextmenuComponent.value = item;
+    });
+
+    // 同上
+    provide("componentSelectHandler", (e: MouseEvent, item: TComponent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeContextmenu();
+      store.commit(MUTATION_TYPE.SELECT_COMPONENT, item);
+    });
     const isDragNew = computed(() => {
       return store.state.editor.isDrag;
     });
@@ -84,7 +105,6 @@ export default defineComponent({
         return store.getters.currentPage.components;
       }),
       borderStyle,
-      mouseDown,
       resizePoint,
       isDragNew,
       borderLine,
@@ -193,13 +213,8 @@ export default defineComponent({
             };
         }
       },
-      contextmenu(e: MouseEvent, item: TComponent) {
-        preventDefault(e);
-        e.stopPropagation();
-        console.log(item);
-        contextmenuComponent.value = item;
-      },
       contextmenuComponent,
+      mouseDown,
     };
   },
 });

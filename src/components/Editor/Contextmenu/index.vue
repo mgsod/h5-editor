@@ -2,18 +2,8 @@
   <div>
     <teleport to="body">
       <div v-show="modelValue" class="contextmenu" :style="style">
-        <div
-          class="item"
-          :class="{ disabled: isSelectRoot || !hasSelected }"
-          @click="del"
-        >
-          删除
-        </div>
-        <div
-          class="item"
-          :class="{ disabled: isSelectRoot || !hasSelected }"
-          @click="extract"
-        >
+        <div class="item" :class="{ disabled: isRoot }" @click="del">删除</div>
+        <div class="item" :class="{ disabled: isRoot }" @click="extract">
           做成组件
         </div>
       </div>
@@ -36,7 +26,6 @@ import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { ElMessageBox } from "element-plus";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import { cloneDeep } from "lodash";
-
 export default defineComponent({
   name: "index",
   props: {
@@ -61,9 +50,13 @@ export default defineComponent({
       style.left = props.position.x + "px";
       style.top = props.position.y + "px";
     });
+    const isRoot = computed(() => {
+      return contextmenuComponent.value?.id === "root";
+    });
     return {
       style,
       closeContextmenu,
+      isRoot,
       isSelectRoot: computed(() => {
         return store.getters.isSelectRoot;
       }),
@@ -78,7 +71,9 @@ export default defineComponent({
         ElMessageBox.prompt("请输入组件名称", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          inputValue: contextmenuComponent.value?.alias,
+          inputValue:
+            contextmenuComponent.value?.alias ||
+            contextmenuComponent.value?.type,
           inputValidator(v) {
             if (!v) return "请输入组件名称";
             return true;

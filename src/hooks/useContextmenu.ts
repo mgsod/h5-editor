@@ -1,9 +1,27 @@
 import { ref, reactive, Ref } from "vue";
 
-const contextMens: Ref<boolean>[] = [];
-export default () => {
+const contextMens: { id: string; show: Ref<boolean> }[] = [];
+document.addEventListener("click", closeHandler);
+
+function closeHandler(e: MouseEvent) {
+  const target = e.target as HTMLElement;
+  if (!target.closest(".contextmenu")) {
+    closeContextmenu();
+  }
+}
+
+function closeContextmenu() {
+  contextMens.forEach((item) => {
+    item.show.value = false;
+  });
+}
+
+export default (id = "default") => {
   const showContextmenu = ref(false);
-  contextMens.push(showContextmenu);
+  contextMens.push({
+    id,
+    show: showContextmenu,
+  });
   const position = reactive({
     x: 0,
     y: 0,
@@ -13,19 +31,10 @@ export default () => {
     const { clientX, clientY } = e;
     position.x = clientX;
     position.y = clientY;
+    closeContextmenu();
     showContextmenu.value = true;
   };
-  document.addEventListener("click", (e) => {
-    const target = e.target as HTMLElement;
-    if (!target.closest(".contextmenu")) {
-      closeContextmenu();
-    }
-  });
-  const closeContextmenu = () => {
-    contextMens.forEach((item) => {
-      item.value = false;
-    });
-  };
+
   return {
     preventDefault,
     showContextmenu,

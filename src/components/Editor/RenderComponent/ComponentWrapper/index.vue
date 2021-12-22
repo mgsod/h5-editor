@@ -8,9 +8,9 @@
     @dragenter="dragenter($event, property)"
     @dragleave="dragleave($event)"
     @dragover="dragover"
-    @click="select($event, property)"
-    @mousedown="mousedown"
-    @contextmenu="contextmenu($event, property)"
+    @click.stop="componentSelectHandler($event, property)"
+    @mousedown.stop="mouseDownEventHandler"
+    @contextmenu.stop="contextmenuHandler($event, property)"
   >
     <component :is="property.type" v-bind="property">
       <component-wrapper
@@ -25,15 +25,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, toRefs, ref } from "vue";
+import { defineComponent, computed, PropType, toRefs, ref, inject } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
 import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import useStyle from "@/hooks/useStyle";
-import useContextmenu from "@/hooks/useContextmenu";
-import contextmenu from "@/components/Editor/Contextmenu/index.vue";
-import { IComponent } from "@/components/Editor/RenderComponent/Component";
 
 export default defineComponent({
   name: "ComponentWrapper",
@@ -44,13 +40,11 @@ export default defineComponent({
       required: true,
     },
   },
-  components: {
-    contextmenu,
-  },
-  emits: ["mousedown", "contextmenu"],
-  setup(props, { emit }) {
-    const { preventDefault, position, showContextmenu, closeContextmenu } =
-      useContextmenu();
+  components: {},
+  setup(props) {
+    const mouseDownEventHandler = inject("mouseDownEventHandler");
+    const contextmenuHandler = inject("contextmenuHandler");
+    const componentSelectHandler = inject("componentSelectHandler");
     const store = useStore();
     const { property } = toRefs(props);
     const style = useStyle(property);
@@ -59,7 +53,6 @@ export default defineComponent({
     const focusedId = computed(() => {
       return store.state.editor.selectedComponents?.id;
     });
-    const contextmenuComponent = ref();
     return {
       focusedId,
       style,
@@ -67,23 +60,9 @@ export default defineComponent({
       dragleave,
       dragover,
       drop,
-      select: (e: Event, item: TComponent) => {
-        e.stopPropagation();
-        closeContextmenu();
-        store.commit(MUTATION_TYPE.SELECT_COMPONENT, item);
-      },
-      mousedown(e: Event) {
-        console.log(222);
-        emit("mousedown", e);
-      },
-      contextmenu(e: MouseEvent, item: IComponent) {
-        e.stopPropagation();
-        console.log("22", item);
-        emit("contextmenu", e, item);
-      },
-      showContextmenu,
-      contextmenuComponent,
-      position,
+      mouseDownEventHandler,
+      contextmenuHandler,
+      componentSelectHandler,
     };
   },
 });

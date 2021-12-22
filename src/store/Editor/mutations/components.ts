@@ -126,6 +126,7 @@ const componentMutations: MutationTree<IState> = {
         message: `${name}组件已存在`,
       });
     }
+    component.alias = name;
     state.extractComponents.push({
       name,
       payload: component,
