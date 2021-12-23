@@ -6,8 +6,12 @@ import elementUI from "./plugins/ElementUI";
 import "element-plus/theme-chalk/index.css";
 import "@/assets/css/index.less";
 import register from "@/components/Editor/RenderComponent/register";
+import ElIcon from "@/components/ElIcon/index.vue";
+
 const app = createApp(App);
+
 elementUI(app);
 app.use(store, key);
 app.use(register);
+app.component("el-icons", ElIcon);
 app.use(router).mount("#app");

@@ -21,7 +21,7 @@
                 ></div>-->
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          v-for="item in enterContainerBorderLine"
+          v-for="item in borderLine"
           :key="`border-${item}`"
           :style="getBorderStyle(item, true)"
           preserveAspectRatio="none"
@@ -64,6 +64,7 @@ import useContextmenu from "@/hooks/useContextmenu";
 import contextmenu from "@/components/Editor/Contextmenu/index.vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
+import { findItemById } from "@/util";
 
 type IDirection = "top" | "right" | "bottom" | "left";
 export default defineComponent({
@@ -78,38 +79,53 @@ export default defineComponent({
     // 拖拽/更改组件大小位置
     const { mouseDown, resizePoint } = useResize();
 
+    const selectComponent = (component: TComponent) => {
+      // 递归向上查找未被锁定的父容器
+      const target = getUnlockParent(component.id);
+      store.commit(MUTATION_TYPE.SELECT_COMPONENT, target);
+    };
+
     // 为避免递归组件中事件一层一层上传（不是原生事件冒泡，而是要获取到最里面一层的组件，需要一层层往外传，这样每一层都会触发一次事件，过于浪费）
     // 在这个组件中提供一个 mouseDownEventHandler 鼠标按下的事件给所有自组件
     // 自组件只需要inject此事件即可从事件触发时的组件直接到这一级
     provide("mouseDownEventHandler", (e: MouseEvent, component: TComponent) => {
       e.preventDefault();
       e.stopPropagation();
-      mouseDown(e, component);
+      const target = getUnlockParent(component.id);
+      mouseDown(e, target);
     });
 
     // 同上
     provide("contextmenuHandler", (e: MouseEvent, item: TComponent) => {
       preventDefault(e);
-      contextmenuComponent.value = item;
+      const target = getUnlockParent(item.id);
+      contextmenuComponent.value = target;
+      selectComponent(target);
     });
+
+    function getUnlockParent(id: string): TComponent {
+      const component = findItemById(
+        store.getters.currentPage.components,
+        id
+      ) as TComponent;
+      if (component.lock) {
+        return getUnlockParent(component.parentId as string);
+      } else {
+        return component;
+      }
+    }
 
     // 同上
     provide("componentSelectHandler", (e: MouseEvent, item: TComponent) => {
       e.preventDefault();
       e.stopPropagation();
       closeContextmenu();
-      store.commit(MUTATION_TYPE.SELECT_COMPONENT, item);
+      selectComponent(item);
     });
     const isDragNew = computed(() => {
       return store.state.editor.isDrag;
     });
     const borderLine: IDirection[] = ["top", "right", "bottom", "left"];
-    const enterContainerBorderLine: IDirection[] = [
-      "top",
-      "right",
-      "bottom",
-      "left",
-    ];
     const contextmenuComponent = ref();
     return {
       dragenter,
@@ -128,7 +144,6 @@ export default defineComponent({
       position,
       showContextmenu,
       closeContextmenu,
-      enterContainerBorderLine,
       selectedComponentId: computed(() => {
         return store.state.editor.selectedComponents?.id;
       }),

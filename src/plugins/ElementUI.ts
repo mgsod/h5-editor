@@ -20,7 +20,6 @@ import {
   ElPopconfirm,
   ElPopover,
 } from "element-plus";
-
 export default (app: App) => {
   app.config.globalProperties.$ELEMENT = {
     size: "small",

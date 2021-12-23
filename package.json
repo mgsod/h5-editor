@@ -9,6 +9,7 @@
     "build-previewer": "vue-cli-service build --mode lib --target lib --name index ./src/components/Previewer/index.ts"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "^0.2.4",
     "core-js": "^3.6.5",
     "default-passive-events": "^2.0.0",
     "element-plus": "^1.1.0-beta.20",

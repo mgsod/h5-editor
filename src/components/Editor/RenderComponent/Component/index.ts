@@ -4,16 +4,19 @@ import { v4 as uuidv4 } from "uuid";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
 import { IEvent } from "@/components/Editor/event";
+
 export interface IBackground {
   color?: string;
   img?: string;
 }
+
 export interface IAroundValue {
   top?: number;
   right?: number;
   bottom?: number;
   left?: number;
 }
+
 export interface IComponent {
   type: ComponentType;
   id: string;
@@ -21,6 +24,7 @@ export interface IComponent {
   height: number | string;
   position: Position;
   background: IBackground;
+  lock: boolean;
   parentId?: string;
   alias?: string;
   top?: number;
@@ -45,10 +49,12 @@ class Component implements IComponent {
   width: string | number = "";
   height: string | number = 100;
   position: Position = "static";
+  lock = false;
   alias?: string = "";
   borderRadius?: string = "0,0,0,0";
   borderStyle: BorderStyle = "solid";
   background: IBackground = { color: "", img: "" };
+
   constructor(props?: Partial<IComponent>) {
     this.id = uuidv4();
     this.alias = props?.type;

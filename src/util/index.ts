@@ -1,6 +1,6 @@
 import { cloneDeep, debounce, throttle } from "lodash";
 import { Commit } from "vuex";
-
+import { TComponent } from "@/components/Editor/RenderComponent/types";
 // 树桩结构接口
 export interface ITree<T> {
   id: string;
@@ -31,6 +31,19 @@ export const objectMerge = (source: any, target: any) => {
     }
   }
 };
+
+export function eachComponentTreeDown(
+  component: TComponent,
+  callback: (item: TComponent) => void,
+  condition: (item: TComponent) => boolean = () => true
+) {
+  condition(component) && callback(component);
+  if (component.children && component.children.length > 0) {
+    component.children.forEach((item) => {
+      eachComponentTreeDown(item as TComponent, callback);
+    });
+  }
+}
 
 export function findItemById<T extends ITree<T>>(
   tree: T[],
@@ -88,6 +101,7 @@ export function downLoadContent(name: string, content: string) {
   a.href = link;
   a.click();
 }
+
 export function getCache<T>(key: string): undefined | T {
   const cache = localStorage.getItem(key);
   return cache ? <T>JSON.parse(cache) : undefined;

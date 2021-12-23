@@ -2,25 +2,25 @@
   <div class="toolbar">
     <div class="tool-item" :class="{ disabled: !allowUndo }" @click="undo">
       <div class="icon">
-        <i class="el-icon-refresh-left"></i>
+        <el-icons name="RefreshLeft" />
       </div>
       <div>撤销</div>
     </div>
     <div class="tool-item" :class="{ disabled: !allowRedo }" @click="redo">
       <div class="icon">
-        <i class="el-icon-refresh-right"></i>
+        <el-icons name="RefreshRight" />
       </div>
       <div>重做</div>
     </div>
     <div class="tool-item" :class="{ disabled: !hasSelected }" @click="del">
       <div class="icon del">
-        <i class="el-icon-error"></i>
+        <el-icons name="Delete" />
       </div>
       <div>删除</div>
     </div>
     <div class="tool-item" @click="preview">
       <div class="icon">
-        <i class="el-icon-view" />
+        <el-icons name="View" />
       </div>
       <div>预览</div>
     </div>

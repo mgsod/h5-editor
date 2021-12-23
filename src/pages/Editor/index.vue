@@ -33,7 +33,6 @@ export default {
     onMounted(() => {
       store.commit(MUTATION_TYPE.SELECT_COMPONENT);
       document.addEventListener("keydown", (e) => {
-        console.log(e.code);
         switch (e.code) {
           case "KeyZ":
             if (e.ctrlKey || e.metaKey) {

@@ -70,15 +70,21 @@ export default () => {
   let left: IPage[];
   let resizeHandle: string;
 
-  function mouseDown(event: MouseEvent, handle?: string | TComponent) {
+  /**
+   * 鼠标按下的行为
+   * @param event 鼠标事件对象
+   * @param handle 当handle为string标识拖拽的各个点位，即resize。如果传入的是一个组件，则是改变位置
+   */
+  function mouseDown(event: MouseEvent, handle: string | TComponent) {
     event.preventDefault();
     event.stopPropagation();
+    // 如果鼠标按下的是一个组件
     if (handle && typeof handle !== "string") {
+      // 但是这个组件又不是当前选中的组件。不往下执行操作
       if (handle.id !== store.state.editor.selectedComponents?.id) {
         return;
       }
     }
-
     if (event.button !== 0) return;
     // 更新left
     left = cloneDeep(store.state.editor.pages);
@@ -93,7 +99,7 @@ export default () => {
       currentComponent.id !== "root" &&
       !currentComponent.isRoot
     ) {
-      if (handle) {
+      if (typeof handle === "string") {
         resize.value = true;
         resizeHandle = handle as string;
       } else {

@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, toRefs, ref, inject } from "vue";
+import { defineComponent, computed, PropType, toRefs, inject } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
 import { useStore } from "@/store";

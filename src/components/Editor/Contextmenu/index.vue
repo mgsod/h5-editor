@@ -2,9 +2,37 @@
   <div>
     <teleport to="body">
       <div v-show="modelValue" class="contextmenu" :style="style">
-        <div class="item" :class="{ disabled: isRoot }" @click="del">删除</div>
+        <div class="item" :class="{ disabled: isRoot }" @click="del">
+          <div class="left">
+            <el-icons name="Delete" />
+            <span class="name">删除</span>
+          </div>
+        </div>
         <div class="item" :class="{ disabled: isRoot }" @click="extract">
-          做成组件
+          <div class="left">
+            <el-icons name="Coin" />
+            <span class="name">做成组件</span>
+          </div>
+        </div>
+        <div
+          class="item"
+          @click="lock"
+          :class="{ disabled: isLock || isRoot || !isContainer }"
+        >
+          <div class="left">
+            <el-icons name="Lock" />
+            <span class="name">锁定 </span>
+          </div>
+        </div>
+        <div
+          class="item"
+          @click="unlock"
+          :class="{ disabled: !isLock || isRoot || !isContainer }"
+        >
+          <div class="left">
+            <el-icons name="Unlock" />
+            <span class="name">解除锁定</span>
+          </div>
         </div>
       </div>
     </teleport>
@@ -26,6 +54,8 @@ import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { ElMessageBox } from "element-plus";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import { cloneDeep } from "lodash";
+import { eachComponentTreeDown } from "@/util";
+
 export default defineComponent({
   name: "index",
   props: {
@@ -53,38 +83,73 @@ export default defineComponent({
     const isRoot = computed(() => {
       return contextmenuComponent.value?.id === "root";
     });
+    const isContainer = computed(() => {
+      return !!contextmenuComponent.value?.isContainer;
+    });
+    const isLock = computed(() => {
+      if (!isContainer.value) return true;
+      // 如果一个容器，容器内有一个元素是lock。即表示这个容器是lock的
+      return !!contextmenuComponent.value?.children[0].lock;
+    });
+
+    function afterCloseContextmenu(action: () => void) {
+      action();
+      closeContextmenu();
+    }
+
     return {
+      isContainer,
+      isLock,
       style,
-      closeContextmenu,
       isRoot,
-      isSelectRoot: computed(() => {
-        return store.getters.isSelectRoot;
-      }),
-      hasSelected: computed(() => {
-        return !!store.state.editor.selectedComponents;
-      }),
       del() {
-        store.commit(MUTATION_TYPE.REMOVE_COMPONENT);
-        closeContextmenu();
+        afterCloseContextmenu(() => {
+          store.commit(MUTATION_TYPE.REMOVE_COMPONENT);
+        });
       },
       extract() {
-        ElMessageBox.prompt("请输入组件名称", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          inputValue:
-            contextmenuComponent.value?.alias ||
-            contextmenuComponent.value?.type,
-          inputValidator(v) {
-            if (!v) return "请输入组件名称";
-            return true;
-          },
-        }).then(({ value }) => {
-          store.commit(MUTATION_TYPE.EXTRACT_COMPONENT, {
-            name: value,
-            component: cloneDeep(contextmenuComponent.value),
+        afterCloseContextmenu(() => {
+          ElMessageBox.prompt("请输入组件名称", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            inputValue:
+              contextmenuComponent.value?.alias ||
+              contextmenuComponent.value?.type,
+            inputValidator(v) {
+              if (!v) return "请输入组件名称";
+              return true;
+            },
+          }).then(({ value }) => {
+            store.commit(MUTATION_TYPE.EXTRACT_COMPONENT, {
+              name: value,
+              component: cloneDeep(contextmenuComponent.value),
+            });
           });
         });
-        closeContextmenu();
+      },
+      lock() {
+        afterCloseContextmenu(() => {
+          const current = cloneDeep(contextmenuComponent.value as TComponent);
+          eachComponentTreeDown(
+            current,
+            (item) => {
+              item.lock = true;
+            },
+            (item) => {
+              return item.id !== current.id;
+            }
+          );
+          store.commit(MUTATION_TYPE.UPDATE_COMPONENT, current);
+        });
+      },
+      unlock() {
+        afterCloseContextmenu(() => {
+          const current = cloneDeep(contextmenuComponent.value as TComponent);
+          eachComponentTreeDown(current, (item) => {
+            item.lock = false;
+          });
+          store.commit(MUTATION_TYPE.UPDATE_COMPONENT, current);
+        });
       },
     };
   },
@@ -95,21 +160,39 @@ export default defineComponent({
 .contextmenu {
   position: absolute;
   z-index: 2001;
-  border: 1px solid var(--el-border-color-base);
-  background: white;
+  border: 1px solid #eaeaea;
+  background: #f9fbfc;
+  width: 200px;
+  color: #02102e;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: 12px;
 
   .item {
-    padding: 8px 15px;
-    cursor: default;
-    min-width: 150px;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    .left {
+      display: flex;
+      align-items: center;
+
+      .name {
+        display: inline-block;
+      }
+    }
 
     &.disabled {
-      opacity: 0.5;
+      opacity: 0.3;
       pointer-events: none;
     }
 
+    i {
+      margin-right: 5px;
+    }
+
     &:hover {
-      background: var(--el-color-info-lighter);
+      background: #e5eaf5;
     }
 
     &:not(:last-child) {

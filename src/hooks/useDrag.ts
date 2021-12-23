@@ -14,8 +14,9 @@ function componentsCopy<T extends TComponent>(
   depth = 0
 ): T {
   component.id = uuidv4();
-  if (parent) {
+  if (parentId) {
     component.parentId = parentId;
+    component.lock = true;
   }
   if (component.children) {
     component.children.forEach((item) => {
