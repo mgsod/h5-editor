@@ -121,7 +121,7 @@ export default {
     const { dragstart } = useDrag();
 
     const domTree = computed(() => {
-      return cloneDeep(store.getters.currentPage.components);
+      return cloneDeep(store.getters?.currentPage?.components || []);
     });
     const selectedId = computed(() => {
       return store.state.editor.selectedComponents?.id;

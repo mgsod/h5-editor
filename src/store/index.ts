@@ -36,6 +36,7 @@ export default createStore<state>({
       ];
       store.subscribe((mutation, state) => {
         if (needCacheMutations.includes(mutation.type as MUTATION_TYPE)) {
+          console.log("cc", mutation.type);
           localStorage.setItem(
             CACHE_KEY,
             JSON.stringify({

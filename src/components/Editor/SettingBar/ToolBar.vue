@@ -158,6 +158,7 @@ export default defineComponent({
   flex: 0 0 40px;
   border-right: 1px solid #e4e7ed;
   font-size: 12px;
+
   .tool-item {
     width: 40px;
     height: 40px;
@@ -168,23 +169,28 @@ export default defineComponent({
     justify-content: center;
     cursor: default;
     user-select: none;
+
     .icon {
       margin-bottom: 2px;
+
       &.del {
         color: var(--el-color-danger);
       }
     }
+
     &:hover,
     &:hover .icon {
       background-color: #409eff;
       color: white;
     }
+
     &.disabled {
       opacity: 0.3;
       pointer-events: none;
     }
   }
 }
+
 .previewer-box {
   position: relative;
   top: -150px;
@@ -195,6 +201,7 @@ export default defineComponent({
   box-sizing: content-box !important;
   background-image: url("../../../assets/img/phone.png");
   background-size: cover;
+
   .iPhoneX-StatusBar {
     width: 375px;
     height: 44px;
@@ -204,6 +211,7 @@ export default defineComponent({
     margin-left: 30px;
     margin-top: 26px;
     align-items: center;
+
     .StatusBarTime {
       justify-content: center;
       margin-right: auto;
@@ -212,17 +220,21 @@ export default defineComponent({
       font-size: 14px;
       font-weight: 600;
     }
+
     .StatusBar {
       margin-left: 4px;
     }
   }
+
   .dom-render {
     margin-left: 30px;
     height: calc(100% - 127px);
   }
+
   .screen-footer {
     display: flex;
     align-items: center;
+
     .footer-widgets {
       width: 134px;
       height: 5px;
@@ -240,9 +252,11 @@ export default defineComponent({
     }
   }
 }
+
 :deep(.el-overlay) {
   .el-dialog__body {
     display: flex;
+
     .pager {
       height: 604px;
       display: flex;
@@ -250,6 +264,7 @@ export default defineComponent({
       justify-content: center;
       position: relative;
       top: -20px;
+
       .prev,
       .next {
         height: 35px;

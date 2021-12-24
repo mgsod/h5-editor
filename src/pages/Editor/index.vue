@@ -14,9 +14,14 @@ import Sidebar from "@/components/Editor/Sidebar/index.vue";
 import PropertyBar from "@/components/Editor/SettingBar/index.vue";
 import H5Canvas from "@/components/Editor/Canvas/index.vue";
 import { useStore } from "@/store";
-import { onMounted } from "vue";
+import { onMounted, provide, reactive } from "vue";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import Header from "@/components/Editor/Header/Header.vue";
+import axios from "@/axios/index";
+import { IDocument } from "../../../server/document";
+import { useRoute } from "vue-router";
+import { getCache } from "@/util";
+import { CACHE_KEY, IEditorCache } from "@/store/Editor/util";
 
 export default {
   name: "Index",
@@ -28,10 +33,44 @@ export default {
     Header,
   },
   setup() {
+    const route = useRoute();
+    const {
+      query: { id },
+    } = route;
+    const documentInfo = reactive({
+      name: "",
+      _id: "",
+      content: "",
+    });
+    provide("documentInfo", documentInfo);
     const store = useStore();
     store.commit(MUTATION_TYPE.INIT);
+
+    function loadByLocalCache() {
+      // 从缓存中回显数据
+      const localCache = getCache<IEditorCache>(CACHE_KEY)?.editorData;
+      if (localCache) {
+        store.commit("loadByCache", localCache);
+      }
+    }
+
+    // 如果有id，获取文档。从接口中回显数据
+    if (id) {
+      axios.get<IDocument>(`/document/${id}`).then((res) => {
+        if (res.code === 200) {
+          const { name, content, _id } = res.data;
+          documentInfo._id = _id;
+          documentInfo.name = name;
+          documentInfo.content = content;
+          store.commit("load", content);
+          store.commit(MUTATION_TYPE.SELECT_PAGE, (content[0] as any).id);
+          loadByLocalCache();
+        }
+      });
+    } else {
+      loadByLocalCache();
+    }
     onMounted(() => {
-      store.commit(MUTATION_TYPE.SELECT_COMPONENT);
       document.addEventListener("keydown", (e) => {
         switch (e.code) {
           case "KeyZ":

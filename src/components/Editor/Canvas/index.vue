@@ -134,7 +134,7 @@ export default defineComponent({
       dragover,
       store,
       components: computed(() => {
-        return store.getters.currentPage.components;
+        return store.getters.currentPage?.components || [];
       }),
       borderStyle,
       resizePoint,

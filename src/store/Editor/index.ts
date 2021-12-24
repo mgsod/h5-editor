@@ -2,8 +2,6 @@ import { Module } from "vuex";
 import mutations from "@/store/Editor/mutations";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { state } from "@/store";
-import { getCache } from "@/util";
-import { CACHE_KEY, IEditorCache } from "@/store/Editor/util";
 import getters from "@/store/Editor/getters";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 
@@ -26,7 +24,7 @@ export interface IState {
 }
 
 const module: Module<IState, state> = {
-  state: getCache<IEditorCache>(CACHE_KEY)?.editorData || {
+  state: {
     pageActive: "",
     pages: [],
     selectedComponents: null,
@@ -38,6 +36,19 @@ const module: Module<IState, state> = {
   },
   mutations: {
     ...mutations,
+    load: (state: IState, payload) => {
+      state.pages = payload;
+    },
+    loadByCache: (state: IState, payload: IState) => {
+      state.pageActive = payload.pageActive;
+      state.pages = payload.pages;
+      state.selectedComponents = payload.selectedComponents;
+      state.allowRedo = payload.allowRedo;
+      state.allowUndo = payload.allowUndo;
+      state.isDrag = payload.isDrag;
+      state.enterContainer = payload.enterContainer;
+      state.extractComponents = payload.extractComponents;
+    },
   },
   getters: {
     ...getters,
