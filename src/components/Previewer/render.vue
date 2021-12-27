@@ -15,10 +15,6 @@
 import { defineComponent, PropType, toRefs } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import useStyle from "@/hooks/useStyle";
-import HImg from "@/components/Editor/RenderComponent/Img/Img.vue";
-import HContainer from "@/components/Editor/RenderComponent/Container/Container.vue";
-import HText from "@/components/Editor/RenderComponent/Text/Text.vue";
-import HTab from "@/components/Editor/RenderComponent/Tab/Tab.vue";
 import useBindEvent from "@/hooks/useBindEvent";
 
 export default defineComponent({
@@ -33,12 +29,6 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-  },
-  components: {
-    HImg,
-    HContainer,
-    HText,
-    HTab,
   },
   setup(props) {
     const { property } = toRefs(props);

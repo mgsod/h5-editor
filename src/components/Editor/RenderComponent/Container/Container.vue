@@ -5,17 +5,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType } from "vue";
+import { defineComponent, computed } from "vue";
+import { ComponentType } from "@/components/Editor/RenderComponent/types";
 
 export default defineComponent({
-  name: "Container",
+  name: ComponentType.Container,
   inheritAttrs: false,
   props: {
     type: String,
     textAlign: String,
     JustifyContent: String,
     AlignItems: String,
-    children: Array,
+    children: {
+      type: Array,
+    },
     display: String,
     color: String,
     fontFamily: String,
@@ -25,6 +28,7 @@ export default defineComponent({
     lineHeight: String,
   },
   setup(props) {
+    console.log(props.children);
     const containerStyle = computed(() => {
       return {
         display: props.display,

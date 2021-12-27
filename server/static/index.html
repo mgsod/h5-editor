@@ -47,7 +47,7 @@
 </head>
 <body>
 <div id="app">
-  <previewer :rem="true" :pages="page" />
+  <previewer :rem="true" :pages="page" v-if="page.length>0" />
 </div>
 </body>
 <script>
@@ -64,60 +64,7 @@
         }
       });
       return {
-        page:
-          [{
-            "order": 0,
-            "components": [
-              {
-                "type": "HContainer",
-                "id": "root",
-                "width": 375,
-                "height": "",
-                "position": "relative",
-                "lock": false,
-                "borderRadius": "0,0,0,0",
-                "borderStyle": "solid",
-                "background": {
-                  "color": "",
-                  "img": ""
-                },
-                "isRoot": true,
-                "isContainer": true,
-                "children": [
-                  {
-                    "type": "HImg",
-                    "id": "664f16a0-2c61-4b2f-a7f7-9be330a8d5fd",
-                    "width": 375,
-                    "height": 180,
-                    "position": "static",
-                    "lock": false,
-                    "borderRadius": "0,0,0,0",
-                    "borderStyle": "solid",
-                    "background": {
-                      "color": "",
-                      "img": ""
-                    },
-                    "objectFit": "cover",
-                    "src": "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2018-01-09%2F5a54397bf0512.jpg%3Fdown&refer=http%3A%2F%2Fpic1.win4000.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1642234674&t=38100f2faabb0ecc91c226718de13632",
-                    "parentId": "root",
-                    "top": 0,
-                    "left": 0
-                  }
-                ],
-                "JustifyContent": "flex-start",
-                "AlignItems": "stretch",
-                "display": "block",
-                "color": "#000",
-                "fontFamily": "'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial,  sans-serif, 'Droid Sans Fallback'",
-                "fontSize": 14,
-                "fontStyle": "normal",
-                "fontWeight": "normal",
-                "textAlign": "left"
-              }
-            ],
-            "id": "a31bcdab-9afd-4346-8d0b-59300a0a7b7e",
-            "name": "页面1"
-          }]
+        page
       };
     }
   });

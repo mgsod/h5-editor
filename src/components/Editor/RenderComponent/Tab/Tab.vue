@@ -16,7 +16,7 @@
       <div class="tab-title-line" :style="{ transform: transform }"></div>
     </div>
     <div class="tab-container">
-      <container
+      <component-wrapper
         v-for="(item, index) in children"
         :key="item.id"
         :property="item"
@@ -34,9 +34,9 @@ import {
   onMounted,
   ref,
   watch,
+  defineAsyncComponent,
 } from "vue";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
-import Container from "@/components/Editor/RenderComponent/Container/Container.vue";
 
 export default defineComponent({
   inheritAttrs: false,
@@ -51,7 +51,16 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { Container },
+  components: {
+    // @ts-ignore
+    componentWrapper: defineAsyncComponent(() => {
+      return process.env.NODE_ENV !== "production"
+        ? import(
+            "@/components/Editor/RenderComponent/ComponentWrapper/index.vue"
+          )
+        : import("@/components/Previewer/render.vue");
+    }),
+  },
   setup(props) {
     const privateActive = ref(props.active);
     const tabTitleRefs = ref([]);

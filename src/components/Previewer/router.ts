@@ -192,6 +192,8 @@ export class Router {
   getRouteComponents() {
     const routerId = this.getRouteId() || (this.routes[0] as IRoute).id;
     const page = (this.routes as IRoute[]).find((page) => page.id === routerId);
+    console.log("routerId,", routerId);
+    console.log("thisl", this.routes);
     if (page) {
       this.from = this.current;
       this.current = page;

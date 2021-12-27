@@ -14,6 +14,7 @@ import { defineComponent } from "vue";
 import Render from "./render.vue";
 import { IRoute, Router } from "@/components/Previewer/router";
 import { cloneDeep } from "lodash";
+
 export default defineComponent({
   name: "previewer",
   inheritAttrs: false,
@@ -52,12 +53,20 @@ export default defineComponent({
 
 <style lang="less">
 .dom-render {
+  #root {
+    .h-container {
+      overflow-x: hidden;
+    }
+  }
+
   // 下层div盒模型全部设置为border-box;
   div {
     box-sizing: border-box;
     border-width: 0;
   }
+
   height: 100%;
+
   & > div {
     min-height: 100%;
   }

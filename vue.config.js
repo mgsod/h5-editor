@@ -4,6 +4,7 @@ const libConfig = require("./src/components/Previewer/webpack.config");
 // 项目默认配置
 const defaultConfig = {
   devServer: {
+    host: "0.0.0.0",
     proxy: {
       "/api": {
         target: "http://127.0.0.1:3000",
