@@ -251,6 +251,7 @@ export default {
         flex-direction: column;
         justify-content: space-between;
         padding-right: 8px;
+        height: 100%;
 
         .page-item {
           padding: 10px 8px;

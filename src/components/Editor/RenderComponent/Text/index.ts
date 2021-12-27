@@ -16,12 +16,14 @@ export const fontFamilyList: { name: string; value: string }[] = [
   { name: "DINAlternate-Bold", value: "DINAlternate-Bold, DINAlternate;" },
   { name: "继承父级", value: "" },
 ];
+
 export interface IText extends IComponent, ICommonText {
   text?: string;
   overflow: boolean;
   maxLines?: number;
   fontSize: string | number;
 }
+
 class Text extends Component implements IText {
   type = ComponentType.Text;
   text = "text";
@@ -34,7 +36,8 @@ class Text extends Component implements IText {
   overflow = false;
   fontSize = "";
   maxLines = 1;
-  height = 50;
+  height = "";
+
   constructor(props?: IText) {
     super(props);
     fastInitProps(props, this);
