@@ -73,7 +73,7 @@ export class Router {
 
   // 通过routerKey构建用来获取path的的正则表达式
   static generateRouterKeyReg(): RegExp {
-    return new RegExp(`(?<=${this.key}=)[^&/]*`);
+    return new RegExp(`${this.key}=([^&/]*)`);
   }
 
   /**
@@ -100,7 +100,7 @@ export class Router {
    */
   private static getRoureIdByQuery(search = window.location.search) {
     const routerMatch = search.match(this.generateRouterKeyReg());
-    if (routerMatch) return routerMatch[0];
+    if (routerMatch) return routerMatch[1];
   }
 
   /**
@@ -117,7 +117,7 @@ export class Router {
     } else {
       const hasPath = query.match(reg);
       if (hasPath) {
-        query = query.replace(reg, routeId);
+        query = query.replace(reg, `${routerKey}=${routeId}`);
       } else {
         query += `&${routerKey}=${routeId}`;
       }
@@ -138,7 +138,7 @@ export class Router {
     if (!hasPath) {
       hash += `?${routerKey}=${routeId}`;
     } else {
-      hash = hash.replace(reg, routeId);
+      hash = hash.replace(reg, `${routerKey}=${routeId}`);
     }
     location.hash = hash;
   }

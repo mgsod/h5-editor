@@ -16,7 +16,7 @@
       <div class="tab-title-line" :style="{ transform: transform }"></div>
     </div>
     <div class="tab-container">
-      <component-wrapper
+      <container
         v-for="(item, index) in children"
         :key="item.id"
         :property="item"
@@ -36,7 +36,8 @@ import {
   watch,
 } from "vue";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
-import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
+import Container from "@/components/Editor/RenderComponent/Container/Container.vue";
+
 export default defineComponent({
   inheritAttrs: false,
   name: ComponentType.Tab,
@@ -50,7 +51,7 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { ComponentWrapper },
+  components: { Container },
   setup(props) {
     const privateActive = ref(props.active);
     const tabTitleRefs = ref([]);
@@ -94,15 +95,18 @@ export default defineComponent({
   height: 100%;
   display: flex;
   flex-direction: column;
+
   .tab-title {
     flex: 0 0 32px;
     position: relative;
     overflow: scroll;
+
     &-list {
       height: 20px;
       display: flex;
       align-items: center;
       margin-bottom: 10px;
+
       &-item {
         flex: 0 0 auto;
         font-size: 16px;
@@ -113,6 +117,7 @@ export default defineComponent({
         margin-right: 28px;
         cursor: default;
         padding: 5px 10px;
+
         &.active {
           font-size: 20px;
           font-family: PingFangSC-Medium, PingFang SC;
@@ -131,9 +136,11 @@ export default defineComponent({
       transition: all 0.3s;
     }
   }
+
   .tab-container {
     flex: auto;
     margin-top: 10px;
+
     & > .component-wrapper {
       width: 100% !important;
       height: 100% !important;

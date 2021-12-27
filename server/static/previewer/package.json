@@ -1,0 +1,11 @@
+{
+  "name": "previewer",
+  "version": "1.0.0",
+  "description": "h5预览器",
+  "main": "index.umd.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
