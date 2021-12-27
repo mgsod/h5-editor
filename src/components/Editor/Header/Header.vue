@@ -2,6 +2,7 @@
   <div class="header">
     <div class="action" @click="exportJson">导出JSON</div>
     <div class="action" @click="save">保存</div>
+    <div class="action" @click="clearLocalCache">清除本地缓存</div>
   </div>
 </template>
 
@@ -9,11 +10,13 @@
 import { defineComponent, inject } from "vue";
 import { useStore } from "@/store";
 import { downLoadContent } from "@/util";
-import axios, { CustomInstance } from "@/axios";
 import { ElMessageBox } from "element-plus";
 import { cloneDeep } from "lodash";
 import { IDocument } from "../../../../server/document";
 import { useRouter } from "vue-router";
+import html2canvas from "html2canvas";
+import { CACHE_KEY } from "@/store/Editor/util";
+import { addDocument, updateDocument } from "@/api/document";
 
 export default defineComponent({
   name: "Header",
@@ -23,6 +26,22 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const documentInfo = inject<IDocument>("documentInfo");
+    const getCanvasByHtml2canvas = (): Promise<HTMLCanvasElement> => {
+      let bigCanvas = document.createElement("canvas");
+      const dashboard_canvas = document.getElementById("root") as HTMLElement;
+      bigCanvas.height = dashboard_canvas.scrollHeight * 2;
+      bigCanvas.width = dashboard_canvas.scrollWidth * 2;
+      return new Promise((resolve) => {
+        html2canvas(dashboard_canvas, {
+          useCORS: true,
+          /* width: bigCanvas.width * 2,
+           height: bigCanvas.height * 2,
+           canvas: bigCanvas,*/
+        }).then((canvas) => {
+          resolve(canvas);
+        });
+      });
+    };
     return {
       exportJson() {
         downLoadContent(
@@ -30,29 +49,37 @@ export default defineComponent({
           JSON.stringify(store.state.editor.pages, null, 2)
         );
       },
-      save() {
+      async save() {
+        const canvas = await getCanvasByHtml2canvas();
+        const cover = canvas.toDataURL("image/png", 1.0);
         ElMessageBox.prompt("请输入文稿名称", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          inputValue: `文稿${new Date().toLocaleDateString().replace("/", "")}`,
+          inputValue:
+            documentInfo?.name ||
+            `文稿${new Date().toLocaleDateString().replace("/", "")}`,
           inputValidator(v) {
             if (!v) return "请输入文稿名称";
             return true;
           },
         }).then(({ value: name }) => {
-          const data = { name, content: cloneDeep(store.state.editor.pages) };
+          const data = {
+            name,
+            content: cloneDeep(store.state.editor.pages),
+            cover,
+            _id: "",
+          };
 
           // 更新
           if (documentInfo?._id) {
-            axios
-              .put<IDocument>(`/document/${documentInfo._id}`, data)
-              .then((res) => {
-                if (res.code === 200) {
-                  console.log("更新成功");
-                }
-              });
+            data._id = documentInfo._id;
+            updateDocument(data).then((res) => {
+              if (res.code === 200) {
+                console.log("更新成功");
+              }
+            });
           } else {
-            axios.post<IDocument>(`/document`, data).then((res) => {
+            addDocument(data).then((res) => {
               if (res.code === 200) {
                 const { _id } = res.data;
                 router.push({
@@ -65,6 +92,10 @@ export default defineComponent({
             });
           }
         });
+      },
+      clearLocalCache() {
+        localStorage.removeItem(CACHE_KEY);
+        location.reload();
       },
     };
   },

@@ -19,16 +19,13 @@
         :property="item"
       ></component-wrapper>
     </component>
-    <template v-if="focusedId === property.id && property.id !== 'root'">
-    </template>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, PropType, toRefs, inject } from "vue";
+import { defineComponent, PropType, toRefs, inject } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import useDragEffect from "@/hooks/useDrag";
-import { useStore } from "@/store";
 import useStyle from "@/hooks/useStyle";
 
 export default defineComponent({
@@ -45,16 +42,11 @@ export default defineComponent({
     const mouseDownEventHandler = inject("mouseDownEventHandler");
     const contextmenuHandler = inject("contextmenuHandler");
     const componentSelectHandler = inject("componentSelectHandler");
-    const store = useStore();
     const { property } = toRefs(props);
     const style = useStyle(property);
     // 拖拽添加组件
     const { dragenter, dragleave, dragover, drop } = useDragEffect();
-    const focusedId = computed(() => {
-      return store.state.editor.selectedComponents?.id;
-    });
     return {
-      focusedId,
       style,
       dragenter,
       dragleave,

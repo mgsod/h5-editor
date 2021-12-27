@@ -1,7 +1,8 @@
-export interface IDocument {
+export interface IDocument<T = any> {
   _id: string;
   name: string;
-  content: string;
+  content: T[];
+  cover: string;
 }
 
 export type DocumentModel = Omit<IDocument, "_id">;

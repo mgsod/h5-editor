@@ -3,10 +3,10 @@ import { DocumentModel } from "../document";
 
 const dataBase = require("../db/index");
 const route = require("express").Router();
-
+const writeImgByBase64 = require("../util/index").writeImgByBase64;
 // 新增
 route.post("/", async (req: Request, res: Response) => {
-  const { name, content } = req.body as DocumentModel;
+  const { name, content, cover } = req.body as DocumentModel;
   const isExist = await dataBase.findOne({ name });
   if (isExist) {
     return res.json({
@@ -14,7 +14,8 @@ route.post("/", async (req: Request, res: Response) => {
       message: "添加失败，改文档已存在",
     });
   }
-  const data = await dataBase.insert({ name, content });
+  const coverPath = await writeImgByBase64("covers", cover);
+  const data = await dataBase.insert({ name, content, cover: coverPath });
   res.json({
     code: 200,
     message: "添加成功",
@@ -25,11 +26,24 @@ route.post("/", async (req: Request, res: Response) => {
 // 更新
 route.put("/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
-  const { name, content } = req.body as DocumentModel;
-  await dataBase.update({ _id: id }, { $set: { name, content } });
+  const { name, content, cover } = req.body as DocumentModel;
+  const coverPath = await writeImgByBase64("covers", cover, id);
+  await dataBase.update(
+    { _id: id },
+    { $set: { name, content, cover: coverPath } }
+  );
   res.json({
     code: 200,
     message: "更新成功",
+  });
+});
+
+route.get("/", async (req: Request, res: Response) => {
+  const data = await dataBase.find({});
+  res.json({
+    code: 200,
+    message: "查询成功",
+    data,
   });
 });
 

@@ -37,10 +37,11 @@ export default {
     const {
       query: { id },
     } = route;
-    const documentInfo = reactive({
+    const documentInfo = reactive<IDocument>({
       name: "",
       _id: "",
-      content: "",
+      content: [],
+      cover: "",
     });
     provide("documentInfo", documentInfo);
     const store = useStore();
