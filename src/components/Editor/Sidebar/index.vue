@@ -57,7 +57,6 @@
           :data="domTree"
           @node-drop="handleDrop"
           :default-expand-all="true"
-          :props="{ label: 'type' }"
           :expand-on-click-node="false"
           @nodeClick="selectNode"
           :allow-drop="allowDrop"
@@ -66,7 +65,7 @@
           <template #default="{ data }">
             <span
               class="custom-tree-node"
-              :class="{ selected: selectedId === data.id }"
+              :class="{ selected: selectedId === data.id, disabled: data.lock }"
             >
               <span>{{ data.alias || data.type }}</span>
             </span>
@@ -83,7 +82,10 @@
               :key="item.id"
               @click="selectPage(item.id)"
             >
-              {{ item.name }}
+              <div class="name">{{ item.name }}</div>
+              <div class="action">
+                <el-icons name="Edit"></el-icons>
+              </div>
             </div>
           </div>
           <div class="action">
@@ -147,6 +149,7 @@ export default {
         return store.state.editor.pageActive;
       }),
       selectNode(data: TComponent) {
+        if (data.lock) return;
         store.commit(MUTATION_TYPE.SELECT_COMPONENT, data);
       },
       dragend() {
@@ -171,7 +174,8 @@ export default {
         }
       },
       allowDrag(draggingNode: TreeNodeOptions) {
-        return (draggingNode.data as IComponent).id !== "root";
+        const data = draggingNode.data as IComponent;
+        return data.id !== "root" && !data.lock;
       },
       addPage() {
         store.commit(MUTATION_TYPE.ADD_PAGE);
@@ -277,6 +281,10 @@ export default {
 
     .selected {
       color: var(--el-color-primary);
+    }
+
+    .disabled {
+      color: var(--el-color-info-light);
     }
   }
 }

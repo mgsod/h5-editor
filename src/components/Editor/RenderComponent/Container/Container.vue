@@ -7,6 +7,7 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
+import { formatPositionValues } from "@/util";
 
 export default defineComponent({
   name: ComponentType.Container,
@@ -28,7 +29,6 @@ export default defineComponent({
     lineHeight: String,
   },
   setup(props) {
-    console.log(props.children);
     const containerStyle = computed(() => {
       return {
         display: props.display,
@@ -39,8 +39,12 @@ export default defineComponent({
         color: props.color,
         fontWeight: props.fontWeight,
         fontFamily: props.fontFamily,
-        lineHeight: props.lineHeight ? `${props.lineHeight}px` : 1,
-        fontSize: props.fontSize ? `${props.fontSize}px` : "inherit",
+        lineHeight: props.lineHeight
+          ? formatPositionValues(props.lineHeight)
+          : 1,
+        fontSize: props.fontSize
+          ? formatPositionValues(props.fontSize)
+          : "inherit",
       };
     });
     return {

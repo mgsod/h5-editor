@@ -1,16 +1,21 @@
 import { ref, Ref } from "vue";
+
 type RouterMode = "query" | "hash";
 type PageActionType = "prev" | "next";
+
 export interface IRoute {
   components: [];
   id: string;
+  name: string;
 }
+
 interface IRouter {
   routes: IRoute[];
   routerKey?: string;
   mode?: RouterMode;
   homePage?: string;
 }
+
 export class Router {
   // 路由参数标识符 key=xxxxxxx
   static key = "";
@@ -32,6 +37,7 @@ export class Router {
   renderComponents: Ref<any[]> = ref([]);
   history: IRoute[] = [];
   onChange: (router: Router) => void = () => {};
+
   constructor({
     routes = [],
     mode = "hash",
@@ -86,6 +92,7 @@ export class Router {
       ? this.setPathByQuery(routerId)
       : this.setPathByHash(routerId);
   }
+
   /**
    * 通过hash获取路由id
    * @private
@@ -94,6 +101,7 @@ export class Router {
     const hash = window.location.hash;
     return this.getRoureIdByQuery(hash);
   }
+
   /**
    * 通过query获取路由id
    * @private
@@ -124,6 +132,7 @@ export class Router {
     }
     location.search = query;
   }
+
   /**
    * 通过hash设置path
    * @param routeId
@@ -178,6 +187,7 @@ export class Router {
     const page = this.history[step];
     Router.go(page.id);
   }
+
   /**
    * 获取路由id
    */
@@ -192,12 +202,11 @@ export class Router {
   getRouteComponents() {
     const routerId = this.getRouteId() || (this.routes[0] as IRoute).id;
     const page = (this.routes as IRoute[]).find((page) => page.id === routerId);
-    console.log("routerId,", routerId);
-    console.log("thisl", this.routes);
     if (page) {
       this.from = this.current;
       this.current = page;
       this.history.push(this.current);
+      document.title = page.name;
       return page.components;
     }
     return [];

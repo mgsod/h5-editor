@@ -1,7 +1,8 @@
 import { computed, Ref } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
+import { formatPositionValues } from "@/util";
 
-export default (property: Ref<TComponent>, rem = false) => {
+export default (property: Ref<TComponent>) => {
   const getBorderRadius = (borderRadius?: string) => {
     const arr = borderRadius?.split(",").map((item) => `${item}px`) || [
       0, 0, 0, 0,
@@ -13,15 +14,6 @@ export default (property: Ref<TComponent>, rem = false) => {
       "border-bottom-left-radius": arr[3],
     };
   };
-  const formatPositionValues = (val?: number | string) => {
-    if (val === 0 || val) {
-      if (rem) {
-        return `${(val as number) / 37.5}rem`;
-      }
-      return `${val}px`;
-    }
-    return "";
-  };
   return computed(() => {
     return {
       height: property.value.height
@@ -32,6 +24,7 @@ export default (property: Ref<TComponent>, rem = false) => {
       width: property.value.width
         ? formatPositionValues(property.value.width)
         : "auto",
+      fontSize: formatPositionValues(property.value.fontSize),
       position: property.value.position,
       top: formatPositionValues(property.value.top),
       left: formatPositionValues(property.value.left),

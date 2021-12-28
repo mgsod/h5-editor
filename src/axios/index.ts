@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import { ElMessage } from "element-plus";
 
 export interface CustomInstance {
   get<T = any, D = any>(
@@ -34,7 +35,7 @@ export interface CustomInstance {
   ): Promise<IResponse<T>>;
 }
 
-interface IResponse<T> {
+interface IResponse<T = any> {
   code: number;
   data: T;
   message?: string;
@@ -45,7 +46,10 @@ instance.interceptors.request.use((config) => {
   config.baseURL = "/api";
   return config;
 });
-instance.interceptors.response.use((res) => {
+instance.interceptors.response.use((res: AxiosResponse<IResponse>) => {
+  if (res.data.code !== 200) {
+    ElMessage.error(res.data.message);
+  }
   return res.data;
 });
 

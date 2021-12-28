@@ -7,16 +7,13 @@ import { CACHE_KEY, diffPatcher } from "@/store/Editor/util";
 export interface state {
   editor: IState;
 }
+
 export default createStore<state>({
   strict: true,
   modules: {
     editor: moduleEditor,
   },
-  getters: {
-    a() {
-      return 1;
-    },
-  },
+  getters: {},
   plugins: [
     (store) => {
       const needCacheMutations = [
@@ -36,7 +33,6 @@ export default createStore<state>({
       ];
       store.subscribe((mutation, state) => {
         if (needCacheMutations.includes(mutation.type as MUTATION_TYPE)) {
-          console.log("cc", mutation.type);
           localStorage.setItem(
             CACHE_KEY,
             JSON.stringify({
@@ -50,6 +46,7 @@ export default createStore<state>({
   ],
 });
 export const key: InjectionKey<Store<state>> = Symbol();
+
 export function useStore() {
   return baseUseStore<state>(key);
 }

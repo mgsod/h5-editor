@@ -52,8 +52,7 @@ export default defineComponent({
     },
   },
   components: {
-    // @ts-ignore
-    componentWrapper: defineAsyncComponent(() => {
+    componentWrapper: defineAsyncComponent((): any => {
       return process.env.NODE_ENV !== "production"
         ? import(
             "@/components/Editor/RenderComponent/ComponentWrapper/index.vue"

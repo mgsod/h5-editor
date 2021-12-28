@@ -1,6 +1,7 @@
 import { cloneDeep, debounce, throttle } from "lodash";
 import { Commit } from "vuex";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
+
 // 树桩结构接口
 export interface ITree<T> {
   id: string;
@@ -106,3 +107,16 @@ export function getCache<T>(key: string): undefined | T {
   const cache = localStorage.getItem(key);
   return cache ? <T>JSON.parse(cache) : undefined;
 }
+
+export const formatPositionValues = (
+  val?: number | string,
+  rem = process.env.NODE_ENV === "production"
+) => {
+  if (val === 0 || val) {
+    if (rem) {
+      return `${(val as number) / 37.5}rem`;
+    }
+    return `${val}px`;
+  }
+  return "";
+};

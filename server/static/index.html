@@ -47,7 +47,7 @@
 </head>
 <body>
 <div id="app">
-  <previewer :rem="true" :pages="page" v-if="page.length>0" />
+  <previewer :pages="page" v-if="page.length>0" />
 </div>
 </body>
 <script>
@@ -55,12 +55,10 @@
   const app = Vue.createApp({
     setup() {
       const page = ref([]);
-      fetch("http://192.168.0.110:3000/api/document/QgT3f07Fvqs97q4O").then(res => res.json()).then(res => {
+      fetch("http://10.0.232.118:3000/api/document/QgT3f07Fvqs97q4O").then(res => res.json()).then(res => {
         if (res.code === 200) {
-          const { content, name } = res.data;
-          document.title = name;
+          const { content } = res.data;
           page.value = content;
-
         }
       });
       return {

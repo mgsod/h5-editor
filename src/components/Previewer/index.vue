@@ -38,9 +38,7 @@ export default defineComponent({
       homePage: props.homePageId,
       mode: "hash",
     });
-    router.onChange = ($router) => {
-      console.log("1", $router);
-    };
+    router.onChange = ($router) => {};
     return {
       components: router.renderComponents,
       setPath(flag: string) {

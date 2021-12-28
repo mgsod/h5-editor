@@ -17,6 +17,7 @@ import { useRouter } from "vue-router";
 import html2canvas from "html2canvas";
 import { CACHE_KEY } from "@/store/Editor/util";
 import { addDocument, updateDocument } from "@/api/document";
+import { ElMessage } from "element-plus";
 
 export default defineComponent({
   name: "Header",
@@ -75,13 +76,14 @@ export default defineComponent({
             data._id = documentInfo._id;
             updateDocument(data).then((res) => {
               if (res.code === 200) {
-                console.log("更新成功");
+                ElMessage.success("更新成功");
               }
             });
           } else {
             addDocument(data).then((res) => {
               if (res.code === 200) {
                 const { _id } = res.data;
+                ElMessage.success("添加成功");
                 router.push({
                   path: "/editor",
                   query: {
