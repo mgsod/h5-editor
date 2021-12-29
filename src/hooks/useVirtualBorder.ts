@@ -65,8 +65,8 @@ export default (): {
     // 如果当前有选中的组件 且找到了dom元素
     // 且当前选中的组件不是正在被拖拽至容器的目标组件 或者 当前无正在拖拽的组件
     if (
-      selected &&
-      currentDom &&
+      !!selected &&
+      !!currentDom &&
       ((enterContainer.value && enterContainer.value.id !== selected.id) ||
         !enterContainer.value)
     ) {
@@ -143,11 +143,12 @@ export default (): {
     (document.getElementById("canvas") as HTMLElement).onscroll = () => {
       borderStyle.value = computedBorderStyle();
     };
+    return Promise.resolve();
   }
 
-  watch(selectComponentId, (current) => {
+  watch(selectComponentId, async (current) => {
     if (current) {
-      bindScroll(current);
+      await bindScroll(current);
     }
   });
 
@@ -180,6 +181,8 @@ export default (): {
   window.addEventListener("resize", () => {
     borderStyle.value = computedBorderStyle();
   });
+
+  bindScroll(selectComponentId.value);
 
   return {
     borderStyle,

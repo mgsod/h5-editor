@@ -3,10 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 import store, { key } from "./store";
 import elementUI from "./plugins/ElementUI";
-import "element-plus/theme-chalk/index.css";
+import "element-plus/dist/index.css";
 import "@/assets/css/index.less";
 import register from "@/components/Editor/RenderComponent/register";
 import ElIcon from "@/components/ElIcon/index.vue";
+import "default-passive-events";
 
 const app = createApp(App);
 

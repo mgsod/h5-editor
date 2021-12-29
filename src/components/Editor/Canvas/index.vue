@@ -13,28 +13,29 @@
           :key="`border-${item}`"
           :style="getBorderStyle(item)"
         ></div>
+
         <!--        <div
                   class="enter-container-border-line"
                   v-for="item in enterContainerBorderLine"
                   :key="`border-${item}`"
                   :style="getBorderStyle(item, true)"
                 ></div>-->
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          v-for="item in borderLine"
-          :key="`border-${item}`"
-          :style="getBorderStyle(item, true)"
-          preserveAspectRatio="none"
-          :class="item"
-        >
-          <line
-            fill="none"
-            x1="0"
-            :x2="parseFloat(getBorderStyle(item, true).width || '0')"
-            y1="0"
-            :y2="parseFloat(getBorderStyle(item, true).height || '0')"
-          ></line>
-        </svg>
+        <!--        <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  v-for="item in borderLine"
+                  :key="`border-${item}`"
+                  :style="getBorderStyle(item, true)"
+                  preserveAspectRatio="none"
+                  :class="item"
+                >
+                  <line
+                    fill="none"
+                    x1="0"
+                    :x2="parseFloat(getBorderStyle(item, true).width || '0')"
+                    y1="0"
+                    :y2="parseFloat(getBorderStyle(item, true).height || '0')"
+                  ></line>
+                </svg>-->
         <div
           class="point"
           :class="item"
@@ -89,7 +90,7 @@ export default defineComponent({
     // 在这个组件中提供一个 mouseDownEventHandler 鼠标按下的事件给所有自组件
     // 自组件只需要inject此事件即可从事件触发时的组件直接到这一级
     provide("mouseDownEventHandler", (e: MouseEvent, component: TComponent) => {
-      e.preventDefault();
+      //e.preventDefault();
       e.stopPropagation();
       const target = getUnlockParent(component.id);
       mouseDown(e, target);
@@ -117,7 +118,7 @@ export default defineComponent({
 
     // 同上
     provide("componentSelectHandler", (e: MouseEvent, item: TComponent) => {
-      e.preventDefault();
+      //e.preventDefault();
       e.stopPropagation();
       closeContextmenu();
       selectComponent(item);

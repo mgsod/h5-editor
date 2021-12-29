@@ -14,6 +14,17 @@ const defaultConfig = {
       },
     },
   },
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /\.mjs$/,
+          include: /node_modules/,
+          type: "javascript/auto",
+        },
+      ],
+    },
+  },
 };
 const config = target === "lib" ? libConfig : defaultConfig;
 module.exports = config;

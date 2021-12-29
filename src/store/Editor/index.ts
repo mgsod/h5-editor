@@ -4,6 +4,7 @@ import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { state } from "@/store";
 import getters from "@/store/Editor/getters";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
+import eventBus, { EventType } from "@/hooks/useEventBus";
 
 export interface IPage {
   order: number;
@@ -48,6 +49,7 @@ const module: Module<IState, state> = {
       state.isDrag = payload.isDrag;
       state.enterContainer = payload.enterContainer;
       state.extractComponents = payload.extractComponents;
+      eventBus.$emit(EventType.updateBorder);
     },
   },
   getters: {

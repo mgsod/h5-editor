@@ -55,6 +55,8 @@ export default defineComponent({
       store.commit,
       MUTATION_TYPE.UPDATE_COMPONENT
     );
+    console.log("componentProps", componentProps);
+    console.log("origin", origin);
     watch(componentProps, (a, b) => {
       if (!change) {
         debounceCommit(componentProps);
@@ -87,38 +89,49 @@ export default defineComponent({
   display: flex;
   overflow: hidden;
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
+
   .el-form:not(.dialog-form) {
     flex: 0 0 320px;
     overflow: hidden;
+
     :deep(.el-form-item) {
       margin-bottom: 15px;
+
       .el-form-item__label {
         font-size: 12px;
       }
+
       .el-form-item__content {
         display: flex;
         align-items: center;
+
         & > div {
           flex: 1;
           width: 0;
           margin: 0 5px;
+
           &:first-child {
             margin-left: 0;
           }
+
           &:last-child {
             margin-right: 0;
           }
         }
       }
     }
+
     padding: 0 8px;
+
     .el-tabs__content {
       height: calc(100% - 55px);
       overflow: auto;
+
       .el-tab-pane {
         padding-bottom: 20px;
       }
     }
+
     .no-component-selected {
       color: var(--el-color-info);
       margin-top: -20px;

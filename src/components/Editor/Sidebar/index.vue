@@ -82,10 +82,26 @@
               :key="item.id"
               @click="selectPage(item.id)"
             >
-              <div class="name">{{ item.name }}</div>
-              <div class="action">
-                <el-icons name="Edit"></el-icons>
-              </div>
+              <span class="name">{{ item.name }}</span>
+              <el-popover v-model:visible="popoverVisible" placement="bottom">
+                <template #reference>
+                  <el-icons
+                    name="Edit"
+                    @click.stop="editPageHandle(item.id)"
+                  ></el-icons>
+                </template>
+                <!--                <div class="edit-page-popover">
+                  <el-input v-model="tempName" size="mini"></el-input>
+                  <div class="action">
+                    <el-button
+                      size="mini"
+                      type="primary"
+                      @click="submitEditPage"
+                      >确认
+                    </el-button>
+                  </div>
+                </div>-->
+              </el-popover>
             </div>
           </div>
           <div class="action">
@@ -116,12 +132,12 @@ import useDrag from "@/hooks/useDrag";
 
 export default {
   name: "Sidebar",
-  props: {},
-  components: {},
   setup() {
     const store = useStore();
     const { dragstart } = useDrag();
-
+    const editPageId = ref("-1");
+    const popoverVisible = ref(false);
+    const tempName = ref("");
     const domTree = computed(() => {
       return cloneDeep(store.getters?.currentPage?.components || []);
     });
@@ -139,10 +155,12 @@ export default {
       });
     });
     return {
+      popoverVisible,
+      tempName,
       dragstart,
       ComponentList,
       pages,
-      active: ref("components"),
+      active: ref("pages"),
       domTree,
       selectedId,
       activePageId: computed(() => {
@@ -186,12 +204,39 @@ export default {
       extractComponents: computed(() => {
         return store.getters.extractComponents;
       }),
+      editPageHandle(id: string) {
+        //tempName.value = pages.value.find((item) => item.id === id)!.name;
+        //editPageId.value = id;
+        popoverVisible.value = true;
+      },
+      submitEditPage() {
+        store.commit(
+          MUTATION_TYPE.EDIT_PAGE,
+          cloneDeep({
+            ...pages.value.find((item) => item.id === editPageId.value),
+            name: tempName.value,
+          })
+        );
+        editPageId.value = "-1";
+        popoverVisible.value = false;
+      },
     };
   },
 };
 </script>
 
 <style scoped lang="less">
+.edit-page-popover {
+  .action {
+    text-align: right;
+    margin-top: 5px;
+
+    .el-button {
+      min-height: 25px;
+    }
+  }
+}
+
 .sidebar {
   display: flex;
   box-sizing: border-box;
@@ -262,6 +307,26 @@ export default {
           border-bottom: 1px solid #f0f4f5;
           border-radius: 5px;
           cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          input {
+            border: none;
+            outline: none;
+            background: transparent;
+            border-bottom: 1px solid #999999;
+          }
+
+          i {
+            display: none;
+          }
+
+          &:hover {
+            i {
+              display: inline-block;
+            }
+          }
 
           &.active {
             background: var(--el-color-primary);

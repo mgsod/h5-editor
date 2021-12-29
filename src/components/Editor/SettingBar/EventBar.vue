@@ -113,7 +113,7 @@ import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { redirectTypeList } from "@/components/Editor/action/redirect";
 import useDialog from "@/hooks/useDialog";
 import { cloneDeep } from "lodash";
-import { FormItemRule } from "element-plus/packages/components/form/src/form.type";
+import { FormItemRule } from "element-plus/lib/components/form/src/form.type";
 export default defineComponent({
   name: "event-bar",
   props: {},

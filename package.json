@@ -16,7 +16,7 @@
     "body-parser": "^1.19.1",
     "core-js": "^3.6.5",
     "default-passive-events": "^2.0.0",
-    "element-plus": "^1.1.0-beta.20",
+    "element-plus": "^1.2.0-beta.6",
     "express": "^4.17.2",
     "express-async-errors": "^3.1.1",
     "html2canvas": "^1.0.0-rc.5",

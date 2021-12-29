@@ -76,7 +76,7 @@ export default () => {
    * @param handle 当handle为string标识拖拽的各个点位，即resize。如果传入的是一个组件，则是改变位置
    */
   function mouseDown(event: MouseEvent, handle: string | TComponent) {
-    event.preventDefault();
+    //event.preventDefault();
     event.stopPropagation();
     // 如果鼠标按下的是一个组件
     if (handle && typeof handle !== "string") {
@@ -122,7 +122,7 @@ export default () => {
    */
   const mouseMove = (event: MouseEvent) => {
     event.stopPropagation();
-    event.preventDefault();
+    //event.preventDefault();
     const { clientX, clientY } = event;
     offsetX.value = clientX - startX.value;
     offsetY.value = clientY - startY.value;
@@ -211,7 +211,7 @@ export default () => {
   };
   const mouseUp = (event: MouseEvent) => {
     event.stopPropagation();
-    event.preventDefault();
+    //event.preventDefault();
     resize.value = false;
     rePosition.value = false;
     document.body.removeEventListener("mousemove", mouseMove);
