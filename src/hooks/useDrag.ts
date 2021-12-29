@@ -7,12 +7,13 @@ import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { cloneDeep } from "lodash";
 import { v4 as uuidv4 } from "uuid";
+import { IExtractComponents } from "@/store/Editor";
 
-function componentsCopy<T extends TComponent>(
-  component: T,
+function componentsCopy(
+  component: TComponent,
   parentId = "",
   depth = 0
-): T {
+): TComponent {
   component.id = uuidv4();
   if (parentId) {
     component.parentId = parentId;
@@ -67,7 +68,7 @@ export default () => {
         component = (
           store.state.editor.extractComponents.find(
             (item) => item.name === name
-          ) as { payload: TComponent }
+          ) as IExtractComponents
         ).payload;
         component = componentsCopy(cloneDeep(component));
       } else {

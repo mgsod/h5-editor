@@ -124,7 +124,8 @@ export default (): {
     { deep: true }
   );
 
-  async function bindScroll(current: string) {
+  async function bindScroll(current?: string) {
+    if (!current) return;
     await nextTick();
     currentDom = document.getElementById(current) as HTMLElement;
     borderStyle.value = computedBorderStyle();

@@ -1,6 +1,9 @@
 import { cloneDeep, debounce, throttle } from "lodash";
 import { Commit } from "vuex";
-import { TComponent } from "@/components/Editor/RenderComponent/types";
+import {
+  PartOfComponent,
+  TComponent,
+} from "@/components/Editor/RenderComponent/types";
 
 // 树桩结构接口
 export interface ITree<T> {
@@ -46,7 +49,7 @@ export function eachComponentTreeDown(
   }
 }
 
-export function findItemById<T extends ITree<T>>(
+export function findItemById<T extends ITree<T> = any>(
   tree: T[],
   id: string
 ): T | undefined {
@@ -57,7 +60,7 @@ export function findItemById<T extends ITree<T>>(
       return item;
     }
     if (item.children && item.children?.length > 0) {
-      result = findItemById<T>(item.children, id);
+      result = findItemById(item.children, id);
       if (result) return result;
     }
   }

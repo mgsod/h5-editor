@@ -8,6 +8,10 @@ import { IPage, IState } from "@/store/Editor";
 import { findItemById } from "@/util";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { MutationTree } from "vuex";
+import {
+  PartOfComponent,
+  TComponent,
+} from "@/components/Editor/RenderComponent/types";
 
 const eventMutations: MutationTree<IState> = {
   // 添加一个事件
@@ -16,7 +20,7 @@ const eventMutations: MutationTree<IState> = {
       const currentPage = state.pages.find(
         (item) => item.id === state.pageActive
       ) as IPage;
-      const target = findItemById<IComponent>(
+      const target = findItemById<PartOfComponent>(
         currentPage.components,
         (state.selectedComponents as IComponent).id
       );

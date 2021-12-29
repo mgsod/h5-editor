@@ -1,4 +1,7 @@
-import { TComponent } from "@/components/Editor/RenderComponent/types";
+import {
+  PartOfComponent,
+  TComponent,
+} from "@/components/Editor/RenderComponent/types";
 import { IPage, IState } from "../index";
 import { MUTATION_TYPE } from "./mutation-type";
 import { MutationTree } from "vuex";
@@ -49,7 +52,10 @@ const mutations: MutationTree<IState> = {
     const currentPage = state.pages.find(
       (item) => item.id === state.pageActive
     ) as IPage;
-    const target = findItemById<IComponent>(currentPage.components, payload.id);
+    const target = findItemById<PartOfComponent>(
+      currentPage.components,
+      payload.id
+    );
     if (target) {
       Object.assign(target, { ...payload });
       updateSelectedComponent(state);

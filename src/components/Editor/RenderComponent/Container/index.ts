@@ -6,7 +6,10 @@ import {
   display,
 } from "@/components/Editor/RenderComponent/Layout";
 import { fastInitProps } from "@/util";
-import { ComponentType } from "@/components/Editor/RenderComponent/types";
+import {
+  ComponentType,
+  TComponent,
+} from "@/components/Editor/RenderComponent/types";
 import { ICommonText } from "@/components/Editor/RenderComponent/CommonInterface/Text";
 import { ICommonContainer } from "@/components/Editor/RenderComponent/CommonInterface/Container";
 
@@ -34,6 +37,7 @@ export enum ALIGN_ITEMS {
   BASELINE = "baseline",
   STRETCH = "stretch",
 }
+
 export const AlignItemsList = [
   { name: "默认（撑满容器）", value: ALIGN_ITEMS.STRETCH },
   { name: "起点对齐", value: ALIGN_ITEMS.START },
@@ -47,6 +51,7 @@ export enum DISPLAY {
   BLOCK = "block",
   FLEX = "flex",
 }
+
 export const displayList = [
   {
     name: "默认布局",
@@ -63,6 +68,7 @@ export interface Layout {
   JustifyContent?: JUSTIFY_CONTENT;
   AlignItems?: AlignItems;
 }
+
 export interface IContainer extends ICommonContainer, ICommonText, Layout {}
 
 /**
@@ -71,7 +77,7 @@ export interface IContainer extends ICommonContainer, ICommonText, Layout {}
 class Container extends Component implements IContainer {
   type = ComponentType.Container;
   isContainer = true;
-  children: IComponent[] = [];
+  children: TComponent[] = [];
   JustifyContent: JUSTIFY_CONTENT = JUSTIFY_CONTENT.START;
   AlignItems: ALIGN_ITEMS = ALIGN_ITEMS.STRETCH;
   width = 200;
@@ -84,9 +90,11 @@ class Container extends Component implements IContainer {
   fontStyle = "normal";
   fontWeight = "normal";
   textAlign = "left";
+
   constructor(props?: Partial<IContainer>) {
     super(props);
     fastInitProps(props, this);
   }
 }
+
 export default Container;

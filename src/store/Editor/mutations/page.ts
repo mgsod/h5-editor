@@ -4,6 +4,19 @@ import { MutationTree } from "vuex";
 import { IPage, IState } from "@/store/Editor";
 
 const pageMutations: MutationTree<IState> = {
+  [MUTATION_TYPE.LOAD]: (state, payload) => {
+    state.pages = payload;
+  },
+  [MUTATION_TYPE.LOAD_BY_CACHE]: (state: IState, payload: IState) => {
+    state.pageActive = payload.pageActive;
+    state.pages = payload.pages;
+    state.selectedComponents = payload.selectedComponents;
+    state.allowRedo = payload.allowRedo;
+    state.allowUndo = payload.allowUndo;
+    state.isDrag = payload.isDrag;
+    state.enterContainer = payload.enterContainer;
+    state.extractComponents = payload.extractComponents;
+  },
   // 新增一页
   [MUTATION_TYPE.ADD_PAGE]: (state) => {
     mutationWithSnapshot(state, () => {

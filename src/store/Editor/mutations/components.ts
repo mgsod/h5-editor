@@ -39,7 +39,7 @@ const componentMutations: MutationTree<IState> = {
         if (targetComponent.type === ComponentType.Tab) {
           _target = (targetComponent as ITab).children[
             (targetComponent as ITab).active
-          ];
+          ] as IContainer | ITab;
         }
         component.parentId = _target.id;
         _target.children.push(component);

@@ -1,17 +1,22 @@
 import { IPage, IState } from "@/store/Editor/index";
 import { v4 as uuidv4 } from "uuid";
 import { findItemById, getCache } from "@/util";
-import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { DiffPatcher } from "@/util/diffpatch";
 import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
-import { ComponentType } from "@/components/Editor/RenderComponent/types";
+import {
+  ComponentType,
+  PartOfComponent,
+  TComponent,
+} from "@/components/Editor/RenderComponent/types";
 
 // 缓存key
 export const CACHE_KEY = "editorData";
+
 export interface IEditorCache {
   editorData: IState;
   diffPatcher: DiffPatcher<IPage[]>;
 }
+
 const cache = getCache<IEditorCache>(CACHE_KEY);
 // 实例化diffPatcher
 export const diffPatcher = new DiffPatcher<IPage[]>(cache?.diffPatcher);
@@ -50,7 +55,7 @@ export const updateSelectedComponent = (state: IState) => {
     const currentPage = state.pages.find(
       (item) => item.id === state.pageActive
     ) as IPage;
-    const find = findItemById<IComponent>(
+    const find = findItemById<PartOfComponent>(
       currentPage.components,
       state.selectedComponents.id as string
     );

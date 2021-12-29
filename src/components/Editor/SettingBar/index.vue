@@ -55,8 +55,8 @@ export default defineComponent({
       store.commit,
       MUTATION_TYPE.UPDATE_COMPONENT
     );
-    console.log("componentProps", componentProps);
-    console.log("origin", origin);
+    // 初始化执行一次合并
+    objectMerge(origin.value || {}, componentProps);
     watch(componentProps, (a, b) => {
       if (!change) {
         debounceCommit(componentProps);
