@@ -11,7 +11,7 @@
           class="border-line"
           v-for="item in borderLine"
           :key="`border-${item}`"
-          :style="getBorderStyle(item)"
+          :style="borderValues[item]"
         ></div>
 
         <!--        <div
@@ -20,22 +20,22 @@
                   :key="`border-${item}`"
                   :style="getBorderStyle(item, true)"
                 ></div>-->
-        <!--        <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  v-for="item in borderLine"
-                  :key="`border-${item}`"
-                  :style="getBorderStyle(item, true)"
-                  preserveAspectRatio="none"
-                  :class="item"
-                >
-                  <line
-                    fill="none"
-                    x1="0"
-                    :x2="parseFloat(getBorderStyle(item, true).width || '0')"
-                    y1="0"
-                    :y2="parseFloat(getBorderStyle(item, true).height || '0')"
-                  ></line>
-                </svg>-->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          v-for="item in borderLine"
+          :key="`border-${item}`"
+          :style="dashedBorderValues[item]"
+          preserveAspectRatio="none"
+          :class="item"
+        >
+          <line
+            fill="none"
+            x1="0"
+            :x2="parseFloat(dashedBorderValues[item].width || '0')"
+            y1="0"
+            :y2="parseFloat(dashedBorderValues[item].height || '0')"
+          ></line>
+        </svg>
         <div
           class="point"
           :class="item"
@@ -55,7 +55,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, provide } from "vue";
+import {
+  computed,
+  defineComponent,
+  ref,
+  provide,
+  Ref,
+  reactive,
+  watch,
+} from "vue";
 import { useStore } from "@/store";
 import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
@@ -68,6 +76,7 @@ import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { findItemById } from "@/util";
 
 type IDirection = "top" | "right" | "bottom" | "left";
+
 export default defineComponent({
   name: "H5canvas",
   components: { ComponentWrapper, contextmenu },
@@ -76,7 +85,8 @@ export default defineComponent({
       useContextmenu();
     const { dragenter, dragleave, drop, dragover } = useDragEffect();
     const store = useStore();
-    const { borderStyle, enterContainerBorderStyle } = useVirtualBorder();
+    const { borderValues, dashedBorderValues, borderStyle, borderLine } =
+      useVirtualBorder();
     // 拖拽/更改组件大小位置
     const { mouseDown, resizePoint } = useResize();
 
@@ -118,7 +128,6 @@ export default defineComponent({
 
     // 同上
     provide("componentSelectHandler", (e: MouseEvent, item: TComponent) => {
-      //e.preventDefault();
       e.stopPropagation();
       closeContextmenu();
       selectComponent(item);
@@ -126,67 +135,32 @@ export default defineComponent({
     const isDragNew = computed(() => {
       return store.state.editor.isDrag;
     });
-    const borderLine: IDirection[] = ["top", "right", "bottom", "left"];
+
     const contextmenuComponent = ref();
     return {
-      dragenter,
-      dragleave,
-      drop,
-      dragover,
+      position,
+      showContextmenu,
+      closeContextmenu,
+      contextmenuComponent,
+      mouseDown,
       store,
-      components: computed(() => {
-        return store.getters.currentPage?.components || [];
-      }),
+      borderValues,
+      dashedBorderValues,
       borderStyle,
       resizePoint,
       isDragNew,
       borderLine,
+      dragenter,
+      dragleave,
+      drop,
+      dragover,
       preventDefault,
-      position,
-      showContextmenu,
-      closeContextmenu,
+      components: computed(() => {
+        return store.getters.currentPage?.components || [];
+      }),
       selectedComponentId: computed(() => {
         return store.state.editor.selectedComponents?.id;
       }),
-      getBorderStyle(flag: IDirection, isDrag = false) {
-        const border = isDrag ? enterContainerBorderStyle : borderStyle;
-        switch (flag) {
-          case "top":
-            return {
-              width: border.value.width,
-              left: border.value.left,
-              top: border.value.top,
-              display: border.value.display,
-            };
-          case "bottom":
-            return {
-              width: border.value.width,
-              left: border.value.left,
-              top: `${
-                parseFloat(border.value.top as string) +
-                parseFloat(border.value.height as string)
-              }px`,
-              display: border.value.display,
-            };
-          case "left":
-            return {
-              height: border.value.height,
-              left: border.value.left,
-              top: border.value.top,
-              display: border.value.display,
-            };
-          case "right":
-            return {
-              height: border.value.height,
-              left: `${
-                parseFloat(border.value.left as string) +
-                parseFloat(border.value.width as string)
-              }px`,
-              top: border.value.top,
-              display: border.value.display,
-            };
-        }
-      },
       getPointStyle(flag: string) {
         let {
           left = "",
@@ -245,8 +219,6 @@ export default defineComponent({
             };
         }
       },
-      contextmenuComponent,
-      mouseDown,
     };
   },
 });

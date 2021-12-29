@@ -51,7 +51,7 @@ export default {
       // 从缓存中回显数据
       const localCache = getCache<IEditorCache>(CACHE_KEY)?.editorData;
       if (localCache) {
-        store.commit("loadByCache", localCache);
+        store.commit(MUTATION_TYPE.LOAD_BY_CACHE, localCache);
       }
     }
 
@@ -63,7 +63,7 @@ export default {
           documentInfo._id = _id;
           documentInfo.name = name;
           documentInfo.content = content;
-          store.commit("load", content);
+          store.commit(MUTATION_TYPE.LOAD, content);
           store.commit(MUTATION_TYPE.SELECT_PAGE, (content[0] as any).id);
           loadByLocalCache();
         }

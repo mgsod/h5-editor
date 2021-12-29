@@ -1,5 +1,5 @@
 import { useStore } from "@/store";
-import { nextTick, ref, watch, computed, Ref } from "vue";
+import { nextTick, ref, watch, computed, Ref, reactive } from "vue";
 import { IComponent } from "@/components/Editor/RenderComponent/Component";
 import { findItemById } from "@/util";
 import eventBus, { EventType } from "@/hooks/useEventBus";
@@ -12,16 +12,84 @@ interface borderStyle {
   display?: string;
 }
 
+type IDirection = "top" | "right" | "bottom" | "left";
+type BorderValues = Record<IDirection, borderStyle>;
+
 export default (): {
+  borderLine: IDirection[];
   borderStyle: Ref<borderStyle>;
-  enterContainerBorderStyle: Ref<borderStyle>;
+  borderValues: BorderValues;
+  dashedBorderValues: BorderValues;
 } => {
   const store = useStore();
   const borderStyle = ref<borderStyle>({});
   const enterContainerBorderStyle = ref<borderStyle>({});
   let currentDom: HTMLElement | null = null;
-
   let enterContainerDom: HTMLElement | null = null;
+  const borderLine: IDirection[] = ["top", "right", "bottom", "left"];
+  const borderValues: BorderValues = reactive({
+    left: {},
+    top: {},
+    bottom: {},
+    right: {},
+  });
+  const dashedBorderValues: BorderValues = reactive({
+    left: {},
+    top: {},
+    bottom: {},
+    right: {},
+  });
+  watch(enterContainerBorderStyle, () => {
+    borderLine.forEach((item) => {
+      dashedBorderValues[item] = getBorderStyle(item, true);
+    });
+  });
+  watch(borderStyle, () => {
+    borderLine.forEach((item) => {
+      borderValues[item] = getBorderStyle(item);
+    });
+  });
+
+  const getBorderStyle = (flag: IDirection, isDrag = false) => {
+    const border = isDrag ? enterContainerBorderStyle : borderStyle;
+    switch (flag) {
+      case "top":
+        return {
+          width: border.value.width,
+          left: border.value.left,
+          top: border.value.top,
+          display: border.value.display,
+        };
+      case "bottom":
+        return {
+          width: border.value.width,
+          left: border.value.left,
+          top: `${
+            parseFloat(border.value.top as string) +
+            parseFloat(border.value.height as string)
+          }px`,
+          display: border.value.display,
+        };
+      case "left":
+        return {
+          height: border.value.height,
+          left: border.value.left,
+          top: border.value.top,
+          display: border.value.display,
+        };
+      case "right":
+        return {
+          height: border.value.height,
+          left: `${
+            parseFloat(border.value.left as string) +
+            parseFloat(border.value.width as string)
+          }px`,
+          top: border.value.top,
+          display: border.value.display,
+        };
+    }
+  };
+
   const enterContainer = computed(() => {
     return store.state.editor.enterContainer;
   });
@@ -186,7 +254,9 @@ export default (): {
   bindScroll(selectComponentId.value);
 
   return {
+    borderLine,
     borderStyle,
-    enterContainerBorderStyle,
+    borderValues,
+    dashedBorderValues,
   };
 };
