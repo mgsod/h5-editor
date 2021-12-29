@@ -83,14 +83,14 @@
               @click="selectPage(item.id)"
             >
               <span class="name">{{ item.name }}</span>
-              <el-popover v-model:visible="popoverVisible" placement="bottom">
+              <el-popover placement="bottom" trigger="click">
                 <template #reference>
                   <el-icons
                     name="Edit"
                     @click.stop="editPageHandle(item.id)"
                   ></el-icons>
                 </template>
-                <!--                <div class="edit-page-popover">
+                <div class="edit-page-popover">
                   <el-input v-model="tempName" size="mini"></el-input>
                   <div class="action">
                     <el-button
@@ -100,7 +100,7 @@
                       >确认
                     </el-button>
                   </div>
-                </div>-->
+                </div>
               </el-popover>
             </div>
           </div>
@@ -136,7 +136,6 @@ export default {
     const store = useStore();
     const { dragstart } = useDrag();
     const editPageId = ref("-1");
-    const popoverVisible = ref(false);
     const tempName = ref("");
     const domTree = computed(() => {
       return cloneDeep(store.getters?.currentPage?.components || []);
@@ -155,7 +154,6 @@ export default {
       });
     });
     return {
-      popoverVisible,
       tempName,
       dragstart,
       ComponentList,
@@ -205,9 +203,8 @@ export default {
         return store.getters.extractComponents;
       }),
       editPageHandle(id: string) {
-        //tempName.value = pages.value.find((item) => item.id === id)!.name;
-        //editPageId.value = id;
-        popoverVisible.value = true;
+        tempName.value = pages.value.find((item) => item.id === id)!.name;
+        editPageId.value = id;
       },
       submitEditPage() {
         store.commit(
@@ -218,7 +215,6 @@ export default {
           })
         );
         editPageId.value = "-1";
-        popoverVisible.value = false;
       },
     };
   },
