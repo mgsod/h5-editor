@@ -1,5 +1,5 @@
 <template>
-  <div
+  <span
     class="h-text"
     :style="{
       fontStyle,
@@ -13,7 +13,7 @@
     :class="[overflow ? `line${maxLines}` : '']"
   >
     {{ text }}
-  </div>
+  </span>
 </template>
 
 <script lang="ts">
@@ -43,10 +43,12 @@ export default defineComponent({
 <style lang="less">
 .h-text {
   word-break: break-all;
+  display: inline-block;
   &.line1 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
   &.line2 {
     display: -webkit-box;

@@ -4,6 +4,7 @@
     class="component-wrapper"
     ref="root"
     :style="style"
+    :data-type="property.type"
     @drop="drop($event, property)"
     @dragenter="dragenter($event, property)"
     @dragleave="dragleave($event)"
@@ -64,6 +65,10 @@ export default defineComponent({
 .component-wrapper {
   overflow: hidden;
   cursor: default;
+
+  &[data-type="HText"] {
+    display: inline-block;
+  }
 
   &#root {
     min-height: 100%;
