@@ -19,6 +19,7 @@ import {
   ElDialog,
   ElPopconfirm,
   ElPopover,
+  ElCard,
 } from "element-plus";
 export default (app: App) => {
   app.config.globalProperties.$ELEMENT = {
@@ -43,5 +44,6 @@ export default (app: App) => {
     .use(ElDialog)
     .use(ElPopconfirm)
     .use(ElPopover)
+    .use(ElCard)
     .use(ElLink);
 };

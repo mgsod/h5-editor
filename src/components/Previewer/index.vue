@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onBeforeUnmount } from "vue";
 import Render from "./render.vue";
 import { IRoute, Router } from "@/components/Previewer/router";
 import { cloneDeep } from "lodash";
@@ -27,18 +27,26 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
+    modelValue: String,
     homePageId: {
       type: String,
     },
   },
+  emits: ["update:homePageId"],
   components: { Render },
-  setup(props) {
+  setup(props, { emit }) {
     const router = new Router({
       routes: cloneDeep(props.pages) as IRoute[],
       homePage: props.homePageId,
       mode: "hash",
+      onChange($router) {
+        emit("update:homePageId", $router.current?.id);
+      },
     });
-    router.onChange = ($router) => {};
+    onBeforeUnmount(() => {
+      console.log("销毁");
+      router.destroy();
+    });
     return {
       components: router.renderComponents,
       setPath(flag: string) {

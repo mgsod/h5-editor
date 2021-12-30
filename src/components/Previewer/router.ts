@@ -14,6 +14,7 @@ interface IRouter {
   routerKey?: string;
   mode?: RouterMode;
   homePage?: string;
+  onChange?: (router: Router) => void;
 }
 
 export class Router {
@@ -37,12 +38,14 @@ export class Router {
   renderComponents: Ref<any[]> = ref([]);
   history: IRoute[] = [];
   onChange: (router: Router) => void = () => {};
+  onChangeListenerHandel: () => void;
 
   constructor({
     routes = [],
     mode = "hash",
     homePage = "",
     routerKey = "hpath",
+    onChange = () => {},
   }: IRouter) {
     Router.key = routerKey;
     Router.mode = mode;
@@ -51,30 +54,31 @@ export class Router {
     this.routerKey = routerKey;
     this.mode = mode;
     this.homePage = homePage;
-
+    this.onChange = onChange;
     this.reg = Router.generateRouterKeyReg();
 
+    this.onChangeListenerHandel = () => {
+      this.renderComponents.value = this.getRouteComponents();
+      if (this.onChange) {
+        this.onChange(this);
+      }
+    };
     // 如果是hash模式，需要监听hashchange事件
     if (mode === "hash") {
-      window.addEventListener("hashchange", () => {
-        this.renderComponents.value = this.getRouteComponents();
-        if (this.onChange) {
-          this.onChange(this);
-        }
-      });
+      window.addEventListener("hashchange", this.onChangeListenerHandel);
     }
 
     // 如果有首页，设置首页
     if (this.homePage) {
-      Router.go(this.homePage);
+      Router.go(this.routerIdFix(this.homePage));
     } else {
-      // 如果没有path参数
-      if (!this.getRouteId()) {
-        const homePage = this.routes[0].id;
-        Router.go(homePage);
-      }
+      const routerId = this.routerIdFix(this.getRouteId());
+      Router.go(routerId);
     }
     this.renderComponents.value = this.getRouteComponents();
+    if (this.onChange) {
+      this.onChange(this);
+    }
   }
 
   // 通过routerKey构建用来获取path的的正则表达式
@@ -153,6 +157,18 @@ export class Router {
   }
 
   /**
+   * 修正当前routerId,有可能传入的routerId不在路由表中
+   * 检测到不存在时，返回路由表首页
+   * @param routerId
+   */
+  routerIdFix(routerId?: string): string {
+    const inRouters =
+      this.routes.findIndex((item) => item.id === routerId) > -1;
+    if (inRouters) return routerId as string;
+    return this.routes[0].id;
+  }
+
+  /**
    * 设置路由
    * @param param 路由id或者翻页动作
    */
@@ -210,5 +226,10 @@ export class Router {
       return page.components;
     }
     return [];
+  }
+
+  destroy() {
+    this.routes = [];
+    window.removeEventListener("hashchange", this.onChangeListenerHandel);
   }
 }

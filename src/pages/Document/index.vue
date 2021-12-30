@@ -1,33 +1,45 @@
 <template>
   <div class="documents-list">
     <div class="documents-list-item new" @click="newDocument">
-      <div class="cover">
-        <el-icons name="Plus" />
-      </div>
-      <div class="name">新建文稿</div>
+      <el-card shadow="hover" :body-style="{ padding: '0px' }">
+        <div class="cover">
+          <el-icons name="Plus" />
+        </div>
+        <div class="name">新建文稿</div>
+      </el-card>
     </div>
     <div
       class="documents-list-item"
       v-for="item in documentList"
       :key="item._id"
     >
-      <div class="cover">
-        <div class="font" :style="getStyle(item.cover)"></div>
-        <div class="background" :style="getStyle(item.cover, true)"></div>
-      </div>
-      <div class="name">{{ item.name }}</div>
-      <div class="action">
-        <div class="action-item" @click="edit(item._id)">
-          <el-icons name="Edit" />
+      <el-card shadow="hover" :body-style="{ padding: '0px' }">
+        <div class="cover">
+          <div class="font" :style="getStyle(item.cover)"></div>
+          <div class="background" :style="getStyle(item.cover, true)"></div>
+          <div class="qrcode" v-show="item.qrcodeShow">
+            <img :src="item.qrcode" alt="" />
+          </div>
         </div>
-        <div class="action-item">
-          <el-icons name="View" />
+        <div class="name">{{ item.name }}</div>
+        <div class="lastupdate">{{ item.updatedAt }}</div>
+        <div class="action">
+          <div class="action-item" @click="edit(item._id)">
+            <el-icons name="Edit" />
+          </div>
+          <div class="action-item" @click="preview(item)">
+            <el-icons name="View" />
+          </div>
+          <div class="action-item" @click="del(item._id)">
+            <el-icons name="Delete" />
+          </div>
+          <div class="action-item" @click="item.qrcodeShow = !item.qrcodeShow">
+            <el-icons name="Share" />
+          </div>
         </div>
-        <div class="action-item" @click="del(item._id)">
-          <el-icons name="Delete" />
-        </div>
-      </div>
+      </el-card>
     </div>
+    <preview-dialog v-model="showDialog" :pages="currentPages" />
   </div>
 </template>
 
@@ -36,30 +48,49 @@ import { defineComponent, ref } from "vue";
 import { getDocumentList, delDocument } from "@/api/document";
 import { useRouter } from "vue-router";
 import { ElMessageBox, ElMessage } from "element-plus";
+import qrcode from "qrcode";
+import previewDialog from "@/components/Previewer/previewDialog.vue";
+import useDialog from "@/hooks/useDialog";
+import { IDocument } from "../../../server/document";
 
 export default defineComponent({
-  name: "index",
-  props: {},
-  components: {},
+  name: "Documents",
+  components: { previewDialog },
   setup() {
     const router = useRouter();
     const documentList = ref([]);
-
+    const { showDialog } = useDialog();
     const refresh = () => {
       getDocumentList().then((res) => {
         if (res.code === 200) {
+          res.data.forEach(async (item: any) => {
+            item.qrcode = await qrcode.toDataURL(
+              `http://10.0.232.118:3000/static/index.html?id=${item._id}`
+            );
+            item.qrcodeShow = false;
+            item.updatedAt = new Date(item.updatedAt).toLocaleString();
+          });
           documentList.value = res.data;
         }
       });
     };
+    const currentPages = ref({});
     refresh();
     return {
       documentList,
+      showDialog,
+      preview(item: IDocument) {
+        showDialog.value = true;
+        currentPages.value = item.content;
+      },
+      currentPages,
       newDocument() {
         localStorage.removeItem("editorData");
-        router.push({
+        const { href } = router.resolve({
           name: "editor",
         });
+        localStorage.removeItem("editorData");
+        window.open(href, "_blank");
       },
       edit(id: string) {
         const { href } = router.resolve({
@@ -92,9 +123,6 @@ export default defineComponent({
       },
       getStyle(url: string, blur = false) {
         return {
-          position: `absolute`,
-          top: 0,
-          left: 0,
           "z-index": blur ? 0 : 1,
           "background-size": "cover",
           "background-repeat": "no-repeat",
@@ -117,7 +145,6 @@ export default defineComponent({
     width: 200px;
     margin-bottom: 15px;
     margin-left: 15px;
-    border: 1px solid #e8e8e8;
     cursor: pointer;
 
     .cover {
@@ -141,6 +168,21 @@ export default defineComponent({
         margin: 0px 15%;
         z-index: 1;
       }
+
+      .qrcode {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        background: #fff;
+
+        img {
+          height: auto;
+        }
+      }
     }
 
     .name {
@@ -150,10 +192,17 @@ export default defineComponent({
       font-weight: bold;
     }
 
+    .lastupdate {
+      text-align: center;
+      margin: 5px 0;
+      font-size: 12px;
+      color: #999999;
+    }
+
     .action {
       display: flex;
       justify-content: space-between;
-      margin-top: 20px;
+      padding: 10px;
 
       &-item {
         flex: 0 0 20px;
@@ -163,6 +212,23 @@ export default defineComponent({
     }
 
     &.new {
+      .el-card {
+        height: 100%;
+
+        :deep(.el-card__body) {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+
+          .name {
+            flex: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+      }
+
       .cover {
         display: flex;
         align-items: center;

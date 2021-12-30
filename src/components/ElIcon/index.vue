@@ -9,7 +9,7 @@ import { defineComponent } from "vue";
 import * as Icons from "@element-plus/icons-vue";
 
 export default defineComponent({
-  name: "index.vue",
+  name: "icon",
   props: {
     name: {
       type: String,

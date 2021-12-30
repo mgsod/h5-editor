@@ -19,9 +19,10 @@ import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import Header from "@/components/Editor/Header/Header.vue";
 import axios from "@/axios/index";
 import { IDocument } from "../../../server/document";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { getCache } from "@/util";
 import { CACHE_KEY, IEditorCache } from "@/store/Editor/util";
+import { ElMessage } from "element-plus";
 
 export default {
   name: "Index",
@@ -34,9 +35,11 @@ export default {
   },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const {
       query: { id },
     } = route;
+
     const documentInfo = reactive<IDocument>({
       name: "",
       _id: "",
@@ -59,12 +62,19 @@ export default {
     if (id) {
       axios.get<IDocument>(`/document/${id}`).then((res) => {
         if (res.code === 200) {
-          const { name, content, _id } = res.data;
-          documentInfo._id = _id;
-          documentInfo.name = name;
-          documentInfo.content = content;
-          store.commit(MUTATION_TYPE.LOAD, content);
-          store.commit(MUTATION_TYPE.SELECT_PAGE, (content[0] as any).id);
+          if (res.data) {
+            const { name, content, _id } = res.data;
+            documentInfo._id = _id;
+            documentInfo.name = name;
+            documentInfo.content = content;
+            store.commit(MUTATION_TYPE.LOAD, content);
+            store.commit(MUTATION_TYPE.SELECT_PAGE, (content[0] as any).id);
+          } else {
+            ElMessage.error("该文档不存在,新建一个空白文档");
+            router.push({
+              name: "editor",
+            });
+          }
           loadByLocalCache();
         }
       });

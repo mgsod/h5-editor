@@ -28,7 +28,7 @@
               content=""
             >
               <template #reference>
-                <i class="el-icon-question" />
+                <el-icons name="questionFilled" />
               </template>
               <div>
                 右键一个组件，选择
@@ -158,7 +158,7 @@ export default {
       dragstart,
       ComponentList,
       pages,
-      active: ref("pages"),
+      active: ref("components"),
       domTree,
       selectedId,
       activePageId: computed(() => {
