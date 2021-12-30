@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from "vue";
+import { defineComponent, inject, ref } from "vue";
 import { useStore } from "@/store";
 import { downLoadContent } from "@/util";
 import { ElMessageBox } from "element-plus";
@@ -16,7 +16,7 @@ import { IDocument } from "../../../../server/document";
 import { useRouter } from "vue-router";
 import html2canvas from "html2canvas";
 import { CACHE_KEY } from "@/store/Editor/util";
-import { addDocument, updateDocument } from "@/api/document";
+import { addDocument, IEditorDoc, updateDocument } from "@/api/document";
 import { ElMessage } from "element-plus";
 
 export default defineComponent({
@@ -27,11 +27,17 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const documentInfo = inject<IDocument>("documentInfo");
+    const coverR = ref("");
     const getCanvasByHtml2canvas = (): Promise<HTMLCanvasElement> => {
       let bigCanvas = document.createElement("canvas");
-      const dashboard_canvas = document.getElementById("root") as HTMLElement;
+
+      const dashboard_canvas = (
+        document.getElementById("root") as HTMLElement
+      ).cloneNode(true) as HTMLElement;
       bigCanvas.height = dashboard_canvas.scrollHeight * 2;
       bigCanvas.width = dashboard_canvas.scrollWidth * 2;
+      dashboard_canvas.style.height = "600px";
+      document.body.appendChild(dashboard_canvas);
       return new Promise((resolve) => {
         html2canvas(dashboard_canvas, {
           useCORS: true,
@@ -40,10 +46,12 @@ export default defineComponent({
            canvas: bigCanvas,*/
         }).then((canvas) => {
           resolve(canvas);
+          dashboard_canvas.remove();
         });
       });
     };
     return {
+      coverR,
       exportJson() {
         downLoadContent(
           `${new Date().getTime()}.json`,
@@ -66,7 +74,12 @@ export default defineComponent({
         }).then(({ value: name }) => {
           const data = {
             name,
-            content: cloneDeep(store.state.editor.pages),
+            content: {
+              pages: cloneDeep(store.state.editor.pages),
+              extractComponents: cloneDeep(
+                store.state.editor.extractComponents
+              ),
+            },
             cover,
             _id: "",
           };

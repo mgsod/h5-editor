@@ -109,7 +109,7 @@ export default defineComponent({
           type: "warning",
         })
           .then(() => {
-            delDocument(id).then((res) => {
+            /*delDocument(id).then((res) => {
               if (res.code === 200) {
                 ElMessage({
                   type: "success",
@@ -117,7 +117,7 @@ export default defineComponent({
                 });
                 refresh();
               }
-            });
+            });*/
           })
           .catch(() => {});
       },

@@ -68,7 +68,10 @@ export default {
             documentInfo.name = name;
             documentInfo.content = content;
             store.commit(MUTATION_TYPE.LOAD, content);
-            store.commit(MUTATION_TYPE.SELECT_PAGE, (content[0] as any).id);
+            store.commit(
+              MUTATION_TYPE.SELECT_PAGE,
+              (content.pages[0] as any).id
+            );
           } else {
             ElMessage.error("该文档不存在,新建一个空白文档");
             router.push({

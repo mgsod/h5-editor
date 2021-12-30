@@ -1,5 +1,11 @@
 import axios from "@/axios";
 import { DocumentModel, IDocument } from "../../server/document";
+import { IExtractComponents, IPage } from "@/store/Editor";
+
+export interface IEditorDoc {
+  pages: IPage[];
+  extractComponents: IExtractComponents[];
+}
 
 /**
  * 获取文档列表
@@ -23,7 +29,11 @@ export const getDocument = (id: string) => {
  * @param cover 封面
  */
 export const addDocument = ({ name, content, cover }: DocumentModel) => {
-  return axios.post<IDocument>(`/document`, { name, content, cover });
+  return axios.post<IDocument<IEditorDoc>>(`/document`, {
+    name,
+    content,
+    cover,
+  });
 };
 
 /**
@@ -32,7 +42,12 @@ export const addDocument = ({ name, content, cover }: DocumentModel) => {
  * @param name 文档名称
  * @param content 文档内容
  */
-export const updateDocument = ({ _id, name, content, cover }: IDocument) => {
+export const updateDocument = ({
+  _id,
+  name,
+  content,
+  cover,
+}: IDocument<IEditorDoc>) => {
   return axios.put(`/document/${_id}`, { name, content, cover });
 };
 

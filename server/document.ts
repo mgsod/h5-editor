@@ -1,7 +1,7 @@
 export interface IDocument<T = any> {
   _id: string;
   name: string;
-  content: T[];
+  content: T;
   cover: string;
 }
 

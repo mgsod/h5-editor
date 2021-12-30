@@ -5,7 +5,8 @@ import { IPage, IState } from "@/store/Editor";
 
 const pageMutations: MutationTree<IState> = {
   [MUTATION_TYPE.LOAD]: (state, payload) => {
-    state.pages = payload;
+    state.pages = payload.pages;
+    state.extractComponents = payload.extractComponents;
   },
   [MUTATION_TYPE.LOAD_BY_CACHE]: (state: IState, payload: IState) => {
     state.pageActive = payload.pageActive;
