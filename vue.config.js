@@ -3,6 +3,7 @@ const target = process.env.TARGET || "";
 const libConfig = require("./src/components/Previewer/webpack.config");
 // 项目默认配置
 const defaultConfig = {
+  publicPath: "./",
   devServer: {
     host: "0.0.0.0",
     proxy: {

@@ -12,7 +12,7 @@
             <span>文档库</span>
           </el-menu-item>
           <el-menu-item index="/components">
-            <span>组件库</span>
+            <span>自定义组件库</span>
           </el-menu-item>
         </el-menu>
       </div>
