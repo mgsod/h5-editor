@@ -3,15 +3,18 @@ import moduleEditor, { IState } from "./Editor";
 import { InjectionKey } from "vue";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { CACHE_KEY, diffPatcher } from "@/store/Editor/util";
+import moduleCommon, { ICommonState } from "@/store/Common";
 
 export interface state {
   editor: IState;
+  common: ICommonState;
 }
 
 export default createStore<state>({
   strict: true,
   modules: {
     editor: moduleEditor,
+    common: moduleCommon,
   },
   getters: {},
   plugins: [

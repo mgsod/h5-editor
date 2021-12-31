@@ -6,8 +6,8 @@
     name="viewport"
     content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no,viewport-fit=cover"
   />
-  <script src="https://unpkg.com/vue@next"></script>
-  <script src="./previewer/index.umd.js"></script>
+  <script src="./vue.js"></script>
+  <script src="./previewer/index.umd.min.js"></script>
   <link rel="stylesheet" href="./previewer/index.css">
   <style>
       html, body {
@@ -59,7 +59,7 @@
   const app = Vue.createApp({
     setup() {
       const page = ref([]);
-      if (!id){
+      if (!id) {
         alert("未传入文档id");
         return false;
       }

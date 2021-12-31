@@ -20,6 +20,7 @@
             <div class="background" :style="getStyle(item.cover, true)"></div>
             <div class="qrcode" v-show="item.qrcodeShow">
               <img :src="item.qrcode" alt="" />
+              <a :href="item.url" target="_blank">链接访问</a>
             </div>
           </div>
           <div class="name">{{ item.name }}</div>
@@ -50,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { getDocumentList, delDocument, IEditorDoc } from "@/api/document";
 import { useRouter } from "vue-router";
 import { ElMessageBox, ElMessage } from "element-plus";
@@ -59,24 +60,28 @@ import previewDialog from "@/components/Previewer/previewDialog.vue";
 import useDialog from "@/hooks/useDialog";
 import { IDocument } from "../../../server/document";
 import { IPage } from "@/store/Editor";
+import { useStore } from "@/store";
 
 export default defineComponent({
   name: "Documents",
   components: { previewDialog },
   setup() {
     const router = useRouter();
+    const store = useStore();
     const documentList = ref([]);
     const { showDialog } = useDialog();
     const loading = ref(true);
+    const host = computed(() => {
+      return store.state.common.host;
+    });
     const refresh = () => {
       getDocumentList()
         .then((res) => {
           if (res.code === 200) {
             res.data.forEach(async (item: any) => {
-              item.qrcode = await qrcode.toDataURL(
-                `http://10.0.233.21:3000/static/index.html?id=${item._id}`
-              );
               item.qrcodeShow = false;
+              item.url = `http://${host.value}/${item._id}`;
+              item.qrcode = await qrcode.toDataURL(item.url);
               item.updatedAt = new Date(item.updatedAt).toLocaleString();
             });
             documentList.value = res.data;
@@ -89,6 +94,7 @@ export default defineComponent({
     const currentPages = ref<IPage[]>([]);
     refresh();
     return {
+      host,
       loading,
       documentList,
       showDialog,
@@ -153,11 +159,13 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   height: 100%;
+
   .documents-list {
     display: flex;
     flex-wrap: wrap;
     flex: auto;
     align-items: flex-start;
+
     &-item {
       width: 200px;
       margin-bottom: 10px;
@@ -196,6 +204,8 @@ export default defineComponent({
           justify-content: center;
           z-index: 2;
           background: #fff;
+          display: flex;
+          flex-direction: column;
 
           img {
             height: auto;
@@ -232,6 +242,7 @@ export default defineComponent({
       &.new {
         .el-card {
           height: 100%;
+
           :deep(.el-card__body) {
             height: 100%;
             display: flex;
@@ -258,6 +269,7 @@ export default defineComponent({
       }
     }
   }
+
   .el-pagination {
     text-align: right;
   }

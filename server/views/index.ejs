@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no,viewport-fit=cover"
+    />
+    <script src="/static/vue.js"></script>
+    <script src="/static/previewer/index.umd.min.js"></script>
+    <link rel="stylesheet" href="/static/previewer/index.css">
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+        }
+
+        #app {
+            flex: 1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <title>Title</title>
+    <script>
+      //设置根节点font-size
+      (function(doc, win) {
+        var docEl = doc.documentElement,
+          resizeEvt = "orientationchange" in window ? "orientationchange" : "resize",
+          recalc = function() {
+            var rem = docEl.clientWidth / 10;
+            if (!rem) return;
+            docEl.style.fontSize = rem + "px";
+          };
+        recalc();
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false); //窗体大小发生改变时
+        doc.addEventListener("DOMContentLoaded", recalc, false);//文档重载时
+      })(document, window);
+    </script>
+</head>
+<body>
+<div id="app">
+    <previewer :pages="page" />
+</div>
+</body>
+<script>
+  const pages = <%- JSON.stringify(pages) %>;
+  const app = Vue.createApp({
+    setup() {
+      return {
+        page: JSON.parse(pages)
+      };
+    }
+  });
+  app.use(previewer);
+  app.mount("#app");
+</script>
+</html>
