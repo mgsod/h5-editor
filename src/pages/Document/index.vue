@@ -45,13 +45,14 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { getDocumentList, delDocument } from "@/api/document";
+import { getDocumentList, delDocument, IEditorDoc } from "@/api/document";
 import { useRouter } from "vue-router";
 import { ElMessageBox, ElMessage } from "element-plus";
 import qrcode from "qrcode";
 import previewDialog from "@/components/Previewer/previewDialog.vue";
 import useDialog from "@/hooks/useDialog";
 import { IDocument } from "../../../server/document";
+import { IPage } from "@/store/Editor";
 
 export default defineComponent({
   name: "Documents",
@@ -74,14 +75,14 @@ export default defineComponent({
         }
       });
     };
-    const currentPages = ref({});
+    const currentPages = ref<IPage[]>([]);
     refresh();
     return {
       documentList,
       showDialog,
-      preview(item: IDocument) {
+      preview(item: IDocument<IEditorDoc>) {
         showDialog.value = true;
-        currentPages.value = item.content;
+        currentPages.value = item.content.pages;
       },
       currentPages,
       newDocument() {
