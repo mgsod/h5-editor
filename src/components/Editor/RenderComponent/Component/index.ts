@@ -7,7 +7,11 @@ import { IEvent } from "@/components/Editor/event";
 
 export interface IBackground {
   color?: string;
-  img?: string;
+  url?: string;
+  repeat?: string;
+  size?: string;
+  horizontal?: string;
+  vertical?: string;
 }
 
 export interface IAroundValue {
@@ -53,7 +57,14 @@ class Component implements IComponent {
   alias?: string = "";
   borderRadius?: string = "0,0,0,0";
   borderStyle: BorderStyle = "solid";
-  background: IBackground = { color: "", img: "" };
+  background: IBackground = {
+    color: "",
+    url: "",
+    size: "",
+    horizontal: "",
+    vertical: "",
+    repeat: "",
+  };
 
   constructor(props?: Partial<IComponent>) {
     this.id = uuidv4();

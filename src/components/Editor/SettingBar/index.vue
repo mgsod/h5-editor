@@ -101,6 +101,13 @@ export default defineComponent({
         font-size: 12px;
       }
 
+      &.normal {
+        .el-form-item__content > div {
+          flex: none;
+          width: auto;
+        }
+      }
+
       .el-form-item__content {
         display: flex;
         align-items: center;

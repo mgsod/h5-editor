@@ -1,6 +1,7 @@
 import { computed, Ref } from "vue";
 import { TComponent } from "@/components/Editor/RenderComponent/types";
 import { formatPositionValues } from "@/util";
+import { IBackground } from "@/components/Editor/RenderComponent/Component";
 
 export default (property: Ref<TComponent>) => {
   const getBorderRadius = (borderRadius?: string) => {
@@ -12,6 +13,22 @@ export default (property: Ref<TComponent>) => {
       "border-top-right-radius": arr[1],
       "border-bottom-right-radius": arr[2],
       "border-bottom-left-radius": arr[3],
+    };
+  };
+  const getBackgroundStyle = ({
+    color,
+    url,
+    repeat,
+    size,
+    horizontal,
+    vertical,
+  }: IBackground) => {
+    return {
+      backgroundColor: color,
+      backgroundImage: url ? `url(${url})` : "none",
+      backgroundRepeat: repeat,
+      backgroundSize: size,
+      backgroundPosition: `${horizontal} ${vertical}`,
     };
   };
   return computed(() => {
@@ -45,8 +62,7 @@ export default (property: Ref<TComponent>) => {
       borderStyle: property.value.borderStyle,
       borderColor: property.value.borderColor,
       ...getBorderRadius(property.value.borderRadius),
-      background:
-        property.value.background?.img || property.value.background?.color,
+      ...getBackgroundStyle(property.value.background),
     };
   });
 };

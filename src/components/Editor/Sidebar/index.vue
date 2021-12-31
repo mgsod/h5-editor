@@ -244,7 +244,10 @@ export default {
     flex: 0 0 300px;
     width: 100%;
 
-    :deep(.el-tabs__content),
+    :deep(.el-tabs__content) {
+      height: 100%;
+      overflow: auto;
+    }
     .el-tab-pane {
       height: 100%;
 

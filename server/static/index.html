@@ -63,7 +63,7 @@
         alert("未传入文档id");
         return false;
       }
-      fetch(`http://10.0.232.118:3000/api/document/${id}`).then(res => res.json()).then(res => {
+      fetch(`http://10.0.233.21:3000/api/document/${id}`).then(res => res.json()).then(res => {
         if (res.code === 200) {
           const { content } = res.data;
           if (!content) {

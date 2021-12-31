@@ -123,7 +123,7 @@ export default {
   background: #eef2f7;
   display: flex;
   flex-direction: column;
-
+  overflow: hidden;
   .header {
     flex: 0 0 45px;
   }
@@ -133,7 +133,7 @@ export default {
     display: flex;
     position: relative;
     background: #eef2f7;
-
+    overflow: hidden;
     .sidebar {
       flex: 0 0 300px;
       box-sizing: border-box;

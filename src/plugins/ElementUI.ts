@@ -20,7 +20,16 @@ import {
   ElPopconfirm,
   ElPopover,
   ElCard,
+  ElCheckbox,
+  ElCollapseTransition,
+  ElMenu,
+  ElSubMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElLoading,
+  ElPagination,
 } from "element-plus";
+
 export default (app: App) => {
   app.config.globalProperties.$ELEMENT = {
     size: "small",
@@ -45,5 +54,13 @@ export default (app: App) => {
     .use(ElPopconfirm)
     .use(ElPopover)
     .use(ElCard)
+    .use(ElCheckbox)
+    .use(ElCollapseTransition)
+    .use(ElMenu)
+    .use(ElMenuItem)
+    .use(ElSubMenu)
+    .use(ElMenuItemGroup)
+    .use(ElLoading)
+    .use(ElPagination)
     .use(ElLink);
 };
