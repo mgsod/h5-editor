@@ -58,7 +58,7 @@ import { ElMessageBox, ElMessage } from "element-plus";
 import qrcode from "qrcode";
 import previewDialog from "@/components/Previewer/previewDialog.vue";
 import useDialog from "@/hooks/useDialog";
-import { IDocument } from "../../../server/document";
+import { IDocument } from "../../../server/src/document";
 import { IPage } from "@/store/Editor";
 import { useStore } from "@/store";
 

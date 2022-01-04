@@ -3,12 +3,12 @@ import { Response, Request, NextFunction } from "express";
 const path = require("path");
 const express = require("express");
 const app = express();
-const routes = require("./route/index");
+const routes = require("./route");
 const bodyParser = require("body-parser");
-const dataBase = require("./db/index");
+const dataBase = require("./model");
 const { port } = require("./config");
 app.set("view engine", "ejs");
-//require("express-async-errors");
+require("express-async-errors");
 app.all("*", function (req: Request, res: Response, next: NextFunction) {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
   // res.header("Access-Control-Allow-Origin", '*');
@@ -22,19 +22,22 @@ app.all("*", function (req: Request, res: Response, next: NextFunction) {
   if (req.method === "OPTIONS") res.send(200);
   /*让options请求快速返回*/ else next();
 });
-app.use("/static", express.static(path.resolve("./server/static")));
+app.use("/static", express.static(path.join(__dirname, "./static")));
 app.use(bodyParser.json({ limit: "50mb" }));
-app.set("views", path.resolve("./server/views"));
-app.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
-  const { id } = req.params;
-  const data = await dataBase.findOne({ _id: id });
-  if (!data) return next(new Error("为查询到此文档"));
-  res.render("index", {
-    pages: JSON.stringify(data.content.pages),
-    name: data.name,
-  });
-});
+app.set("views", path.join(__dirname, "./views"));
 app.use("/api", routes);
+app.get(
+  "/preview/:id",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const { id } = req.params;
+    const data = await dataBase.findOne({ _id: id });
+    if (!data) return next(new Error("未查询到此文档"));
+    res.render("index", {
+      pages: JSON.stringify(data.content.pages),
+      name: data.name,
+    });
+  }
+);
 app.listen(port, () => {
   console.log(`server run at:http://127.0.0.1:${port}`);
 });
@@ -43,6 +46,5 @@ app.use(function (req: Request, res: Response) {
 });
 
 app.use(function (err: Error, req: Request, res: Response) {
-  console.error(222, err.stack);
   res.status(500).send("Something broke!");
 });

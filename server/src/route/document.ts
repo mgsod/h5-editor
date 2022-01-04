@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { DocumentModel } from "../document";
 
-const dataBase = require("../db/index");
+const dataBase = require("../model");
 const route = require("express").Router();
-const writeImgByBase64 = require("../util/index").writeImgByBase64;
+const writeImgByBase64 = require("../util").writeImgByBase64;
 // 新增
 route.post("/", async (req: Request, res: Response) => {
   const { name, content, cover } = req.body as DocumentModel;

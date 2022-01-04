@@ -12,7 +12,7 @@ import { useStore } from "@/store";
 import { downLoadContent } from "@/util";
 import { ElMessageBox } from "element-plus";
 import { cloneDeep } from "lodash";
-import { IDocument } from "../../../../server/document";
+import { IDocument } from "../../../../server/src/document";
 import { useRouter } from "vue-router";
 import html2canvas from "html2canvas";
 import { CACHE_KEY } from "@/store/Editor/util";

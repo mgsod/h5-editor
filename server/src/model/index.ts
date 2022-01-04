@@ -3,7 +3,7 @@ const path = require("path");
 
 const Datastore = require("nedb-promises");
 const dataBase = Datastore.create({
-  filename: path.resolve("./server/db/document.db"),
+  filename: path.join(__dirname, "../db/document.db"),
   timestampData: true,
 });
 

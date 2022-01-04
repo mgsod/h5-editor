@@ -5,9 +5,10 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-server": "tsc --build ./server/tsconfig.json && gulp",
     "lint": "vue-cli-service lint",
     "build-previewer": "vue-cli-service build --mode lib --target lib --name index ./src/components/Previewer/index.ts",
-    "back-server": "tsc --build ./server/tsconfig.json && node ./server/build/index.js",
+    "back-server": "npm run build-server && node ./server/build/index.js",
     "nodemon": "cross-env NODE_ENV=development nodemon -e ts -w ./ -x  npm run back-server"
   },
   "dependencies": {
@@ -51,6 +52,7 @@
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.0.0",
+    "gulp": "^4.0.2",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "prettier": "^2.2.1",

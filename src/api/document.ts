@@ -1,5 +1,5 @@
 import axios from "@/axios";
-import { DocumentModel, IDocument } from "../../server/document";
+import { DocumentModel, IDocument } from "../../server/src/document";
 import { IExtractComponents, IPage } from "@/store/Editor";
 
 export interface IEditorDoc {

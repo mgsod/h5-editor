@@ -3,8 +3,6 @@ import { Request, Response } from "express";
 const os = require("os");
 const { port } = require("../config");
 const router = require("express").Router();
-const product = require("./document");
-router.use("/document", product);
 
 function getIpAddress() {
   const interfaces = os.networkInterfaces();
@@ -22,7 +20,7 @@ function getIpAddress() {
   }
 }
 
-router.get("/host", (req: Request, res: Response) => {
+router.get("/", (req: Request, res: Response) => {
   res.json({
     code: 200,
     data: `${getIpAddress()}:${port}`,

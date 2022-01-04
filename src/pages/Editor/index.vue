@@ -18,7 +18,7 @@ import { onMounted, provide, reactive } from "vue";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import Header from "@/components/Editor/Header/Header.vue";
 import axios from "@/axios/index";
-import { IDocument } from "../../../server/document";
+import { IDocument } from "../../../server/src/document";
 import { useRoute, useRouter } from "vue-router";
 import { getCache } from "@/util";
 import { CACHE_KEY, IEditorCache } from "@/store/Editor/util";
