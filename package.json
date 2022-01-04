@@ -9,7 +9,7 @@
     "lint": "vue-cli-service lint",
     "build-previewer": "vue-cli-service build --mode lib --target lib --name index ./src/components/Previewer/index.ts",
     "back-server": "npm run build-server && node ./server/build/index.js",
-    "nodemon": "cross-env NODE_ENV=development nodemon -e ts -w ./ -x  npm run back-server"
+    "nodemon": "cross-env NODE_ENV=development nodemon -e ts -w ./server -x  npm run back-server"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.4",

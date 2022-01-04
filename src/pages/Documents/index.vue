@@ -20,7 +20,7 @@
             <div class="background" :style="getStyle(item.cover, true)"></div>
             <div class="qrcode" v-show="item.qrcodeShow">
               <img :src="item.qrcode" alt="" />
-              <a :href="item.url" target="_blank">链接访问</a>
+              <a :href="item.previewUrl" target="_blank">链接访问</a>
             </div>
           </div>
           <div class="name">{{ item.name }}</div>
@@ -67,21 +67,16 @@ export default defineComponent({
   components: { previewDialog },
   setup() {
     const router = useRouter();
-    const store = useStore();
     const documentList = ref([]);
     const { showDialog } = useDialog();
     const loading = ref(true);
-    const host = computed(() => {
-      return store.state.common.host;
-    });
     const refresh = () => {
       getDocumentList()
         .then((res) => {
           if (res.code === 200) {
             res.data.forEach(async (item: any) => {
               item.qrcodeShow = false;
-              item.url = `http://${host.value}/${item._id}`;
-              item.qrcode = await qrcode.toDataURL(item.url);
+              item.qrcode = await qrcode.toDataURL(item.previewUrl);
               item.updatedAt = new Date(item.updatedAt).toLocaleString();
             });
             documentList.value = res.data;
@@ -94,7 +89,6 @@ export default defineComponent({
     const currentPages = ref<IPage[]>([]);
     refresh();
     return {
-      host,
       loading,
       documentList,
       showDialog,

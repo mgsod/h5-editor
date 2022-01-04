@@ -8,15 +8,12 @@ import { defineComponent } from "vue";
 import { ElConfigProvider } from "element-plus";
 
 import zhCn from "element-plus/lib/locale/lang/zh-cn";
-import { useStore } from "@/store";
 
 export default defineComponent({
   components: {
     ElConfigProvider,
   },
   setup() {
-    const store = useStore();
-    store.dispatch("getHost");
     return {
       locale: zhCn,
     };
