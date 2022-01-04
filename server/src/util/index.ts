@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-console.log(path.join(__dirname, "../static/", "covers", `xx.png`));
+const os = require("os");
+const { port } = require("../config");
 exports.writeImgByBase64 = function (
   _path: string,
   base64: string,
@@ -18,4 +19,17 @@ exports.writeImgByBase64 = function (
       }
     });
   });
+};
+
+exports.getRuntimeHost = function () {
+  const interfaces = os.networkInterfaces();
+  for (const dev in interfaces) {
+    const iface = interfaces[dev];
+    for (let i = 0; i < iface.length; i++) {
+      const { family, address, internal } = iface[i];
+      if (family === "IPv4" && address !== "127.0.0.1" && !internal) {
+        return `http://${address}:${port}`;
+      }
+    }
+  }
 };

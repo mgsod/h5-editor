@@ -4,8 +4,8 @@ const path = require("path");
 const express = require("express");
 const app = express();
 const routes = require("./route");
+const preview = require("./route/preview");
 const bodyParser = require("body-parser");
-const dataBase = require("./model");
 const { port } = require("./config");
 app.set("view engine", "ejs");
 require("express-async-errors");
@@ -26,25 +26,16 @@ app.use("/static", express.static(path.join(__dirname, "./static")));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.set("views", path.join(__dirname, "./views"));
 app.use("/api", routes);
-app.get(
-  "/preview/:id",
-  async (req: Request, res: Response, next: NextFunction) => {
-    const { id } = req.params;
-    const data = await dataBase.findOne({ _id: id });
-    if (!data) return next(new Error("未查询到此文档"));
-    res.render("index", {
-      pages: JSON.stringify(data.content.pages),
-      name: data.name,
-    });
-  }
-);
+app.use("/preview", preview);
 app.listen(port, () => {
   console.log(`server run at:http://127.0.0.1:${port}`);
 });
 app.use(function (req: Request, res: Response) {
-  res.status(404).send("Sorry can't find that!");
+  res.status(404).send("404 Not Found");
 });
-
-app.use(function (err: Error, req: Request, res: Response) {
-  res.status(500).send("Something broke!");
+app.use(function (err: Error, req: Request, res: Response, next: NextFunction) {
+  res.status(500).json({
+    msg: err.stack || err.message || err,
+    code: 500,
+  });
 });

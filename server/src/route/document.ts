@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { DocumentModel } from "../document";
+import { DocumentModel, IDocument } from "../document";
 
 const dataBase = require("../model");
 const route = require("express").Router();
-const writeImgByBase64 = require("../util").writeImgByBase64;
+const { writeImgByBase64, getRuntimeHost } = require("../util");
 // 新增
 route.post("/", async (req: Request, res: Response) => {
   const { name, content, cover } = req.body as DocumentModel;
@@ -40,6 +40,10 @@ route.put("/:id", async (req: Request, res: Response) => {
 
 route.get("/", async (req: Request, res: Response) => {
   const data = await dataBase.find({});
+  // 添加预览地址
+  data.forEach((item: IDocument) => {
+    (item as any).previewUrl = `${getRuntimeHost()}/preview/${item._id}`;
+  });
   res.json({
     code: 200,
     message: "查询成功",
