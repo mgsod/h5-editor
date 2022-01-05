@@ -93,6 +93,11 @@
           <el-input v-model="eventForm.actionProps.url"></el-input>
         </el-form-item>
       </template>
+      <template v-if="eventForm.actionType === 'alert'">
+        <el-form-item label="弹窗内容">
+          <el-input v-model="eventForm.actionProps.content"></el-input>
+        </el-form-item>
+      </template>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
