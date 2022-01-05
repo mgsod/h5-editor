@@ -1,7 +1,7 @@
 const CopyPlugin = require("copy-webpack-plugin");
 const path = require("path");
 module.exports = {
-  outputDir: "server/static/previewer",
+  outputDir: "server/src/static/previewer",
   configureWebpack: {
     output: {
       // 默认导出

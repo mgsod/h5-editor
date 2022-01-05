@@ -14,7 +14,7 @@
         @confirm="remove(index)"
       >
         <template #reference>
-          <i class="el-icon-remove" />
+          <el-icons name="CircleClose" />
         </template>
       </el-popconfirm>
     </div>
@@ -72,7 +72,7 @@ export default defineComponent({
       outline: none;
       max-width: 100px;
     }
-    .el-icon-remove {
+    i {
       position: absolute;
       top: 0;
       right: 0;
@@ -81,7 +81,7 @@ export default defineComponent({
       cursor: pointer;
     }
     &:hover {
-      .el-icon-remove {
+      i {
         display: block;
       }
     }

@@ -113,7 +113,7 @@ export function getCache<T>(key: string): undefined | T {
 
 export const formatPositionValues = (
   val?: number | string,
-  rem = process.env.NODE_ENV === "production"
+  rem = process.env.VUE_APP_LIB === "lib"
 ) => {
   if (val === 0 || val) {
     if (rem) {
