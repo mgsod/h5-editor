@@ -28,6 +28,9 @@ import {
   ElMenuItemGroup,
   ElLoading,
   ElPagination,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
 } from "element-plus";
 
 export default (app: App) => {
@@ -62,5 +65,8 @@ export default (app: App) => {
     .use(ElMenuItemGroup)
     .use(ElLoading)
     .use(ElPagination)
+    .use(ElDropdownMenu)
+    .use(ElDropdown)
+    .use(ElDropdownItem)
     .use(ElLink);
 };

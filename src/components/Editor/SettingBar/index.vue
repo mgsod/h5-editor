@@ -139,7 +139,7 @@ export default defineComponent({
 
         .el-tab-pane {
           padding-bottom: 20px;
-          height: 100%;
+          max-height: 100%;
           overflow-y: scroll;
         }
       }

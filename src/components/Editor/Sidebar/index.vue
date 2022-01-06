@@ -46,7 +46,29 @@
               v-for="item in extractComponents"
               :key="item.name"
             >
-              {{ item.name }}
+              <div class="item">
+                <span>
+                  {{ item.name }}
+                </span>
+                <el-dropdown trigger="click" @command="componentHandleCommand">
+                  <span class="el-dropdown-link">
+                    <el-icons name="ArrowDown" />
+                  </span>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <!-- <el-dropdown-item :command="delet" :icon="Edit">删除</el-dropdown-item> -->
+                      <el-dropdown-item
+                        :command="`delete_${item.name}`"
+                        :icon="Remove"
+                        >删除</el-dropdown-item
+                      >
+                      <el-dropdown-item :icon="Plus" divided
+                        >添加到组件库</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </div>
             </div>
           </div>
         </div>
@@ -83,25 +105,47 @@
               @click="selectPage(item.id)"
             >
               <span class="name">{{ item.name }}</span>
-              <el-popover placement="bottom" trigger="click">
-                <template #reference>
-                  <el-icons
-                    name="Edit"
-                    @click.stop="editPageHandle(item.id)"
-                  ></el-icons>
-                </template>
-                <div class="edit-page-popover">
-                  <el-input v-model="tempName" size="mini"></el-input>
-                  <div class="action">
-                    <el-button
-                      size="mini"
-                      type="primary"
-                      @click="submitEditPage"
-                      >确认
-                    </el-button>
+              <div>
+                <el-popover placement="bottom" trigger="click">
+                  <template #reference>
+                    <el-icons
+                      class="edit"
+                      name="Edit"
+                      @click.stop="editPageHandle(item.id)"
+                    ></el-icons>
+                  </template>
+                  <div class="edit-page-popover">
+                    <el-input v-model="tempName" size="mini"></el-input>
+                    <div class="action">
+                      <el-button
+                        size="mini"
+                        type="primary"
+                        @click="submitEditPage"
+                        >确认
+                      </el-button>
+                    </div>
                   </div>
-                </div>
-              </el-popover>
+                </el-popover>
+                <el-dropdown trigger="click" @command="pageHandleCommand">
+                  <span class="el-dropdown-link">
+                    <el-icons name="ArrowDown" />
+                  </span>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item
+                        :command="`copy_${item.id}`"
+                        :icon="CopyDocument"
+                        >复制</el-dropdown-item
+                      >
+                      <el-dropdown-item
+                        :command="`delete_${item.id}`"
+                        :icon="Remove"
+                        >删除</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </div>
             </div>
           </div>
           <div class="action">
@@ -129,6 +173,8 @@ import {
 } from "element-plus/lib/components/tree/src/tree.type";
 import { IPage } from "@/store/Editor";
 import useDrag from "@/hooks/useDrag";
+import { Plus, Remove, Edit, CopyDocument } from "@element-plus/icons-vue";
+import { ElMessageBox } from "element-plus";
 
 export default {
   name: "Sidebar",
@@ -154,6 +200,10 @@ export default {
       });
     });
     return {
+      Edit,
+      Plus,
+      Remove,
+      CopyDocument,
       tempName,
       dragstart,
       ComponentList,
@@ -203,7 +253,9 @@ export default {
         return store.getters.extractComponents;
       }),
       editPageHandle(id: string) {
-        tempName.value = pages.value.find((item) => item.id === id)!.name;
+        tempName.value = (
+          pages.value.find((item) => item.id === id) as IPage
+        ).name;
         editPageId.value = id;
       },
       submitEditPage() {
@@ -215,6 +267,32 @@ export default {
           })
         );
         editPageId.value = "-1";
+      },
+      componentHandleCommand(command: string) {
+        const [action, name] = command.split("_");
+        switch (action) {
+          case "delete":
+            store.commit(MUTATION_TYPE.DELETE_EXTRACT_COMPONENT, name);
+            break;
+        }
+      },
+      pageHandleCommand(command: string) {
+        const [action, id] = command.split("_");
+        switch (action) {
+          case "copy":
+            store.commit(MUTATION_TYPE.COPY_PAGE, id);
+            break;
+          case "delete":
+            ElMessageBox.confirm("是否删除该页面?该操作不可撤销", "警告", {
+              confirmButtonText: "确定",
+              cancelButtonText: "取消",
+              type: "warning",
+            }).then(() => {
+              store.commit(MUTATION_TYPE.DELETE_PAGE, id);
+            });
+
+            break;
+        }
       },
     };
   },
@@ -257,7 +335,7 @@ export default {
         .panel-title {
           margin-bottom: 8px;
           color: #282828;
-          border-left: 2px solid var(--el-color-primary-light-2);
+          border-left: 3px solid var(--el-color-primary-light-2);
           padding-left: 5px;
 
           i {
@@ -272,6 +350,7 @@ export default {
           flex-wrap: wrap;
           cursor: default;
           height: auto;
+          padding-right: 8px;
           .component {
             flex: 0 0 65px;
             height: 65px;
@@ -280,11 +359,11 @@ export default {
             align-items: center;
             justify-content: center;
             box-sizing: border-box;
-            border: 1px solid #ccc;
+            border: 1px solid var(--el-border-color-lighter);
             cursor: default;
             margin: 0 -1px -1px 0;
             &:hover {
-              border: 1px solid var(--el-color-primary);
+              border: 1px solid var(--el-color-primary-light-2);
               position: relative;
               z-index: 2;
             }
@@ -293,6 +372,18 @@ export default {
               flex: none;
               height: 0;
               padding: 15px;
+            }
+            .item {
+              display: flex;
+              width: 100%;
+              justify-content: space-between;
+              :deep(.el-dropdown) {
+                .el-dropdown-link {
+                  i {
+                    float: right;
+                  }
+                }
+              }
             }
           }
         }
@@ -314,26 +405,24 @@ export default {
           justify-content: space-between;
           align-items: center;
 
-          input {
-            border: none;
-            outline: none;
-            background: transparent;
-            border-bottom: 1px solid #999999;
-          }
-
-          i {
-            display: none;
-          }
-
-          &:hover {
-            i {
-              display: inline-block;
-            }
-          }
-
           &.active {
             background: var(--el-color-primary);
             color: #fff;
+            i {
+              color: #fff;
+            }
+          }
+          i {
+            margin-left: 5px;
+            &.edit {
+              display: none;
+            }
+          }
+          &:hover {
+            i.edit {
+              color: #fff;
+              display: inline-block;
+            }
           }
         }
 

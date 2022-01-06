@@ -3,10 +3,13 @@ import Component, {
 } from "@/components/Editor/RenderComponent/Component";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/Editor/RenderComponent/types";
-export type objectFit = "cover" | "contain";
+export type objectFit = "cover" | "contain" | "none" | "fill" | "scale-down";
 export const objectFitList: { name: string; value: objectFit }[] = [
   { name: "覆盖", value: "cover" },
   { name: "包含", value: "contain" },
+  { name: "原始", value: "none" },
+  { name: "拉伸", value: "fill" },
+  { name: "弹性缩放", value: "scale-down" },
 ];
 export interface IImg extends IComponent {
   src?: string;

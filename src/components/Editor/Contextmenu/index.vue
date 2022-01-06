@@ -160,13 +160,14 @@ export default defineComponent({
 .contextmenu {
   position: absolute;
   z-index: 2001;
-  border: 1px solid #eaeaea;
-  background: #f9fbfc;
-  width: 200px;
+  background: #fff;
+  width: 180px;
   color: #02102e;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inter, Roboto, Oxygen, Fira Sans, Helvetica Neue, sans-serif;
   font-size: 12px;
-
+  box-shadow: var(--el-box-shadow-light);
+  border-radius: var(--el-border-radius-base);
+  padding: 5px 0;
   .item {
     padding: 10px;
     cursor: pointer;
@@ -185,6 +186,7 @@ export default defineComponent({
     &.disabled {
       opacity: 0.3;
       pointer-events: none;
+      color: var(--el-text-color-disabled-base);
     }
 
     i {
@@ -192,11 +194,12 @@ export default defineComponent({
     }
 
     &:hover {
-      background: #e5eaf5;
+      background-color: var(--el-color-primary-light-9);
+      color: var(--el-color-primary-light-2);
     }
 
     &:not(:last-child) {
-      border-bottom: 1px solid var(--el-border-color-base);
+      border-bottom: 1px solid var(--el-border-color-lighter);
     }
   }
 }

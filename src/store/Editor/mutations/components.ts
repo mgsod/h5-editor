@@ -109,12 +109,15 @@ const componentMutations: MutationTree<IState> = {
       });
     }
   },
+  // 鼠标进入容器
   [MUTATION_TYPE.ENTER_CONTAINER]: (state: IState, target) => {
     state.enterContainer = target;
   },
+  // 鼠标离开容器
   [MUTATION_TYPE.LEAVE_CONTAINER]: (state: IState) => {
     state.enterContainer = null;
   },
+  // 抽离组件
   [MUTATION_TYPE.EXTRACT_COMPONENT]: (
     state: IState,
     { name, component }: { name: string; component: TComponent }
@@ -131,6 +134,12 @@ const componentMutations: MutationTree<IState> = {
       name,
       payload: component,
     });
+  },
+  [MUTATION_TYPE.DELETE_EXTRACT_COMPONENT]: (state: IState, name: string) => {
+    const index = state.extractComponents.findIndex(
+      (item) => item.name === name
+    );
+    state.extractComponents.splice(index, 1);
   },
 };
 export default componentMutations;
