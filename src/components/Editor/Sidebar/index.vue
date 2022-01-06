@@ -39,7 +39,7 @@
           </div>
           <div class="components">
             <div
-              class="component"
+              class="component custom"
               draggable="true"
               @dragstart="dragstart($event, item, true)"
               @dragend="dragend"
@@ -272,7 +272,6 @@ export default {
           flex-wrap: wrap;
           cursor: default;
           height: auto;
-
           .component {
             flex: 0 0 65px;
             height: 65px;
@@ -284,11 +283,16 @@ export default {
             border: 1px solid #ccc;
             cursor: default;
             margin: 0 -1px -1px 0;
-
             &:hover {
               border: 1px solid var(--el-color-primary);
               position: relative;
               z-index: 2;
+            }
+            &.custom {
+              width: 100%;
+              flex: none;
+              height: 0;
+              padding: 15px;
             }
           }
         }

@@ -129,13 +129,19 @@ export default defineComponent({
     }
 
     padding: 0 8px;
+    :deep(.el-tabs) {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      .el-tabs__content {
+        height: 0;
+        flex: auto;
 
-    .el-tabs__content {
-      height: calc(100% - 55px);
-      overflow: auto;
-
-      .el-tab-pane {
-        padding-bottom: 20px;
+        .el-tab-pane {
+          padding-bottom: 20px;
+          height: 100%;
+          overflow-y: scroll;
+        }
       }
     }
 
