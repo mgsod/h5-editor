@@ -1,6 +1,6 @@
 import { App } from "vue";
 import Previewer from "@/components/Previewer/index.vue";
-
+import "@/assets/css/reset.css";
 import HImg from "@/components/Editor/RenderComponent/Img/Img.vue";
 import HContainer from "@/components/Editor/RenderComponent/Container/Container.vue";
 import HText from "@/components/Editor/RenderComponent/Text/Text.vue";

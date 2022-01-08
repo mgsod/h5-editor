@@ -122,7 +122,7 @@ export default defineComponent({
           type: "warning",
         })
           .then(() => {
-            /*delDocument(id).then((res) => {
+            delDocument(id).then((res) => {
               if (res.code === 200) {
                 ElMessage({
                   type: "success",
@@ -130,17 +130,13 @@ export default defineComponent({
                 });
                 refresh();
               }
-            });*/
+            });
           })
           .catch(() => {});
       },
-      getStyle(url: string, blur = false) {
+      getStyle(url: string) {
         return {
-          "z-index": blur ? 0 : 1,
-          "background-size": "cover",
-          "background-repeat": "no-repeat",
           "background-image": `url(${url})`,
-          filter: blur ? "blur(5px)" : "none",
         };
       },
     };
@@ -173,17 +169,21 @@ export default defineComponent({
         position: relative;
         overflow: hidden;
 
-        .background {
+        .background,
+        .font {
+          background-size: cover;
+          background-repeat: no-repeat;
           width: 100%;
           height: 100%;
-          filter: blur(10px);
           position: absolute;
+        }
+
+        .background {
+          filter: blur(4px);
           z-index: 0;
         }
 
         .font {
-          height: 100%;
-          position: absolute;
           width: 70%;
           margin: 0px 15%;
           z-index: 1;

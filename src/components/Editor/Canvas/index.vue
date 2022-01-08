@@ -251,9 +251,11 @@ export default defineComponent({
       position: relative;
       overflow-y: auto;
 
-      &.enterContainer,
-      :deep(div.enterContainer) {
-        outline: 1px dashed var(--el-color-warning) !important;
+      // 在编辑器里面，h-container超出可以滚动
+      :deep(.component-wrapper) {
+        .h-container {
+          overflow: auto;
+        }
       }
 
       .border-line {

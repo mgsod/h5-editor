@@ -4,7 +4,6 @@ gulp.task("copy", function () {
   return gulp
     .src([
       "server/src/views*/*",
-      "server/src/db*/*",
       "server/src/static*/**/*",
       "server/package.json",
     ])

@@ -161,6 +161,9 @@ export default defineComponent({
     .dom-render {
       margin-left: 30px;
       height: calc(100% - 127px);
+      :deep(.h-container) {
+        overflow: auto;
+      }
     }
 
     .screen-footer {

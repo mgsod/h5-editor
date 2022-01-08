@@ -59,12 +59,11 @@ export default defineComponent({
 
 <style lang="less">
 .dom-render {
-  #root {
-    .h-container {
-      overflow-x: hidden;
+  .component-wrapper {
+    &[data-type="HText"] {
+      display: inline-block;
     }
   }
-
   // 下层div盒模型全部设置为border-box;
   div {
     box-sizing: border-box;

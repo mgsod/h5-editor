@@ -1,5 +1,11 @@
 <template>
-  <div ref="root" :id="property.id" class="component-wrapper" :style="style">
+  <div
+    ref="root"
+    :id="property.id"
+    class="component-wrapper"
+    :style="style"
+    :data-type="property.type"
+  >
     <component :is="property.type" v-bind="property">
       <render
         v-for="item in property.children"

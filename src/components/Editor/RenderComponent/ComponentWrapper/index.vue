@@ -63,7 +63,7 @@ export default defineComponent({
 
 <style lang="less">
 .component-wrapper {
-  overflow: hidden;
+  //overflow: hidden;
   cursor: default;
 
   &[data-type="HText"] {
