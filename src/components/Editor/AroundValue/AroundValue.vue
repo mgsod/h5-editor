@@ -80,7 +80,6 @@ import {
   PropType,
   reactive,
   ref,
-  toRef,
   watch,
   watchEffect,
 } from "vue";
@@ -269,7 +268,7 @@ export default defineComponent({
       aroundValues.left = undefined;
       aroundValues.right = undefined;
     });
-    watchEffect(() => {
+    watchEffect(async () => {
       const select = store.state.editor.selectedComponents;
       if (select) {
         const { id } = select;
@@ -286,7 +285,9 @@ export default defineComponent({
           horizontal += left + right;
           vertical += top + bottom;
         }
-        nextTick(() => {
+
+        await nextTick();
+        setTimeout(() => {
           const dom = document.getElementById(id) as HTMLElement;
           componentSize.value = `${dom.offsetWidth - horizontal}x${
             dom.offsetHeight - vertical

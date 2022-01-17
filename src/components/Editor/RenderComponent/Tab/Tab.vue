@@ -53,7 +53,8 @@ export default defineComponent({
   },
   components: {
     componentWrapper: defineAsyncComponent((): any => {
-      return process.env.NODE_ENV !== "production"
+      // 作为库（预览起）打包时，应该用Previewer/render.vue下的组件。不带拖拽选中组件等功能
+      return process.env.VUE_APP_LIB !== "lib"
         ? import(
             "@/components/Editor/RenderComponent/ComponentWrapper/index.vue"
           )

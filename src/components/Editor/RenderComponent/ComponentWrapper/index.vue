@@ -2,7 +2,6 @@
   <div
     :id="property.id"
     class="component-wrapper"
-    ref="root"
     :style="style"
     :data-type="property.type"
     @drop="drop($event, property)"
