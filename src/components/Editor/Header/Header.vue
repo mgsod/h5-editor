@@ -16,7 +16,7 @@ import { IDocument } from "../../../../server/src/document";
 import { useRouter } from "vue-router";
 import html2canvas from "html2canvas";
 import { CACHE_KEY } from "@/store/Editor/util";
-import { addDocument, IEditorDoc, updateDocument } from "@/api/document";
+import { addDocument, updateDocument } from "@/api/document";
 import { ElMessage } from "element-plus";
 
 export default defineComponent({

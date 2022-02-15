@@ -2,6 +2,7 @@ import { IComponent } from "./Component";
 import { IContainer } from "./Container";
 import { IImg } from "@/components/Editor/RenderComponent/Img";
 import { ITab } from "@/components/Editor/RenderComponent/Tab";
+import { IButton } from "@/components/Editor/RenderComponent/Button";
 
 // 所有组件类型及名称
 export enum ComponentType {
@@ -10,6 +11,7 @@ export enum ComponentType {
   Img = "HImg",
   Text = "HText",
   Tab = "HTab",
+  Button = "HButton",
 }
 
 export enum ComponentSettingType {
@@ -31,7 +33,8 @@ export const ComponentList: IComponentItem[] = [
   { type: ComponentType.Img, icon: "xxx", name: "图片" },
   { type: ComponentType.Text, icon: "xxx", name: "文本" },
   { type: ComponentType.Tab, icon: "xxx", name: "选项卡" },
+  { type: ComponentType.Button, icon: "xxx", name: "按钮" },
 ];
 
-export type TComponent = IComponent & IContainer & IImg & ITab;
-export type PartOfComponent = IComponent | IContainer | IImg | ITab;
+export type TComponent = IComponent & IContainer & IImg & ITab & IButton;
+export type PartOfComponent = IComponent | IContainer | IImg | ITab | IButton;

@@ -8,6 +8,7 @@ import { ComponentType, PartOfComponent } from "./types";
 import Img, { IImg } from "@/components/Editor/RenderComponent/Img";
 import Text, { IText } from "@/components/Editor/RenderComponent/Text";
 import Tab, { ITab } from "@/components/Editor/RenderComponent/Tab";
+import Button, { IButton } from "@/components/Editor/RenderComponent/Button";
 
 /**
  *构造组件的工厂函数
@@ -29,6 +30,8 @@ export default class ComponentFactory {
         return new Text(<IText>component);
       case ComponentType.Tab:
         return new Tab(<ITab>component);
+      case ComponentType.Button:
+        return new Button(<IButton>component);
     }
   }
 }

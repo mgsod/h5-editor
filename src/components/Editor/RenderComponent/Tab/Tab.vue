@@ -53,7 +53,8 @@ export default defineComponent({
   },
   components: {
     componentWrapper: defineAsyncComponent((): any => {
-      // 作为库（预览起）打包时，应该用Previewer/render.vue下的组件。不带拖拽选中组件等功能
+      // 作为库（预览器）打包时，应该用Previewer/render.vue来替代ComponentWrapper组件。因为预览不需要带拖拽选中组件等功能
+      // ComponentWrapper作为编辑时使用的组建，不需要打包
       return process.env.VUE_APP_LIB !== "lib"
         ? import(
             "@/components/Editor/RenderComponent/ComponentWrapper/index.vue"

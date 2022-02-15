@@ -1,6 +1,6 @@
 <template>
   <el-icon :size="size" :color="color">
-    <component :is="name"></component>
+    <component :is="name" />
   </el-icon>
 </template>
 
@@ -25,5 +25,3 @@ export default defineComponent({
   setup() {},
 });
 </script>
-
-<style scoped lang="less"></style>
