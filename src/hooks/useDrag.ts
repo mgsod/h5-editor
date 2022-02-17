@@ -1,8 +1,8 @@
 import {
   IComponentItem,
   TComponent,
-} from "@/components/Editor/RenderComponent/types";
-import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
+} from "@/components/Editor/BuiltInComponents/types";
+import ComponentFactory from "@/components/Editor/BuiltInComponents/Factory";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { cloneDeep } from "lodash";

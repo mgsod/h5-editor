@@ -2,12 +2,12 @@ import { IPage, IState } from "@/store/Editor/index";
 import { v4 as uuidv4 } from "uuid";
 import { findItemById, getCache } from "@/util";
 import { DiffPatcher } from "@/util/diffpatch";
-import ComponentFactory from "@/components/Editor/RenderComponent/Factory";
+import ComponentFactory from "@/components/Editor/BuiltInComponents/Factory";
 import {
   ComponentType,
   PartOfComponent,
   TComponent,
-} from "@/components/Editor/RenderComponent/types";
+} from "@/components/Editor/BuiltInComponents/types";
 
 // 缓存key
 export const CACHE_KEY = "editorData";

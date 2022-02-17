@@ -83,12 +83,12 @@ import {
   watch,
   watchEffect,
 } from "vue";
-import { IAroundValue } from "@/components/Editor/RenderComponent/Component";
+import { IAroundValue } from "@/components/Editor/BuiltInComponents/Component";
 import ComputedModel from "@/components/Editor/AroundValue/ComputedModel.vue";
 import {
   BorderStyle,
   borderStyleList,
-} from "@/components/Editor/RenderComponent/Layout";
+} from "@/components/Editor/BuiltInComponents/Layout";
 import { useStore } from "@/store";
 
 export type areaKey = "padding" | "margin" | "border" | "position";

@@ -66,12 +66,12 @@ import {
 } from "vue";
 import { useStore } from "@/store";
 import useDragEffect from "@/hooks/useDrag";
-import ComponentWrapper from "@/components/Editor/RenderComponent/ComponentWrapper/index.vue";
+import ComponentWrapper from "@/components/Editor/BuiltInComponents/ComponentWrapper/index.vue";
 import useVirtualBorder from "@/hooks/useVirtualBorder";
 import useResize from "@/hooks/useResize";
 import useContextmenu from "@/hooks/useContextmenu";
 import contextmenu from "@/components/Editor/Contextmenu/index.vue";
-import { TComponent } from "@/components/Editor/RenderComponent/types";
+import { TComponent } from "@/components/Editor/BuiltInComponents/types";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { findItemById } from "@/util";
 

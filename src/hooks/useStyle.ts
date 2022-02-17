@@ -1,7 +1,7 @@
 import { computed, Ref } from "vue";
-import { TComponent } from "@/components/Editor/RenderComponent/types";
+import { TComponent } from "@/components/Editor/BuiltInComponents/types";
 import { formatPositionValues } from "@/util";
-import { IBackground } from "@/components/Editor/RenderComponent/Component";
+import { IBackground } from "@/components/Editor/BuiltInComponents/Component";
 
 export default (property: Ref<TComponent>) => {
   const getBorderRadius = (borderRadius?: string) => {

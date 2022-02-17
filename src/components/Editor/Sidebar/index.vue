@@ -161,12 +161,12 @@
 import {
   ComponentList,
   TComponent,
-} from "@/components/Editor/RenderComponent/types";
+} from "@/components/Editor/BuiltInComponents/types";
 import { computed, ref } from "vue";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { cloneDeep } from "lodash";
-import { IComponent } from "@/components/Editor/RenderComponent/Component";
+import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import {
   DropType,
   TreeNodeOptions,

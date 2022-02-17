@@ -30,7 +30,7 @@ import ToolBar from "@/components/Editor/SettingBar/ToolBar.vue";
 import {
   ComponentType,
   TComponent,
-} from "@/components/Editor/RenderComponent/types";
+} from "@/components/Editor/BuiltInComponents/types";
 import { getDebounceCommit, objectMerge } from "@/util";
 
 export default defineComponent({

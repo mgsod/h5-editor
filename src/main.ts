@@ -5,7 +5,7 @@ import store, { key } from "./store";
 import elementUI from "./plugins/ElementUI";
 import "element-plus/dist/index.css";
 import "@/assets/css/index.less";
-import register from "@/components/Editor/RenderComponent/register";
+import register from "@/components/Editor/componentsRegister";
 import ElIcon from "@/components/ElIcon/index.vue";
 import "default-passive-events";
 

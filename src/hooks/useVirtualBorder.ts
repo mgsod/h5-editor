@@ -1,6 +1,6 @@
 import { useStore } from "@/store";
 import { nextTick, ref, watch, computed, Ref, reactive } from "vue";
-import { IComponent } from "@/components/Editor/RenderComponent/Component";
+import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import { findItemById } from "@/util";
 import eventBus, { EventType } from "@/hooks/useEventBus";
 

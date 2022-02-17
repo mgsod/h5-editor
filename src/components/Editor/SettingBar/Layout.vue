@@ -43,8 +43,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed, ref, toRefs } from "vue";
-import { positionList } from "@/components/Editor/RenderComponent/Layout";
-import { IComponent } from "@/components/Editor/RenderComponent/Component";
+import { positionList } from "@/components/Editor/BuiltInComponents/Layout";
+import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import AroundValue from "@/components/Editor/AroundValue/AroundValue.vue";
 
 export default defineComponent({

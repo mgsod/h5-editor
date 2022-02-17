@@ -2,18 +2,18 @@ import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import {
   ComponentType,
   TComponent,
-} from "@/components/Editor/RenderComponent/types";
+} from "@/components/Editor/BuiltInComponents/types";
 import {
   mutationWithSnapshot,
   updateSelectedComponent,
 } from "@/store/Editor/util";
 import { IPage, IState } from "@/store/Editor";
 import { findItemAndParentById, findItemById } from "@/util";
-import { IComponent } from "@/components/Editor/RenderComponent/Component";
+import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import eventBus, { EventType } from "@/hooks/useEventBus";
-import { IContainer } from "@/components/Editor/RenderComponent/Container";
+import { IContainer } from "@/components/Editor/BuiltInComponents/Container";
 import { MutationTree } from "vuex";
-import { ITab } from "@/components/Editor/RenderComponent/Tab";
+import { ITab } from "@/components/Editor/BuiltInComponents/Tab";
 import { ElMessageBox } from "element-plus";
 
 const componentMutations: MutationTree<IState> = {

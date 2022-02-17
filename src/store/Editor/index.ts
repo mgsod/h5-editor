@@ -5,7 +5,7 @@ import getters from "@/store/Editor/getters";
 import {
   PartOfComponent,
   TComponent,
-} from "@/components/Editor/RenderComponent/types";
+} from "@/components/Editor/BuiltInComponents/types";
 
 export interface IPage {
   order: number;

@@ -6,12 +6,12 @@ import {
 } from "@/store/Editor/util";
 import { IPage, IState } from "@/store/Editor";
 import { findItemById } from "@/util";
-import { IComponent } from "@/components/Editor/RenderComponent/Component";
+import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import { MutationTree } from "vuex";
 import {
   PartOfComponent,
   TComponent,
-} from "@/components/Editor/RenderComponent/types";
+} from "@/components/Editor/BuiltInComponents/types";
 
 const eventMutations: MutationTree<IState> = {
   // 添加一个事件

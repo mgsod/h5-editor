@@ -52,7 +52,7 @@ import useContextmenu from "@/hooks/useContextmenu";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { ElMessageBox } from "element-plus";
-import { TComponent } from "@/components/Editor/RenderComponent/types";
+import { TComponent } from "@/components/Editor/BuiltInComponents/types";
 import { cloneDeep } from "lodash";
 import { eachComponentTreeDown } from "@/util";
 

@@ -79,13 +79,13 @@
 
 <script lang="ts">
 import { ArrowDownBold, ArrowUpBold } from "@element-plus/icons-vue";
-import { ComponentType } from "@/components/Editor/RenderComponent/types";
+import { ComponentType } from "@/components/Editor/BuiltInComponents/types";
 import { defineComponent, computed, PropType, ref } from "vue";
-import ImgSetting from "@/components/Editor/RenderComponent/Img/ImgSetting.vue";
-import ContainerSetting from "@/components/Editor/RenderComponent/Container/ContainerSetting.vue";
-import TextSetting from "@/components/Editor/RenderComponent/Text/TextSetting.vue";
-import { IComponent } from "@/components/Editor/RenderComponent/Component";
-import TabSetting from "@/components/Editor/RenderComponent/Tab/TabSetting.vue";
+import ImgSetting from "@/components/Editor/BuiltInComponents/Img/ImgSetting.vue";
+import ContainerSetting from "@/components/Editor/BuiltInComponents/Container/ContainerSetting.vue";
+import TextSetting from "@/components/Editor/BuiltInComponents/Text/TextSetting.vue";
+import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
+import TabSetting from "@/components/Editor/BuiltInComponents/Tab/TabSetting.vue";
 
 export default defineComponent({
   name: "property-bar",

@@ -3,7 +3,7 @@ import { Commit } from "vuex";
 import {
   PartOfComponent,
   TComponent,
-} from "@/components/Editor/RenderComponent/types";
+} from "@/components/Editor/BuiltInComponents/types";
 
 // 树桩结构接口
 export interface ITree<T> {

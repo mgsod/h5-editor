@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, toRefs } from "vue";
-import { TComponent } from "@/components/Editor/RenderComponent/types";
+import { TComponent } from "@/components/Editor/BuiltInComponents/types";
 import useStyle from "@/hooks/useStyle";
 import useBindEvent from "@/hooks/useBindEvent";
 

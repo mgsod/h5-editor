@@ -111,7 +111,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, reactive } from "vue";
 import { useStore } from "@/store";
-import { IComponent } from "@/components/Editor/RenderComponent/Component";
+import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import { EventTypeList, EventType, IEvent } from "@/components/Editor/event";
 import { ActionType, ActionList } from "@/components/Editor/action";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
