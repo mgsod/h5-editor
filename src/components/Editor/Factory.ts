@@ -4,14 +4,14 @@ import Component, {
 import Container, {
   IContainer,
 } from "@/components/Editor/BuiltInComponents/Container";
-import { ComponentType, PartOfComponent } from "./types";
+import { ComponentType, PartOfComponent } from "./ComponentTypes";
 import Img, { IImg } from "@/components/Editor/BuiltInComponents/Img";
 import Text, { IText } from "@/components/Editor/BuiltInComponents/Text";
 import Tab, { ITab } from "@/components/Editor/BuiltInComponents/Tab";
 import Button, { IButton } from "@/components/Editor/BuiltInComponents/Button";
 import NoticeBar, {
   INoticeBar,
-} from "@/components/Editor/TrilateralComponents/Vant/NoticeBar";
+} from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/index";
 
 /**
  *构造组件的工厂函数

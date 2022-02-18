@@ -5,7 +5,7 @@ import Component, {
   IComponent,
 } from "@/components/Editor/BuiltInComponents/Component";
 import { fastInitProps } from "@/util";
-import { PartOfComponent } from "@/components/Editor/BuiltInComponents/types";
+import { PartOfComponent } from "@/components/Editor/ComponentTypes";
 
 export interface ICommonContainer extends IComponent {
   isContainer: boolean;

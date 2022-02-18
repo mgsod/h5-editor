@@ -71,7 +71,7 @@ import useVirtualBorder from "@/hooks/useVirtualBorder";
 import useResize from "@/hooks/useResize";
 import useContextmenu from "@/hooks/useContextmenu";
 import contextmenu from "@/components/Editor/Contextmenu/index.vue";
-import { TComponent } from "@/components/Editor/BuiltInComponents/types";
+import { TComponent } from "@/components/Editor/ComponentTypes";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { findItemById } from "@/util";
 

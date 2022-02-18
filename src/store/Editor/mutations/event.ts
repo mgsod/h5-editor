@@ -1,5 +1,5 @@
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { IEvent } from "@/components/Editor/event";
+import { IEvent } from "@/components/Editor/Event";
 import {
   mutationWithSnapshot,
   updateSelectedComponent,
@@ -11,7 +11,7 @@ import { MutationTree } from "vuex";
 import {
   PartOfComponent,
   TComponent,
-} from "@/components/Editor/BuiltInComponents/types";
+} from "@/components/Editor/ComponentTypes";
 
 const eventMutations: MutationTree<IState> = {
   // 添加一个事件

@@ -3,7 +3,7 @@ import Component, {
   IComponent,
 } from "@/components/Editor/BuiltInComponents/Component";
 import { fastInitProps } from "@/util";
-import { ComponentType } from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { ICommonText } from "@/components/Editor/BuiltInComponents/CommonInterface/Text";
 
 export interface IButton extends IComponent, Partial<ICommonText> {

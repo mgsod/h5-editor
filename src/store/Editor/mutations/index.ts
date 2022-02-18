@@ -1,7 +1,7 @@
 import {
   PartOfComponent,
   TComponent,
-} from "@/components/Editor/BuiltInComponents/types";
+} from "@/components/Editor/ComponentTypes";
 import { IPage, IState } from "../index";
 import { MUTATION_TYPE } from "./mutation-type";
 import { MutationTree } from "vuex";

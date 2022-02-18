@@ -27,10 +27,7 @@ import General from "./General.vue";
 import EventBar from "./EventBar.vue";
 import Layout from "@/components/Editor/SettingBar/Layout.vue";
 import ToolBar from "@/components/Editor/SettingBar/ToolBar.vue";
-import {
-  ComponentType,
-  TComponent,
-} from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType, TComponent } from "@/components/Editor/ComponentTypes";
 import { getDebounceCommit, objectMerge } from "@/util";
 
 export default defineComponent({

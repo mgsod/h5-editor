@@ -20,7 +20,7 @@ import {
   IImg,
   objectFitList,
 } from "@/components/Editor/BuiltInComponents/Img/index";
-import { ComponentSettingType } from "@/components/Editor/BuiltInComponents/types";
+import { ComponentSettingType } from "@/components/Editor/ComponentTypes";
 
 export default defineComponent({
   name: ComponentSettingType.Img,

@@ -2,7 +2,7 @@ import Container from "@/components/Editor/BuiltInComponents/Container";
 import {
   ComponentType,
   PartOfComponent,
-} from "@/components/Editor/BuiltInComponents/types";
+} from "@/components/Editor/ComponentTypes";
 import { fastInitProps } from "@/util";
 import {
   CommonContainer,

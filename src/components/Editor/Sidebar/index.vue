@@ -158,10 +158,7 @@
 </template>
 
 <script lang="ts">
-import {
-  ComponentList,
-  TComponent,
-} from "@/components/Editor/BuiltInComponents/types";
+import { ComponentList, TComponent } from "@/components/Editor/ComponentTypes";
 import { computed, ref } from "vue";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";

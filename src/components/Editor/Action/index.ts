@@ -1,6 +1,6 @@
 // 动作类型
-import { IRedirect } from "@/components/Editor/action/redirect";
-import { IAlert } from "@/components/Editor/action/alert";
+import { IRedirect } from "@/components/Editor/Action/redirect";
+import { IAlert } from "@/components/Editor/Action/alert";
 export type ActionType = "redirect" | "alert";
 
 // 动作参数

@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, toRefs, inject } from "vue";
-import { TComponent } from "@/components/Editor/BuiltInComponents/types";
+import { TComponent } from "@/components/Editor/ComponentTypes";
 import useDragEffect from "@/hooks/useDrag";
 import useStyle from "@/hooks/useStyle";
 import NoticeBar from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/index.vue";

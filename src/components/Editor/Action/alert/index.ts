@@ -1,4 +1,4 @@
-import { Action } from "@/components/Editor/action/abstractAction";
+import { Action } from "@/components/Editor/Action/abstractAction";
 
 export interface IAlert {
   content: string;

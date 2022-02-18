@@ -8,7 +8,7 @@
 <script lang="ts">
 import { defineComponent, PropType, computed } from "vue";
 import { objectFit } from "@/components/Editor/BuiltInComponents/Img/index";
-import { ComponentType } from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType } from "@/components/Editor/ComponentTypes";
 
 export default defineComponent({
   name: ComponentType.Img,

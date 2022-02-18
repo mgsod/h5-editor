@@ -1914,7 +1914,7 @@ var Vue = (function (exports) {
     let handlerName;
     let handler =
       props[(handlerName = toHandlerKey(event))] ||
-      // also try camelCase event handler (#2249)
+      // also try camelCase Event handler (#2249)
       props[(handlerName = toHandlerKey(camelize(event)))];
     // for v-model update:xxx events, also trigger kebab-case equivalent
     // for props passed via kebab-case
@@ -1989,7 +1989,7 @@ var Vue = (function (exports) {
     cache.set(comp, normalized);
     return normalized;
   }
-  // Check if an incoming prop key is a declared emit event listener.
+  // Check if an incoming prop key is a declared emit Event listener.
   // e.g. With `emits: { click: null }`, props named `onClick` and `onclick` are
   // both considered matched listeners.
   function isEmitListener(options, key) {
@@ -2210,7 +2210,7 @@ var Vue = (function (exports) {
             if (isOn(key)) {
               // ignore v-model handlers when they fail to fallthrough
               if (!isModelListener(key)) {
-                // remove `on`, lowercase first letter to reflect event casing
+                // remove `on`, lowercase first letter to reflect Event casing
                 // accurately
                 eventAttrs.push(key[2].toLowerCase() + key.slice(3));
               }
@@ -2529,7 +2529,7 @@ var Vue = (function (exports) {
     // now check if we have encountered any async deps
     if (suspense.deps > 0) {
       // has async
-      // invoke @fallback event
+      // invoke @fallback Event
       triggerEvent(vnode, "onPending");
       triggerEvent(vnode, "onFallback");
       // mount the fallback tree
@@ -2695,7 +2695,7 @@ var Vue = (function (exports) {
         setActiveBranch(suspense, newBranch);
       } else {
         // root node toggled
-        // invoke @pending event
+        // invoke @pending Event
         triggerEvent(n2, "onPending");
         // mount pending branch in off-dom container
         suspense.pendingBranch = newBranch;
@@ -2848,7 +2848,7 @@ var Vue = (function (exports) {
           queuePostFlushCb(effects);
         }
         suspense.effects = [];
-        // invoke @resolve event
+        // invoke @resolve Event
         triggerEvent(vnode, "onResolve");
       },
       fallback(fallbackVNode) {
@@ -2857,7 +2857,7 @@ var Vue = (function (exports) {
         }
         const { vnode, activeBranch, parentComponent, container, isSVG } =
           suspense;
-        // invoke @fallback event
+        // invoke @fallback Event
         triggerEvent(vnode, "onFallback");
         const anchor = next(activeBranch);
         const mountFallback = () => {
@@ -6516,7 +6516,7 @@ var Vue = (function (exports) {
             // which also requires the correct parent container
             !isSameVNodeType(oldVNode, newVNode) ||
             // - In the case of a component, it could contain anything.
-            oldVNode.shapeFlag & (6 /* COMPONENT */ | 64) /* TELEPORT */)
+            oldVNode.shapeFlag & (6 /* COMPONENT */ | 64)) /* TELEPORT */
             ? hostParentNode(oldVNode.el)
             : // In other cases, the parent container is not actually used so we
               // just pass the block element here to avoid a DOM parentNode call.
@@ -7538,7 +7538,7 @@ var Vue = (function (exports) {
           dynamicChildren &&
           // #1153: fast path should not be taken for non-stable (v-for) fragments
           (type !== Fragment ||
-            (patchFlag > 0 && patchFlag & 64) /* STABLE_FRAGMENT */)
+            (patchFlag > 0 && patchFlag & 64)) /* STABLE_FRAGMENT */
         ) {
           // fast path for block nodes: only need to unmount dynamic children.
           unmountChildren(
@@ -7551,7 +7551,7 @@ var Vue = (function (exports) {
         } else if (
           (type === Fragment &&
             patchFlag &
-              (128 /* KEYED_FRAGMENT */ | 256) /* UNKEYED_FRAGMENT */) ||
+              (128 /* KEYED_FRAGMENT */ | 256)) /* UNKEYED_FRAGMENT */ ||
           (!optimized && shapeFlag & 16) /* ARRAY_CHILDREN */
         ) {
           unmountChildren(children, parentComponent, parentSuspense);
@@ -9683,8 +9683,8 @@ var Vue = (function (exports) {
     [2 /* WATCH_GETTER */]: "watcher getter",
     [3 /* WATCH_CALLBACK */]: "watcher callback",
     [4 /* WATCH_CLEANUP */]: "watcher cleanup function",
-    [5 /* NATIVE_EVENT_HANDLER */]: "native event handler",
-    [6 /* COMPONENT_EVENT_HANDLER */]: "component event handler",
+    [5 /* NATIVE_EVENT_HANDLER */]: "native Event handler",
+    [6 /* COMPONENT_EVENT_HANDLER */]: "component Event handler",
     [7 /* VNODE_HOOK */]: "vnode hook",
     [8 /* DIRECTIVE_HOOK */]: "directive hook",
     [9 /* TRANSITION_HOOK */]: "transition hook",
@@ -10942,27 +10942,27 @@ var Vue = (function (exports) {
     }
   }
 
-  // Async edge case fix requires storing an event listener's attach timestamp.
+  // Async edge case fix requires storing an Event listener's attach timestamp.
   let _getNow = Date.now;
   let skipTimestampCheck = false;
   if (typeof window !== "undefined") {
-    // Determine what event timestamp the browser is using. Annoyingly, the
+    // Determine what Event timestamp the browser is using. Annoyingly, the
     // timestamp can either be hi-res (relative to page load) or low-res
     // (relative to UNIX epoch), so in order to compare time we have to use the
     // same timestamp type when saving the flush timestamp.
     if (_getNow() > document.createEvent("Event").timeStamp) {
-      // if the low-res timestamp which is bigger than the event timestamp
-      // (which is evaluated AFTER) it means the event is using a hi-res timestamp,
-      // and we need to use the hi-res version for event listeners as well.
+      // if the low-res timestamp which is bigger than the Event timestamp
+      // (which is evaluated AFTER) it means the Event is using a hi-res timestamp,
+      // and we need to use the hi-res version for Event listeners as well.
       _getNow = () => performance.now();
     }
     // #3485: Firefox <= 53 has incorrect Event.timeStamp implementation
-    // and does not fire microtasks in between event propagation, so safe to exclude.
+    // and does not fire microtasks in between Event propagation, so safe to exclude.
     const ffMatch = navigator.userAgent.match(/firefox\/(\d+)/i);
     skipTimestampCheck = !!(ffMatch && Number(ffMatch[1]) <= 53);
   }
   // To avoid the overhead of repeatedly calling performance.now(), we cache
-  // and use the same timestamp for all event listeners attached in the same tick.
+  // and use the same timestamp for all Event listeners attached in the same tick.
   let cachedNow = 0;
   const p = Promise.resolve();
   const reset = () => {
@@ -10976,7 +10976,7 @@ var Vue = (function (exports) {
     el.removeEventListener(event, handler, options);
   }
   function patchEvent(el, rawName, prevValue, nextValue, instance = null) {
-    // vei = vue event invokers
+    // vei = vue Event invokers
     const invokers = el._vei || (el._vei = {});
     const existingInvoker = invokers[rawName];
     if (nextValue && existingInvoker) {
@@ -11013,11 +11013,11 @@ var Vue = (function (exports) {
   }
   function createInvoker(initialValue, instance) {
     const invoker = (e) => {
-      // async edge case #6566: inner click event triggers patch, event handler
+      // async edge case #6566: inner click Event triggers patch, Event handler
       // attached to outer element during patch, and triggered again. This
-      // happens because browsers fire microtask ticks between event propagation.
+      // happens because browsers fire microtask ticks between Event propagation.
       // the solution is simple: we save the timestamp when a handler is attached,
-      // and the handler would only fire if the event passed to it was fired
+      // and the handler would only fire if the Event passed to it was fired
       // AFTER it was attached.
       const timeStamp = e.timeStamp || _getNow();
       if (skipTimestampCheck || timeStamp >= invoker.attached - 1) {
@@ -14058,7 +14058,7 @@ var Vue = (function (exports) {
           // Element itself has no patch flag. However we still need to check:
           // 1. Even for a node with no patch flag, it is possible for it to contain
           // non-hoistable expressions that refers to scope variables, e.g. compiler
-          // injected keys or cached event handlers. Therefore we need to always
+          // injected keys or cached Event handlers. Therefore we need to always
           // check the codegenNode's props to be sure.
           const generatedPropsType = getGeneratedPropsConstantType(
             node,
@@ -16082,9 +16082,10 @@ var Vue = (function (exports) {
       node = context.currentNode;
       if (
         !(
-          node.type === 1 /* ELEMENT */ &&
-          (node.tagType === 0 /* ELEMENT */ ||
-            node.tagType === 1) /* COMPONENT */
+          (
+            node.type === 1 /* ELEMENT */ &&
+            (node.tagType === 0 /* ELEMENT */ || node.tagType === 1)
+          ) /* COMPONENT */
         )
       ) {
         return;
@@ -16798,7 +16799,7 @@ var Vue = (function (exports) {
         if (rawName.startsWith("vue:")) {
           rawName = `vnode-${rawName.slice(4)}`;
         }
-        // for all event listeners, auto convert it to camelCase. See issue #2249
+        // for all Event listeners, auto convert it to camelCase. See issue #2249
         eventName = createSimpleExpression(
           toHandlerKey(camelize(rawName)),
           true,
@@ -17088,7 +17089,7 @@ var Vue = (function (exports) {
     const props = [
       // modelValue: foo
       createObjectProperty(propName, dir.exp),
-      // "onUpdate:modelValue": $event => (foo = $event)
+      // "onUpdate:modelValue": $Event => (foo = $Event)
       createObjectProperty(eventName, assignmentExp),
     ];
     // modelModifiers: { foo: true, "bar-baz": true }
@@ -17529,14 +17530,14 @@ var Vue = (function (exports) {
 
   const isEventOptionModifier = /*#__PURE__*/ makeMap(`passive,once,capture`);
   const isNonKeyModifier = /*#__PURE__*/ makeMap(
-    // event propagation management
+    // Event propagation management
     `stop,prevent,self,` +
       // system modifiers + exact
       `ctrl,shift,alt,meta,exact,` +
       // mouse
       `middle`
   );
-  // left & right could be mouse or key modifiers based on event type
+  // left & right could be mouse or key modifiers based on Event type
   const maybeKeyModifier = /*#__PURE__*/ makeMap("left,right");
   const isKeyboardEvent = /*#__PURE__*/ makeMap(
     `onkeyup,onkeydown,onkeypress`,
@@ -17617,7 +17618,7 @@ var Vue = (function (exports) {
       }
       if (
         keyModifiers.length &&
-        // if event name is dynamic, always wrap with keys guard
+        // if Event name is dynamic, always wrap with keys guard
         (!isStaticExp(key) || isKeyboardEvent(key.content))
       ) {
         handlerExp = createCallExpression(context.helper(V_ON_WITH_KEYS), [

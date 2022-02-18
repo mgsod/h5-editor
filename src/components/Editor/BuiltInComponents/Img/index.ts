@@ -2,7 +2,7 @@ import Component, {
   IComponent,
 } from "@/components/Editor/BuiltInComponents/Component";
 import { fastInitProps } from "@/util";
-import { ComponentType } from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType } from "@/components/Editor/ComponentTypes";
 export type objectFit = "cover" | "contain" | "none" | "fill" | "scale-down";
 export const objectFitList: { name: string; value: objectFit }[] = [
   { name: "覆盖", value: "cover" },

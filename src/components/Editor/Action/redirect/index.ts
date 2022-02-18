@@ -1,4 +1,4 @@
-import { Action } from "@/components/Editor/action/abstractAction";
+import { Action } from "@/components/Editor/Action/abstractAction";
 import { Router } from "@/components/Previewer/router";
 type RedirectType = "inside" | "outside";
 export const redirectTypeList: { name: string; value: RedirectType }[] = [

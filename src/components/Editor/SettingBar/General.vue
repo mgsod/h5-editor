@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import { ArrowDownBold, ArrowUpBold } from "@element-plus/icons-vue";
-import { ComponentType } from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { defineComponent, computed, PropType, ref } from "vue";
 import ImgSetting from "@/components/Editor/BuiltInComponents/Img/ImgSetting.vue";
 import ContainerSetting from "@/components/Editor/BuiltInComponents/Container/ContainerSetting.vue";

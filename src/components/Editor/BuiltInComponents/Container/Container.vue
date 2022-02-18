@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from "vue";
-import { ComponentType } from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { formatPositionValues } from "@/util";
 
 export default defineComponent({

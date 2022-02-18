@@ -2,8 +2,8 @@ import { Position } from "@/components/Editor/BuiltInComponents/Layout";
 import { BorderStyle } from "@/components/Editor/BuiltInComponents/Layout";
 import { v4 as uuidv4 } from "uuid";
 import { fastInitProps } from "@/util";
-import { ComponentType } from "@/components/Editor/BuiltInComponents/types";
-import { IEvent } from "@/components/Editor/event";
+import { ComponentType } from "@/components/Editor/ComponentTypes";
+import { IEvent } from "@/components/Editor/Event";
 
 export interface IBackground {
   color?: string;

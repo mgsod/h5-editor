@@ -1,5 +1,5 @@
-import { IComponent } from "./Component";
-import { IContainer } from "./Container";
+import { IComponent } from "./BuiltInComponents/Component";
+import { IContainer } from "./BuiltInComponents/Container";
 import { IImg } from "@/components/Editor/BuiltInComponents/Img";
 import { ITab } from "@/components/Editor/BuiltInComponents/Tab";
 import { IButton } from "@/components/Editor/BuiltInComponents/Button";
@@ -16,7 +16,6 @@ export enum ComponentType {
 }
 
 export enum ComponentSettingType {
-  Base = "BaseSetting",
   Container = "ContainerSetting",
   Img = `ImgSetting`,
 }

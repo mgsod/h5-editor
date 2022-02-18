@@ -36,7 +36,7 @@ import {
   watch,
   defineAsyncComponent,
 } from "vue";
-import { ComponentType } from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType } from "@/components/Editor/ComponentTypes";
 
 export default defineComponent({
   inheritAttrs: false,

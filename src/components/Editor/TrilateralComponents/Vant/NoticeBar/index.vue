@@ -10,7 +10,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { NoticeBar } from "vant";
-import { ComponentType } from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { IBackground } from "@/components/Editor/BuiltInComponents/Component";
 
 export default defineComponent({

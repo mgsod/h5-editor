@@ -4,7 +4,7 @@ import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { cloneDeep } from "lodash";
 import { diffPatcher } from "@/store/Editor/util";
 import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
-import { TComponent } from "@/components/Editor/BuiltInComponents/types";
+import { TComponent } from "@/components/Editor/ComponentTypes";
 import { IPage } from "@/store/Editor";
 
 const CRITICAL = 20;
@@ -76,7 +76,7 @@ export default () => {
    * @param handle 当handle为string标识拖拽的各个点位，即resize。如果传入的是一个组件，则是改变位置
    */
   function mouseDown(event: MouseEvent, handle: string | TComponent) {
-    //event.preventDefault();
+    //Event.preventDefault();
     event.stopPropagation();
     // 如果鼠标按下的是一个组件
     if (handle && typeof handle !== "string") {
@@ -122,7 +122,7 @@ export default () => {
    */
   const mouseMove = (event: MouseEvent) => {
     event.stopPropagation();
-    //event.preventDefault();
+    //Event.preventDefault();
     const { clientX, clientY } = event;
     offsetX.value = clientX - startX.value;
     offsetY.value = clientY - startY.value;
@@ -211,7 +211,7 @@ export default () => {
   };
   const mouseUp = (event: MouseEvent) => {
     event.stopPropagation();
-    //event.preventDefault();
+    //Event.preventDefault();
     resize.value = false;
     rePosition.value = false;
     document.body.removeEventListener("mousemove", mouseMove);

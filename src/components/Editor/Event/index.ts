@@ -1,4 +1,4 @@
-import { ActionProps, ActionType } from "@/components/Editor/action";
+import { ActionProps, ActionType } from "@/components/Editor/Action";
 
 export type EventType = "click" | "mouseenter" | "mouseleave" | "mounted";
 export interface IEvent {

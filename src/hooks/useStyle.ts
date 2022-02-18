@@ -1,5 +1,5 @@
 import { computed, Ref } from "vue";
-import { TComponent } from "@/components/Editor/BuiltInComponents/types";
+import { TComponent } from "@/components/Editor/ComponentTypes";
 import { formatPositionValues } from "@/util";
 import { IBackground } from "@/components/Editor/BuiltInComponents/Component";
 

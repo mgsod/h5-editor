@@ -2,7 +2,7 @@ import Component, {
   IBackground,
   IComponent,
 } from "@/components/Editor/BuiltInComponents/Component";
-import { ComponentType } from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { fastInitProps } from "@/util";
 
 export interface INoticeBar extends IComponent {

@@ -2,9 +2,9 @@
  * 给组件绑定自定义事件
  */
 import { ref, onMounted } from "vue";
-import { EventType, IEvent, EventTypeKey } from "@/components/Editor/event";
-import { ActionFactory } from "@/components/Editor/action/factory";
-import { Action } from "@/components/Editor/action/abstractAction";
+import { EventType, IEvent, EventTypeKey } from "@/components/Editor/Event";
+import { ActionFactory } from "@/components/Editor/Action/factory";
+import { Action } from "@/components/Editor/Action/abstractAction";
 
 export default (events?: IEvent[]) => {
   const root = ref();
@@ -49,7 +49,7 @@ export default (events?: IEvent[]) => {
         if (currentEvents.length > 0) {
           // 遍历事件，通过ActionFactory.getAction工厂函数，根据事件中的actionType，actionProps实例化一个Action
           currentEvents.forEach((item) => {
-            // 实例化Action，添加到handlePool中。 [action,action,action,.....]
+            // 实例化Action，添加到handlePool中。 [Action,Action,Action,.....]
             handlePool.push(ActionFactory.getAction(item));
           });
 

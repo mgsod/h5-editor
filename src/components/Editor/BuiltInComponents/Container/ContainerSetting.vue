@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType, computed } from "vue";
-import { ComponentSettingType } from "@/components/Editor/BuiltInComponents/types";
+import { ComponentSettingType } from "@/components/Editor/ComponentTypes";
 import {
   DISPLAY,
   displayList,

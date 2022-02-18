@@ -1,8 +1,5 @@
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import {
-  ComponentType,
-  TComponent,
-} from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType, TComponent } from "@/components/Editor/ComponentTypes";
 import {
   mutationWithSnapshot,
   updateSelectedComponent,

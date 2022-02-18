@@ -6,10 +6,7 @@ import {
   display,
 } from "@/components/Editor/BuiltInComponents/Layout";
 import { fastInitProps } from "@/util";
-import {
-  ComponentType,
-  TComponent,
-} from "@/components/Editor/BuiltInComponents/types";
+import { ComponentType, TComponent } from "@/components/Editor/ComponentTypes";
 import { ICommonText } from "@/components/Editor/BuiltInComponents/CommonInterface/Text";
 import { ICommonContainer } from "@/components/Editor/BuiltInComponents/CommonInterface/Container";
 

@@ -1,7 +1,7 @@
-import { Action } from "@/components/Editor/action/abstractAction";
-import { IEvent } from "@/components/Editor/event";
-import { IRedirect, Redirect } from "@/components/Editor/action/redirect";
-import { Alert, IAlert } from "@/components/Editor/action/alert";
+import { Action } from "@/components/Editor/Action/abstractAction";
+import { IEvent } from "@/components/Editor/Event";
+import { IRedirect, Redirect } from "@/components/Editor/Action/redirect";
+import { Alert, IAlert } from "@/components/Editor/Action/alert";
 
 export class ActionFactory {
   static getAction(event: IEvent): Action {

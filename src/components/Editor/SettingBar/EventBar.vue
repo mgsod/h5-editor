@@ -112,10 +112,10 @@
 import { defineComponent, computed, ref, reactive } from "vue";
 import { useStore } from "@/store";
 import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
-import { EventTypeList, EventType, IEvent } from "@/components/Editor/event";
-import { ActionType, ActionList } from "@/components/Editor/action";
+import { EventTypeList, EventType, IEvent } from "@/components/Editor/Event";
+import { ActionType, ActionList } from "@/components/Editor/Action";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { redirectTypeList } from "@/components/Editor/action/redirect";
+import { redirectTypeList } from "@/components/Editor/Action/redirect";
 import useDialog from "@/hooks/useDialog";
 import { cloneDeep } from "lodash";
 import { FormItemRule } from "element-plus/lib/components/form/src/form.type";
