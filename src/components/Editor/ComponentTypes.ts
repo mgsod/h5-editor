@@ -34,7 +34,7 @@ export const ComponentList: IComponentItem[] = [
   { type: ComponentType.Text, icon: "xxx", name: "文本" },
   { type: ComponentType.Tab, icon: "xxx", name: "选项卡" },
   { type: ComponentType.Button, icon: "xxx", name: "按钮" },
-  { type: ComponentType.NoticeBar, icon: "xxx", name: "通知烂" },
+  { type: ComponentType.NoticeBar, icon: "xxx", name: "通知栏" },
 ];
 
 export type TComponent = IComponent & IContainer & IImg & ITab & IButton;

@@ -359,6 +359,7 @@ export default {
             border: 1px solid var(--el-border-color-lighter);
             cursor: default;
             margin: 0 -1px -1px 0;
+            font-size: 13px;
             &:hover {
               border: 1px solid var(--el-color-primary-light-2);
               position: relative;
