@@ -40,7 +40,7 @@ export default defineComponent({
       return store.state.editor.selectedComponents;
     });
     let componentProps = reactive<Partial<TComponent>>({});
-    let change = true;
+    let change = false;
     watch(origin, () => {
       change = true;
       objectMerge(origin.value || {}, componentProps);
@@ -126,10 +126,12 @@ export default defineComponent({
     }
 
     padding: 0 8px;
+
     :deep(.el-tabs) {
       height: 100%;
       display: flex;
       flex-direction: column;
+
       .el-tabs__content {
         height: 0;
         flex: auto;

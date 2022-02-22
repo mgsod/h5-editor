@@ -114,6 +114,8 @@ export default defineComponent({
       selectComponent(target);
     });
 
+    provide("isPreview", false);
+
     function getUnlockParent(id: string): TComponent {
       const component = findItemById(
         store.getters.currentPage.components,

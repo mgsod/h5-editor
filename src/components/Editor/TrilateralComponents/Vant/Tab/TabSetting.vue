@@ -1,16 +1,22 @@
 <template>
-  <el-form-item label="标签管理">
-    <el-button @click="add" type="primary" size="mini">添加新标签</el-button>
+  <el-form-item :label="`${name}管理`">
+    <el-button @click="add" type="primary" size="mini">新增一页</el-button>
   </el-form-item>
   <div class="tab-list hidden-scrollbar">
-    <div class="item" v-for="(item, index) in tab.children" :key="item.id">
+    <div
+      class="item"
+      :class="{ active: componentProps.active === index }"
+      v-for="(item, index) in componentProps.children"
+      :key="item.id"
+      @click="selectTab(index)"
+    >
       <input class="tab-name-input" type="text" v-model="item.alias" />
       <el-popconfirm
         confirmButtonText="确定"
         cancelButtonText="取消"
         icon="el-icon-info"
         iconColor="red"
-        title="确认删除此tab页吗？"
+        :title="`确认删除此${name}页吗？`"
         @confirm="remove(index)"
       >
         <template #reference>
@@ -22,34 +28,42 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from "vue";
+import { computed, defineComponent, PropType, toRefs } from "vue";
 import {
   getNewTabContainer,
   ITab,
 } from "@/components/Editor/TrilateralComponents/Vant/Tab/index";
+import { ComponentType } from "@/components/Editor/ComponentTypes";
 
 export default defineComponent({
   name: "TabSetting",
   props: {
-    componentProps: Object as PropType<ITab>,
+    componentProps: {
+      type: Object as PropType<ITab>,
+      required: true,
+    },
   },
-  setup(props, { emit }) {
-    const tab = computed({
-      get() {
-        return props.componentProps;
-      },
-      set(val) {
-        emit("update:componentProps", val);
-      },
+  setup(props) {
+    const { componentProps } = toRefs(props);
+    const selectTab = (index: number) => {
+      componentProps.value.active = index;
+    };
+    const name = computed(() => {
+      return componentProps.value.type === ComponentType.Swiper
+        ? "轮播"
+        : "tab";
     });
     return {
-      tab,
       add() {
-        (tab.value as ITab).children.push(getNewTabContainer());
+        componentProps.value.children.push(
+          getNewTabContainer(`新${name.value}页`)
+        );
       },
       remove(index: number) {
-        (tab.value as ITab).children.splice(index, 1);
+        componentProps.value.children.splice(index, 1);
       },
+      selectTab,
+      name,
     };
   },
 });
@@ -67,11 +81,17 @@ export default defineComponent({
     cursor: default;
     position: relative;
 
+    &.active {
+      background: var(--el-color-primary);
+      color: #fff;
+    }
+
     .tab-name-input {
       padding: 8px 15px;
       border: none;
       outline: none;
       max-width: 100px;
+      background: transparent;
     }
 
     i {

@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, defineAsyncComponent, watch } from "vue";
+import { defineComponent, defineAsyncComponent, computed } from "vue";
 import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { Tab, Tabs } from "vant";
 
@@ -48,10 +48,14 @@ export default defineComponent({
         : import("@/components/Previewer/render.vue");
     }),
   },
-  setup(props, { emit, attrs }) {
-    const privateActive = ref(props.active);
-    watch(privateActive, () => {
-      emit("updateProps", { active: privateActive.value });
+  setup(props, { emit }) {
+    const privateActive = computed({
+      get() {
+        return props.active;
+      },
+      set() {
+        emit("updateProps", { active: privateActive.value });
+      },
     });
     return {
       privateActive,

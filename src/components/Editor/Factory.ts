@@ -12,6 +12,7 @@ import Button, { IButton } from "@/components/Editor/BuiltInComponents/Button";
 import NoticeBar, {
   INoticeBar,
 } from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/index";
+import Swiper from "@/components/Editor/TrilateralComponents/Vant/Swiper";
 
 /**
  *构造组件的工厂函数
@@ -37,6 +38,8 @@ export default class ComponentFactory {
         return new Button(<IButton>component);
       case ComponentType.NoticeBar:
         return new NoticeBar(<INoticeBar>component);
+      case ComponentType.Swiper:
+        return new Swiper(<ITab>component);
     }
   }
 }

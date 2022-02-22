@@ -7,13 +7,22 @@ import HText from "@/components/Editor/BuiltInComponents/Text/Text.vue";
 import HTab from "@/components/Editor/TrilateralComponents/Vant/Tab/Tab.vue";
 import HButton from "@/components/Editor/BuiltInComponents/Button/Button.vue";
 import NoticeBar from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/index.vue";
+import Swiper from "@/components/Editor/TrilateralComponents/Vant/Swiper/Swiper.vue";
 
-const components = [HImg, HContainer, HText, HTab, HButton, NoticeBar];
+const components = [
+  Previewer,
+  HImg,
+  HContainer,
+  HText,
+  HTab,
+  HButton,
+  NoticeBar,
+  Swiper,
+];
 export default {
   install(app: App) {
     components.forEach((item) => {
       app.component(item.name, item);
     });
-    app.component("Previewer", Previewer);
   },
 };

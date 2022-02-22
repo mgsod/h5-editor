@@ -66,7 +66,9 @@
   <text-setting v-model:component-props="base" :key="base.id" />
   <tab-setting
     v-model:componentProps="base"
-    v-if="componentProps.type === ComponentType.Tab"
+    v-if="
+      [ComponentType.Tab, ComponentType.Swiper].includes(componentProps.type)
+    "
   />
 </template>
 

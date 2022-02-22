@@ -98,6 +98,7 @@ const componentMutations: MutationTree<IState> = {
           currentPage.components,
           (state.selectedComponents as IComponent).id
         );
+        console.log(target);
         if (target) {
           // 删除
           target.parent.splice(target.index, 1);

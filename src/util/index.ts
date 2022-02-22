@@ -69,19 +69,17 @@ export function findItemById<T extends ITree<T> = any>(
 export function findItemAndParentById<T extends ITree<T>>(
   tree: T[],
   id: string
-): { parent: T[]; index: number } | null {
+): { parent: T[]; index: number } | undefined {
+  const targetIndex = tree.findIndex((item) => item.id === id);
+  if (targetIndex > -1) {
+    return { parent: tree, index: targetIndex };
+  }
   for (let i = 0; i < tree.length; i++) {
     const item = tree[i];
-    const index = i;
-    if (item.id === id) {
-      return { parent: tree, index };
-    } else {
-      if (item.children && item.children?.length > 0) {
-        return findItemAndParentById<T>(item.children, id);
-      }
+    if (item.children && item.children?.length > 0) {
+      return findItemAndParentById<T>(item.children, id);
     }
   }
-  return null;
 }
 
 export function getDebounceCommit<T>(commit: Commit, commitType: string) {

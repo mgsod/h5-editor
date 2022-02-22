@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeUnmount } from "vue";
+import { defineComponent, onBeforeUnmount, provide } from "vue";
 import Render from "./render.vue";
 import { IRoute, Router } from "@/components/Previewer/router";
 import { cloneDeep } from "lodash";
@@ -35,6 +35,7 @@ export default defineComponent({
   emits: ["update:homePageId"],
   components: { Render },
   setup(props, { emit }) {
+    provide("isPreview", true);
     const router = new Router({
       routes: cloneDeep(props.pages) as IRoute[],
       homePage: props.homePageId,
@@ -64,6 +65,7 @@ export default defineComponent({
       display: inline-block;
     }
   }
+
   // 下层div盒模型全部设置为border-box;
   div {
     box-sizing: border-box;
