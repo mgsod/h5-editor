@@ -10,7 +10,7 @@ import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import eventBus, { EventType } from "@/hooks/useEventBus";
 import { IContainer } from "@/components/Editor/BuiltInComponents/Container";
 import { MutationTree } from "vuex";
-import { ITab } from "@/components/Editor/BuiltInComponents/Tab";
+import { ITab } from "@/components/Editor/TrilateralComponents/Vant/Tab";
 import { ElMessageBox } from "element-plus";
 
 const componentMutations: MutationTree<IState> = {

@@ -1,7 +1,7 @@
 import { IComponent } from "./BuiltInComponents/Component";
 import { IContainer } from "./BuiltInComponents/Container";
 import { IImg } from "@/components/Editor/BuiltInComponents/Img";
-import { ITab } from "@/components/Editor/BuiltInComponents/Tab";
+import { ITab } from "@/components/Editor/TrilateralComponents/Vant/Tab";
 import { IButton } from "@/components/Editor/BuiltInComponents/Button";
 
 // 所有组件类型及名称

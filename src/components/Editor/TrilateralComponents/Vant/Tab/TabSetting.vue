@@ -26,8 +26,7 @@ import { computed, defineComponent, PropType } from "vue";
 import {
   getNewTabContainer,
   ITab,
-} from "@/components/Editor/BuiltInComponents/Tab/index";
-import Container from "@/components/Editor/BuiltInComponents/Container";
+} from "@/components/Editor/TrilateralComponents/Vant/Tab/index";
 
 export default defineComponent({
   name: "TabSetting",
@@ -60,18 +59,21 @@ export default defineComponent({
 .tab-list {
   display: flex;
   overflow: scroll;
+
   .item {
     flex-shrink: 0;
     border: 1px solid var(--el-color-primary);
     margin: 0 -1px 0 0;
     cursor: default;
     position: relative;
+
     .tab-name-input {
       padding: 8px 15px;
       border: none;
       outline: none;
       max-width: 100px;
     }
+
     i {
       position: absolute;
       top: 0;
@@ -80,6 +82,7 @@ export default defineComponent({
       display: none;
       cursor: pointer;
     }
+
     &:hover {
       i {
         display: block;

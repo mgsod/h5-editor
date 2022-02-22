@@ -10,13 +10,6 @@
   </el-form-item>
   <el-form-item label="背景图片">
     <el-input v-model="base.background.url">
-      <!--      <template #prepend>
-        <el-select v-model="select" placeholder="Select" style="width: 110px">
-          <el-option label="Restaurant" value="1"></el-option>
-          <el-option label="Order No." value="2"></el-option>
-          <el-option label="Tel" value="3"></el-option>
-        </el-select>
-      </template>-->
       <template #append>
         <el-button
           :icon="arrow"
@@ -85,7 +78,7 @@ import ImgSetting from "@/components/Editor/BuiltInComponents/Img/ImgSetting.vue
 import ContainerSetting from "@/components/Editor/BuiltInComponents/Container/ContainerSetting.vue";
 import TextSetting from "@/components/Editor/BuiltInComponents/Text/TextSetting.vue";
 import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
-import TabSetting from "@/components/Editor/BuiltInComponents/Tab/TabSetting.vue";
+import TabSetting from "@/components/Editor/TrilateralComponents/Vant/Tab/TabSetting.vue";
 
 export default defineComponent({
   name: "property-bar",
