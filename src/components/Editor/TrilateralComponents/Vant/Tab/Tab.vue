@@ -60,60 +60,17 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="less">
-.tab {
+<style lang="less">
+.van-tabs {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-
-  .tab-title {
-    flex: 0 0 32px;
-    position: relative;
-    overflow: scroll;
-
-    &-list {
-      height: 20px;
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-
-      &-item {
-        flex: 0 0 auto;
-        font-size: 16px;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 400;
-        color: #666666;
-        line-height: 14px;
-        margin-right: 28px;
-        cursor: default;
-        padding: 5px 10px;
-
-        &.active {
-          font-size: 20px;
-          font-family: PingFangSC-Medium, PingFang SC;
-          font-weight: 500;
-          color: #333333;
-          line-height: 20px;
-        }
+  .van-tabs__content {
+    height: calc(100% - var(--van-tabs-line-height));
+    .van-tab__panel {
+      height: 100%;
+      & > .component-wrapper {
+        width: 100% !important;
+        height: 100% !important;
       }
-    }
-
-    &-line {
-      width: 20px;
-      height: 2px;
-      background: #333333;
-      border-radius: 1px;
-      transition: all 0.3s;
-    }
-  }
-
-  .tab-container {
-    flex: auto;
-    margin-top: 10px;
-
-    & > .component-wrapper {
-      width: 100% !important;
-      height: 100% !important;
     }
   }
 }
