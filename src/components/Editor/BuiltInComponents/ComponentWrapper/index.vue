@@ -27,7 +27,6 @@ import { defineComponent, PropType, toRefs, inject } from "vue";
 import { TComponent } from "@/components/Editor/ComponentTypes";
 import useDragEffect from "@/hooks/useDrag";
 import useStyle from "@/hooks/useStyle";
-import NoticeBar from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/index.vue";
 
 export default defineComponent({
   name: "ComponentWrapper",
@@ -38,7 +37,6 @@ export default defineComponent({
       required: true,
     },
   },
-  components: { NoticeBar },
   setup(props) {
     const mouseDownEventHandler = inject("mouseDownEventHandler");
     const contextmenuHandler = inject("contextmenuHandler");
