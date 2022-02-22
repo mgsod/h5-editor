@@ -1,42 +1,25 @@
 <template>
-  <div class="tab">
-    <div class="tab-title hidden-scrollbar">
-      <div class="tab-title-list">
-        <div
-          class="tab-title-list-item"
-          v-for="(item, index) in children"
-          :class="[{ active: privateActive === index }]"
-          :key="`tab_title_${item.id}`"
-          :ref="(el) => (tabTitleRefs[index] = el)"
-          @click="change(index)"
-        >
-          {{ item.alias }}
-        </div>
-      </div>
-      <div class="tab-title-line" :style="{ transform: transform }"></div>
-    </div>
-    <div class="tab-container">
-      <component-wrapper
-        v-for="(item, index) in children"
-        :key="item.id"
-        :property="item"
-        v-show="privateActive === index"
-      />
-    </div>
-  </div>
+  <van-tabs
+    color="#333333"
+    line-width="20.5"
+    line-height="2"
+    v-model:active="privateActive"
+  >
+    <van-tab
+      :title="item.alias"
+      v-for="(item, index) in children"
+      :key="item.id"
+      :name="index"
+    >
+      <component-wrapper :property="item" />
+    </van-tab>
+  </van-tabs>
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  nextTick,
-  onMounted,
-  ref,
-  watch,
-  defineAsyncComponent,
-} from "vue";
+import { defineComponent, ref, defineAsyncComponent, watch } from "vue";
 import { ComponentType } from "@/components/Editor/ComponentTypes";
+import { Tab, Tabs } from "vant";
 
 export default defineComponent({
   inheritAttrs: false,
@@ -51,7 +34,10 @@ export default defineComponent({
       required: true,
     },
   },
+  emits: ["updateProps"],
   components: {
+    [Tab.name]: Tab,
+    [Tabs.name]: Tabs,
     componentWrapper: defineAsyncComponent((): any => {
       // 作为库（预览器）打包时，应该用Previewer/render.vue来替代ComponentWrapper组件。因为预览不需要带拖拽选中组件等功能
       // ComponentWrapper作为编辑时使用的组建，不需要打包
@@ -62,39 +48,13 @@ export default defineComponent({
         : import("@/components/Previewer/render.vue");
     }),
   },
-  setup(props) {
+  setup(props, { emit, attrs }) {
     const privateActive = ref(props.active);
-    const tabTitleRefs = ref([]);
-    const transform = ref("");
-    const getTransform = async () => {
-      await nextTick();
-      const $ref = tabTitleRefs.value[privateActive.value] as HTMLElement;
-      const { offsetLeft, offsetWidth } = $ref;
-      transform.value = `translateX(${
-        offsetLeft + offsetWidth / 2
-      }px) translateX(-50%)`;
-    };
-    watch(privateActive, getTransform);
-    const tabsLength = computed(() => {
-      return props.children.length;
-    });
-    watch(tabsLength, () => {
-      privateActive.value =
-        privateActive.value > tabsLength.value - 1
-          ? tabsLength.value - 1
-          : privateActive.value;
-    });
-
-    onMounted(() => {
-      getTransform();
+    watch(privateActive, () => {
+      emit("updateProps", { active: privateActive.value });
     });
     return {
-      transform,
       privateActive,
-      tabTitleRefs,
-      change(index: number) {
-        privateActive.value = index;
-      },
     };
   },
 });

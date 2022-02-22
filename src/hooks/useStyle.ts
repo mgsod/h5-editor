@@ -3,18 +3,18 @@ import { TComponent } from "@/components/Editor/ComponentTypes";
 import { formatPositionValues } from "@/util";
 import { IBackground } from "@/components/Editor/BuiltInComponents/Component";
 
-export default (property: Ref<TComponent>) => {
-  const getBorderRadius = (borderRadius?: string) => {
-    const arr = borderRadius?.split(",").map((item) => `${item}px`) || [
-      0, 0, 0, 0,
-    ];
-    return {
-      "border-top-left-radius": arr[0],
-      "border-top-right-radius": arr[1],
-      "border-bottom-right-radius": arr[2],
-      "border-bottom-left-radius": arr[3],
-    };
+export const getBorderRadius = (borderRadius?: string) => {
+  const arr = borderRadius?.split(",").map((item) => `${item}px`) || [
+    0, 0, 0, 0,
+  ];
+  return {
+    "border-top-left-radius": arr[0],
+    "border-top-right-radius": arr[1],
+    "border-bottom-right-radius": arr[2],
+    "border-bottom-left-radius": arr[3],
   };
+};
+export default (property: Ref<TComponent>) => {
   const getBackgroundStyle = ({
     color,
     url,

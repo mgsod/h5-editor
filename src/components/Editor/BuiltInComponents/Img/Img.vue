@@ -9,6 +9,7 @@
 import { defineComponent, PropType, computed } from "vue";
 import { objectFit } from "@/components/Editor/BuiltInComponents/Img/index";
 import { ComponentType } from "@/components/Editor/ComponentTypes";
+import { getBorderRadius } from "@/hooks/useStyle";
 
 export default defineComponent({
   name: ComponentType.Img,
@@ -16,12 +17,14 @@ export default defineComponent({
   props: {
     src: String,
     objectFit: String as PropType<objectFit>,
+    borderRadius: String,
   },
   components: {},
   setup(props) {
     const style = computed(() => {
       return {
         objectFit: props.objectFit,
+        ...getBorderRadius(props.borderRadius),
       };
     });
     return {
@@ -41,6 +44,7 @@ img {
   width: 100%;
   height: 100%;
 }
+
 .empty-img {
   width: 20px;
   height: 20px;

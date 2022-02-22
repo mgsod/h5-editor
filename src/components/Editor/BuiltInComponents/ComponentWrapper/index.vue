@@ -12,12 +12,12 @@
     @mousedown.stop="mouseDownEventHandler($event, property)"
     @contextmenu.stop="contextmenuHandler($event, property)"
   >
-    <component :is="property.type" v-bind="property">
+    <component :is="property.type" v-bind="property" @updateProps="updateProps">
       <component-wrapper
         v-for="item in property.children"
         :key="item.id"
         :property="item"
-      ></component-wrapper>
+      />
     </component>
   </div>
 </template>
@@ -27,6 +27,9 @@ import { defineComponent, PropType, toRefs, inject } from "vue";
 import { TComponent } from "@/components/Editor/ComponentTypes";
 import useDragEffect from "@/hooks/useDrag";
 import useStyle from "@/hooks/useStyle";
+import { useStore } from "@/store";
+import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
+import { cloneDeep } from "lodash";
 
 export default defineComponent({
   name: "ComponentWrapper",
@@ -43,14 +46,23 @@ export default defineComponent({
     const componentSelectHandler = inject("componentSelectHandler");
     const { property } = toRefs(props);
     const style = useStyle(property);
+    const store = useStore();
     // 拖拽添加组件
     const { dragenter, dragleave, dragover, drop } = useDragEffect();
+    const updateProps = (props: TComponent) => {
+      const target = cloneDeep({
+        ...property.value,
+        ...props,
+      });
+      store.commit(MUTATION_TYPE.UPDATE_COMPONENT, target);
+    };
     return {
       style,
       dragenter,
       dragleave,
       dragover,
       drop,
+      updateProps,
       mouseDownEventHandler,
       contextmenuHandler,
       componentSelectHandler,
