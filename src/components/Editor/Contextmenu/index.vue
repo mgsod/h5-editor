@@ -53,7 +53,7 @@ import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { ElMessageBox } from "element-plus";
 import { TComponent } from "@/components/Editor/ComponentTypes";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 import { eachComponentTreeDown } from "@/util";
 
 export default defineComponent({

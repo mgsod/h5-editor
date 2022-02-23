@@ -1,9 +1,8 @@
-import { cloneDeep, debounce, throttle } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
+import debounce from "lodash/debounce";
+import throttle from "lodash/throttle";
 import { Commit } from "vuex";
-import {
-  PartOfComponent,
-  TComponent,
-} from "@/components/Editor/ComponentTypes";
+import { TComponent } from "@/components/Editor/ComponentTypes";
 
 // 树桩结构接口
 export interface ITree<T> {

@@ -117,7 +117,7 @@ import { ActionType, ActionList } from "@/components/Editor/Action";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { redirectTypeList } from "@/components/Editor/Action/redirect";
 import useDialog from "@/hooks/useDialog";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 import { FormItemRule } from "element-plus/lib/components/form/src/form.type";
 export default defineComponent({
   name: "event-bar",

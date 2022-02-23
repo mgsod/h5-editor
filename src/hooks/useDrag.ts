@@ -2,7 +2,7 @@ import { IComponentItem, TComponent } from "@/components/Editor/ComponentTypes";
 import ComponentFactory from "@/components/Editor/Factory";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 import { v4 as uuidv4 } from "uuid";
 import { IExtractComponents } from "@/store/Editor";
 

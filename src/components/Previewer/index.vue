@@ -13,7 +13,7 @@
 import { defineComponent, onBeforeUnmount, provide } from "vue";
 import Render from "./render.vue";
 import { IRoute, Router } from "@/components/Previewer/router";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 
 export default defineComponent({
   name: "previewer",

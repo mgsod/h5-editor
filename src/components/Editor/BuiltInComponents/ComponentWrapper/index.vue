@@ -29,7 +29,7 @@ import useDragEffect from "@/hooks/useDrag";
 import useStyle from "@/hooks/useStyle";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 
 export default defineComponent({
   name: "ComponentWrapper",

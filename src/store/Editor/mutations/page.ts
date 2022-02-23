@@ -3,7 +3,7 @@ import { addPage, mutationWithSnapshot } from "@/store/Editor/util";
 import { MutationTree } from "vuex";
 import { IPage, IState } from "@/store/Editor";
 import { v4 as uuidv4 } from "uuid";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 const pageMutations: MutationTree<IState> = {
   [MUTATION_TYPE.LOAD]: (state, payload) => {
     state.pages = payload.pages;

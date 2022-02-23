@@ -162,7 +162,7 @@ import { ComponentList, TComponent } from "@/components/Editor/ComponentTypes";
 import { computed, ref } from "vue";
 import { useStore } from "@/store";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import {
   DropType,

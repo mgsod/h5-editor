@@ -11,7 +11,7 @@ import { defineComponent, inject, ref } from "vue";
 import { useStore } from "@/store";
 import { downLoadContent } from "@/util";
 import { ElMessageBox } from "element-plus";
-import { cloneDeep } from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 import { IDocument } from "../../../../server/src/document";
 import { useRouter } from "vue-router";
 import html2canvas from "html2canvas";
