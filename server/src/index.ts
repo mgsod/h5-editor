@@ -7,6 +7,8 @@ const routes = require("./route");
 const preview = require("./route/preview");
 const bodyParser = require("body-parser");
 const { port } = require("./config");
+const compression = require("compression");
+app.use(compression());
 app.set("view engine", "ejs");
 require("express-async-errors");
 app.all("*", function (req: Request, res: Response, next: NextFunction) {
