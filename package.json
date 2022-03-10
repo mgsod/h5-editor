@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "back-server": "npm run build-server && cross-env NODE_ENV=development node ./server/build/index.js",
-    "nodemon": "nodemon -e ts -w ./server -x  npm run back-server",
     "build": "vue-cli-service build",
     "build-server": "tsc --build ./server/tsconfig.json && gulp",
+    "back-server": "npm run build-server && cross-env NODE_ENV=development node ./server/build/index.js",
     "build-previewer": "vue-cli-service build --mode lib --target lib --name index ./src/components/Previewer/index.ts",
+    "deploy": "./deploy.sh",
+    "front-serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
-    "deploy": "./deploy.sh"
+    "nodemon": "nodemon -e ts -w ./server -x  npm run back-server"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.4",
