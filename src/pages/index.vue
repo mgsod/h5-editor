@@ -11,9 +11,9 @@
           <el-menu-item index="/documents">
             <span>文档库</span>
           </el-menu-item>
-          <el-menu-item index="/components">
-            <span>自定义组件库</span>
-          </el-menu-item>
+          <!--          <el-menu-item index="/components">
+                      <span>自定义组件库</span>
+                    </el-menu-item>-->
         </el-menu>
       </div>
       <div class="content-container">
@@ -57,7 +57,7 @@ export default defineComponent({
   .content {
     display: flex;
     flex: auto;
-
+    height: 0;
     .slider {
       flex: 0 0 200px;
       border-right: solid 1px #e6e6e6;
@@ -70,6 +70,7 @@ export default defineComponent({
     .content-container {
       padding: 8px 15px;
       flex: auto;
+      overflow: scroll;
     }
   }
 }
