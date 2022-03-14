@@ -141,7 +141,7 @@ export default defineComponent({
       justify-content: center;
       padding: 0 14px;
       margin-left: 30px;
-      margin-top: 26px;
+      margin-top: 28px;
       align-items: center;
 
       .StatusBarTime {

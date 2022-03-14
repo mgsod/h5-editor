@@ -60,11 +60,11 @@
                       <el-dropdown-item
                         :command="`delete_${item.name}`"
                         :icon="Remove"
-                        >删除</el-dropdown-item
-                      >
+                        >删除
+                      </el-dropdown-item>
                       <el-dropdown-item :icon="Plus" divided
-                        >添加到组件库</el-dropdown-item
-                      >
+                        >添加到组件库
+                      </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
@@ -135,13 +135,13 @@
                       <el-dropdown-item
                         :command="`copy_${item.id}`"
                         :icon="CopyDocument"
-                        >复制</el-dropdown-item
-                      >
+                        >复制
+                      </el-dropdown-item>
                       <el-dropdown-item
                         :command="`delete_${item.id}`"
                         :icon="Remove"
-                        >删除</el-dropdown-item
-                      >
+                        >删除
+                      </el-dropdown-item>
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
@@ -153,6 +153,7 @@
           </div>
         </div>
       </el-tab-pane>
+      <el-tab-pane name="dynamicVars" label="数据池"></el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -323,6 +324,7 @@ export default {
       height: 100%;
       overflow: auto;
     }
+
     .el-tab-pane {
       height: 100%;
 
@@ -348,6 +350,7 @@ export default {
           cursor: default;
           height: auto;
           padding-right: 8px;
+
           .component {
             flex: 0 0 65px;
             height: 65px;
@@ -360,21 +363,25 @@ export default {
             cursor: default;
             margin: 0 -1px -1px 0;
             font-size: 13px;
+
             &:hover {
               border: 1px solid var(--el-color-primary-light-2);
               position: relative;
               z-index: 2;
             }
+
             &.custom {
               width: 100%;
               flex: none;
               height: 0;
               padding: 15px;
             }
+
             .item {
               display: flex;
               width: 100%;
               justify-content: space-between;
+
               :deep(.el-dropdown) {
                 .el-dropdown-link {
                   i {
@@ -406,16 +413,20 @@ export default {
           &.active {
             background: var(--el-color-primary);
             color: #fff;
+
             i {
               color: #fff;
             }
           }
+
           i {
             margin-left: 5px;
+
             &.edit {
               display: none;
             }
           }
+
           &:hover {
             i.edit {
               color: #fff;

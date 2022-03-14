@@ -215,6 +215,10 @@ export default (): {
       (document.getElementById("canvas") as HTMLElement).onscroll = () => {
         borderStyle.value = computedBorderStyle();
       };
+      (document.getElementById("canvas-wrapper") as HTMLElement).onscroll =
+        () => {
+          borderStyle.value = computedBorderStyle();
+        };
     }, 100);
 
     return Promise.resolve();

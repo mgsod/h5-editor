@@ -6,7 +6,7 @@
     v-model:active="privateActive"
   >
     <van-tab
-      :title="item.alias"
+      :title="parseExpression(item.alias)"
       v-for="(item, index) in children"
       :key="item.id"
       :name="index"
@@ -67,10 +67,13 @@ export default defineComponent({
 <style lang="less">
 .van-tabs {
   height: 100%;
+
   .van-tabs__content {
     height: calc(100% - var(--van-tabs-line-height));
+
     .van-tab__panel {
       height: 100%;
+
       & > .component-wrapper {
         width: 100% !important;
         height: 100% !important;

@@ -12,7 +12,7 @@
     }"
     :class="[overflow ? `line${maxLines}` : '']"
   >
-    {{ text }}
+    {{ parseExpression(text) }}
   </span>
 </template>
 
@@ -44,30 +44,35 @@ export default defineComponent({
 .h-text {
   word-break: break-all;
   display: inline-block;
+
   &.line1 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     overflow: hidden;
   }
+
   &.line2 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
   }
+
   &.line3 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
   }
+
   &.line4 {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;
     overflow: hidden;
   }
+
   &.line5 {
     display: -webkit-box;
     -webkit-box-orient: vertical;

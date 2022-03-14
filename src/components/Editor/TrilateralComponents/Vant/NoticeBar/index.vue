@@ -3,7 +3,7 @@
     :color="color"
     :background="background.color"
     left-icon="volume-o"
-    :text="text"
+    :text="parseExpression(text)"
   />
 </template>
 

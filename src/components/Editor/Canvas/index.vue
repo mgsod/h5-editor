@@ -1,5 +1,5 @@
 <template>
-  <div class="canvas-wrapper">
+  <div class="canvas-wrapper" id="canvas-wrapper">
     <div class="wrapper-grid">
       <div class="canvas" id="canvas">
         <component-wrapper
@@ -230,10 +230,10 @@ export default defineComponent({
 .canvas-wrapper {
   display: flex;
   justify-content: center;
-
+  overflow: scroll;
   .wrapper-grid {
     width: 375px;
-    height: 600px;
+    height: 1200px;
     position: relative;
     top: calc(50% - 300px);
     background-color: white;
