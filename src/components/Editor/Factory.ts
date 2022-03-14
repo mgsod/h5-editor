@@ -13,6 +13,9 @@ import NoticeBar, {
   INoticeBar,
 } from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/index";
 import Swiper from "@/components/Editor/TrilateralComponents/Vant/Swiper";
+import NavBar, {
+  INavBar,
+} from "@/components/Editor/TrilateralComponents/Vant/NavBar";
 
 /**
  *构造组件的工厂函数
@@ -24,8 +27,6 @@ export default class ComponentFactory {
     component?: Partial<PartOfComponent>
   ): IComponent {
     switch (type) {
-      case ComponentType.Base:
-        return new Component(<IComponent>component);
       case ComponentType.Container:
         return new Container(<IContainer>component);
       case ComponentType.Img:
@@ -40,6 +41,8 @@ export default class ComponentFactory {
         return new NoticeBar(<INoticeBar>component);
       case ComponentType.Swiper:
         return new Swiper(<ITab>component);
+      case ComponentType.NavBar:
+        return new NavBar(<INavBar>component);
     }
   }
 }

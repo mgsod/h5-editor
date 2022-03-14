@@ -15,11 +15,14 @@ export interface ICommonContainer extends IComponent {
   children: PartOfComponent[];
 }
 
-export class CommonContainer extends Component implements ICommonContainer {
+export abstract class CommonContainer
+  extends Component
+  implements ICommonContainer
+{
   isContainer = true;
   children: PartOfComponent[] = [];
 
-  constructor(props?: ICommonContainer) {
+  protected constructor(props?: ICommonContainer) {
     super(props);
     fastInitProps(props, this);
   }
