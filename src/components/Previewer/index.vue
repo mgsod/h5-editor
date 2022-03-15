@@ -65,6 +65,9 @@ export default defineComponent({
     &[data-type="HText"] {
       display: inline-block;
     }
+    &#root {
+      overflow: hidden;
+    }
   }
 
   // 下层div盒模型全部设置为border-box;
