@@ -7,6 +7,7 @@ import { Position } from "@/components/Editor/BuiltInComponents/Layout";
 
 export interface INavBar extends IComponent {
   title: string;
+  showBack: boolean;
 }
 
 export default class NavBar extends Component implements INavBar {
@@ -14,9 +15,10 @@ export default class NavBar extends Component implements INavBar {
   title = "标题";
   width = 375;
   height = 46;
-  position: Position = "absolute";
   top = 0;
   left = 0;
+  showBack = true;
+  position: Position = "absolute";
 
   constructor(props: INavBar) {
     super(props);

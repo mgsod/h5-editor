@@ -1,11 +1,17 @@
 <template>
-  <van-nav-bar :title="title" left-text="返回" left-arrow @click-left="back" />
+  <van-nav-bar
+    :title="parseExpression(title)"
+    :left-text="showBack ? '返回' : ''"
+    :left-arrow="showBack"
+    @click-left="back"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent, inject } from "vue";
 import { NavBar } from "vant";
 import { ComponentType } from "@/components/Editor/ComponentTypes";
+import { Router } from "@/components/Previewer/router";
 
 export default defineComponent({
   inheritAttrs: false,
@@ -15,14 +21,18 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    showBack: {
+      type: Boolean,
+    },
   },
   components: { [NavBar.name]: NavBar },
   setup() {
-    const router = inject("router");
+    const router = inject("router") as Router;
     return {
       back() {
-        console.log(router);
+        router.back();
       },
+      router,
     };
   },
 });

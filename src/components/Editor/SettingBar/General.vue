@@ -70,6 +70,10 @@
       [ComponentType.Tab, ComponentType.Swiper].includes(componentProps.type)
     "
   />
+  <nav-bar-setting
+    v-model:componentProps="base"
+    v-if="componentProps.type === ComponentType.NavBar"
+  />
 </template>
 
 <script lang="ts">
@@ -81,6 +85,7 @@ import ContainerSetting from "@/components/Editor/BuiltInComponents/Container/Co
 import TextSetting from "@/components/Editor/BuiltInComponents/Text/TextSetting.vue";
 import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import TabSetting from "@/components/Editor/TrilateralComponents/Vant/Tab/TabSetting.vue";
+import NavBarSetting from "@/components/Editor/TrilateralComponents/Vant/NavBar/NavBarSetting.vue";
 
 export default defineComponent({
   name: "property-bar",
@@ -92,6 +97,7 @@ export default defineComponent({
     ContainerSetting,
     TextSetting,
     TabSetting,
+    NavBarSetting,
   },
   setup(props) {
     const base = computed(() => {

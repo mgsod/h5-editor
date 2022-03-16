@@ -221,11 +221,19 @@ export class Router {
     if (page) {
       this.from = this.current;
       this.current = page;
-      this.history.push(this.current);
+      if (!this.history.find((item) => item.id === this.current?.id)) {
+        this.history.push(this.current);
+      }
       document.title = page.name;
       return page.components;
     }
     return [];
+  }
+
+  back() {
+    if (this.history.length === 1) return;
+    this.go(-1);
+    this.history.pop();
   }
 
   destroy() {
