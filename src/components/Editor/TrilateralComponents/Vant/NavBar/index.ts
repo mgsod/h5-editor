@@ -13,7 +13,7 @@ export default class NavBar extends Component implements INavBar {
   type = ComponentType.NavBar;
   title = "标题";
   width = 375;
-  height = 44;
+  height = 46;
   position: Position = "absolute";
   top = 0;
   left = 0;
