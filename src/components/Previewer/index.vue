@@ -35,7 +35,6 @@ export default defineComponent({
   emits: ["update:homePageId"],
   components: { Render },
   setup(props, { emit }) {
-    provide("isPreview", true);
     const router = new Router({
       routes: cloneDeep(props.pages) as IRoute[],
       homePage: props.homePageId,
@@ -44,6 +43,8 @@ export default defineComponent({
         emit("update:homePageId", $router.current?.id);
       },
     });
+    provide("isPreview", true);
+    provide("router", router);
     onBeforeUnmount(() => {
       console.log("销毁");
       router.destroy();
@@ -63,6 +64,9 @@ export default defineComponent({
   .component-wrapper {
     &[data-type="HText"] {
       display: inline-block;
+    }
+    &#root {
+      overflow: hidden;
     }
   }
 

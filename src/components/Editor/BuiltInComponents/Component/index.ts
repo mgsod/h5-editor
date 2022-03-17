@@ -47,8 +47,8 @@ export interface IComponent {
 /**
  *基础组件类，包含一个组件最基本的信息
  */
-class Component implements IComponent {
-  type = ComponentType.Base;
+abstract class Component implements IComponent {
+  abstract type: ComponentType;
   id: string;
   width: string | number = "";
   height: string | number = 100;
@@ -66,7 +66,7 @@ class Component implements IComponent {
     repeat: "",
   };
 
-  constructor(props?: Partial<IComponent>) {
+  protected constructor(props?: Partial<IComponent>) {
     this.id = uuidv4();
     this.alias = props?.type;
     fastInitProps(props, this);

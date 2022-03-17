@@ -7,7 +7,6 @@ import { INoticeBar } from "@/components/Editor/TrilateralComponents/Vant/Notice
 
 // 所有组件类型及名称
 export enum ComponentType {
-  Base = "Base",
   Container = "HContainer",
   Img = "HImg",
   Text = "HText",
@@ -15,6 +14,7 @@ export enum ComponentType {
   Button = "HButton",
   NoticeBar = "NoticeBar",
   Swiper = "Swiper",
+  NavBar = "NavBar",
 }
 
 export enum ComponentSettingType {
@@ -38,6 +38,7 @@ export const ComponentList: IComponentItem[] = [
   { type: ComponentType.Button, icon: "xxx", name: "按钮" },
   { type: ComponentType.NoticeBar, icon: "xxx", name: "通知栏" },
   { type: ComponentType.Swiper, icon: "xxx", name: "轮播" },
+  { type: ComponentType.NavBar, icon: "xxx", name: "导航栏" },
 ];
 
 export type TComponent = IComponent &
