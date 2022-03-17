@@ -5,6 +5,9 @@
   <el-form-item label="展示返回">
     <el-switch v-model="navbar.showBack" />
   </el-form-item>
+  <el-form-item label="显示分割线">
+    <el-switch v-model="navbar.showBottomLine" />
+  </el-form-item>
 </template>
 
 <script lang="ts">

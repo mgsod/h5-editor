@@ -41,7 +41,7 @@ export default defineComponent({
         fontFamily: props.fontFamily,
         lineHeight: props.lineHeight
           ? formatPositionValues(props.lineHeight)
-          : 1,
+          : "normal",
         fontSize: props.fontSize
           ? formatPositionValues(props.fontSize)
           : "inherit",
