@@ -18,6 +18,10 @@
       </template>
     </el-input>
   </el-form-item>
+  <el-form-item>
+    <uploader @success="uploadSuccess" />
+  </el-form-item>
+
   <el-collapse-transition>
     <div v-show="expandBgSetting">
       <el-form-item label="重复填充">
@@ -81,24 +85,28 @@ import ContainerSetting from "@/components/Editor/BuiltInComponents/Container/Co
 import TextSetting from "@/components/Editor/BuiltInComponents/Text/TextSetting.vue";
 import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import TabSetting from "@/components/Editor/TrilateralComponents/Vant/Tab/TabSetting.vue";
+import Uploader from "@/components/Editor/Uploader/Uploader.vue";
 
 export default defineComponent({
   name: "property-bar",
   props: {
-    componentProps: Object as PropType<IComponent>,
+    componentProps: {
+      type: Object as PropType<IComponent>,
+      required: true,
+    },
   },
   components: {
     ImgSetting,
     ContainerSetting,
     TextSetting,
     TabSetting,
+    Uploader,
   },
   setup(props) {
     const base = computed(() => {
       return props.componentProps;
     });
     const expandBgSetting = ref(false);
-
     const arrow = computed(() => {
       return expandBgSetting.value ? ArrowUpBold : ArrowDownBold;
     });
@@ -107,7 +115,46 @@ export default defineComponent({
       base,
       ComponentType,
       expandBgSetting,
+      uploadSuccess(p: string) {
+        base.value.background.url = p;
+      },
     };
   },
 });
 </script>
+<style>
+.el-upload {
+  height: 100px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
+
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>

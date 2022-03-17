@@ -31,6 +31,7 @@ import {
   ElDropdown,
   ElDropdownMenu,
   ElDropdownItem,
+  ElUpload,
 } from "element-plus";
 
 export default (app: App) => {
@@ -68,5 +69,6 @@ export default (app: App) => {
     .use(ElDropdownMenu)
     .use(ElDropdown)
     .use(ElDropdownItem)
+    .use(ElUpload)
     .use(ElLink);
 };

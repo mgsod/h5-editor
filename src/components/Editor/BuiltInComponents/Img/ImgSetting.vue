@@ -1,6 +1,9 @@
 <template>
   <el-form-item label="图片地址">
-    <el-input v-model="img.src"> </el-input>
+    <el-input v-model="img.src"></el-input>
+  </el-form-item>
+  <el-form-item>
+    <uploader @success="uploadSuccess" />
   </el-form-item>
   <el-form-item label="内容适应">
     <el-select v-model="img.objectFit">
@@ -21,15 +24,19 @@ import {
   objectFitList,
 } from "@/components/Editor/BuiltInComponents/Img/index";
 import { ComponentSettingType } from "@/components/Editor/ComponentTypes";
+import Uploader from "@/components/Editor/Uploader/Uploader.vue";
 
 export default defineComponent({
   name: ComponentSettingType.Img,
   props: {
-    componentProps: Object as PropType<IImg>,
+    componentProps: {
+      type: Object as PropType<IImg>,
+      required: true,
+    },
   },
-  components: {},
+  components: { Uploader },
   setup(props, { emit }) {
-    const img = computed({
+    const img = computed<IImg>({
       get() {
         return props.componentProps;
       },
@@ -40,6 +47,9 @@ export default defineComponent({
     return {
       img,
       objectFitList,
+      uploadSuccess(p: string) {
+        img.value.src = p;
+      },
     };
   },
 });
