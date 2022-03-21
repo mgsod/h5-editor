@@ -5,15 +5,16 @@
     :left-arrow="showBack"
     :class="{ showBottomLine }"
     @click-left="back"
-    :style="{ color }"
+    :style="{ color, background: bgColor }"
   />
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, inject, onMounted, ref } from "vue";
+import { defineComponent, inject, onMounted, ref } from "vue";
 import { NavBar } from "vant";
 import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { Router } from "@/components/Previewer/router";
+import { scaleLinear } from "d3-scale";
 
 export default defineComponent({
   inheritAttrs: false,
@@ -38,6 +39,10 @@ export default defineComponent({
   setup() {
     const router = inject("router") as Router;
     const color = ref("#fff");
+    const bgColor = ref("rgba(255,255,255,0)");
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const scale = scaleLinear().domain([0, 46]).range(["#fff", "#333"]);
     onMounted(() => {
       const root = (
         document.getElementById("root") as HTMLElement
@@ -45,24 +50,13 @@ export default defineComponent({
       root.addEventListener("scroll", (e) => {
         const { scrollTop } = root;
         // 计算导航头部文字渐变颜色
-        if (scrollTop <= 0) {
-          color.value = "#fff";
-        } else if (scrollTop <= 46) {
-          const rate = scrollTop / 46;
-          const grayWhite = rate * 255;
-          color.value = `rgb(${grayWhite}, ${grayWhite}, ${grayWhite})`;
-        } else {
+        if (scrollTop <= 46) {
+          color.value = scale(scrollTop) as unknown as string;
+          bgColor.value = `rgba(255,255,255,${scrollTop / 46})`;
+        } else if (scrollTop > 46) {
           color.value = "#333";
+          bgColor.value = "#fff";
         }
-
-        /*
-                // 计算导航头部渐变背景色。多计算几像素是因为原背景切图在375px宽度时，下方有大约5像素的白边
-                if (diff < headerHeight + 8) {
-                  const rate = diff / (headerHeight + 8);
-                  headerBgc = `rgba(255, 86, 73, ${rate})`;
-                  headerBgi = "none";
-                }*/
-        console.log(color.value);
       });
     });
     return {
@@ -71,6 +65,7 @@ export default defineComponent({
       },
       router,
       color,
+      bgColor,
     };
   },
 });
