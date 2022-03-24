@@ -233,9 +233,9 @@ export default defineComponent({
   overflow: scroll;
   .wrapper-grid {
     width: 375px;
-    height: 1200px;
+    height: 2000px;
     position: relative;
-    top: calc(50% - 300px);
+    margin: 50px 0;
     background-color: white;
     background-image: linear-gradient(
         90deg,

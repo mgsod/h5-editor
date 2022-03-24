@@ -11,6 +11,16 @@
   </el-form-item>
   <!--flex布局下才有的设置-->
   <template v-if="container.display === DISPLAY.FLEX">
+    <el-form-item label="布局方向">
+      <el-select v-model="container.direction">
+        <el-option
+          v-for="item in FlexDirectionList"
+          :key="item.value"
+          :label="item.name"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+    </el-form-item>
     <el-form-item label="主轴对齐">
       <el-select v-model="container.JustifyContent">
         <el-option
@@ -43,6 +53,7 @@ import {
   IContainer,
   JustifyContentList,
   AlignItemsList,
+  FlexDirectionList,
 } from "@/components/Editor/BuiltInComponents/Container/index";
 
 export default defineComponent({
@@ -59,6 +70,7 @@ export default defineComponent({
       DISPLAY,
       displayList,
       container,
+      FlexDirectionList,
       JustifyContentList,
       AlignItemsList,
     };

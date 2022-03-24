@@ -27,6 +27,7 @@ export default defineComponent({
     fontWeight: String,
     fontStyle: String,
     lineHeight: String,
+    direction: String,
   },
   setup(props) {
     const containerStyle = computed(() => {
@@ -34,6 +35,7 @@ export default defineComponent({
         display: props.display,
         textAlign: props.textAlign,
         JustifyContent: props.JustifyContent,
+        FlexDirection: props.direction,
         AlignItems: props.AlignItems,
         fontStyle: props.fontStyle,
         color: props.color,

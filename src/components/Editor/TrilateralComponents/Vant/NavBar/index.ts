@@ -10,6 +10,7 @@ export interface INavBar extends IComponent, Pick<ICommonText, "color"> {
   title: string;
   showBack: boolean;
   showBottomLine: boolean;
+  fullScreen: boolean;
 }
 
 export default class NavBar extends Component implements INavBar {
@@ -23,6 +24,7 @@ export default class NavBar extends Component implements INavBar {
   showBottomLine = true;
   position: Position = "absolute";
   color = "#000";
+  fullScreen = false;
 
   constructor(props: INavBar) {
     super(props);

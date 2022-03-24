@@ -19,6 +19,19 @@ export enum JUSTIFY_CONTENT {
   AROUND = "space-around",
 }
 
+export enum FLEX_DIRECTION {
+  ROW = "row",
+  "ROW-REVERSE" = "row-reverse",
+  COLUMN = "column",
+  "COLUMN-REVERSE" = "column-reverse",
+}
+
+export const FlexDirectionList = [
+  { name: "水平排列-从左往右", value: FLEX_DIRECTION.ROW },
+  { name: "水平排列-从右往左", value: FLEX_DIRECTION["ROW-REVERSE"] },
+  { name: "垂直排列-自上而下", value: FLEX_DIRECTION.COLUMN },
+  { name: "垂直排列-自下而上", value: FLEX_DIRECTION["COLUMN-REVERSE"] },
+];
 export const JustifyContentList = [
   { name: "左对齐", value: JUSTIFY_CONTENT.START },
   { name: "右对齐", value: JUSTIFY_CONTENT.END },
@@ -81,6 +94,7 @@ class Container extends Component implements IContainer {
   height = 200;
   display: DISPLAY = DISPLAY.BLOCK;
   color = "#000";
+  direction: FLEX_DIRECTION = FLEX_DIRECTION.ROW;
   fontFamily =
     "'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial,  sans-serif, 'Droid Sans Fallback'";
   fontSize: string | number = 14;

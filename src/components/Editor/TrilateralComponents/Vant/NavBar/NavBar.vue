@@ -1,20 +1,30 @@
 <template>
   <van-nav-bar
+    ref="navbar"
     :title="parseExpression(title)"
     :left-text="showBack ? '返回' : ''"
     :left-arrow="showBack"
     :class="{ showBottomLine }"
     @click-left="back"
-    :style="{ color, background: bgColor }"
+    :style="{ color: privateColor, background: bgColor }"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, onMounted, ref } from "vue";
+import {
+  defineComponent,
+  inject,
+  onMounted,
+  ref,
+  toRefs,
+  watch,
+  PropType,
+} from "vue";
 import { NavBar } from "vant";
 import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { Router } from "@/components/Previewer/router";
 import { scaleLinear } from "d3-scale";
+import { IBackground } from "@/components/Editor/BuiltInComponents/Component";
 
 export default defineComponent({
   inheritAttrs: false,
@@ -30,42 +40,68 @@ export default defineComponent({
     showBottomLine: {
       type: Boolean,
     },
-    /*color: {
+    color: {
       type: String,
       required: true,
-    },*/
+    },
+    fullScreen: {
+      type: Boolean,
+      required: true,
+    },
+    background: {
+      type: Object as PropType<IBackground>,
+      required: true,
+    },
   },
   components: { [NavBar.name]: NavBar },
-  setup() {
+  setup(props) {
+    const { fullScreen, color, background } = toRefs(props);
     const router = inject("router") as Router;
-    const color = ref("#fff");
-    const bgColor = ref("rgba(255,255,255,0)");
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const scale = scaleLinear().domain([0, 46]).range(["#fff", "#333"]);
-    onMounted(() => {
-      const root = (
-        document.getElementById("root") as HTMLElement
-      ).querySelector(".h-container") as HTMLElement;
-      root.addEventListener("scroll", (e) => {
-        const { scrollTop } = root;
-        // 计算导航头部文字渐变颜色
-        if (scrollTop <= 46) {
-          color.value = scale(scrollTop) as unknown as string;
-          bgColor.value = `rgba(255,255,255,${scrollTop / 46})`;
-        } else if (scrollTop > 46) {
-          color.value = "#333";
-          bgColor.value = "#fff";
+    const privateColor = ref(color.value);
+    const bgColor = ref(background.value.color);
+    const navbar = ref();
+    watch(fullScreen, (v) => {
+      const next = navbar.value.$el.parentElement.nextElementSibling;
+      if (next) {
+        if (!v) {
+          (next as HTMLElement).style.marginTop = "46px";
+        } else {
+          (next as HTMLElement).style.marginTop = "0";
         }
-      });
+      }
+    });
+    onMounted(() => {
+      const root = navbar.value.$el.closest(".h-container") as HTMLElement;
+      const next = navbar.value.$el.parentElement.nextElementSibling;
+      if (next && !fullScreen.value) {
+        (next as HTMLElement).style.marginTop = "46px";
+      }
+      if (fullScreen.value) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const scale = scaleLinear().domain([0, 46]).range(["#fff", "#333"]);
+        root.addEventListener("scroll", () => {
+          const { scrollTop } = root;
+          // 计算导航头部文字渐变颜色
+          if (scrollTop <= 46) {
+            console.log(scale(scrollTop));
+            privateColor.value = scale(scrollTop) as unknown as string;
+            bgColor.value = `rgba(255,255,255,${scrollTop / 46})`;
+          } else if (scrollTop > 46) {
+            privateColor.value = "#333";
+            bgColor.value = "#fff";
+          }
+        });
+      }
     });
     return {
       back() {
         router.back();
       },
       router,
-      color,
+      privateColor,
       bgColor,
+      navbar,
     };
   },
 });

@@ -6,6 +6,7 @@ import Component, {
 } from "@/components/Editor/BuiltInComponents/Component";
 import { fastInitProps } from "@/util";
 import { PartOfComponent } from "@/components/Editor/ComponentTypes";
+import { FLEX_DIRECTION } from "@/components/Editor/BuiltInComponents/Container";
 
 export interface ICommonContainer extends IComponent {
   isContainer: boolean;
@@ -13,6 +14,7 @@ export interface ICommonContainer extends IComponent {
   // isRoot = true 表示不可拖拽、缩放
   isRoot?: boolean;
   children: PartOfComponent[];
+  direction: FLEX_DIRECTION;
 }
 
 export abstract class CommonContainer
@@ -21,6 +23,7 @@ export abstract class CommonContainer
 {
   isContainer = true;
   children: PartOfComponent[] = [];
+  direction: FLEX_DIRECTION = FLEX_DIRECTION.ROW;
 
   protected constructor(props?: ICommonContainer) {
     super(props);

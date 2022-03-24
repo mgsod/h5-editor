@@ -8,6 +8,9 @@
   <el-form-item label="显示分割线">
     <el-switch v-model="navbar.showBottomLine" />
   </el-form-item>
+  <el-form-item label="沉浸式导航">
+    <el-switch v-model="navbar.fullScreen" />
+  </el-form-item>
 </template>
 
 <script lang="ts">
