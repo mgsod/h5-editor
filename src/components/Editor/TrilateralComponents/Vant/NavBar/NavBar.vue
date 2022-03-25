@@ -84,7 +84,6 @@ export default defineComponent({
           const { scrollTop } = root;
           // 计算导航头部文字渐变颜色
           if (scrollTop <= 46) {
-            console.log(scale(scrollTop));
             privateColor.value = scale(scrollTop) as unknown as string;
             bgColor.value = `rgba(255,255,255,${scrollTop / 46})`;
           } else if (scrollTop > 46) {
@@ -109,10 +108,9 @@ export default defineComponent({
 
 <style lang="less">
 .van-nav-bar {
-  background: transparent;
-
+  background-color: transparent;
   &:after {
-    border-bottom-width: 0;
+    border-bottom-width: 0 !important;
   }
 
   .van-nav-bar__title,
@@ -123,7 +121,7 @@ export default defineComponent({
 
   &.showBottomLine {
     &:after {
-      border-bottom-width: 1px;
+      border-bottom-width: 1px !important;
     }
   }
 }
