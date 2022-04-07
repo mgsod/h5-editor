@@ -55,18 +55,20 @@ export default defineComponent({
   },
   components: { [NavBar.name]: NavBar },
   setup(props) {
+    const headerHeight = 46;
     const { fullScreen, color, background } = toRefs(props);
     const router = inject("router") as Router;
     const privateColor = ref(color.value);
     const bgColor = ref(background.value.color);
     const navbar = ref();
     watch(fullScreen, (v) => {
-      const next = navbar.value.$el.parentElement.nextElementSibling;
+      const next = navbar.value.$el.parentElement
+        .nextElementSibling as HTMLElement;
       if (next) {
         if (!v) {
-          (next as HTMLElement).style.marginTop = "46px";
+          next.style.marginTop = `${headerHeight}px`;
         } else {
-          (next as HTMLElement).style.marginTop = "0";
+          next.style.marginTop = "0";
         }
       }
     });
@@ -74,19 +76,21 @@ export default defineComponent({
       const root = navbar.value.$el.closest(".h-container") as HTMLElement;
       const next = navbar.value.$el.parentElement.nextElementSibling;
       if (next && !fullScreen.value) {
-        (next as HTMLElement).style.marginTop = "46px";
+        next.style.marginTop = `${headerHeight}px`;
       }
       if (fullScreen.value) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const scale = scaleLinear().domain([0, 46]).range(["#fff", "#333"]);
+        const scale = scaleLinear()
+          .domain([0, headerHeight])
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          .range(["#fff", "#333"]);
         root.addEventListener("scroll", () => {
           const { scrollTop } = root;
           // 计算导航头部文字渐变颜色
-          if (scrollTop <= 46) {
+          if (scrollTop <= headerHeight) {
             privateColor.value = scale(scrollTop) as unknown as string;
-            bgColor.value = `rgba(255,255,255,${scrollTop / 46})`;
-          } else if (scrollTop > 46) {
+            bgColor.value = `rgba(255,255,255,${scrollTop / headerHeight})`;
+          } else if (scrollTop > headerHeight) {
             privateColor.value = "#333";
             bgColor.value = "#fff";
           }
@@ -109,6 +113,7 @@ export default defineComponent({
 <style lang="less">
 .van-nav-bar {
   background-color: transparent;
+
   &:after {
     border-bottom-width: 0 !important;
   }
