@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed, ref, toRefs } from "vue";
+import { defineComponent, PropType, computed } from "vue";
 import { INavBar } from "@/components/Editor/TrilateralComponents/Vant/NavBar/index";
 
 export default defineComponent({

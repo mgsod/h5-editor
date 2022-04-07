@@ -55,15 +55,7 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  ref,
-  provide,
-  Ref,
-  reactive,
-  watch,
-} from "vue";
+import { computed, defineComponent, ref, provide } from "vue";
 import { useStore } from "@/store";
 import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/Editor/BuiltInComponents/ComponentWrapper/index.vue";
@@ -231,6 +223,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   overflow: scroll;
+
   .wrapper-grid {
     width: 375px;
     height: 2000px;

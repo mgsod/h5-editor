@@ -1,6 +1,4 @@
-import Component, {
-  IComponent,
-} from "@/components/Editor/BuiltInComponents/Component";
+import Component from "@/components/Editor/BuiltInComponents/Component";
 import {
   AlignItems,
   display,
