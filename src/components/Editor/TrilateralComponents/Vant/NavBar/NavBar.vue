@@ -58,26 +58,26 @@ export default defineComponent({
     const headerHeight = 46;
     const { fullScreen, color, background } = toRefs(props);
     const router = inject("router") as Router;
+
     const privateColor = ref(color.value);
     const bgColor = ref(background.value.color);
     const navbar = ref();
-    watch(fullScreen, (v) => {
-      const next = navbar.value.$el.parentElement
-        .nextElementSibling as HTMLElement;
-      if (next) {
-        if (!v) {
-          next.style.marginTop = `${headerHeight}px`;
+    const setHeaderMargin = () => {
+      const rootContainer = navbar.value.$el.parentElement
+        .parentElement as HTMLElement;
+
+      if (rootContainer) {
+        if (!fullScreen.value) {
+          rootContainer.style.paddingTop = `${headerHeight}px`;
         } else {
-          next.style.marginTop = "0";
+          rootContainer.style.paddingTop = "0";
         }
       }
-    });
+    };
+    watch(fullScreen, setHeaderMargin);
     onMounted(() => {
       const root = navbar.value.$el.closest(".h-container") as HTMLElement;
-      const next = navbar.value.$el.parentElement.nextElementSibling;
-      if (next && !fullScreen.value) {
-        next.style.marginTop = `${headerHeight}px`;
-      }
+      setHeaderMargin();
       if (fullScreen.value) {
         const scale = scaleLinear()
           .domain([0, headerHeight])

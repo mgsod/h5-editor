@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent, defineComponent, inject, ref, watch } from "vue";
+import { defineAsyncComponent, defineComponent, inject } from "vue";
 import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { Swipe, SwipeItem } from "vant";
 
@@ -74,7 +74,7 @@ export default defineComponent({
   }
   .swiper-head {
     height: 20px;
-    background: #fff;
+    background: #ccc;
     text-align: center;
     line-height: 20px;
   }

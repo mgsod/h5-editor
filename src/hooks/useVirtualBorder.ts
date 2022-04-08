@@ -196,7 +196,9 @@ export default (): {
     if (!current) return;
     setTimeout(() => {
       currentDom = document.getElementById(current) as HTMLElement;
-      borderStyle.value = computedBorderStyle();
+      setTimeout(() => {
+        borderStyle.value = computedBorderStyle();
+      }, 200);
       const parents = findAllParentContainer(
         findItemById(
           store.getters.currentPage.components,
