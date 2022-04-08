@@ -127,7 +127,7 @@ export default defineComponent({
     position: relative;
     top: -150px;
     transform: scale(0.7);
-    width: 435px;
+    width: 434px;
     height: 864px;
     overflow: auto;
     box-sizing: content-box !important;

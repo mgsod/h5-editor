@@ -69,14 +69,22 @@ export function findItemAndParentById<T extends ITree<T>>(
   tree: T[],
   id: string
 ): { parent: T[]; index: number } | undefined {
+  // 查找当前tree数组中是否有满足条件的
   const targetIndex = tree.findIndex((item) => item.id === id);
+  // 有则返回对应索引
   if (targetIndex > -1) {
     return { parent: tree, index: targetIndex };
   }
+
+  // 无则遍历每一项
   for (let i = 0; i < tree.length; i++) {
     const item = tree[i];
+    // 查询是否有子集
     if (item.children && item.children?.length > 0) {
-      return findItemAndParentById<T>(item.children, id);
+      // 再查询子集数组是否有满足条件
+      const result = findItemAndParentById<T>(item.children, id);
+      // 查询到满足条件的后返回结果
+      if (result) return result;
     }
   }
 }
