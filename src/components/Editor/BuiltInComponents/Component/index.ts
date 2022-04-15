@@ -42,6 +42,7 @@ export interface IComponent {
   borderColor?: string;
   borderRadius?: string;
   events?: IEvent[];
+  flex?: string;
 }
 
 /**

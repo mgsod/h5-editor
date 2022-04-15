@@ -31,8 +31,8 @@ export const FlexDirectionList = [
   { name: "垂直排列-自下而上", value: FLEX_DIRECTION["COLUMN-REVERSE"] },
 ];
 export const JustifyContentList = [
-  { name: "左对齐", value: JUSTIFY_CONTENT.START },
-  { name: "右对齐", value: JUSTIFY_CONTENT.END },
+  { name: "起点对齐", value: JUSTIFY_CONTENT.START },
+  { name: "终点对齐", value: JUSTIFY_CONTENT.END },
   { name: "居中对齐", value: JUSTIFY_CONTENT.CENTER },
   { name: "两端对齐", value: JUSTIFY_CONTENT.BETWEEN },
   { name: "等分间隔", value: JUSTIFY_CONTENT.AROUND },

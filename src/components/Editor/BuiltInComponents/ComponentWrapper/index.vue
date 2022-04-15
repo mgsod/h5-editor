@@ -79,6 +79,10 @@ export default defineComponent({
   &[data-type="HText"] {
     display: inline-block;
   }
+  &[data-type="HImg"] {
+    // 解决img标签在div中，底部呈现4px空隙
+    font-size: 0;
+  }
 
   &#root {
     min-height: 100%;

@@ -33,14 +33,12 @@ export default (property: Ref<TComponent>) => {
   };
   return computed(() => {
     return {
-      height: property.value.height
+      height: formatPositionValues(property.value.height)
         ? formatPositionValues(property.value.height)
         : property.value.id === "root"
         ? 0
         : "auto",
-      width: property.value.width
-        ? formatPositionValues(property.value.width)
-        : "auto",
+      width: formatPositionValues(property.value.width) || "auto",
       fontSize: formatPositionValues(property.value.fontSize),
       position: property.value.position,
       top: formatPositionValues(property.value.top),
@@ -61,6 +59,7 @@ export default (property: Ref<TComponent>) => {
       borderBottomWidth: formatPositionValues(property?.value.border?.bottom),
       borderStyle: property.value.borderStyle,
       borderColor: property.value.borderColor,
+      flex: property.value.flex,
       ...getBorderRadius(property.value.borderRadius),
       ...getBackgroundStyle(property.value.background),
     };

@@ -105,7 +105,7 @@
               @click="selectPage(item.id)"
             >
               <span class="name">{{ item.name }}</span>
-              <div>
+              <div style="display: flex">
                 <el-popover placement="bottom" trigger="click">
                   <template #reference>
                     <el-icons
