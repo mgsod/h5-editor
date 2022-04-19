@@ -1,6 +1,6 @@
 <template>
   <div class="canvas-wrapper" id="canvas-wrapper">
-    <div class="wrapper-grid">
+    <div class="wrapper-grid" ref="wrapperGrid">
       <div class="canvas" id="canvas">
         <component-wrapper
           v-for="item in components"
@@ -45,6 +45,16 @@
           @mousedown="mouseDown($event, item)"
         ></div>
       </div>
+      <div class="b-resize" @mousedown="resize">
+        <div class="line"></div>
+        <div class="handle">
+          <span></span>
+        </div>
+      </div>
+      <div class="size-info">
+        <label>画板高度 :</label>
+        <el-input @input="changeHeight" v-model="wrapperHeight"></el-input>
+      </div>
     </div>
     <contextmenu
       v-model="showContextmenu"
@@ -55,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, provide } from "vue";
+import { computed, defineComponent, onMounted, provide, ref, watch } from "vue";
 import { useStore } from "@/store";
 import useDragEffect from "@/hooks/useDrag";
 import ComponentWrapper from "@/components/Editor/BuiltInComponents/ComponentWrapper/index.vue";
@@ -66,6 +76,7 @@ import contextmenu from "@/components/Editor/Contextmenu/index.vue";
 import { TComponent } from "@/components/Editor/ComponentTypes";
 import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
 import { findItemById } from "@/util";
+import eventBus, { EventType } from "@/hooks/useEventBus";
 
 type IDirection = "top" | "right" | "bottom" | "left";
 
@@ -130,8 +141,40 @@ export default defineComponent({
       return store.state.editor.isDrag;
     });
 
+    const wrapperGrid = ref();
+    const wrapperHeight = ref(0);
+    const changeHeight = () => {
+      (
+        wrapperGrid.value as HTMLElement
+      ).style.height = `${wrapperHeight.value}px`;
+      eventBus.$emit(EventType.updateBorder);
+    };
+    onMounted(() => {
+      const $wrapper = wrapperGrid.value as HTMLElement;
+      wrapperHeight.value = $wrapper.offsetHeight;
+    });
+    const resize = (e: MouseEvent) => {
+      const { clientY: start } = e;
+      const $wrapper = wrapperGrid.value as HTMLElement;
+      const { offsetHeight: originHeight } = $wrapper;
+      const resizeMove = (e: MouseEvent) => {
+        const { clientY: end } = e;
+        $wrapper.style.height = `${originHeight + (end - start)}px`;
+        wrapperHeight.value = $wrapper.offsetHeight;
+        eventBus.$emit(EventType.updateBorder);
+      };
+      const resizeEnd = () => {
+        document.removeEventListener("mouseup", resizeEnd);
+        document.removeEventListener("mousemove", resizeMove);
+      };
+      document.addEventListener("mousemove", resizeMove);
+      document.addEventListener("mouseup", resizeEnd);
+    };
+
     const contextmenuComponent = ref();
     return {
+      wrapperHeight,
+      wrapperGrid,
       position,
       showContextmenu,
       closeContextmenu,
@@ -149,6 +192,8 @@ export default defineComponent({
       drop,
       dragover,
       preventDefault,
+      resize,
+      changeHeight,
       components: computed(() => {
         return store.getters.currentPage?.components || [];
       }),
@@ -226,7 +271,7 @@ export default defineComponent({
 
   .wrapper-grid {
     width: 375px;
-    height: 2000px;
+    height: 667px;
     position: relative;
     margin: 50px 0;
     background-color: white;
@@ -387,6 +432,60 @@ export default defineComponent({
 
       #root {
         height: 0 !important;
+      }
+    }
+
+    .b-resize {
+      cursor: ns-resize;
+
+      .line {
+        height: 3px;
+        background-color: #fff;
+      }
+
+      .handle {
+        width: 30px;
+        height: 10px;
+        margin: 0 auto;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          display: inline-block;
+          background-color: #999999;
+          height: 1px;
+          width: 10px;
+        }
+      }
+
+      &:hover {
+        .line,
+        .handle {
+          background-color: var(--el-color-warning);
+
+          span {
+            background-color: #fff;
+          }
+        }
+      }
+    }
+
+    .size-info {
+      display: flex;
+      align-items: center;
+      margin: 5px auto 0;
+      width: 130px;
+
+      label {
+        flex: 0 0 60px;
+        font-size: 12px;
+        color: #999999;
+      }
+
+      .el-input {
+        flex: auto;
       }
     }
   }
