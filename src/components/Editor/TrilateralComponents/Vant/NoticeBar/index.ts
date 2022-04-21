@@ -5,9 +5,17 @@ import Component, {
 import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { fastInitProps } from "@/util";
 
+export type NoticeBarMode = "link" | "closeable" | "";
+export const NoticeBarModeList: { name: string; value: NoticeBarMode }[] = [
+  { name: "链接", value: "link" },
+  { name: "关闭", value: "closeable" },
+  { name: "无", value: "" },
+];
+
 export interface INoticeBar extends IComponent {
   text: string;
   color: string;
+  mode?: NoticeBarMode;
 }
 
 export default class NoticeBar extends Component implements INoticeBar {

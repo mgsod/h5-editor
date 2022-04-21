@@ -75,6 +75,10 @@
     v-model:componentProps="base"
     v-if="componentProps.type === ComponentType.NavBar"
   />
+  <notice-bar-setting
+    v-model:componentProps="base"
+    v-if="componentProps.type === ComponentType.NoticeBar"
+  />
 </template>
 
 <script lang="ts">
@@ -87,6 +91,7 @@ import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
 import TabSetting from "@/components/Editor/TrilateralComponents/Vant/Tab/TabSetting.vue";
 import NavBarSetting from "@/components/Editor/TrilateralComponents/Vant/NavBar/NavBarSetting.vue";
 import Uploader from "@/components/Editor/Uploader/Uploader.vue";
+import NoticeBarSetting from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/NoticeBarSetting.vue";
 
 export default defineComponent({
   name: "property-bar",
@@ -102,6 +107,7 @@ export default defineComponent({
     TabSetting,
     NavBarSetting,
     Uploader,
+    NoticeBarSetting,
   },
   setup(props) {
     const base = computed(() => {

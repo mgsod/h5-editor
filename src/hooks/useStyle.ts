@@ -2,6 +2,7 @@ import { computed, Ref } from "vue";
 import { TComponent } from "@/components/Editor/ComponentTypes";
 import { formatPositionValues } from "@/util";
 import { IBackground } from "@/components/Editor/BuiltInComponents/Component";
+import { DISPLAY } from "@/components/Editor/BuiltInComponents/Container";
 
 export const getBorderRadius = (borderRadius?: string) => {
   const arr = borderRadius?.split(",").map((item) => `${item}px`) || [
@@ -32,7 +33,7 @@ export default (property: Ref<TComponent>) => {
     };
   };
   return computed(() => {
-    return {
+    const base: { [key: string]: any } = {
       height: formatPositionValues(property.value.height)
         ? formatPositionValues(property.value.height)
         : property.value.id === "root"
@@ -63,5 +64,9 @@ export default (property: Ref<TComponent>) => {
       ...getBorderRadius(property.value.borderRadius),
       ...getBackgroundStyle(property.value.background),
     };
+    if (property.value.display === DISPLAY.NONE) {
+      base.display = DISPLAY.NONE;
+    }
+    return base;
   });
 };

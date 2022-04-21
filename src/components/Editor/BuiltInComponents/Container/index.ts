@@ -1,8 +1,5 @@
 import Component from "@/components/Editor/BuiltInComponents/Component";
-import {
-  AlignItems,
-  display,
-} from "@/components/Editor/BuiltInComponents/Layout";
+import { AlignItems } from "@/components/Editor/BuiltInComponents/Layout";
 import { fastInitProps } from "@/util";
 import { ComponentType, TComponent } from "@/components/Editor/ComponentTypes";
 import { ICommonText } from "@/components/Editor/BuiltInComponents/CommonInterface/Text";
@@ -58,6 +55,7 @@ export const AlignItemsList = [
 export enum DISPLAY {
   BLOCK = "block",
   FLEX = "flex",
+  NONE = "none",
 }
 
 export const displayList = [
@@ -72,7 +70,6 @@ export const displayList = [
 ];
 
 export interface Layout {
-  display: display;
   JustifyContent?: JUSTIFY_CONTENT;
   AlignItems?: AlignItems;
 }

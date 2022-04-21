@@ -41,6 +41,7 @@ export const addPage = (state: IState) => {
       height: "",
       position: "relative",
       isRoot: true,
+      alias: "根组件",
     })
   );
   state.selectedComponents = null;

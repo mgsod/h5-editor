@@ -58,4 +58,3 @@ export const borderStyleList: { name: string; value: BorderStyle }[] = [
   { name: "实线", value: "solid" },
   { name: "虚线", value: "dashed" },
 ];
-export type display = "block" | "flex";

@@ -1,9 +1,12 @@
-import { Position } from "@/components/Editor/BuiltInComponents/Layout";
-import { BorderStyle } from "@/components/Editor/BuiltInComponents/Layout";
+import {
+  BorderStyle,
+  Position,
+} from "@/components/Editor/BuiltInComponents/Layout";
 import { v4 as uuidv4 } from "uuid";
 import { fastInitProps } from "@/util";
 import { ComponentType } from "@/components/Editor/ComponentTypes";
 import { IEvent } from "@/components/Editor/Event";
+import { DISPLAY } from "@/components/Editor/BuiltInComponents/Container";
 
 export interface IBackground {
   color?: string;
@@ -43,6 +46,7 @@ export interface IComponent {
   borderRadius?: string;
   events?: IEvent[];
   flex?: string;
+  display: DISPLAY;
 }
 
 /**
@@ -66,6 +70,7 @@ abstract class Component implements IComponent {
     vertical: "",
     repeat: "",
   };
+  display: DISPLAY = DISPLAY.BLOCK;
 
   protected constructor(props?: Partial<IComponent>) {
     this.id = uuidv4();
