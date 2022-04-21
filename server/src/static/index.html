@@ -8,6 +8,7 @@
   />
   <script src="vue.js"></script>
   <script src="https://unpkg.com/vue@3.2.29/dist/vue.global.prod.js"></script>
+  <script src="previewer/index.umd.min.js"></script>
   <link rel="stylesheet" href="previewer/index.css">
   <style>
       html, body {
@@ -63,7 +64,7 @@
         alert("未传入文档id");
         return false;
       }
-      fetch(`http://10.0.233.21:3000/api/document/${id}`).then(res => res.json()).then(res => {
+      fetch(`http://127.0.0.1:3000/api/document/${id}`).then(res => res.json()).then(res => {
         if (res.code === 200) {
           const { content } = res.data;
           if (!content) {

@@ -62,9 +62,6 @@ export default defineComponent({
 <style lang="less">
 .dom-render {
   .component-wrapper {
-    &[data-type="HText"] {
-      display: inline-block;
-    }
     &#root {
       overflow: hidden;
     }

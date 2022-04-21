@@ -39,6 +39,11 @@ export default defineComponent({
 </script>
 
 <style lang="less">
+.component-wrapper[data-type="HImg"] {
+  // 解决img标签在div中，底部呈现4px空隙
+  font-size: 0;
+}
+
 img {
   -webkit-user-drag: none;
   width: 100%;

@@ -41,6 +41,10 @@ export default defineComponent({
 </script>
 
 <style lang="less">
+.component-wrapper[data-type="HText"] {
+  display: inline-block;
+}
+
 .h-text {
   word-break: break-all;
   display: inline-block;

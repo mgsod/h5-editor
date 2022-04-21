@@ -211,6 +211,9 @@ export default defineComponent({
         text-align: center;
         font-size: 16px;
         font-weight: bold;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .lastupdate {
