@@ -15,7 +15,11 @@ export const NoticeBarModeList: { name: string; value: NoticeBarMode }[] = [
 export interface INoticeBar extends IComponent {
   text: string;
   color: string;
+  // 垂直滚动
+  vertical: boolean;
   mode?: NoticeBarMode;
+  multiple?: string[];
+  speed: number | string;
 }
 
 export default class NoticeBar extends Component implements INoticeBar {
@@ -26,6 +30,10 @@ export default class NoticeBar extends Component implements INoticeBar {
   background: IBackground = {
     color: "#fffbe8",
   };
+  vertical = false;
+  multiple = ["滚动文本"];
+  speed = "3000";
+  mode: NoticeBarMode = "";
 
   constructor(props: INoticeBar) {
     super(props);
