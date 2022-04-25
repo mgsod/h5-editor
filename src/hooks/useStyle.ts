@@ -61,6 +61,7 @@ export default (property: Ref<TComponent>) => {
       borderStyle: property.value.borderStyle,
       borderColor: property.value.borderColor,
       flex: property.value.flex,
+      zIndex: property.value.zIndex,
       ...getBorderRadius(property.value.borderRadius),
       ...getBackgroundStyle(property.value.background),
     };

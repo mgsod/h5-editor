@@ -225,7 +225,7 @@ export default defineComponent({
         eventForm.actionType = row.actionType;
         eventForm.actionProps = {
           url: row.actionProps.url,
-          content: "",
+          content: row.actionProps.content,
           type: row.actionProps.type,
         };
         editIndex.value = index;

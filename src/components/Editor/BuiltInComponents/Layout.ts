@@ -1,5 +1,5 @@
 // 定位
-export type Position = "static" | "relative" | "absolute";
+export type Position = "static" | "relative" | "absolute" | "sticky";
 export const positionList: {
   name: string;
   value: Position;
@@ -7,6 +7,7 @@ export const positionList: {
   { name: "静止", value: "static" },
   { name: "相对定位", value: "relative" },
   { name: "绝对定位", value: "absolute" },
+  { name: "粘性定位", value: "sticky" },
 ];
 
 export const layoutType = [

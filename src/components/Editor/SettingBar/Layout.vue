@@ -25,6 +25,9 @@
       ></el-option>
     </el-select>
   </el-form-item>
+  <el-form-item label="层级">
+    <el-input v-model="layout.zIndex"></el-input>
+  </el-form-item>
   <container-setting
     v-model:component-props="layout"
     v-if="componentProps.type === ComponentType.Container"

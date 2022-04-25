@@ -43,6 +43,7 @@ export default defineComponent({
 <style lang="less">
 .component-wrapper[data-type="HText"] {
   display: inline-block;
+  vertical-align: text-top;
 }
 
 .h-text {

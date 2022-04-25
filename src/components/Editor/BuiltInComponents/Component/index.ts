@@ -32,6 +32,8 @@ export interface IComponent {
   position: Position;
   background: IBackground;
   lock: boolean;
+  display: DISPLAY;
+  zIndex?: number;
   parentId?: string;
   alias?: string;
   top?: number;
@@ -46,7 +48,6 @@ export interface IComponent {
   borderRadius?: string;
   events?: IEvent[];
   flex?: string;
-  display: DISPLAY;
 }
 
 /**

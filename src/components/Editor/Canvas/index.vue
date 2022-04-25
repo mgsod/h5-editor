@@ -303,6 +303,10 @@ export default defineComponent({
         border-left: 1px solid var(--el-color-primary);
         border-top: 1px solid var(--el-color-primary);
         z-index: 2;
+
+        &.transition {
+          transition: all 0.2s;
+        }
       }
 
       .enter-container-border-line {
