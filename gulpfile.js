@@ -6,6 +6,7 @@ gulp.task("copy", function () {
       "server/src/views*/*",
       "server/src/static*/**/*",
       "server/package.json",
+      "server/processes.json",
     ])
     .pipe(gulp.dest("./server/build/"));
 });

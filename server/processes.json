@@ -1,0 +1,11 @@
+{
+  "name": "h5EditorServ",
+  "script": "node",
+  "args": "index.js",
+  "cwd": "./",
+  "ignore_watch": ["node_modules"],
+  "watch_options": {
+    "followSymlinks": false
+  },
+  "autorestart": true
+}
