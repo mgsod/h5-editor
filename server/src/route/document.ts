@@ -4,6 +4,7 @@ import { DocumentModel, IDocument } from "../document";
 const dataBase = require("../model");
 const route = require("express").Router();
 const { writeImgByBase64, getRuntimeHost } = require("../util");
+const { serverName } = require("../config");
 // 新增
 route.post("/", async (req: Request, res: Response) => {
   const { name, content, cover } = req.body as DocumentModel;
@@ -42,7 +43,9 @@ route.get("/", async (req: Request, res: Response) => {
   const data = await dataBase.find({});
   // 添加预览地址
   data.forEach((item: IDocument) => {
-    (item as any).previewUrl = `${getRuntimeHost()}/preview/${item._id}`;
+    (item as any).previewUrl = `${serverName || getRuntimeHost()}/preview/${
+      item._id
+    }`;
   });
   res.json({
     code: 200,
