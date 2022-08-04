@@ -28,15 +28,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, toRefs } from "vue";
+import { computed, defineComponent, PropType, toRefs } from 'vue';
 import {
   getNewTabContainer,
   ITab,
-} from "@/components/Editor/TrilateralComponents/Vant/Tab/index";
-import { ComponentType } from "@/components/Editor/ComponentTypes";
+} from '@/components/Editor/TrilateralComponents/Vant/Tab/index';
+import { ComponentType } from '@/components/Editor/ComponentTypes';
 
 export default defineComponent({
-  name: "TabSetting",
+  name: 'TabSetting',
   props: {
     componentProps: {
       type: Object as PropType<ITab>,
@@ -50,8 +50,8 @@ export default defineComponent({
     };
     const name = computed(() => {
       return componentProps.value.type === ComponentType.Swiper
-        ? "轮播"
-        : "tab";
+        ? '轮播'
+        : 'tab';
     });
     return {
       add() {

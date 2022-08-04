@@ -1,51 +1,51 @@
-import { App, defineAsyncComponent } from "vue";
-import Previewer from "@/components/Previewer/index.vue";
-import "@/assets/css/reset.css";
-import HContainer from "@/components/Editor/BuiltInComponents/Container/Container.vue";
-import { ComponentType } from "@/components/Editor/ComponentTypes";
-import useDynamicVars from "@/hooks/useDynamicVars";
+import { App, defineAsyncComponent } from 'vue';
+import Previewer from '@/components/Previewer/index.vue';
+import '@/assets/css/reset.css';
+import HContainer from '@/components/Editor/BuiltInComponents/Container/Container.vue';
+import { ComponentType } from '@/components/Editor/ComponentTypes';
+import useDynamicVars from '@/hooks/useDynamicVars';
 
 const { parseExpression } = useDynamicVars();
 const HImg = defineAsyncComponent(
   () =>
     import(
-      /* webpackChunkName: "HImg" */ "@/components/Editor/BuiltInComponents/Img/Img.vue"
+      /* webpackChunkName: "HImg" */ '@/components/Editor/BuiltInComponents/Img/Img.vue'
     )
 );
 const Swiper = defineAsyncComponent(
   () =>
     import(
-      /* webpackChunkName: "Swiper" */ "@/components/Editor/TrilateralComponents/Vant/Swiper/Swiper.vue"
+      /* webpackChunkName: "Swiper" */ '@/components/Editor/TrilateralComponents/Vant/Swiper/Swiper.vue'
     )
 );
 const NoticeBar = defineAsyncComponent(
   () =>
     import(
-      /* webpackChunkName: "NoticeBar" */ "@/components/Editor/TrilateralComponents/Vant/NoticeBar/index.vue"
+      /* webpackChunkName: "NoticeBar" */ '@/components/Editor/TrilateralComponents/Vant/NoticeBar/index.vue'
     )
 );
 const HButton = defineAsyncComponent(
   () =>
     import(
-      /* webpackChunkName: "HButton" */ "@/components/Editor/BuiltInComponents/Button/Button.vue"
+      /* webpackChunkName: "HButton" */ '@/components/Editor/BuiltInComponents/Button/Button.vue'
     )
 );
 const HText = defineAsyncComponent(
   () =>
     import(
-      /* webpackChunkName: "HText" */ "@/components/Editor/BuiltInComponents/Text/Text.vue"
+      /* webpackChunkName: "HText" */ '@/components/Editor/BuiltInComponents/Text/Text.vue'
     )
 );
 const HTab = defineAsyncComponent(
   () =>
     import(
-      /* webpackChunkName: "HTab" */ "@/components/Editor/TrilateralComponents/Vant/Tab/Tab.vue"
+      /* webpackChunkName: "HTab" */ '@/components/Editor/TrilateralComponents/Vant/Tab/Tab.vue'
     )
 );
 const NavBar = defineAsyncComponent(
   () =>
     import(
-      /* webpackChunkName: "NavBar" */ "@/components/Editor/TrilateralComponents/Vant/NavBar/NavBar.vue"
+      /* webpackChunkName: "NavBar" */ '@/components/Editor/TrilateralComponents/Vant/NavBar/NavBar.vue'
     )
 );
 

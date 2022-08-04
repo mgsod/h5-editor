@@ -23,16 +23,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, toRefs, inject } from "vue";
-import { TComponent } from "@/components/Editor/ComponentTypes";
-import useDragEffect from "@/hooks/useDrag";
-import useStyle from "@/hooks/useStyle";
-import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import cloneDeep from "lodash/cloneDeep";
+import { defineComponent, PropType, toRefs, inject } from 'vue';
+import { TComponent } from '@/components/Editor/ComponentTypes';
+import useDragEffect from '@/hooks/useDrag';
+import useStyle from '@/hooks/useStyle';
+import { useStore } from '@/store';
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import cloneDeep from 'lodash/cloneDeep';
 
 export default defineComponent({
-  name: "ComponentWrapper",
+  name: 'ComponentWrapper',
   inheritAttrs: false,
   props: {
     property: {
@@ -41,9 +41,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const mouseDownEventHandler = inject("mouseDownEventHandler");
-    const contextmenuHandler = inject("contextmenuHandler");
-    const componentSelectHandler = inject("componentSelectHandler");
+    const mouseDownEventHandler = inject('mouseDownEventHandler');
+    const contextmenuHandler = inject('contextmenuHandler');
+    const componentSelectHandler = inject('componentSelectHandler');
     const { property } = toRefs(props);
     const style = useStyle(property);
     const store = useStore();

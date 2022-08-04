@@ -1,14 +1,14 @@
-import { IComponentItem, TComponent } from "@/components/Editor/ComponentTypes";
-import ComponentFactory from "@/components/Editor/Factory";
-import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import cloneDeep from "lodash/cloneDeep";
-import { v4 as uuidv4 } from "uuid";
-import { IExtractComponents } from "@/store/Editor";
+import { IComponentItem, TComponent } from '@/components/Editor/ComponentTypes';
+import ComponentFactory from '@/components/Editor/Factory';
+import { useStore } from '@/store';
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import cloneDeep from 'lodash/cloneDeep';
+import { v4 as uuidv4 } from 'uuid';
+import { IExtractComponents } from '@/store/Editor';
 
 function componentsCopy(
   component: TComponent,
-  parentId = "",
+  parentId = '',
   depth = 0
 ): TComponent {
   component.id = uuidv4();
@@ -35,11 +35,11 @@ export default () => {
   ) => {
     const data = isExtractCom
       ? {
-          type: "extract",
+          type: 'extract',
           name: item.name,
         }
       : { type: item.type };
-    (e.dataTransfer as DataTransfer).setData("dragInfo", JSON.stringify(data));
+    (e.dataTransfer as DataTransfer).setData('dragInfo', JSON.stringify(data));
     store.commit(MUTATION_TYPE.DRAG_COMPONENT);
   };
   const dragenter = (e: DragEvent, targetComponent?: TComponent) => {
@@ -56,12 +56,12 @@ export default () => {
   const drop = (e: DragEvent, targetComponent?: TComponent) => {
     e.stopPropagation();
     const dragInfo = JSON.parse(
-      (e.dataTransfer as DataTransfer).getData("dragInfo")
+      (e.dataTransfer as DataTransfer).getData('dragInfo')
     );
     const { type, name } = dragInfo;
     if (targetComponent?.isContainer) {
       let component;
-      if (type === "extract") {
+      if (type === 'extract') {
         component = (
           store.state.editor.extractComponents.find(
             (item) => item.name === name

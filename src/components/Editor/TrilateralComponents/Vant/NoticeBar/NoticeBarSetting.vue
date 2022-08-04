@@ -39,15 +39,15 @@
 </template>
 
 <script lang="ts">
-import { Minus } from "@element-plus/icons-vue";
-import { defineComponent, PropType, computed } from "vue";
+import { Minus } from '@element-plus/icons-vue';
+import { defineComponent, PropType, computed } from 'vue';
 import {
   INoticeBar,
   NoticeBarModeList,
-} from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/index";
+} from '@/components/Editor/TrilateralComponents/Vant/NoticeBar/index';
 
 export default defineComponent({
-  name: "NoticeBarSetting",
+  name: 'NoticeBarSetting',
   props: {
     componentProps: {
       type: Object as PropType<INoticeBar>,
@@ -61,7 +61,7 @@ export default defineComponent({
         return props.componentProps;
       },
       set(val) {
-        emit("update:componentProps", val);
+        emit('update:componentProps', val);
       },
     });
     return {

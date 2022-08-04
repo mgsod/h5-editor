@@ -25,11 +25,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, PropType } from "vue";
-import { NoticeBar, Swipe, SwipeItem } from "vant";
-import { ComponentType } from "@/components/Editor/ComponentTypes";
-import { IBackground } from "@/components/Editor/BuiltInComponents/Component";
-import { NoticeBarMode } from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/index";
+import { defineComponent, inject, PropType } from 'vue';
+import { NoticeBar, Swipe, SwipeItem } from 'vant';
+import { ComponentType } from '@/components/Editor/ComponentTypes';
+import { IBackground } from '@/components/Editor/BuiltInComponents/Component';
+import { NoticeBarMode } from '@/components/Editor/TrilateralComponents/Vant/NoticeBar/index';
 
 export default defineComponent({
   name: ComponentType.NoticeBar,
@@ -47,12 +47,12 @@ export default defineComponent({
     [Swipe.name]: Swipe,
     [SwipeItem.name]: SwipeItem,
   },
-  emits: ["updateProps"],
+  emits: ['updateProps'],
   setup(props, { emit }) {
-    const isPreview = inject("isPreview");
+    const isPreview = inject('isPreview');
     return {
       close() {
-        isPreview && emit("updateProps", { display: "none" });
+        isPreview && emit('updateProps', { display: 'none' });
       },
     };
   },

@@ -18,13 +18,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from "vue";
+import { defineComponent, PropType, computed } from 'vue';
 import {
   IImg,
   objectFitList,
-} from "@/components/Editor/BuiltInComponents/Img/index";
-import { ComponentSettingType } from "@/components/Editor/ComponentTypes";
-import Uploader from "@/components/Editor/Uploader/Uploader.vue";
+} from '@/components/Editor/BuiltInComponents/Img/index';
+import { ComponentSettingType } from '@/components/Editor/ComponentTypes';
+import Uploader from '@/components/Editor/Uploader/Uploader.vue';
 
 export default defineComponent({
   name: ComponentSettingType.Img,
@@ -41,7 +41,7 @@ export default defineComponent({
         return props.componentProps;
       },
       set(val) {
-        emit("update:componentProps", val);
+        emit('update:componentProps', val);
       },
     });
     return {

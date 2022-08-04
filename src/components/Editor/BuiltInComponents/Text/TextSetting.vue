@@ -69,20 +69,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from "vue";
+import { defineComponent, PropType, computed } from 'vue';
 import {
   fontFamilyList,
   IText,
-} from "@/components/Editor/BuiltInComponents/Text/index";
+} from '@/components/Editor/BuiltInComponents/Text/index';
 
 export default defineComponent({
-  name: "TextSetting",
+  name: 'TextSetting',
   props: {
     componentProps: Object as PropType<IText>,
   },
   components: {},
   setup(props, { emit }) {
-    let fontWeightList = new Array(9).fill("").map((item, index) => {
+    let fontWeightList = new Array(9).fill('').map((item, index) => {
       const value = ((index + 1) * 100).toString();
       return {
         name: value,
@@ -91,18 +91,18 @@ export default defineComponent({
     });
 
     fontWeightList.push(
-      { name: "常规", value: "normal" },
-      { name: "粗体", value: "bold" },
-      { name: "加粗", value: "bolder" },
-      { name: "细", value: "lighter" },
-      { name: "继承父级", value: "" }
+      { name: '常规', value: 'normal' },
+      { name: '粗体', value: 'bold' },
+      { name: '加粗', value: 'bolder' },
+      { name: '细', value: 'lighter' },
+      { name: '继承父级', value: '' }
     );
     const text = computed({
       get() {
         return props.componentProps;
       },
       set(val) {
-        emit("update:componentProps", val);
+        emit('update:componentProps', val);
       },
     });
     return {

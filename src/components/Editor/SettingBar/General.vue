@@ -82,19 +82,19 @@
 </template>
 
 <script lang="ts">
-import { ArrowDownBold, ArrowUpBold } from "@element-plus/icons-vue";
-import { ComponentType } from "@/components/Editor/ComponentTypes";
-import { defineComponent, computed, PropType, ref } from "vue";
-import ImgSetting from "@/components/Editor/BuiltInComponents/Img/ImgSetting.vue";
-import TextSetting from "@/components/Editor/BuiltInComponents/Text/TextSetting.vue";
-import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
-import TabSetting from "@/components/Editor/TrilateralComponents/Vant/Tab/TabSetting.vue";
-import NavBarSetting from "@/components/Editor/TrilateralComponents/Vant/NavBar/NavBarSetting.vue";
-import Uploader from "@/components/Editor/Uploader/Uploader.vue";
-import NoticeBarSetting from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/NoticeBarSetting.vue";
+import { ArrowDownBold, ArrowUpBold } from '@element-plus/icons-vue';
+import { ComponentType } from '@/components/Editor/ComponentTypes';
+import { defineComponent, computed, PropType, ref } from 'vue';
+import ImgSetting from '@/components/Editor/BuiltInComponents/Img/ImgSetting.vue';
+import TextSetting from '@/components/Editor/BuiltInComponents/Text/TextSetting.vue';
+import { IComponent } from '@/components/Editor/BuiltInComponents/Component';
+import TabSetting from '@/components/Editor/TrilateralComponents/Vant/Tab/TabSetting.vue';
+import NavBarSetting from '@/components/Editor/TrilateralComponents/Vant/NavBar/NavBarSetting.vue';
+import Uploader from '@/components/Editor/Uploader/Uploader.vue';
+import NoticeBarSetting from '@/components/Editor/TrilateralComponents/Vant/NoticeBar/NoticeBarSetting.vue';
 
 export default defineComponent({
-  name: "property-bar",
+  name: 'property-bar',
   props: {
     componentProps: {
       type: Object as PropType<IComponent>,

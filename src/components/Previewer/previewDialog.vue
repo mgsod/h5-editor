@@ -70,35 +70,35 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs, watch } from "vue";
-import Previewer from "@/components/Previewer/index.vue";
+import { defineComponent, ref, toRefs, watch } from 'vue';
+import Previewer from '@/components/Previewer/index.vue';
 
 export default defineComponent({
-  name: "previewDialog",
+  name: 'previewDialog',
   props: {
     pages: Array,
     homePage: String,
     modelValue: Boolean,
   },
   components: { Previewer },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
   setup(props, { emit }) {
-    const currentRouterId = ref("");
+    const currentRouterId = ref('');
     const { modelValue } = toRefs(props);
     const showDialog = ref(false);
     watch(modelValue, (v) => {
       showDialog.value = v;
     });
     watch(showDialog, (v) => {
-      emit("update:modelValue", v);
+      emit('update:modelValue', v);
     });
-    const time = ref("");
+    const time = ref('');
     const getTime = () => {
       const dateNow = new Date();
-      time.value = `${dateNow.getHours().toString().padStart(2, "0")}:${dateNow
+      time.value = `${dateNow.getHours().toString().padStart(2, '0')}:${dateNow
         .getMinutes()
         .toString()
-        .padStart(2, "0")}`;
+        .padStart(2, '0')}`;
     };
     getTime();
     setInterval(() => {
@@ -131,7 +131,7 @@ export default defineComponent({
     height: 864px;
     overflow: auto;
     box-sizing: content-box !important;
-    background-image: url("../../assets/img/phone.png");
+    background-image: url('../../assets/img/phone.png');
     background-size: cover;
 
     .iPhoneX-StatusBar {

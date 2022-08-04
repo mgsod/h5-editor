@@ -17,8 +17,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { ComponentType } from "@/components/Editor/ComponentTypes";
+import { defineComponent } from 'vue';
+import { ComponentType } from '@/components/Editor/ComponentTypes';
 
 export default defineComponent({
   name: ComponentType.Text,
@@ -41,7 +41,7 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-.component-wrapper[data-type="HText"] {
+.component-wrapper[data-type='HText'] {
   display: inline-block;
   vertical-align: text-top;
 }

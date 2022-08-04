@@ -1,9 +1,9 @@
-import { Action } from "@/components/Editor/Action/abstractAction";
-import { Router } from "@/components/Previewer/router";
-type RedirectType = "inside" | "outside";
+import { Action } from '@/components/Editor/Action/abstractAction';
+import { Router } from '@/components/Previewer/router';
+type RedirectType = 'inside' | 'outside';
 export const redirectTypeList: { name: string; value: RedirectType }[] = [
-  { name: "内部跳转", value: "inside" },
-  { name: "外部跳转", value: "outside" },
+  { name: '内部跳转', value: 'inside' },
+  { name: '外部跳转', value: 'outside' },
 ];
 export interface IRedirect {
   url: string;
@@ -19,10 +19,10 @@ export class Redirect extends Action implements IRedirect {
   }
   handle() {
     switch (this.type) {
-      case "inside":
+      case 'inside':
         Router.go(this.url);
         break;
-      case "outside":
+      case 'outside':
         location.href = this.url;
         break;
     }

@@ -50,19 +50,19 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
-import { getDocumentList, delDocument, IEditorDoc } from "@/api/document";
-import { useRouter } from "vue-router";
-import { ElMessageBox, ElMessage } from "element-plus";
-import qrcode from "qrcode";
-import previewDialog from "@/components/Previewer/previewDialog.vue";
-import useDialog from "@/hooks/useDialog";
-import { IDocument } from "../../../server/src/document";
-import { IPage } from "@/store/Editor";
-import { useStore } from "@/store";
+import { computed, defineComponent, ref } from 'vue';
+import { getDocumentList, delDocument, IEditorDoc } from '@/api/document';
+import { useRouter } from 'vue-router';
+import { ElMessageBox, ElMessage } from 'element-plus';
+import qrcode from 'qrcode';
+import previewDialog from '@/components/Previewer/previewDialog.vue';
+import useDialog from '@/hooks/useDialog';
+import { IDocument } from '../../../server/src/document';
+import { IPage } from '@/store/Editor';
+import { useStore } from '@/store';
 
 export default defineComponent({
-  name: "Documents",
+  name: 'Documents',
   components: { previewDialog },
   setup() {
     const router = useRouter();
@@ -97,35 +97,35 @@ export default defineComponent({
       },
       currentPages,
       newDocument() {
-        localStorage.removeItem("editorData");
+        localStorage.removeItem('editorData');
         const { href } = router.resolve({
-          name: "editor",
+          name: 'editor',
         });
-        localStorage.removeItem("editorData");
-        window.open(href, "_blank");
+        localStorage.removeItem('editorData');
+        window.open(href, '_blank');
       },
       edit(id: string) {
         const { href } = router.resolve({
-          name: "editor",
+          name: 'editor',
           query: {
             id,
           },
         });
-        localStorage.removeItem("editorData");
-        window.open(href, "_blank");
+        localStorage.removeItem('editorData');
+        window.open(href, '_blank');
       },
       del(id: string) {
-        ElMessageBox.confirm("确认删除该文档吗？", "⚠️警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
+        ElMessageBox.confirm('确认删除该文档吗？', '⚠️警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
         })
           .then(() => {
             delDocument(id).then((res) => {
               if (res.code === 200) {
                 ElMessage({
-                  type: "success",
-                  message: "删除成功",
+                  type: 'success',
+                  message: '删除成功',
                 });
                 refresh();
               }
@@ -135,7 +135,7 @@ export default defineComponent({
       },
       getStyle(url: string) {
         return {
-          "background-image": `url(${url})`,
+          'background-image': `url(${url})`,
         };
       },
     };

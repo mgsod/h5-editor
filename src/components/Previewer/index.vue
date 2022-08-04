@@ -10,13 +10,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeUnmount, provide } from "vue";
-import Render from "./render.vue";
-import { IRoute, Router } from "@/components/Previewer/router";
-import cloneDeep from "lodash/cloneDeep";
+import { defineComponent, onBeforeUnmount, provide } from 'vue';
+import Render from './render.vue';
+import { IRoute, Router } from '@/components/Previewer/router';
+import cloneDeep from 'lodash/cloneDeep';
 
 export default defineComponent({
-  name: "previewer",
+  name: 'previewer',
   inheritAttrs: false,
   props: {
     rem: {
@@ -32,21 +32,21 @@ export default defineComponent({
       type: String,
     },
   },
-  emits: ["update:homePageId"],
+  emits: ['update:homePageId'],
   components: { Render },
   setup(props, { emit }) {
     const router = new Router({
       routes: cloneDeep(props.pages) as IRoute[],
       homePage: props.homePageId,
-      mode: "hash",
+      mode: 'hash',
       onChange($router) {
-        emit("update:homePageId", $router.current?.id);
+        emit('update:homePageId', $router.current?.id);
       },
     });
-    provide("isPreview", true);
-    provide("router", router);
+    provide('isPreview', true);
+    provide('router', router);
     onBeforeUnmount(() => {
-      console.log("销毁");
+      console.log('销毁');
       router.destroy();
     });
     return {

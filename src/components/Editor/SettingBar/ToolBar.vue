@@ -29,14 +29,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
-import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import previewDialog from "@/components/Previewer/previewDialog.vue";
-import useDialog from "@/hooks/useDialog";
+import { defineComponent, computed } from 'vue';
+import { useStore } from '@/store';
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import previewDialog from '@/components/Previewer/previewDialog.vue';
+import useDialog from '@/hooks/useDialog';
 
 export default defineComponent({
-  name: "ToolBar",
+  name: 'ToolBar',
   props: {},
   components: { previewDialog },
   setup() {
@@ -54,7 +54,7 @@ export default defineComponent({
       hasSelected: computed(() => {
         const selected = store.state.editor.selectedComponents;
         if (!selected) return false;
-        return selected.id !== "root";
+        return selected.id !== 'root';
       }),
       undo() {
         store.commit(MUTATION_TYPE.UNDO);

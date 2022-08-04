@@ -5,4 +5,4 @@ export interface IDocument<T = any> {
   cover: string;
 }
 
-export type DocumentModel = Omit<IDocument, "_id">;
+export type DocumentModel = Omit<IDocument, '_id'>;

@@ -1,7 +1,7 @@
-import { ref, Ref } from "vue";
+import { ref, Ref } from 'vue';
 
-type RouterMode = "query" | "hash";
-type PageActionType = "prev" | "next";
+type RouterMode = 'query' | 'hash';
+type PageActionType = 'prev' | 'next';
 
 export interface IRoute {
   components: [];
@@ -19,13 +19,13 @@ interface IRouter {
 
 export class Router {
   // 路由参数标识符 key=xxxxxxx
-  static key = "";
-  static mode: RouterMode = "hash";
+  static key = '';
+  static mode: RouterMode = 'hash';
   // 路由表
   private routes: IRoute[];
   // 路由模式，hash或query。
   private readonly mode: RouterMode;
-  private routerKey = "";
+  private routerKey = '';
   // 上个路由
   from: IRoute | null = null;
   // 当前路由
@@ -42,9 +42,9 @@ export class Router {
 
   constructor({
     routes = [],
-    mode = "hash",
-    homePage = "",
-    routerKey = "hpath",
+    mode = 'hash',
+    homePage = '',
+    routerKey = 'hpath',
     onChange = () => {},
   }: IRouter) {
     Router.key = routerKey;
@@ -64,8 +64,8 @@ export class Router {
       }
     };
     // 如果是hash模式，需要监听hashchange事件
-    if (mode === "hash") {
-      window.addEventListener("hashchange", this.onChangeListenerHandel);
+    if (mode === 'hash') {
+      window.addEventListener('hashchange', this.onChangeListenerHandel);
     }
 
     // 如果有首页，设置首页
@@ -92,7 +92,7 @@ export class Router {
    */
   static go(routerId: string) {
     const mode = this.mode;
-    mode === "query"
+    mode === 'query'
       ? this.setPathByQuery(routerId)
       : this.setPathByHash(routerId);
   }
@@ -175,14 +175,14 @@ export class Router {
   setPath(param: string | PageActionType) {
     let index = this.routes.findIndex((item) => item.id === this.current?.id);
     index = index < 0 ? 0 : index;
-    let routerId = "";
+    let routerId = '';
     // 如果是翻页
-    if (param === "next" || param === "prev") {
-      if (param === "prev") {
+    if (param === 'next' || param === 'prev') {
+      if (param === 'prev') {
         index--;
         index = index < 0 ? 0 : index;
       }
-      if (param === "next") {
+      if (param === 'next') {
         index++;
         index = index > this.routes.length - 1 ? this.routes.length - 1 : index;
       }
@@ -208,7 +208,7 @@ export class Router {
    * 获取路由id
    */
   getRouteId() {
-    if (this.mode === "query") return Router.getRoureIdByQuery();
+    if (this.mode === 'query') return Router.getRoureIdByQuery();
     return Router.getRouteIdByHash();
   }
 
@@ -238,6 +238,6 @@ export class Router {
 
   destroy() {
     this.routes = [];
-    window.removeEventListener("hashchange", this.onChangeListenerHandel);
+    window.removeEventListener('hashchange', this.onChangeListenerHandel);
   }
 }

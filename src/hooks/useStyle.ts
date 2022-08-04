@@ -1,18 +1,18 @@
-import { computed, Ref } from "vue";
-import { TComponent } from "@/components/Editor/ComponentTypes";
-import { formatPositionValues } from "@/util";
-import { IBackground } from "@/components/Editor/BuiltInComponents/Component";
-import { DISPLAY } from "@/components/Editor/BuiltInComponents/Container";
+import { computed, Ref } from 'vue';
+import { TComponent } from '@/components/Editor/ComponentTypes';
+import { formatPositionValues } from '@/util';
+import { IBackground } from '@/components/Editor/BuiltInComponents/Component';
+import { DISPLAY } from '@/components/Editor/BuiltInComponents/Container';
 
 export const getBorderRadius = (borderRadius?: string) => {
-  const arr = borderRadius?.split(",").map((item) => `${item}px`) || [
+  const arr = borderRadius?.split(',').map((item) => `${item}px`) || [
     0, 0, 0, 0,
   ];
   return {
-    "border-top-left-radius": arr[0],
-    "border-top-right-radius": arr[1],
-    "border-bottom-right-radius": arr[2],
-    "border-bottom-left-radius": arr[3],
+    'border-top-left-radius': arr[0],
+    'border-top-right-radius': arr[1],
+    'border-bottom-right-radius': arr[2],
+    'border-bottom-left-radius': arr[3],
   };
 };
 export default (property: Ref<TComponent>) => {
@@ -26,7 +26,7 @@ export default (property: Ref<TComponent>) => {
   }: IBackground) => {
     return {
       backgroundColor: color,
-      backgroundImage: url ? `url(${url})` : "none",
+      backgroundImage: url ? `url(${url})` : 'none',
       backgroundRepeat: repeat,
       backgroundSize: size,
       backgroundPosition: `${horizontal} ${vertical}`,
@@ -36,10 +36,10 @@ export default (property: Ref<TComponent>) => {
     const base: { [key: string]: any } = {
       height: formatPositionValues(property.value.height)
         ? formatPositionValues(property.value.height)
-        : property.value.id === "root"
+        : property.value.id === 'root'
         ? 0
-        : "auto",
-      width: formatPositionValues(property.value.width) || "auto",
+        : 'auto',
+      width: formatPositionValues(property.value.width) || 'auto',
       fontSize: formatPositionValues(property.value.fontSize),
       position: property.value.position,
       top: formatPositionValues(property.value.top),

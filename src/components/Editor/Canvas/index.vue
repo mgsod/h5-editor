@@ -65,23 +65,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, provide, ref, watch } from "vue";
-import { useStore } from "@/store";
-import useDragEffect from "@/hooks/useDrag";
-import ComponentWrapper from "@/components/Editor/BuiltInComponents/ComponentWrapper/index.vue";
-import useVirtualBorder from "@/hooks/useVirtualBorder";
-import useResize from "@/hooks/useResize";
-import useContextmenu from "@/hooks/useContextmenu";
-import contextmenu from "@/components/Editor/Contextmenu/index.vue";
-import { TComponent } from "@/components/Editor/ComponentTypes";
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { findItemById } from "@/util";
-import eventBus, { EventType } from "@/hooks/useEventBus";
+import { computed, defineComponent, onMounted, provide, ref, watch } from 'vue';
+import { useStore } from '@/store';
+import useDragEffect from '@/hooks/useDrag';
+import ComponentWrapper from '@/components/Editor/BuiltInComponents/ComponentWrapper/index.vue';
+import useVirtualBorder from '@/hooks/useVirtualBorder';
+import useResize from '@/hooks/useResize';
+import useContextmenu from '@/hooks/useContextmenu';
+import contextmenu from '@/components/Editor/Contextmenu/index.vue';
+import { TComponent } from '@/components/Editor/ComponentTypes';
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import { findItemById } from '@/util';
+import eventBus, { EventType } from '@/hooks/useEventBus';
 
-type IDirection = "top" | "right" | "bottom" | "left";
+type IDirection = 'top' | 'right' | 'bottom' | 'left';
 
 export default defineComponent({
-  name: "H5canvas",
+  name: 'H5canvas',
   components: { ComponentWrapper, contextmenu },
   setup() {
     const { preventDefault, position, showContextmenu, closeContextmenu } =
@@ -102,7 +102,7 @@ export default defineComponent({
     // 为避免递归组件中事件一层一层上传（不是原生事件冒泡，而是要获取到最里面一层的组件，需要一层层往外传，这样每一层都会触发一次事件，过于浪费）
     // 在这个组件中提供一个 mouseDownEventHandler 鼠标按下的事件给所有自组件
     // 自组件只需要inject此事件即可从事件触发时的组件直接到这一级
-    provide("mouseDownEventHandler", (e: MouseEvent, component: TComponent) => {
+    provide('mouseDownEventHandler', (e: MouseEvent, component: TComponent) => {
       //e.preventDefault();
       e.stopPropagation();
       const target = getUnlockParent(component.id);
@@ -110,14 +110,14 @@ export default defineComponent({
     });
 
     // 同上
-    provide("contextmenuHandler", (e: MouseEvent, item: TComponent) => {
+    provide('contextmenuHandler', (e: MouseEvent, item: TComponent) => {
       preventDefault(e);
       const target = getUnlockParent(item.id);
       contextmenuComponent.value = target;
       selectComponent(target);
     });
 
-    provide("isPreview", false);
+    provide('isPreview', false);
 
     function getUnlockParent(id: string): TComponent {
       const component = findItemById(
@@ -132,7 +132,7 @@ export default defineComponent({
     }
 
     // 同上
-    provide("componentSelectHandler", (e: MouseEvent, item: TComponent) => {
+    provide('componentSelectHandler', (e: MouseEvent, item: TComponent) => {
       e.stopPropagation();
       closeContextmenu();
       selectComponent(item);
@@ -164,11 +164,11 @@ export default defineComponent({
         eventBus.$emit(EventType.updateBorder);
       };
       const resizeEnd = () => {
-        document.removeEventListener("mouseup", resizeEnd);
-        document.removeEventListener("mousemove", resizeMove);
+        document.removeEventListener('mouseup', resizeEnd);
+        document.removeEventListener('mousemove', resizeMove);
       };
-      document.addEventListener("mousemove", resizeMove);
-      document.addEventListener("mouseup", resizeEnd);
+      document.addEventListener('mousemove', resizeMove);
+      document.addEventListener('mouseup', resizeEnd);
     };
 
     const contextmenuComponent = ref();
@@ -202,56 +202,56 @@ export default defineComponent({
       }),
       getPointStyle(flag: string) {
         let {
-          left = "",
-          top = "",
-          height = "",
-          width = "",
+          left = '',
+          top = '',
+          height = '',
+          width = '',
         } = borderStyle.value;
-        left = parseFloat(left) - 1.5 + "px";
-        top = parseFloat(top) - 1.5 + "px";
-        width = parseFloat(width) - 1.5 + "px";
-        height = parseFloat(height) - 1.5 + "px";
+        left = parseFloat(left) - 1.5 + 'px';
+        top = parseFloat(top) - 1.5 + 'px';
+        width = parseFloat(width) - 1.5 + 'px';
+        height = parseFloat(height) - 1.5 + 'px';
         const maxWidth = `${parseFloat(left) + parseFloat(width)}px`;
         const halfWidth = `${parseFloat(left) + parseFloat(width) / 2}px`;
         const maxHeight = `${parseFloat(top) + parseFloat(height)}px`;
         const halfHeight = `${parseFloat(top) + parseFloat(height) / 2}px`;
         switch (flag) {
-          case "lt":
+          case 'lt':
             return {
               left: left,
               top,
             };
-          case "rt":
+          case 'rt':
             return {
               left: maxWidth,
               top,
             };
-          case "rb":
+          case 'rb':
             return {
               left: maxWidth,
               top: maxHeight,
             };
-          case "lb":
+          case 'lb':
             return {
               left,
               top: maxHeight,
             };
-          case "l":
+          case 'l':
             return {
               left,
               top: halfHeight,
             };
-          case "r":
+          case 'r':
             return {
               left: maxWidth,
               top: halfHeight,
             };
-          case "t":
+          case 't':
             return {
               left: halfWidth,
               top,
             };
-          case "b":
+          case 'b':
             return {
               left: halfWidth,
               top: maxHeight,

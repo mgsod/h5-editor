@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from "vue";
-import { objectFit } from "@/components/Editor/BuiltInComponents/Img/index";
-import { ComponentType } from "@/components/Editor/ComponentTypes";
-import { getBorderRadius } from "@/hooks/useStyle";
+import { defineComponent, PropType, computed } from 'vue';
+import { objectFit } from '@/components/Editor/BuiltInComponents/Img/index';
+import { ComponentType } from '@/components/Editor/ComponentTypes';
+import { getBorderRadius } from '@/hooks/useStyle';
 
 export default defineComponent({
   name: ComponentType.Img,
@@ -39,7 +39,7 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-.component-wrapper[data-type="HImg"] {
+.component-wrapper[data-type='HImg'] {
   // 解决img标签在div中，底部呈现4px空隙
   font-size: 0;
 }

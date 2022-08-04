@@ -1,17 +1,17 @@
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { ComponentType, TComponent } from "@/components/Editor/ComponentTypes";
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import { ComponentType, TComponent } from '@/components/Editor/ComponentTypes';
 import {
   mutationWithSnapshot,
   updateSelectedComponent,
-} from "@/store/Editor/util";
-import { IPage, IState } from "@/store/Editor";
-import { findItemAndParentById, findItemById } from "@/util";
-import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
-import eventBus, { EventType } from "@/hooks/useEventBus";
-import { IContainer } from "@/components/Editor/BuiltInComponents/Container";
-import { MutationTree } from "vuex";
-import { ITab } from "@/components/Editor/TrilateralComponents/Vant/Tab";
-import { ElMessageBox } from "element-plus";
+} from '@/store/Editor/util';
+import { IPage, IState } from '@/store/Editor';
+import { findItemAndParentById, findItemById } from '@/util';
+import { IComponent } from '@/components/Editor/BuiltInComponents/Component';
+import eventBus, { EventType } from '@/hooks/useEventBus';
+import { IContainer } from '@/components/Editor/BuiltInComponents/Container';
+import { MutationTree } from 'vuex';
+import { ITab } from '@/components/Editor/TrilateralComponents/Vant/Tab';
+import { ElMessageBox } from 'element-plus';
 
 const componentMutations: MutationTree<IState> = {
   // 新增一个组件
@@ -123,8 +123,8 @@ const componentMutations: MutationTree<IState> = {
   ) => {
     if (state.extractComponents.find((item) => item.name === name)) {
       return ElMessageBox({
-        type: "warning",
-        title: "错误",
+        type: 'warning',
+        title: '错误',
         message: `${name}组件已存在`,
       });
     }

@@ -14,26 +14,26 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { ElUploadRequestOptions } from "element-plus/es/components/upload/src/upload.type";
-import axios from "@/axios";
+import { defineComponent, ref } from 'vue';
+import { ElUploadRequestOptions } from 'element-plus/es/components/upload/src/upload.type';
+import axios from '@/axios';
 
 export default defineComponent({
-  name: "Uploader",
+  name: 'Uploader',
   props: {},
   components: {},
-  emits: ["success"],
+  emits: ['success'],
   setup(props, { emit }) {
     const uploader = ref();
     const upload = (params: ElUploadRequestOptions) => {
       const { action, file } = params;
       const fd = new FormData();
-      fd.append("singleFile", file, file.name);
+      fd.append('singleFile', file, file.name);
       axios
         .post(action, fd)
         .then((res) => {
           if (res.code === 200) {
-            emit("success", res.data);
+            emit('success', res.data);
           }
         })
         .finally(() => {

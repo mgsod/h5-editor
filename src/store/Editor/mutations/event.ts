@@ -1,17 +1,17 @@
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { IEvent } from "@/components/Editor/Event";
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import { IEvent } from '@/components/Editor/Event';
 import {
   mutationWithSnapshot,
   updateSelectedComponent,
-} from "@/store/Editor/util";
-import { IPage, IState } from "@/store/Editor";
-import { findItemById } from "@/util";
-import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
-import { MutationTree } from "vuex";
+} from '@/store/Editor/util';
+import { IPage, IState } from '@/store/Editor';
+import { findItemById } from '@/util';
+import { IComponent } from '@/components/Editor/BuiltInComponents/Component';
+import { MutationTree } from 'vuex';
 import {
   PartOfComponent,
   TComponent,
-} from "@/components/Editor/ComponentTypes";
+} from '@/components/Editor/ComponentTypes';
 
 const eventMutations: MutationTree<IState> = {
   // 添加一个事件

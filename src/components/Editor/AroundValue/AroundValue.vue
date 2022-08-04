@@ -82,18 +82,18 @@ import {
   ref,
   watch,
   watchEffect,
-} from "vue";
-import { IAroundValue } from "@/components/Editor/BuiltInComponents/Component";
-import ComputedModel from "@/components/Editor/AroundValue/ComputedModel.vue";
+} from 'vue';
+import { IAroundValue } from '@/components/Editor/BuiltInComponents/Component';
+import ComputedModel from '@/components/Editor/AroundValue/ComputedModel.vue';
 import {
   BorderStyle,
   borderStyleList,
-} from "@/components/Editor/BuiltInComponents/Layout";
-import { useStore } from "@/store";
+} from '@/components/Editor/BuiltInComponents/Layout';
+import { useStore } from '@/store';
 
-export type areaKey = "padding" | "margin" | "border" | "position";
+export type areaKey = 'padding' | 'margin' | 'border' | 'position';
 type areaColor = Record<areaKey, string>;
-export type positionKey = "top" | "right" | "bottom" | "left";
+export type positionKey = 'top' | 'right' | 'bottom' | 'left';
 type areaValue = number | string | undefined;
 
 interface IModelValue {
@@ -109,7 +109,7 @@ export interface IModel {
 }
 
 export default defineComponent({
-  name: "AroundValue",
+  name: 'AroundValue',
   props: {
     padding: Object as PropType<IAroundValue>,
     margin: Object as PropType<IAroundValue>,
@@ -125,8 +125,8 @@ export default defineComponent({
   components: { ComputedModel },
   setup(props, { emit }) {
     const store = useStore();
-    const position: positionKey[] = ["top", "right", "bottom", "left"];
-    const selected = ref<areaKey | "">("");
+    const position: positionKey[] = ['top', 'right', 'bottom', 'left'];
+    const selected = ref<areaKey | ''>('');
     const isChange = ref(false);
     const aroundValues: {
       top: areaValue;
@@ -146,26 +146,26 @@ export default defineComponent({
       set(val?: string) {
         let arr: string[] = [];
         if (val) {
-          arr = val.split(",");
+          arr = val.split(',');
           const hasLength = arr.length;
           if (arr.length < 4) {
             for (let i = hasLength; i < 4; i++) {
-              arr.push("0");
+              arr.push('0');
             }
           }
           if (arr.length > 4) {
             arr.length = 4;
           }
         }
-        emit("update:borderRadius", arr.toString());
+        emit('update:borderRadius', arr.toString());
       },
     });
     const selectedArea = (select: areaKey) => {
-      if (store.state.editor.selectedComponents?.id === "root") return;
+      if (store.state.editor.selectedComponents?.id === 'root') return;
       isChange.value = true;
       selected.value = select;
       let top, left, bottom, right;
-      if (select === "position") {
+      if (select === 'position') {
         ({ top, left, bottom, right } = props);
       } else if (props[select]) {
         ({ top, left, bottom, right } = props[select] as IAroundValue);
@@ -178,48 +178,48 @@ export default defineComponent({
         isChange.value = false;
       });
     };
-    const componentSize = ref("");
+    const componentSize = ref('');
     const computedModelTree: IModel = reactive({
-      name: "position",
-      label: "定位",
+      name: 'position',
+      label: '定位',
       values: position.map((item) => {
         return {
           name: item,
           value: computed(() => {
-            return props[item] || "-";
+            return props[item] || '-';
           }),
         };
       }),
       child: {
-        name: "margin",
-        label: "外边距",
+        name: 'margin',
+        label: '外边距',
         values: position.map((item) => {
           return {
             name: item,
             value: computed(() => {
-              return props.margin ? props.margin[item] : "-";
+              return props.margin ? props.margin[item] : '-';
             }),
           };
         }),
         child: {
-          name: "border",
-          label: "边框",
+          name: 'border',
+          label: '边框',
           values: position.map((item) => {
             return {
               name: item,
               value: computed(() => {
-                return props.border ? props.border[item] : "-";
+                return props.border ? props.border[item] : '-';
               }),
             };
           }),
           child: {
-            name: "padding",
-            label: "内边距",
+            name: 'padding',
+            label: '内边距',
             values: position.map((item) => {
               return {
                 name: item,
                 value: computed(() => {
-                  return props.padding ? props.padding[item] : "-";
+                  return props.padding ? props.padding[item] : '-';
                 }),
               };
             }),
@@ -228,14 +228,14 @@ export default defineComponent({
       },
     });
     const selectedComponents = computed(() => {
-      return store.state.editor.selectedComponents || { id: "none" };
+      return store.state.editor.selectedComponents || { id: 'none' };
     });
     const BorderStyle = computed({
       get() {
         return props.borderStyle;
       },
       set(val) {
-        emit("update:borderStyle", val);
+        emit('update:borderStyle', val);
       },
     });
     const BorderColor = computed({
@@ -243,13 +243,13 @@ export default defineComponent({
         return props.borderColor;
       },
       set(val) {
-        emit("update:borderColor", val);
+        emit('update:borderColor', val);
       },
     });
 
     watch(aroundValues, (a, b) => {
       if (isChange.value || !selected.value) return;
-      if (selected.value === "position") {
+      if (selected.value === 'position') {
         position.forEach((item: positionKey) => {
           emit(`update:${item}`, aroundValues[item]);
         });
@@ -262,7 +262,7 @@ export default defineComponent({
     });
     // 只有切换了选择的组件才会触发
     watch(selectedComponentId, () => {
-      selected.value = "";
+      selected.value = '';
       aroundValues.top = undefined;
       aroundValues.bottom = undefined;
       aroundValues.left = undefined;
@@ -307,7 +307,7 @@ export default defineComponent({
       BorderStyle,
       BorderRadius,
       defaultValue(val?: number) {
-        return val || "-";
+        return val || '-';
       },
       selectedArea,
     };

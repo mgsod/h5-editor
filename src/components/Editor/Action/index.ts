@@ -1,12 +1,12 @@
 // 动作类型
-import { IRedirect } from "@/components/Editor/Action/redirect";
-import { IAlert } from "@/components/Editor/Action/alert";
-export type ActionType = "redirect" | "alert";
+import { IRedirect } from '@/components/Editor/Action/redirect';
+import { IAlert } from '@/components/Editor/Action/alert';
+export type ActionType = 'redirect' | 'alert';
 
 // 动作参数
 export type ActionProps = IRedirect & IAlert;
 
 export const ActionList: { name: string; value: ActionType }[] = [
-  { name: "链接跳转", value: "redirect" },
-  { name: "弹窗", value: "alert" },
+  { name: '链接跳转', value: 'redirect' },
+  { name: '弹窗', value: 'alert' },
 ];

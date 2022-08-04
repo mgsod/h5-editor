@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
-import { ComponentType } from "@/components/Editor/ComponentTypes";
-import { formatPositionValues } from "@/util";
+import { defineComponent, computed } from 'vue';
+import { ComponentType } from '@/components/Editor/ComponentTypes';
+import { formatPositionValues } from '@/util';
 
 export default defineComponent({
   name: ComponentType.Container,
@@ -43,10 +43,10 @@ export default defineComponent({
         fontFamily: props.fontFamily,
         lineHeight: props.lineHeight
           ? formatPositionValues(props.lineHeight)
-          : "normal",
+          : 'normal',
         fontSize: props.fontSize
           ? formatPositionValues(props.fontSize)
-          : "inherit",
+          : 'inherit',
       };
     });
     return {

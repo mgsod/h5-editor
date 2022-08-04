@@ -10,22 +10,22 @@
 </template>
 
 <script lang="ts">
-import Sidebar from "@/components/Editor/Sidebar/index.vue";
-import PropertyBar from "@/components/Editor/SettingBar/index.vue";
-import H5Canvas from "@/components/Editor/Canvas/index.vue";
-import { useStore } from "@/store";
-import { onMounted, provide, reactive } from "vue";
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import Header from "@/components/Editor/Header/Header.vue";
-import axios from "@/axios/index";
-import { IDocument } from "../../../server/src/document";
-import { useRoute, useRouter } from "vue-router";
-import { getCache } from "@/util";
-import { CACHE_KEY, IEditorCache } from "@/store/Editor/util";
-import { ElMessage } from "element-plus";
+import Sidebar from '@/components/Editor/Sidebar/index.vue';
+import PropertyBar from '@/components/Editor/SettingBar/index.vue';
+import H5Canvas from '@/components/Editor/Canvas/index.vue';
+import { useStore } from '@/store';
+import { onMounted, provide, reactive } from 'vue';
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import Header from '@/components/Editor/Header/Header.vue';
+import axios from '@/axios/index';
+import { IDocument } from '../../../server/src/document';
+import { useRoute, useRouter } from 'vue-router';
+import { getCache } from '@/util';
+import { CACHE_KEY, IEditorCache } from '@/store/Editor/util';
+import { ElMessage } from 'element-plus';
 
 export default {
-  name: "Index",
+  name: 'Index',
   props: {},
   components: {
     Sidebar,
@@ -41,12 +41,12 @@ export default {
     } = route;
 
     const documentInfo = reactive<IDocument>({
-      name: "",
-      _id: "",
+      name: '',
+      _id: '',
       content: [],
-      cover: "",
+      cover: '',
     });
-    provide("documentInfo", documentInfo);
+    provide('documentInfo', documentInfo);
     const store = useStore();
     store.commit(MUTATION_TYPE.INIT);
 
@@ -73,9 +73,9 @@ export default {
               (content.pages[0] as any).id
             );
           } else {
-            ElMessage.error("该文档不存在,新建一个空白文档");
+            ElMessage.error('该文档不存在,新建一个空白文档');
             router.push({
-              name: "editor",
+              name: 'editor',
             });
           }
           loadByLocalCache();
@@ -85,26 +85,26 @@ export default {
       loadByLocalCache();
     }
     onMounted(() => {
-      document.addEventListener("keydown", (e) => {
+      document.addEventListener('keydown', (e) => {
         switch (e.code) {
-          case "KeyZ":
+          case 'KeyZ':
             if (e.ctrlKey || e.metaKey) {
               e.preventDefault();
               store.commit(MUTATION_TYPE.UNDO);
             }
             break;
-          case "KeyY":
+          case 'KeyY':
             if (e.ctrlKey || e.metaKey) {
               e.preventDefault();
               store.commit(MUTATION_TYPE.REDO);
             }
             break;
-          case "KeyA":
+          case 'KeyA':
             if (e.ctrlKey || e.metaKey) {
               console.log(11);
             }
             break;
-          case "Backspace":
+          case 'Backspace':
             //e.preventDefault();
             //store.commit(MUTATION_TYPE.REMOVE_COMPONENT);
             break;

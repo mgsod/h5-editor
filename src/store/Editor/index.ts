@@ -1,11 +1,11 @@
-import { Module } from "vuex";
-import mutations from "@/store/Editor/mutations";
-import { state } from "@/store";
-import getters from "@/store/Editor/getters";
+import { Module } from 'vuex';
+import mutations from '@/store/Editor/mutations';
+import { state } from '@/store';
+import getters from '@/store/Editor/getters';
 import {
   PartOfComponent,
   TComponent,
-} from "@/components/Editor/ComponentTypes";
+} from '@/components/Editor/ComponentTypes';
 
 export interface IPage {
   order: number;
@@ -32,7 +32,7 @@ export interface IState {
 
 const module: Module<IState, state> = {
   state: {
-    pageActive: "",
+    pageActive: '',
     pages: [],
     selectedComponents: null,
     allowRedo: false,

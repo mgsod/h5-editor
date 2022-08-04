@@ -1,12 +1,12 @@
 import {
   BorderStyle,
   Position,
-} from "@/components/Editor/BuiltInComponents/Layout";
-import { v4 as uuidv4 } from "uuid";
-import { fastInitProps } from "@/util";
-import { ComponentType } from "@/components/Editor/ComponentTypes";
-import { IEvent } from "@/components/Editor/Event";
-import { DISPLAY } from "@/components/Editor/BuiltInComponents/Container";
+} from '@/components/Editor/BuiltInComponents/Layout';
+import { v4 as uuidv4 } from 'uuid';
+import { fastInitProps } from '@/util';
+import { ComponentType } from '@/components/Editor/ComponentTypes';
+import { IEvent } from '@/components/Editor/Event';
+import { DISPLAY } from '@/components/Editor/BuiltInComponents/Container';
 
 export interface IBackground {
   color?: string;
@@ -56,20 +56,20 @@ export interface IComponent {
 abstract class Component implements IComponent {
   abstract type: ComponentType;
   id: string;
-  width: string | number = "";
+  width: string | number = '';
   height: string | number = 100;
-  position: Position = "static";
+  position: Position = 'static';
   lock = false;
-  alias?: string = "";
-  borderRadius?: string = "0,0,0,0";
-  borderStyle: BorderStyle = "solid";
+  alias?: string = '';
+  borderRadius?: string = '0,0,0,0';
+  borderStyle: BorderStyle = 'solid';
   background: IBackground = {
-    color: "",
-    url: "",
-    size: "",
-    horizontal: "",
-    vertical: "",
-    repeat: "",
+    color: '',
+    url: '',
+    size: '',
+    horizontal: '',
+    vertical: '',
+    repeat: '',
   };
   display: DISPLAY = DISPLAY.BLOCK;
 

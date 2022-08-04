@@ -1,16 +1,16 @@
-import { IPage, IState } from "@/store/Editor/index";
-import { v4 as uuidv4 } from "uuid";
-import { findItemById, getCache } from "@/util";
-import { DiffPatcher } from "@/util/diffpatch";
-import ComponentFactory from "@/components/Editor/Factory";
+import { IPage, IState } from '@/store/Editor/index';
+import { v4 as uuidv4 } from 'uuid';
+import { findItemById, getCache } from '@/util';
+import { DiffPatcher } from '@/util/diffpatch';
+import ComponentFactory from '@/components/Editor/Factory';
 import {
   ComponentType,
   PartOfComponent,
   TComponent,
-} from "@/components/Editor/ComponentTypes";
+} from '@/components/Editor/ComponentTypes';
 
 // 缓存key
-export const CACHE_KEY = "editorData";
+export const CACHE_KEY = 'editorData';
 
 export interface IEditorCache {
   editorData: IState;
@@ -36,12 +36,12 @@ export const addPage = (state: IState) => {
   state.pageActive = id;
   (state.pages.find((item) => item.id === id) as IPage).components.push(
     ComponentFactory.createComponent(ComponentType.Container, {
-      id: "root",
+      id: 'root',
       width: 375,
-      height: "",
-      position: "relative",
+      height: '',
+      position: 'relative',
       isRoot: true,
-      alias: "根组件",
+      alias: '根组件',
     })
   );
   state.selectedComponents = null;

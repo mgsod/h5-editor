@@ -1,11 +1,11 @@
-import { ref, reactive, Ref } from "vue";
+import { ref, reactive, Ref } from 'vue';
 
 const contextMens: { id: string; show: Ref<boolean> }[] = [];
-document.addEventListener("click", closeHandler);
+document.addEventListener('click', closeHandler);
 
 function closeHandler(e: MouseEvent) {
   const target = e.target as HTMLElement;
-  if (!target.closest(".contextmenu")) {
+  if (!target.closest('.contextmenu')) {
     closeContextmenu();
   }
 }
@@ -16,7 +16,7 @@ function closeContextmenu() {
   });
 }
 
-export default (id = "default") => {
+export default (id = 'default') => {
   const showContextmenu = ref(false);
   contextMens.push({
     id,

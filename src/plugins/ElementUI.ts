@@ -1,4 +1,4 @@
-import { App } from "vue";
+import { App } from 'vue';
 import {
   ElButton,
   ElSelect,
@@ -32,11 +32,11 @@ import {
   ElDropdownMenu,
   ElDropdownItem,
   ElUpload,
-} from "element-plus";
+} from 'element-plus';
 
 export default (app: App) => {
   app.config.globalProperties.$ELEMENT = {
-    size: "small",
+    size: 'small',
   };
   app
     .use(ElButton)

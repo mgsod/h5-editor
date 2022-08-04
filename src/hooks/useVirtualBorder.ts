@@ -1,8 +1,8 @@
-import { useStore } from "@/store";
-import { nextTick, ref, watch, computed, Ref, reactive } from "vue";
-import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
-import { findItemById } from "@/util";
-import eventBus, { EventType } from "@/hooks/useEventBus";
+import { useStore } from '@/store';
+import { nextTick, ref, watch, computed, Ref, reactive } from 'vue';
+import { IComponent } from '@/components/Editor/BuiltInComponents/Component';
+import { findItemById } from '@/util';
+import eventBus, { EventType } from '@/hooks/useEventBus';
 
 interface borderStyle {
   left?: string;
@@ -12,7 +12,7 @@ interface borderStyle {
   display?: string;
 }
 
-type IDirection = "top" | "right" | "bottom" | "left";
+type IDirection = 'top' | 'right' | 'bottom' | 'left';
 type BorderValues = Record<IDirection, borderStyle>;
 
 export default (): {
@@ -26,7 +26,7 @@ export default (): {
   const enterContainerBorderStyle = ref<borderStyle>({});
   let currentDom: HTMLElement | null = null;
   let enterContainerDom: HTMLElement | null = null;
-  const borderLine: IDirection[] = ["top", "right", "bottom", "left"];
+  const borderLine: IDirection[] = ['top', 'right', 'bottom', 'left'];
   const borderValues: BorderValues = reactive({
     left: {},
     top: {},
@@ -53,14 +53,14 @@ export default (): {
   const getBorderStyle = (flag: IDirection, isDrag = false) => {
     const border = isDrag ? enterContainerBorderStyle : borderStyle;
     switch (flag) {
-      case "top":
+      case 'top':
         return {
           width: border.value.width,
           left: border.value.left,
           top: border.value.top,
           display: border.value.display,
         };
-      case "bottom":
+      case 'bottom':
         return {
           width: border.value.width,
           left: border.value.left,
@@ -70,14 +70,14 @@ export default (): {
           }px`,
           display: border.value.display,
         };
-      case "left":
+      case 'left':
         return {
           height: border.value.height,
           left: border.value.left,
           top: border.value.top,
           display: border.value.display,
         };
-      case "right":
+      case 'right':
         return {
           height: border.value.height,
           left: `${
@@ -116,14 +116,14 @@ export default (): {
       const { left, top, width, height } =
         enterContainerDom.getBoundingClientRect();
       return {
-        left: left + "px",
-        top: top + "px",
-        width: width + "px",
-        height: height + "px",
+        left: left + 'px',
+        top: top + 'px',
+        width: width + 'px',
+        height: height + 'px',
       };
     }
     return {
-      display: "none",
+      display: 'none',
     };
   };
 
@@ -140,20 +140,20 @@ export default (): {
     ) {
       const { left, top, width, height } = currentDom.getBoundingClientRect();
       return {
-        left: left + "px",
-        top: top + "px",
-        width: width + "px",
-        height: height + "px",
+        left: left + 'px',
+        top: top + 'px',
+        width: width + 'px',
+        height: height + 'px',
       };
     }
     return {
-      display: "none",
+      display: 'none',
     };
   };
 
   // 选中组件
   const selectComponentId = computed(() => {
-    return store.state.editor.selectedComponents?.id || "";
+    return store.state.editor.selectedComponents?.id || '';
   });
 
   // 选中组件尺寸变化
@@ -172,13 +172,13 @@ export default (): {
       };
     }
     return {
-      left: "",
-      right: "",
-      top: "",
-      bottom: "",
-      width: "",
-      height: "",
-      margin: "",
+      left: '',
+      right: '',
+      top: '',
+      bottom: '',
+      width: '',
+      height: '',
+      margin: '',
     };
   });
 
@@ -214,10 +214,10 @@ export default (): {
           borderStyle.value = computedBorderStyle();
         };
       });
-      (document.getElementById("canvas") as HTMLElement).onscroll = () => {
+      (document.getElementById('canvas') as HTMLElement).onscroll = () => {
         borderStyle.value = computedBorderStyle();
       };
-      (document.getElementById("canvas-wrapper") as HTMLElement).onscroll =
+      (document.getElementById('canvas-wrapper') as HTMLElement).onscroll =
         () => {
           borderStyle.value = computedBorderStyle();
         };
@@ -258,7 +258,7 @@ export default (): {
     }
     borderStyle.value = computedBorderStyle();
   });
-  window.addEventListener("resize", () => {
+  window.addEventListener('resize', () => {
     borderStyle.value = computedBorderStyle();
   });
 

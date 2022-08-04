@@ -1,5 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { ElMessage } from "element-plus";
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { ElMessage } from 'element-plus';
 
 export interface CustomInstance {
   get<T = any, D = any>(
@@ -43,7 +43,7 @@ interface IResponse<T = any> {
 
 const instance = axios.create();
 instance.interceptors.request.use((config) => {
-  config.baseURL = "/api";
+  config.baseURL = '/api';
   return config;
 });
 instance.interceptors.response.use((res: AxiosResponse<IResponse>) => {

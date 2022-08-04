@@ -7,36 +7,36 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, ref } from "vue";
-import { useStore } from "@/store";
-import { downLoadContent } from "@/util";
-import { ElMessageBox } from "element-plus";
-import cloneDeep from "lodash/cloneDeep";
-import { IDocument } from "../../../../server/src/document";
-import { useRouter } from "vue-router";
-import html2canvas from "html2canvas";
-import { CACHE_KEY } from "@/store/Editor/util";
-import { addDocument, updateDocument } from "@/api/document";
-import { ElMessage } from "element-plus";
+import { defineComponent, inject, ref } from 'vue';
+import { useStore } from '@/store';
+import { downLoadContent } from '@/util';
+import { ElMessageBox } from 'element-plus';
+import cloneDeep from 'lodash/cloneDeep';
+import { IDocument } from '../../../../server/src/document';
+import { useRouter } from 'vue-router';
+import html2canvas from 'html2canvas';
+import { CACHE_KEY } from '@/store/Editor/util';
+import { addDocument, updateDocument } from '@/api/document';
+import { ElMessage } from 'element-plus';
 
 export default defineComponent({
-  name: "Header",
+  name: 'Header',
   props: {},
   components: {},
   setup() {
     const store = useStore();
     const router = useRouter();
-    const documentInfo = inject<IDocument>("documentInfo");
-    const coverR = ref("");
+    const documentInfo = inject<IDocument>('documentInfo');
+    const coverR = ref('');
     const getCanvasByHtml2canvas = (): Promise<HTMLCanvasElement> => {
-      let bigCanvas = document.createElement("canvas");
+      let bigCanvas = document.createElement('canvas');
 
       const dashboard_canvas = (
-        document.getElementById("root") as HTMLElement
+        document.getElementById('root') as HTMLElement
       ).cloneNode(true) as HTMLElement;
       bigCanvas.height = dashboard_canvas.scrollHeight * 2;
       bigCanvas.width = dashboard_canvas.scrollWidth * 2;
-      dashboard_canvas.style.height = "600px";
+      dashboard_canvas.style.height = '600px';
       document.body.appendChild(dashboard_canvas);
       return new Promise((resolve) => {
         html2canvas(dashboard_canvas, {
@@ -60,15 +60,15 @@ export default defineComponent({
       },
       async save() {
         const canvas = await getCanvasByHtml2canvas();
-        const cover = canvas.toDataURL("image/png", 1.0);
-        ElMessageBox.prompt("请输入文稿名称", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
+        const cover = canvas.toDataURL('image/png', 1.0);
+        ElMessageBox.prompt('请输入文稿名称', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
           inputValue:
             documentInfo?.name ||
-            `文稿${new Date().toLocaleDateString().replace("/", "")}`,
+            `文稿${new Date().toLocaleDateString().replace('/', '')}`,
           inputValidator(v) {
-            if (!v) return "请输入文稿名称";
+            if (!v) return '请输入文稿名称';
             return true;
           },
         }).then(({ value: name }) => {
@@ -81,7 +81,7 @@ export default defineComponent({
               ),
             },
             cover,
-            _id: "",
+            _id: '',
           };
 
           // 更新
@@ -89,16 +89,16 @@ export default defineComponent({
             data._id = documentInfo._id;
             updateDocument(data).then((res) => {
               if (res.code === 200) {
-                ElMessage.success("更新成功");
+                ElMessage.success('更新成功');
               }
             });
           } else {
             addDocument(data).then((res) => {
               if (res.code === 200) {
                 const { _id } = res.data;
-                ElMessage.success("添加成功");
+                ElMessage.success('添加成功');
                 router.push({
-                  path: "/editor",
+                  path: '/editor',
                   query: {
                     id: _id,
                   },

@@ -1,10 +1,10 @@
 /**
  * 给组件绑定自定义事件
  */
-import { ref, onMounted } from "vue";
-import { EventType, IEvent, EventTypeKey } from "@/components/Editor/Event";
-import { ActionFactory } from "@/components/Editor/Action/factory";
-import { Action } from "@/components/Editor/Action/abstractAction";
+import { ref, onMounted } from 'vue';
+import { EventType, IEvent, EventTypeKey } from '@/components/Editor/Event';
+import { ActionFactory } from '@/components/Editor/Action/factory';
+import { Action } from '@/components/Editor/Action/abstractAction';
 
 export default (events?: IEvent[]) => {
   const root = ref();
@@ -56,7 +56,7 @@ export default (events?: IEvent[]) => {
           // 开始绑定事件
 
           // 如果是初始化事件
-          if ((eventType as EventType) === "mounted") {
+          if ((eventType as EventType) === 'mounted') {
             trigger(handlePool);
           } else {
             // 其他类型事件，均通过ref绑定在dom元素上

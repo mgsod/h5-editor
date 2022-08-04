@@ -11,9 +11,9 @@
           <el-menu-item index="/documents">
             <span>文档库</span>
           </el-menu-item>
-          <!--          <el-menu-item index="/components">
+          <!-- <el-menu-item index="/components">
                       <span>自定义组件库</span>
-                    </el-menu-item>-->
+                    </el-menu-item> -->
         </el-menu>
       </div>
       <div class="content-container">
@@ -24,11 +24,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useRoute } from "vue-router";
+import { computed, defineComponent } from 'vue';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
-  name: "Documents",
+  name: 'Documents',
   setup() {
     const route = useRoute();
     const activePage = computed(() => {
@@ -44,20 +44,21 @@ export default defineComponent({
 <style scoped lang="less">
 .page {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   overflow: hidden;
-  flex-direction: column;
 
   .header {
-    background: #001529;
-    width: 100%;
     flex: 0 0 45px;
+    width: 100%;
+    background: #001529;
   }
 
   .content {
     display: flex;
     flex: auto;
     height: 0;
+
     .slider {
       flex: 0 0 200px;
       border-right: solid 1px #e6e6e6;
@@ -68,8 +69,8 @@ export default defineComponent({
     }
 
     .content-container {
-      padding: 8px 15px;
       flex: auto;
+      padding: 8px 15px;
       overflow: scroll;
     }
   }

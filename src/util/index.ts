@@ -1,8 +1,8 @@
-import cloneDeep from "lodash/cloneDeep";
-import debounce from "lodash/debounce";
-import throttle from "lodash/throttle";
-import { Commit } from "vuex";
-import { TComponent } from "@/components/Editor/ComponentTypes";
+import cloneDeep from 'lodash/cloneDeep';
+import debounce from 'lodash/debounce';
+import throttle from 'lodash/throttle';
+import { Commit } from 'vuex';
+import { TComponent } from '@/components/Editor/ComponentTypes';
 
 // 树桩结构接口
 export interface ITree<T> {
@@ -20,7 +20,7 @@ export const fastInitProps = (source: any, target: any) => {
 export const objectMerge = (source: any, target: any) => {
   if (source) {
     for (const prop in source) {
-      if (typeof source === "object") {
+      if (typeof source === 'object') {
         target[prop] = cloneDeep(source[prop]);
       } else {
         target[prop] = source[prop];
@@ -105,7 +105,7 @@ export function getThrottleCommit<T>(commit: Commit, commitType: string) {
 
 export function downLoadContent(name: string, content: string) {
   const link = URL.createObjectURL(new Blob([content]));
-  const a = document.createElement("a");
+  const a = document.createElement('a');
   a.download = name;
   a.href = link;
   a.click();
@@ -118,7 +118,7 @@ export function getCache<T>(key: string): undefined | T {
 
 export const formatPositionValues = (
   val?: number | string,
-  rem = process.env.VUE_APP_LIB === "lib"
+  rem = process.env.VUE_APP_LIB === 'lib'
 ) => {
   if (val === 0 || val) {
     if (rem) {
@@ -126,5 +126,5 @@ export const formatPositionValues = (
     }
     return `${val}px`;
   }
-  return "";
+  return '';
 };

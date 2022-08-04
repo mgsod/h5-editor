@@ -1,20 +1,20 @@
-import { ComponentType } from "@/components/Editor/ComponentTypes";
-import { ICommonText } from "@/components/Editor/BuiltInComponents/CommonInterface/Text";
-import { fastInitProps } from "@/util";
+import { ComponentType } from '@/components/Editor/ComponentTypes';
+import { ICommonText } from '@/components/Editor/BuiltInComponents/CommonInterface/Text';
+import { fastInitProps } from '@/util';
 import Component, {
   IComponent,
-} from "@/components/Editor/BuiltInComponents/Component";
+} from '@/components/Editor/BuiltInComponents/Component';
 
 export const fontFamilyList: { name: string; value: string }[] = [
   {
-    name: "默认",
+    name: '默认',
     value:
       "'PingFang SC', 'STHeitiSC-Light', 'Helvetica-Light', arial,  sans-serif, 'Droid Sans Fallback'",
   },
-  { name: "PingFang-SC-Regular", value: "PingFang-SC-Regular, PingFang-SC" },
-  { name: "PingFangSC-Medium", value: "PingFangSC-Medium, PingFang SC" },
-  { name: "DINAlternate-Bold", value: "DINAlternate-Bold, DINAlternate;" },
-  { name: "继承父级", value: "" },
+  { name: 'PingFang-SC-Regular', value: 'PingFang-SC-Regular, PingFang-SC' },
+  { name: 'PingFangSC-Medium', value: 'PingFangSC-Medium, PingFang SC' },
+  { name: 'DINAlternate-Bold', value: 'DINAlternate-Bold, DINAlternate;' },
+  { name: '继承父级', value: '' },
 ];
 
 export interface IText extends IComponent, ICommonText {
@@ -26,17 +26,17 @@ export interface IText extends IComponent, ICommonText {
 
 class Text extends Component implements IText {
   type = ComponentType.Text;
-  text = "text";
-  color = "";
-  lineHeight = "";
-  fontFamily = "";
-  textAlign = "";
-  fontStyle = "";
-  fontWeight = "";
+  text = 'text';
+  color = '';
+  lineHeight = '';
+  fontFamily = '';
+  textAlign = '';
+  fontStyle = '';
+  fontWeight = '';
   overflow = false;
-  fontSize = "";
+  fontSize = '';
   maxLines = 1;
-  height = "";
+  height = '';
 
   constructor(props?: IText) {
     super(props);

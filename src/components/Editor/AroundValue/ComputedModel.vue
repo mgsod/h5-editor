@@ -25,13 +25,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType } from 'vue';
 import {
   areaKey,
   IModel,
-} from "@/components/Editor/AroundValue/AroundValue.vue";
+} from '@/components/Editor/AroundValue/AroundValue.vue';
 export default defineComponent({
-  name: "ComputedModel",
+  name: 'ComputedModel',
   props: {
     modelTree: Object as PropType<IModel>,
     selected: String as PropType<areaKey>,
@@ -41,10 +41,10 @@ export default defineComponent({
     return {
       select(e: MouseEvent, area: areaKey) {
         e.stopPropagation();
-        emit("selected", area);
+        emit('selected', area);
       },
       updateSelected(area: areaKey) {
-        emit("selected", area);
+        emit('selected', area);
       },
     };
   },

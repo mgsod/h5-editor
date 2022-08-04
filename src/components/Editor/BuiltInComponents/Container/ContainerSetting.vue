@@ -45,8 +45,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from "vue";
-import { ComponentSettingType } from "@/components/Editor/ComponentTypes";
+import { defineComponent, PropType, computed } from 'vue';
+import { ComponentSettingType } from '@/components/Editor/ComponentTypes';
 import {
   DISPLAY,
   displayList,
@@ -54,7 +54,7 @@ import {
   JustifyContentList,
   AlignItemsList,
   FlexDirectionList,
-} from "@/components/Editor/BuiltInComponents/Container/index";
+} from '@/components/Editor/BuiltInComponents/Container/index';
 
 export default defineComponent({
   name: ComponentSettingType.Container,

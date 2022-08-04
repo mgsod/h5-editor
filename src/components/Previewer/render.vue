@@ -17,13 +17,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, ref, toRefs } from "vue";
-import { TComponent } from "@/components/Editor/ComponentTypes";
-import useStyle from "@/hooks/useStyle";
-import useBindEvent from "@/hooks/useBindEvent";
+import { defineComponent, PropType, reactive, ref, toRefs } from 'vue';
+import { TComponent } from '@/components/Editor/ComponentTypes';
+import useStyle from '@/hooks/useStyle';
+import useBindEvent from '@/hooks/useBindEvent';
 
 export default defineComponent({
-  name: "render",
+  name: 'render',
   inheritAttrs: false,
   props: {
     property: {

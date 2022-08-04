@@ -17,9 +17,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent, computed } from "vue";
-import { ComponentType } from "@/components/Editor/ComponentTypes";
-import { Tab, Tabs } from "vant";
+import { defineComponent, defineAsyncComponent, computed } from 'vue';
+import { ComponentType } from '@/components/Editor/ComponentTypes';
+import { Tab, Tabs } from 'vant';
 
 export default defineComponent({
   inheritAttrs: false,
@@ -34,18 +34,18 @@ export default defineComponent({
       required: true,
     },
   },
-  emits: ["updateProps"],
+  emits: ['updateProps'],
   components: {
     [Tab.name]: Tab,
     [Tabs.name]: Tabs,
     componentWrapper: defineAsyncComponent((): any => {
       // 作为库（预览器）打包时，应该用Previewer/render.vue来替代ComponentWrapper组件。因为预览不需要带拖拽选中组件等功能
       // ComponentWrapper作为编辑时使用的组建，不需要打包
-      return process.env.VUE_APP_LIB !== "lib"
+      return process.env.VUE_APP_LIB !== 'lib'
         ? import(
-            "@/components/Editor/BuiltInComponents/ComponentWrapper/index.vue"
+            '@/components/Editor/BuiltInComponents/ComponentWrapper/index.vue'
           )
-        : import("@/components/Previewer/render.vue");
+        : import('@/components/Previewer/render.vue');
     }),
   },
   setup(props, { emit }) {
@@ -54,7 +54,7 @@ export default defineComponent({
         return props.active;
       },
       set() {
-        emit("updateProps", { active: privateActive.value });
+        emit('updateProps', { active: privateActive.value });
       },
     });
     return {

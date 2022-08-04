@@ -19,12 +19,12 @@ import {
   toRefs,
   watch,
   PropType,
-} from "vue";
-import { NavBar } from "vant";
-import { ComponentType } from "@/components/Editor/ComponentTypes";
-import { Router } from "@/components/Previewer/router";
-import { scaleLinear } from "d3-scale";
-import { IBackground } from "@/components/Editor/BuiltInComponents/Component";
+} from 'vue';
+import { NavBar } from 'vant';
+import { ComponentType } from '@/components/Editor/ComponentTypes';
+import { Router } from '@/components/Previewer/router';
+import { scaleLinear } from 'd3-scale';
+import { IBackground } from '@/components/Editor/BuiltInComponents/Component';
 
 export default defineComponent({
   inheritAttrs: false,
@@ -57,7 +57,7 @@ export default defineComponent({
   setup(props) {
     const headerHeight = 46;
     const { fullScreen, color, background } = toRefs(props);
-    const router = inject("router") as Router;
+    const router = inject('router') as Router;
 
     const privateColor = ref(color.value);
     const bgColor = ref(background.value.color);
@@ -70,29 +70,29 @@ export default defineComponent({
         if (!fullScreen.value) {
           rootContainer.style.paddingTop = `${headerHeight}px`;
         } else {
-          rootContainer.style.paddingTop = "0";
+          rootContainer.style.paddingTop = '0';
         }
       }
     };
     watch(fullScreen, setHeaderMargin);
     onMounted(() => {
-      const root = navbar.value.$el.closest(".h-container") as HTMLElement;
+      const root = navbar.value.$el.closest('.h-container') as HTMLElement;
       setHeaderMargin();
       if (fullScreen.value) {
         const scale = scaleLinear()
           .domain([0, headerHeight])
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          .range(["#fff", "#333"]);
-        root.addEventListener("scroll", () => {
+          .range(['#fff', '#333']);
+        root.addEventListener('scroll', () => {
           const { scrollTop } = root;
           // 计算导航头部文字渐变颜色
           if (scrollTop <= headerHeight) {
             privateColor.value = scale(scrollTop) as unknown as string;
             bgColor.value = `rgba(255,255,255,${scrollTop / headerHeight})`;
           } else if (scrollTop > headerHeight) {
-            privateColor.value = "#333";
-            bgColor.value = "#fff";
+            privateColor.value = '#333';
+            bgColor.value = '#fff';
           }
         });
       }

@@ -1,21 +1,21 @@
 import Component, {
   IComponent,
-} from "@/components/Editor/BuiltInComponents/Component";
+} from '@/components/Editor/BuiltInComponents/Component';
 import Container, {
   IContainer,
-} from "@/components/Editor/BuiltInComponents/Container";
-import { ComponentType, PartOfComponent } from "./ComponentTypes";
-import Img, { IImg } from "@/components/Editor/BuiltInComponents/Img";
-import Text, { IText } from "@/components/Editor/BuiltInComponents/Text";
-import Tab, { ITab } from "@/components/Editor/TrilateralComponents/Vant/Tab";
-import Button, { IButton } from "@/components/Editor/BuiltInComponents/Button";
+} from '@/components/Editor/BuiltInComponents/Container';
+import { ComponentType, PartOfComponent } from './ComponentTypes';
+import Img, { IImg } from '@/components/Editor/BuiltInComponents/Img';
+import Text, { IText } from '@/components/Editor/BuiltInComponents/Text';
+import Tab, { ITab } from '@/components/Editor/TrilateralComponents/Vant/Tab';
+import Button, { IButton } from '@/components/Editor/BuiltInComponents/Button';
 import NoticeBar, {
   INoticeBar,
-} from "@/components/Editor/TrilateralComponents/Vant/NoticeBar/index";
-import Swiper from "@/components/Editor/TrilateralComponents/Vant/Swiper";
+} from '@/components/Editor/TrilateralComponents/Vant/NoticeBar/index';
+import Swiper from '@/components/Editor/TrilateralComponents/Vant/Swiper';
 import NavBar, {
   INavBar,
-} from "@/components/Editor/TrilateralComponents/Vant/NavBar";
+} from '@/components/Editor/TrilateralComponents/Vant/NavBar';
 
 /**
  *构造组件的工厂函数

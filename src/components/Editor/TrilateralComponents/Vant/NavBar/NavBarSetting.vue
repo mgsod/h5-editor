@@ -14,11 +14,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, computed } from "vue";
-import { INavBar } from "@/components/Editor/TrilateralComponents/Vant/NavBar/index";
+import { defineComponent, PropType, computed } from 'vue';
+import { INavBar } from '@/components/Editor/TrilateralComponents/Vant/NavBar/index';
 
 export default defineComponent({
-  name: "NavBarSetting",
+  name: 'NavBarSetting',
   props: {
     componentProps: {
       type: Object as PropType<INavBar>,
@@ -32,7 +32,7 @@ export default defineComponent({
         return props.componentProps;
       },
       set(val) {
-        emit("update:componentProps", val);
+        emit('update:componentProps', val);
       },
     });
     return {

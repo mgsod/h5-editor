@@ -47,17 +47,17 @@ import {
   computed,
   PropType,
   toRefs,
-} from "vue";
-import useContextmenu from "@/hooks/useContextmenu";
-import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { ElMessageBox } from "element-plus";
-import { TComponent } from "@/components/Editor/ComponentTypes";
-import cloneDeep from "lodash/cloneDeep";
-import { eachComponentTreeDown } from "@/util";
+} from 'vue';
+import useContextmenu from '@/hooks/useContextmenu';
+import { useStore } from '@/store';
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import { ElMessageBox } from 'element-plus';
+import { TComponent } from '@/components/Editor/ComponentTypes';
+import cloneDeep from 'lodash/cloneDeep';
+import { eachComponentTreeDown } from '@/util';
 
 export default defineComponent({
-  name: "index",
+  name: 'index',
   props: {
     modelValue: Boolean,
     position: {
@@ -73,15 +73,15 @@ export default defineComponent({
     const store = useStore();
     const { closeContextmenu } = useContextmenu();
     const style = reactive({
-      left: props.position.y + "px",
-      top: props.position.y + "px",
+      left: props.position.y + 'px',
+      top: props.position.y + 'px',
     });
     watch(props.position, () => {
-      style.left = props.position.x + "px";
-      style.top = props.position.y + "px";
+      style.left = props.position.x + 'px';
+      style.top = props.position.y + 'px';
     });
     const isRoot = computed(() => {
-      return contextmenuComponent.value?.id === "root";
+      return contextmenuComponent.value?.id === 'root';
     });
     const isContainer = computed(() => {
       return !!contextmenuComponent.value?.isContainer;
@@ -109,14 +109,14 @@ export default defineComponent({
       },
       extract() {
         afterCloseContextmenu(() => {
-          ElMessageBox.prompt("请输入组件名称", "提示", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
+          ElMessageBox.prompt('请输入组件名称', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
             inputValue:
               contextmenuComponent.value?.alias ||
               contextmenuComponent.value?.type,
             inputValidator(v) {
-              if (!v) return "请输入组件名称";
+              if (!v) return '请输入组件名称';
               return true;
             },
           }).then(({ value }) => {

@@ -1,3 +1,3 @@
-import register from "@/components/Editor/ComponentsRegister";
+import register from '@/components/Editor/ComponentsRegister';
 
 export default register;

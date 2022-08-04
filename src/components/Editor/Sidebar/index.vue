@@ -159,28 +159,28 @@
 </template>
 
 <script lang="ts">
-import { ComponentList, TComponent } from "@/components/Editor/ComponentTypes";
-import { computed, ref } from "vue";
-import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import cloneDeep from "lodash/cloneDeep";
-import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
+import { ComponentList, TComponent } from '@/components/Editor/ComponentTypes';
+import { computed, ref } from 'vue';
+import { useStore } from '@/store';
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import cloneDeep from 'lodash/cloneDeep';
+import { IComponent } from '@/components/Editor/BuiltInComponents/Component';
 import {
   DropType,
   TreeNodeOptions,
-} from "element-plus/lib/components/tree/src/tree.type";
-import { IPage } from "@/store/Editor";
-import useDrag from "@/hooks/useDrag";
-import { Plus, Remove, Edit, CopyDocument } from "@element-plus/icons-vue";
-import { ElMessageBox } from "element-plus";
+} from 'element-plus/lib/components/tree/src/tree.type';
+import { IPage } from '@/store/Editor';
+import useDrag from '@/hooks/useDrag';
+import { Plus, Remove, Edit, CopyDocument } from '@element-plus/icons-vue';
+import { ElMessageBox } from 'element-plus';
 
 export default {
-  name: "Sidebar",
+  name: 'Sidebar',
   setup() {
     const store = useStore();
     const { dragstart } = useDrag();
-    const editPageId = ref("-1");
-    const tempName = ref("");
+    const editPageId = ref('-1');
+    const tempName = ref('');
     const domTree = computed(() => {
       return cloneDeep(store.getters?.currentPage?.components || []);
     });
@@ -188,7 +188,7 @@ export default {
       return store.state.editor.selectedComponents?.id;
     });
 
-    const pages = computed<Omit<IPage, "components">[]>(() => {
+    const pages = computed<Omit<IPage, 'components'>[]>(() => {
       return store.state.editor.pages.map((item) => {
         return {
           id: item.id,
@@ -206,7 +206,7 @@ export default {
       dragstart,
       ComponentList,
       pages,
-      active: ref("components"),
+      active: ref('components'),
       domTree,
       selectedId,
       activePageId: computed(() => {
@@ -229,17 +229,17 @@ export default {
       ) {
         const targetNode: TComponent = dropNode.data as TComponent;
         // 如果DropType 为inner
-        if (type === "inner") {
+        if (type === 'inner') {
           // 目标节点必须是一个容器
           return targetNode.isContainer;
         } else {
           // 如果是next 和prev 不能是根结点。根结点不允许有兄弟元素
-          return targetNode.id !== "root";
+          return targetNode.id !== 'root';
         }
       },
       allowDrag(draggingNode: TreeNodeOptions) {
         const data = draggingNode.data as IComponent;
-        return data.id !== "root" && !data.lock;
+        return data.id !== 'root' && !data.lock;
       },
       addPage() {
         store.commit(MUTATION_TYPE.ADD_PAGE);
@@ -264,27 +264,27 @@ export default {
             name: tempName.value,
           })
         );
-        editPageId.value = "-1";
+        editPageId.value = '-1';
       },
       componentHandleCommand(command: string) {
-        const [action, name] = command.split("_");
+        const [action, name] = command.split('_');
         switch (action) {
-          case "delete":
+          case 'delete':
             store.commit(MUTATION_TYPE.DELETE_EXTRACT_COMPONENT, name);
             break;
         }
       },
       pageHandleCommand(command: string) {
-        const [action, id] = command.split("_");
+        const [action, id] = command.split('_');
         switch (action) {
-          case "copy":
+          case 'copy':
             store.commit(MUTATION_TYPE.COPY_PAGE, id);
             break;
-          case "delete":
-            ElMessageBox.confirm("是否删除该页面?该操作不可撤销", "警告", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              type: "warning",
+          case 'delete':
+            ElMessageBox.confirm('是否删除该页面?该操作不可撤销', '警告', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning',
             }).then(() => {
               store.commit(MUTATION_TYPE.DELETE_PAGE, id);
             });

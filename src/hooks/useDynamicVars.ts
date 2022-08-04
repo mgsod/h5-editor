@@ -1,8 +1,8 @@
-import { reactive, inject } from "vue";
+import { reactive, inject } from 'vue';
 
 export default () => {
   const store = reactive<{ [key: string]: any }>({
-    name: "Alice",
+    name: 'Alice',
     age: 15,
   });
   const setItem = (key: string, value: any) => {
@@ -12,11 +12,11 @@ export default () => {
     return store[key];
   };
   const parseExpression = (expression?: string) => {
-    const preview = !!inject("isPreview");
+    const preview = !!inject('isPreview');
     if (!preview) return expression;
     return expression?.replaceAll(/{{(.*?)}}/g, ($1) => {
-      const vars = $1.replaceAll("{", "").replaceAll("}", "").trim();
-      return getItem(vars) || "";
+      const vars = $1.replaceAll('{', '').replaceAll('}', '').trim();
+      return getItem(vars) || '';
     });
   };
   return {

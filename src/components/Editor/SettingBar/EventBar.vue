@@ -109,18 +109,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, reactive } from "vue";
-import { useStore } from "@/store";
-import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
-import { EventTypeList, EventType, IEvent } from "@/components/Editor/Event";
-import { ActionType, ActionList } from "@/components/Editor/Action";
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import { redirectTypeList } from "@/components/Editor/Action/redirect";
-import useDialog from "@/hooks/useDialog";
-import cloneDeep from "lodash/cloneDeep";
-import { FormItemRule } from "element-plus/lib/components/form/src/form.type";
+import { defineComponent, computed, ref, reactive } from 'vue';
+import { useStore } from '@/store';
+import { IComponent } from '@/components/Editor/BuiltInComponents/Component';
+import { EventTypeList, EventType, IEvent } from '@/components/Editor/Event';
+import { ActionType, ActionList } from '@/components/Editor/Action';
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import { redirectTypeList } from '@/components/Editor/Action/redirect';
+import useDialog from '@/hooks/useDialog';
+import cloneDeep from 'lodash/cloneDeep';
+import { FormItemRule } from 'element-plus/lib/components/form/src/form.type';
 export default defineComponent({
-  name: "event-bar",
+  name: 'event-bar',
   props: {},
   components: {},
   setup() {
@@ -132,30 +132,30 @@ export default defineComponent({
     const editIndex = ref(-1);
     // 事件表单
     const eventForm = reactive<IEvent>({
-      eventType: "click",
-      actionType: "redirect",
+      eventType: 'click',
+      actionType: 'redirect',
       actionProps: {
-        url: "",
-        content: "",
-        type: "inside",
+        url: '',
+        content: '',
+        type: 'inside',
       },
     });
     // 跳转url验证
     const urlValidateRules: FormItemRule[] = [
-      { required: true, message: "该项必填", trigger: "blur" },
+      { required: true, message: '该项必填', trigger: 'blur' },
       {
         pattern: /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/,
-        message: "请输入合法url地址",
-        trigger: "blur",
+        message: '请输入合法url地址',
+        trigger: 'blur',
       },
     ];
     const reset = () => {
-      eventForm.eventType = "click";
-      eventForm.actionType = "redirect";
+      eventForm.eventType = 'click';
+      eventForm.actionType = 'redirect';
       eventForm.actionProps = {
-        url: "",
-        content: "",
-        type: "inside",
+        url: '',
+        content: '',
+        type: 'inside',
       };
     };
     const eventList = computed(() => {

@@ -20,18 +20,18 @@
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, watch, reactive } from "vue";
-import { useStore } from "@/store";
-import { MUTATION_TYPE } from "@/store/Editor/mutations/mutation-type";
-import General from "./General.vue";
-import EventBar from "./EventBar.vue";
-import Layout from "@/components/Editor/SettingBar/Layout.vue";
-import ToolBar from "@/components/Editor/SettingBar/ToolBar.vue";
-import { ComponentType, TComponent } from "@/components/Editor/ComponentTypes";
-import { getDebounceCommit, objectMerge } from "@/util";
+import { computed, defineComponent, watch, reactive } from 'vue';
+import { useStore } from '@/store';
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import General from './General.vue';
+import EventBar from './EventBar.vue';
+import Layout from '@/components/Editor/SettingBar/Layout.vue';
+import ToolBar from '@/components/Editor/SettingBar/ToolBar.vue';
+import { ComponentType, TComponent } from '@/components/Editor/ComponentTypes';
+import { getDebounceCommit, objectMerge } from '@/util';
 
 export default defineComponent({
-  name: "property",
+  name: 'property',
   props: {},
   components: { General, EventBar, Layout, ToolBar },
   setup() {
@@ -67,7 +67,7 @@ export default defineComponent({
     });
 
     return {
-      active: "prop",
+      active: 'prop',
       componentProps,
       ComponentType,
       origin,

@@ -3,10 +3,10 @@
  */
 import Component, {
   IComponent,
-} from "@/components/Editor/BuiltInComponents/Component";
-import { fastInitProps } from "@/util";
-import { PartOfComponent } from "@/components/Editor/ComponentTypes";
-import { FLEX_DIRECTION } from "@/components/Editor/BuiltInComponents/Container";
+} from '@/components/Editor/BuiltInComponents/Component';
+import { fastInitProps } from '@/util';
+import { PartOfComponent } from '@/components/Editor/ComponentTypes';
+import { FLEX_DIRECTION } from '@/components/Editor/BuiltInComponents/Container';
 
 export interface ICommonContainer extends IComponent {
   isContainer: boolean;

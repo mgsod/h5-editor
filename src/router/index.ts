@@ -1,36 +1,36 @@
-import { createRouter, RouteRecordRaw, createWebHashHistory } from "vue-router";
+import { createRouter, RouteRecordRaw, createWebHashHistory } from 'vue-router';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
-    name: "Home",
-    redirect: "/documents",
+    path: '/',
+    name: 'Home',
+    redirect: '/documents',
     component: () =>
-      import(/* webpackChunkName: "Home" */ "../pages/index.vue"),
+      import(/* webpackChunkName: "Home" */ '../pages/index.vue'),
     children: [
       {
-        path: "documents",
-        name: "documents",
+        path: 'documents',
+        name: 'documents',
         component: () =>
           import(
-            /* webpackChunkName: "documents" */ "../pages/Documents/index.vue"
+            /* webpackChunkName: "documents" */ '../pages/Documents/index.vue'
           ),
       },
       {
-        path: "components",
-        name: "components",
+        path: 'components',
+        name: 'components',
         component: () =>
           import(
-            /* webpackChunkName: "components" */ "../pages/Components/index.vue"
+            /* webpackChunkName: "components" */ '../pages/Components/index.vue'
           ),
       },
     ],
   },
   {
-    path: "/editor",
-    name: "editor",
+    path: '/editor',
+    name: 'editor',
     component: () =>
-      import(/* webpackChunkName: "editor" */ "../pages/Editor/index.vue"),
+      import(/* webpackChunkName: "editor" */ '../pages/Editor/index.vue'),
   },
 ];
 

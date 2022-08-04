@@ -1,6 +1,6 @@
-import axios from "@/axios";
-import { DocumentModel, IDocument } from "../../server/src/document";
-import { IExtractComponents, IPage } from "@/store/Editor";
+import axios from '@/axios';
+import { DocumentModel, IDocument } from '../../server/src/document';
+import { IExtractComponents, IPage } from '@/store/Editor';
 
 export interface IEditorDoc {
   pages: IPage[];
@@ -11,7 +11,7 @@ export interface IEditorDoc {
  * 获取文档列表
  */
 export const getDocumentList = () => {
-  return axios.get("/document");
+  return axios.get('/document');
 };
 
 /**

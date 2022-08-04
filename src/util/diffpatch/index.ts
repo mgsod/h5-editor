@@ -1,4 +1,4 @@
-import { Config, create, Delta } from "jsondiffpatch";
+import { Config, create, Delta } from 'jsondiffpatch';
 const diffPatcher = create(<Config>{
   // used to match objects when diffing arrays, by default only === operator is used
   // 在对象数组中，根据objectHash来匹配对象
@@ -23,7 +23,7 @@ const diffPatcher = create(<Config>{
     name: property name, present in either context.left or context.right objects
     context: the diff context (has context.left and context.right objects)
   */
-    return name.slice(0, 1) !== "$";
+    return name.slice(0, 1) !== '$';
   },
   cloneDiffValues:
     true /* default false. if true, values in the obtained delta will be cloned
@@ -33,11 +33,11 @@ const diffPatcher = create(<Config>{
 });
 
 export enum ModifyAction {
-  Create = "create",
-  Remove = "remove",
-  Move = "moveIndex",
-  Update = "update",
-  Null = "null",
+  Create = 'create',
+  Remove = 'remove',
+  Move = 'moveIndex',
+  Update = 'update',
+  Null = 'null',
 }
 
 export class DiffPatcher<T> {
@@ -55,7 +55,7 @@ export class DiffPatcher<T> {
   constructor(props?: number);
   constructor(props?: DiffPatcher<T>);
   constructor(props: number | DiffPatcher<T> = 20) {
-    if (typeof props === "number") {
+    if (typeof props === 'number') {
       this.maxSnapshotLength = props;
     } else {
       const { snapshots, maxSnapshotLength, index, current } =
@@ -85,7 +85,7 @@ export class DiffPatcher<T> {
     const firstDelta = delta[key];
 
     // 新增 或 修改某个属性
-    if (!key.startsWith("_")) {
+    if (!key.startsWith('_')) {
       const modify = firstDelta[Object.keys(firstDelta)[0]];
       // 新增
       if (Array.isArray(modify)) {

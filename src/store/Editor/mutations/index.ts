@@ -1,23 +1,23 @@
 import {
   PartOfComponent,
   TComponent,
-} from "@/components/Editor/ComponentTypes";
-import { IPage, IState } from "../index";
-import { MUTATION_TYPE } from "./mutation-type";
-import { MutationTree } from "vuex";
-import { findItemById } from "@/util";
-import { IComponent } from "@/components/Editor/BuiltInComponents/Component";
-import eventBus, { EventType } from "@/hooks/useEventBus";
+} from '@/components/Editor/ComponentTypes';
+import { IPage, IState } from '../index';
+import { MUTATION_TYPE } from './mutation-type';
+import { MutationTree } from 'vuex';
+import { findItemById } from '@/util';
+import { IComponent } from '@/components/Editor/BuiltInComponents/Component';
+import eventBus, { EventType } from '@/hooks/useEventBus';
 import {
   addPage,
   mutationWithSnapshot,
   updateSelectedComponent,
   updateRedoUndoState,
   diffPatcher,
-} from "@/store/Editor/util";
-import componentMutations from "./components";
-import eventMutations from "./event";
-import pageMutations from "./page";
+} from '@/store/Editor/util';
+import componentMutations from './components';
+import eventMutations from './event';
+import pageMutations from './page';
 
 const mutations: MutationTree<IState> = {
   ...componentMutations,
