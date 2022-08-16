@@ -153,7 +153,9 @@
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane name="dynamicVars" label="数据池"></el-tab-pane>
+      <el-tab-pane name="datasource" label="数据池">
+        <datasource />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -173,9 +175,10 @@ import { IPage } from '@/store/Editor';
 import useDrag from '@/hooks/useDrag';
 import { Plus, Remove, Edit, CopyDocument } from '@element-plus/icons-vue';
 import { ElMessageBox } from 'element-plus';
-
+import datasource from './datasource.vue';
 export default {
   name: 'Sidebar',
+  components: { datasource },
   setup() {
     const store = useStore();
     const { dragstart } = useDrag();
@@ -206,7 +209,7 @@ export default {
       dragstart,
       ComponentList,
       pages,
-      active: ref('components'),
+      active: ref('datasource'),
       domTree,
       selectedId,
       activePageId: computed(() => {
@@ -300,8 +303,8 @@ export default {
 <style scoped lang="less">
 .edit-page-popover {
   .action {
-    text-align: right;
     margin-top: 5px;
+    text-align: right;
 
     .el-button {
       min-height: 25px;
@@ -310,11 +313,11 @@ export default {
 }
 
 .sidebar {
-  display: flex;
   box-sizing: border-box;
-  background: white;
-  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
+  display: flex;
   padding: 8px 0;
+  background: white;
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 15%);
 
   .el-tabs {
     flex: 0 0 300px;
@@ -332,55 +335,55 @@ export default {
         margin-bottom: 20px;
 
         .panel-title {
+          padding-left: 5px;
           margin-bottom: 8px;
           color: #282828;
           border-left: 3px solid var(--el-color-primary-light-2);
-          padding-left: 5px;
 
           i {
-            cursor: pointer;
             color: var(--el-color-warning);
+            cursor: pointer;
           }
         }
 
         .components {
-          flex: auto;
           display: flex;
+          flex: auto;
           flex-wrap: wrap;
-          cursor: default;
           height: auto;
           padding-right: 8px;
+          cursor: default;
 
           .component {
-            flex: 0 0 65px;
-            height: 65px;
-            padding: 8px;
+            box-sizing: border-box;
             display: flex;
+            flex: 0 0 65px;
             align-items: center;
             justify-content: center;
-            box-sizing: border-box;
-            border: 1px solid var(--el-border-color-lighter);
-            cursor: default;
+            height: 65px;
+            padding: 8px;
             margin: 0 -1px -1px 0;
             font-size: 13px;
+            cursor: default;
+            border: 1px solid var(--el-border-color-lighter);
 
             &:hover {
-              border: 1px solid var(--el-color-primary-light-2);
               position: relative;
               z-index: 2;
+              border: 1px solid var(--el-color-primary-light-2);
             }
 
             &.custom {
-              width: 100%;
               flex: none;
+              width: 100%;
               height: 0;
               padding: 15px;
             }
 
             .item {
               display: flex;
-              width: 100%;
               justify-content: space-between;
+              width: 100%;
 
               :deep(.el-dropdown) {
                 .el-dropdown-link {
@@ -398,21 +401,21 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding-right: 8px;
         height: 100%;
+        padding-right: 8px;
 
         .page-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
           padding: 10px 8px;
+          cursor: pointer;
           border-bottom: 1px solid #f0f4f5;
           border-radius: 5px;
-          cursor: pointer;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
 
           &.active {
-            background: var(--el-color-primary);
             color: #fff;
+            background: var(--el-color-primary);
 
             i {
               color: #fff;
@@ -429,14 +432,21 @@ export default {
 
           &:hover {
             i.edit {
-              color: #fff;
               display: inline-block;
+              color: #fff;
             }
           }
         }
 
         .action {
           text-align: center;
+        }
+      }
+
+      :deep(.el-overlay) {
+        .el-dialog__body {
+          height: 500px;
+          overflow: auto;
         }
       }
     }

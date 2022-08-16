@@ -28,6 +28,7 @@ export interface IState {
   isDrag: boolean;
   enterContainer: PartOfComponent | null;
   extractComponents: IExtractComponents[];
+  datasource: any[];
 }
 
 const module: Module<IState, state> = {
@@ -40,6 +41,7 @@ const module: Module<IState, state> = {
     isDrag: false,
     enterContainer: null,
     extractComponents: [],
+    datasource: [],
   },
   mutations: {
     ...mutations,

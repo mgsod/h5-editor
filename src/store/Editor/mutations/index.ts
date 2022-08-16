@@ -18,11 +18,13 @@ import {
 import componentMutations from './components';
 import eventMutations from './event';
 import pageMutations from './page';
+import datasourceMutations from '@/store/Editor/mutations/datasource';
 
 const mutations: MutationTree<IState> = {
   ...componentMutations,
   ...eventMutations,
   ...pageMutations,
+  ...datasourceMutations,
   // 撤销
   [MUTATION_TYPE.UNDO]: (state) => {
     const result = diffPatcher.undo();

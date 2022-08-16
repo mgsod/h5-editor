@@ -1,5 +1,5 @@
 {
-  "name": "h5EditorServ",
+  "name": "h5editor-server",
   "script": "node",
   "args": "index.js",
   "cwd": "./",

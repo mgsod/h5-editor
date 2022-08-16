@@ -1,5 +1,5 @@
 <template>
-  <img :src="src" class="" v-if="src" :style="style" />
+  <img :src="parseExpression(src)" class="" v-if="src" :style="style" />
   <div class="empty-img" v-else>
     <i class="el-icon-picture-outline" />
   </div>
@@ -10,7 +10,7 @@ import { defineComponent, PropType, computed } from 'vue';
 import { objectFit } from '@/components/Editor/BuiltInComponents/Img/index';
 import { ComponentType } from '@/components/Editor/ComponentTypes';
 import { getBorderRadius } from '@/hooks/useStyle';
-
+import useDynamicVars from '@/hooks/useDynamicVars';
 export default defineComponent({
   name: ComponentType.Img,
   inheritAttrs: false,
@@ -27,12 +27,14 @@ export default defineComponent({
         ...getBorderRadius(props.borderRadius),
       };
     });
+    const { parseExpression } = useDynamicVars();
     return {
       style,
       disableDragImg: (e: MouseEvent) => {
         e.preventDefault();
         return false;
       },
+      parseExpression,
     };
   },
 });
