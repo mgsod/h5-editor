@@ -10,7 +10,7 @@
     "deploy": "./deploy.sh",
     "front-serve": "vue-cli-service serve",
     "lint": "vue-cli-service lint",
-    "nodemon": "nodemon -e ts -w ./server -x  npm run back-server"
+    "back-server-dev": "nodemon -e ts -w ./server -x  npm run back-server"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.4",
