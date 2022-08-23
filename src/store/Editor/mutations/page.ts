@@ -18,6 +18,7 @@ const pageMutations: MutationTree<IState> = {
     state.isDrag = payload.isDrag;
     state.enterContainer = payload.enterContainer;
     state.extractComponents = payload.extractComponents;
+    state.datasource = payload.datasource;
   },
   // 新增一页
   [MUTATION_TYPE.ADD_PAGE]: (state) => {

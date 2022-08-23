@@ -1,13 +1,14 @@
 /**
  * 给组件绑定自定义事件
  */
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import { EventType, IEvent, EventTypeKey } from '@/components/Editor/Event';
 import { ActionFactory } from '@/components/Editor/Action/factory';
 import { Action } from '@/components/Editor/Action/abstractAction';
 
 export default (events?: IEvent[]) => {
   const root = ref();
+  const datasource = inject('datasource');
   if (events) {
     // 构建所有事件池对象
     const eventsObj: EventTypeKey = {
@@ -50,7 +51,7 @@ export default (events?: IEvent[]) => {
           // 遍历事件，通过ActionFactory.getAction工厂函数，根据事件中的actionType，actionProps实例化一个Action
           currentEvents.forEach((item) => {
             // 实例化Action，添加到handlePool中。 [Action,Action,Action,.....]
-            handlePool.push(ActionFactory.getAction(item));
+            handlePool.push(ActionFactory.getAction(item, datasource));
           });
 
           // 开始绑定事件
@@ -60,7 +61,9 @@ export default (events?: IEvent[]) => {
             trigger(handlePool);
           } else {
             // 其他类型事件，均通过ref绑定在dom元素上
-            (root.value as HTMLElement).addEventListener(eventType, () => {
+            (root.value as HTMLElement).addEventListener(eventType, (e) => {
+              // 阻止事件冒泡
+              e.stopPropagation()
               trigger(handlePool);
             });
           }

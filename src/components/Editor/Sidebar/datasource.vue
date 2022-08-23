@@ -1,17 +1,23 @@
 <template>
   <div class="datasource">
-    <div class="list"></div>
-    <el-button class="add" type="primary">添加</el-button>
+    <div class="list">
+      <div
+        class="list-item"
+        title="点击查看数据"
+        v-for="item in datasource"
+        :key="item.alias"
+      >
+        <div class="name">{{ item.alias }}</div>
+        <div class="actions">
+          <el-icons name="Edit" @click.stop="edit"></el-icons>
+          <el-icons name="Delete" @click.stop="del"></el-icons>
+        </div>
+      </div>
+    </div>
+    <el-button class="add" @click="openDialog" type="primary">添加</el-button>
   </div>
-  <el-dialog
-    class="dialog"
-    v-model="show"
-    width="500px"
-    top="5%"
-    title="新增/编辑数据源"
-  >
+  <el-dialog v-model="show" width="500px" top="5%" title="新增/编辑数据源">
     <el-form label-width="100px" label-position="left" :model="form">
-      {{ parseExpression(e) }}
       <el-form-item label="数据对象别名">
         <el-input v-model="form.alias"></el-input>
       </el-form-item>
@@ -45,22 +51,24 @@
       </el-form-item>
     </el-form>
     <template #footer>
-      <el-button type="default">取消</el-button>
+      <el-button type="default" @click="show = false">取消</el-button>
       <el-button type="primary" @click="save">确认</el-button>
     </template>
   </el-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
-import useDataSource from '@/hooks/useDataSource';
-import useDynamicVars from '@/hooks/useDynamicVars';
+import { computed, defineComponent, reactive, ref } from 'vue';
+import { useStore } from '@/store';
+import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
+import cloneDeep from 'lodash/cloneDeep';
 export default defineComponent({
   name: 'datasource',
   components: {},
   props: {},
   setup() {
-    const show = ref(true);
+    const store = useStore();
+    const show = ref(false);
     const methods = ['GET', 'POST'];
     const form = reactive({
       alias: 'document',
@@ -71,17 +79,37 @@ export default defineComponent({
       msg: 'message',
       data: 'data',
     });
-    const { request } = useDataSource();
-    const { parseExpression } = useDynamicVars();
+    const datasource = computed(() => {
+      return store.state.editor.datasource;
+    });
+
+    const reset = () => {
+      form.alias = '';
+      form.url = '';
+      form.body = '';
+      form.code = '';
+      form.msg = '';
+      form.data = '';
+    };
+    const save = () => {
+      store.commit(MUTATION_TYPE.ADD_DATASOURCE, {
+        target: form.alias,
+        data: cloneDeep(form),
+      });
+      show.value = false;
+      reset();
+    };
     return {
       methods,
       form,
       show,
-      save() {
-        request('document');
+      datasource,
+      openDialog() {
+        show.value = true;
       },
-      parseExpression,
-      e: '{{name}}',
+      save,
+      edit() {},
+      del() {},
     };
   },
 });
@@ -96,6 +124,28 @@ export default defineComponent({
 
   .list {
     flex: auto;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 8px;
+      cursor: pointer;
+      border-bottom: 1px solid #f0f4f5;
+      border-radius: 5px;
+
+      &.active,
+      &:hover {
+        color: #fff;
+        background: var(--el-color-primary);
+      }
+
+      .actions {
+        i {
+          margin-left: 4px;
+        }
+      }
+    }
   }
 }
 </style>

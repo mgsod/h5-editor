@@ -40,6 +40,7 @@
         <previewer
           :rem="false"
           :pages="pages"
+          :datasource="datasource"
           ref="previewer"
           v-model:home-page-id="currentRouterId"
         />
@@ -79,6 +80,7 @@ export default defineComponent({
     pages: Array,
     homePage: String,
     modelValue: Boolean,
+    datasource: Object,
   },
   components: { Previewer },
   emits: ['update:modelValue'],

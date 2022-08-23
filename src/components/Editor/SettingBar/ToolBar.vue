@@ -25,7 +25,12 @@
       <div>预览</div>
     </div>
   </div>
-  <preview-dialog v-model="showDialog" :pages="pages" :home-page="homePage" />
+  <preview-dialog
+    v-model="showDialog"
+    :pages="pages"
+    :home-page="homePage"
+    :datasource="datasource"
+  />
 </template>
 
 <script lang="ts">
@@ -73,6 +78,9 @@ export default defineComponent({
       }),
       homePage: computed(() => {
         return store.state.editor.pageActive;
+      }),
+      datasource: computed(() => {
+        return store.state.editor.datasource;
       }),
       showDialog,
     };

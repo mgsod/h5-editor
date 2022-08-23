@@ -6,6 +6,7 @@ import {
   PartOfComponent,
   TComponent,
 } from '@/components/Editor/ComponentTypes';
+import { IDataSources } from '@/components/Editor/Action/request';
 
 export interface IPage {
   order: number;
@@ -28,7 +29,7 @@ export interface IState {
   isDrag: boolean;
   enterContainer: PartOfComponent | null;
   extractComponents: IExtractComponents[];
-  datasource: any[];
+  datasource: IDataSources;
 }
 
 const module: Module<IState, state> = {
@@ -41,7 +42,7 @@ const module: Module<IState, state> = {
     isDrag: false,
     enterContainer: null,
     extractComponents: [],
-    datasource: [],
+    datasource: {},
   },
   mutations: {
     ...mutations,

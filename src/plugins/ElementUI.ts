@@ -32,7 +32,7 @@ import {
   ElDropdownMenu,
   ElDropdownItem,
   ElUpload,
-  ElDivider
+  ElDivider,
 } from 'element-plus';
 
 export default (app: App) => {

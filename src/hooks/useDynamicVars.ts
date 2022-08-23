@@ -1,5 +1,5 @@
 import { reactive, inject } from 'vue';
-import { DATASOURCE } from '@/hooks/useDataSource';
+export const DATASOURCE: { [key: string]: any } = reactive({});
 export default () => {
   const store = reactive<{ [key: string]: any }>(DATASOURCE);
   const setItem = (key: string, value: any) => {
@@ -7,7 +7,7 @@ export default () => {
   };
   const getItem = (key: string[]) => {
     try {
-      let root: any = DATASOURCE[key.splice(0, 1)[0]];
+      let root: any = store[key.splice(0, 1)[0]];
       const result: any = '';
       return key.reduce((re, current) => {
         re = root[current];

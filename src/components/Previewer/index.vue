@@ -31,6 +31,9 @@ export default defineComponent({
     homePageId: {
       type: String,
     },
+    datasource: {
+      type: Object,
+    },
   },
   emits: ['update:homePageId'],
   components: { Render },
@@ -45,6 +48,8 @@ export default defineComponent({
     });
     provide('isPreview', true);
     provide('router', router);
+    console.log(222, props.datasource);
+    provide('datasource', props.datasource);
     onBeforeUnmount(() => {
       console.log('销毁');
       router.destroy();

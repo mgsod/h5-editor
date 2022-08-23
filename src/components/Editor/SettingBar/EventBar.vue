@@ -98,6 +98,18 @@
           <el-input v-model="eventForm.actionProps.content"></el-input>
         </el-form-item>
       </template>
+      <template v-if="eventForm.actionType === 'request'">
+        <el-form-item label="请求数据源">
+          <el-select v-model="eventForm.actionProps.datasource">
+            <el-option
+              v-for="item in datasource"
+              :key="item.alias"
+              :label="item.alias"
+              :value="item.alias"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </template>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
@@ -128,6 +140,9 @@ export default defineComponent({
     const selectedId = computed(() => {
       return store.state.editor.selectedComponents?.id;
     });
+    const datasource = computed(() => {
+      return store.state.editor.datasource;
+    });
     const { showDialog } = useDialog();
     const editIndex = ref(-1);
     // 事件表单
@@ -138,6 +153,7 @@ export default defineComponent({
         url: '',
         content: '',
         type: 'inside',
+        datasource: '',
       },
     });
     // 跳转url验证
@@ -156,6 +172,7 @@ export default defineComponent({
         url: '',
         content: '',
         type: 'inside',
+        datasource: '',
       };
     };
     const eventList = computed(() => {
@@ -205,6 +222,7 @@ export default defineComponent({
     return {
       urlValidateRules,
       pages,
+      datasource,
       redirectTypeList,
       showDialog,
       eventList,
@@ -227,6 +245,7 @@ export default defineComponent({
           url: row.actionProps.url,
           content: row.actionProps.content,
           type: row.actionProps.type,
+          datasource: row.actionProps.datasource,
         };
         editIndex.value = index;
         return;

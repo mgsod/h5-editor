@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, reactive, ref, toRefs } from 'vue';
+import { defineComponent, PropType, toRefs } from 'vue';
 import { TComponent } from '@/components/Editor/ComponentTypes';
 import useStyle from '@/hooks/useStyle';
 import useBindEvent from '@/hooks/useBindEvent';
@@ -33,7 +33,6 @@ export default defineComponent({
   },
   setup(props) {
     const { property } = toRefs(props);
-
     const style = useStyle(property);
     const { root } = useBindEvent(props.property.events);
     return {
