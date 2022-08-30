@@ -22,5 +22,5 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-/server/build/
+server/data
 /server/src/static/previewer/

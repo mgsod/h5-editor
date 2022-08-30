@@ -1,27 +1,19 @@
-export {};
-const fs = require('fs');
-const multer = require('multer');
-const path = require('path');
+import multer from 'multer';
+import * as fs from 'fs';
+import * as path from 'path';
+import config from '../config';
 const uploader = () => {
   return multer({
     storage: multer.diskStorage({
-      destination: function (
-        req: Request,
-        file: Express.Multer.File,
-        cb: (a: any, b: string) => void
-      ) {
-        const fullPath = `${path.join(__dirname, '../static/img')}`;
+      destination(req, file, cb: (a: any, b: string) => void) {
+        const fullPath = `${path.join(config.dataPath, 'static/img')}`;
         const exist = fs.existsSync(fullPath);
         if (!exist) {
-          fs.mkdirSync(fullPath);
+          fs.mkdirSync(fullPath, { recursive: true });
         }
         cb(null, fullPath);
       },
-      filename: function (
-        req: Request,
-        file: Express.Multer.File,
-        cb: (a: any, b: string) => void
-      ) {
+      filename(req, file, cb: (a: any, b: string) => void) {
         const hz = file.originalname
           .substring(file.originalname.lastIndexOf('.') + 1)
           .toLowerCase();
@@ -31,4 +23,4 @@ const uploader = () => {
     }),
   });
 };
-module.exports = uploader;
+export default uploader;

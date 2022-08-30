@@ -1,12 +1,10 @@
-import { Request, Response } from 'express';
+import { Router } from 'express';
 import { DocumentModel, IDocument } from '../document';
-
-const dataBase = require('../model');
-const route = require('express').Router();
-const { writeImgByBase64, getRuntimeHost } = require('../util');
-const { serverName } = require('../config');
+import dataBase from '../model';
+import { writeImgByBase64 } from '../util';
+const route = Router();
 // 新增
-route.post('/', async (req: Request, res: Response) => {
+route.post('/', async (req, res) => {
   const { name, content, cover } = req.body as DocumentModel;
   const isExist = await dataBase.findOne({ name });
   if (isExist) {
@@ -25,7 +23,7 @@ route.post('/', async (req: Request, res: Response) => {
 });
 
 // 更新
-route.put('/:id', async (req: Request, res: Response) => {
+route.put('/:id', async (req, res) => {
   const id = req.params.id;
   const { name, content, cover } = req.body as DocumentModel;
   const coverPath = await writeImgByBase64('covers', cover, id);
@@ -39,13 +37,11 @@ route.put('/:id', async (req: Request, res: Response) => {
   });
 });
 
-route.get('/', async (req: Request, res: Response) => {
+route.get('/', async (req, res) => {
   const data = await dataBase.find({});
   // 添加预览地址
   data.forEach((item: IDocument) => {
-    (item as any).previewUrl = `${serverName || getRuntimeHost()}/preview/${
-      item._id
-    }`;
+    (item as any).previewUrl = `/preview/${item._id}`;
   });
   res.json({
     code: 200,
@@ -55,7 +51,7 @@ route.get('/', async (req: Request, res: Response) => {
 });
 
 // 查询
-route.get('/:id', async (req: Request, res: Response) => {
+route.get('/:id', async (req, res) => {
   const id = req.params.id;
   const data = await dataBase.findOne({ _id: id });
   res.json({
@@ -65,7 +61,7 @@ route.get('/:id', async (req: Request, res: Response) => {
   });
 });
 
-route.delete('/:id', async (req: Request, res: Response) => {
+route.delete('/:id', async (req, res) => {
   const id = req.params.id;
   await dataBase.remove({ _id: id });
   res.json({
@@ -74,4 +70,4 @@ route.delete('/:id', async (req: Request, res: Response) => {
   });
 });
 
-module.exports = route;
+export default route;

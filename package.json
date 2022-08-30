@@ -3,14 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build",
-    "build-server": "tsc --build ./server/tsconfig.json && gulp",
-    "back-server": "npm run build-server && cross-env NODE_ENV=development node ./server/build/index.js",
-    "build-previewer": "vue-cli-service build --mode lib --target lib --name index ./src/components/Previewer/index.ts",
-    "deploy": "./deploy.sh",
+    "back-server": "cross-env NODE_ENV=development nodemon -e ts -w ./server -x   ts-node-transpile-only ./server/src/index.ts",
     "front-serve": "vue-cli-service serve",
-    "lint": "vue-cli-service lint",
-    "back-server-dev": "nodemon -e ts -w ./server -x  npm run back-server"
+    "build-previewer": "vue-cli-service build --mode lib --target lib --name index ./src/components/Previewer/index.ts",
+    "build-front": "vue-cli-service build",
+    "build-server": "npm run build-previewer && tsc --build ./server/tsconfig.json && gulp",
+    "build": "npm run build-front && npm run build-server"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^0.2.4",
@@ -76,6 +74,7 @@
     "stylelint-config-standard": "^24.0.0",
     "stylelint-order": "^5.0.0",
     "stylelint-prettier": "^2.0.0",
+    "ts-node": "^10.9.1",
     "typescript": "~4.3.5"
   }
 }

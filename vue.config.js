@@ -4,6 +4,7 @@ const libConfig = require('./src/components/Previewer/webpack.config');
 // 项目默认配置
 const defaultConfig = {
   publicPath: './',
+  outputDir: './dist/front',
   devServer: {
     host: '0.0.0.0',
     proxy: {

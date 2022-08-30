@@ -1,10 +1,9 @@
-export {};
-const path = require('path');
-
+import * as path from 'path';
+import config from '../config';
 const Datastore = require('nedb-promises');
 const dataBase = Datastore.create({
-  filename: path.join(__dirname, '../db/document.db'),
+  filename: path.join(config.dataPath, '/db/document.db'),
   timestampData: true,
 });
 
-module.exports = dataBase;
+export default dataBase;

@@ -1,16 +1,17 @@
-import { Response, Request, NextFunction } from 'express';
+import express, { Response, Request, NextFunction } from 'express';
+import compression from 'compression';
+import * as path from 'path';
+import * as bodyParser from 'body-parser';
+import routes from './route';
+import preview from './route/preview';
+import config from './config';
+require('express-async-errors');
 
-const path = require('path');
-const express = require('express');
+const { port, dataPath } = config;
 const app = express();
-const routes = require('./route');
-const preview = require('./route/preview');
-const bodyParser = require('body-parser');
-const { port } = require('./config');
-const compression = require('compression');
+
 app.use(compression());
 app.set('view engine', 'ejs');
-require('express-async-errors');
 app.all('*', function (req: Request, res: Response, next: NextFunction) {
   res.header('Access-Control-Allow-Origin', req.headers.origin);
   // res.header("Access-Control-Allow-Origin", '*');
@@ -24,7 +25,12 @@ app.all('*', function (req: Request, res: Response, next: NextFunction) {
   if (req.method === 'OPTIONS') res.send(200);
   /*让options请求快速返回*/ else next();
 });
+
+// 预览器静态服务
 app.use('/static', express.static(path.join(__dirname, './static')));
+// 图片资源静态服务
+app.use('/static', express.static(path.join(dataPath, '/static')));
+
 app.use(bodyParser.json({ limit: '50mb' }));
 app.set('views', path.join(__dirname, './views'));
 app.use('/api', routes);

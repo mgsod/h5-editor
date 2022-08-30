@@ -1,16 +1,17 @@
 const gulp = require('gulp');
-
 gulp.task('copy', function () {
-  return gulp
+  gulp
     .src([
-      'server/src/views*/*',
-      'server/src/static*/**/*',
+      'server/src/views*/**',
       'server/package.json',
-      'server/processes.json',
+      'server/ecosystem.config.js',
     ])
-    .pipe(gulp.dest('./server/build/'));
+    .pipe(gulp.dest('./dist/server/'));
+  gulp.src(['docker/**']).pipe(gulp.dest('./dist'));
+  return gulp
+    .src(['server/src/static/previewer*/**'])
+    .pipe(gulp.dest('./dist/server/static/'));
 });
-
 gulp.task(
   'default',
   gulp.series('copy', (cb) => {

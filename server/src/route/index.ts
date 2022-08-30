@@ -1,8 +1,9 @@
-export {};
-const router = require('express').Router();
-const document = require('./document');
-const uploader = require('./upload');
+import { Router } from 'express';
+import document from './document';
+import uploader from './upload';
+const router = Router();
+
 router.use('/document', document);
 router.use('/upload', uploader);
 
-module.exports = router;
+export default router;
