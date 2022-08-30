@@ -66,7 +66,7 @@ export default defineComponent({
           cancelButtonText: '取消',
           inputValue:
             documentInfo?.name ||
-            `文稿${new Date().toLocaleDateString().replace('/', '')}`,
+            `文稿${new Date().toLocaleString().replace(/[/\s:]/g, '')}`,
           inputValidator(v) {
             if (!v) return '请输入文稿名称';
             return true;

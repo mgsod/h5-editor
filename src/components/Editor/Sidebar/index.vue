@@ -209,7 +209,7 @@ export default {
       dragstart,
       ComponentList,
       pages,
-      active: ref('datasource'),
+      active: ref('components'),
       domTree,
       selectedId,
       activePageId: computed(() => {
