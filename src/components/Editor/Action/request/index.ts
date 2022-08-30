@@ -46,11 +46,12 @@ export class Request extends Action implements IRequest {
     const options: AxiosRequestConfig = {
       url: url,
       method,
-      data: JSON.parse(body),
-      headers: JSON.parse(headers),
     };
+    if (headers) {
+      options.headers = JSON.parse(headers);
+    }
     if (body && method !== 'get') {
-      options.data = body;
+      options.data = JSON.parse(body);
     }
     const { data: requestData, status, statusText } = await axios(options);
     if (status !== 200) {
