@@ -268,27 +268,28 @@ export default defineComponent({
   display: flex;
   justify-content: center;
   overflow: scroll;
+  user-select: none;
 
   .wrapper-grid {
+    position: relative;
     width: 375px;
     height: 667px;
-    position: relative;
     margin: 50px 0;
     background-color: white;
     background-image: linear-gradient(
         90deg,
-        rgba(50, 0, 0, 0.05) 3%,
-        rgba(0, 0, 0, 0) 3%
+        rgba(50, 0, 0, 5%) 3%,
+        rgba(0, 0, 0, 0%) 3%
       ),
-      linear-gradient(360deg, rgba(50, 0, 0, 0.05) 3%, rgba(0, 0, 0, 0) 3%);
-    background-size: 20px 20px;
+      linear-gradient(360deg, rgba(50, 0, 0, 5%) 3%, rgba(0, 0, 0, 0%) 3%);
     background-repeat: repeat;
+    background-size: 20px 20px;
 
     .canvas {
-      box-sizing: border-box;
-      height: 100%;
-      width: 100%;
       position: relative;
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
       overflow-y: auto;
 
       // 在编辑器里面，h-container超出可以滚动
@@ -300,9 +301,9 @@ export default defineComponent({
 
       .border-line {
         position: fixed;
-        border-left: 1px solid var(--el-color-primary);
-        border-top: 1px solid var(--el-color-primary);
         z-index: 2;
+        border-top: 1px solid var(--el-color-primary);
+        border-left: 1px solid var(--el-color-primary);
 
         &.transition {
           transition: all 0.2s;
@@ -311,19 +312,19 @@ export default defineComponent({
 
       .enter-container-border-line {
         position: fixed;
-        border-left: 1px dashed var(--el-color-warning);
-        border-top: 1px dashed var(--el-color-warning);
         z-index: 2;
+        border-top: 1px dashed var(--el-color-warning);
+        border-left: 1px dashed var(--el-color-warning);
       }
 
       .point {
         position: fixed;
-        background: #fff;
-        border: 1px solid #59c7f9;
+        z-index: 2;
         width: 6px;
         height: 6px;
+        background: #fff;
+        border: 1px solid #59c7f9;
         border-radius: 50%;
-        z-index: 2;
 
         &.lt {
           cursor: nw-resize;
@@ -360,78 +361,77 @@ export default defineComponent({
 
       .border {
         position: fixed;
+        z-index: 2;
         outline: 1px solid var(--el-color-primary);
 
         .point {
           position: absolute;
-          background: #fff;
-          border: 1px solid #59c7f9;
           width: 6px;
           height: 6px;
+          background: #fff;
+          border: 1px solid #59c7f9;
           border-radius: 50%;
 
           &.lt {
-            margin-left: -3px;
-            margin-top: -3px;
-            left: 0;
             top: 0;
+            left: 0;
+            margin-top: -3px;
+            margin-left: -3px;
             cursor: nw-resize;
           }
 
           &.rt {
-            margin-right: -3px;
-            margin-top: -3px;
-            right: 0;
             top: 0;
+            right: 0;
+            margin-top: -3px;
+            margin-right: -3px;
             cursor: ne-resize;
           }
 
           &.rb {
-            margin-right: -3px;
-            margin-bottom: -3px;
             right: 0;
             bottom: 0;
+            margin-right: -3px;
+            margin-bottom: -3px;
             cursor: se-resize;
           }
 
           &.lb {
-            margin-left: -3px;
-            margin-bottom: -3px;
-            left: 0;
             bottom: 0;
+            left: 0;
+            margin-bottom: -3px;
+            margin-left: -3px;
             cursor: sw-resize;
           }
 
           &.l {
-            margin-left: -4px;
-            left: 0;
             top: calc(50% - 3px);
+            left: 0;
+            margin-left: -4px;
             cursor: ew-resize;
           }
 
           &.r {
-            margin-right: -4px;
-            right: 0;
             top: calc(50% - 3px);
+            right: 0;
+            margin-right: -4px;
             cursor: ew-resize;
           }
 
           &.t {
-            margin-top: -4px;
-            left: calc(50% - 3px);
             top: 0;
+            left: calc(50% - 3px);
+            margin-top: -4px;
             cursor: ns-resize;
           }
 
           &.b {
-            margin-bottom: -4px;
-            left: calc(50% - 3px);
             bottom: 0;
+            left: calc(50% - 3px);
+            margin-bottom: -4px;
             cursor: ns-resize;
           }
         }
-
-        z-index: 2;
       }
 
       #root {
@@ -448,19 +448,19 @@ export default defineComponent({
       }
 
       .handle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 30px;
         height: 10px;
         margin: 0 auto;
         background-color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
 
         span {
           display: inline-block;
-          background-color: #999999;
-          height: 1px;
           width: 10px;
+          height: 1px;
+          background-color: #999;
         }
       }
 
@@ -479,13 +479,13 @@ export default defineComponent({
     .size-info {
       display: flex;
       align-items: center;
-      margin: 5px auto 0;
       width: 130px;
+      margin: 5px auto 0;
 
       label {
         flex: 0 0 60px;
         font-size: 12px;
-        color: #999999;
+        color: #999;
       }
 
       .el-input {
@@ -496,26 +496,26 @@ export default defineComponent({
 
   svg {
     position: fixed;
-    height: 2px;
-    width: 2px;
     z-index: 66;
+    width: 2px;
+    height: 2px;
 
     &.left {
-      transform: rotateX(180deg);
       width: 2px;
+      transform: rotateX(180deg);
     }
 
     &.bottom {
-      transform: rotatey(180deg);
       height: 2px;
+      transform: rotateY(180deg);
     }
 
     line {
+      stroke: #0e2231;
       stroke-dasharray: 8;
       stroke-dashoffset: 1000;
-      animation: dash 50s linear infinite;
-      stroke: #0e2231;
       stroke-width: 2;
+      animation: dash 50s linear infinite;
     }
 
     @keyframes dash {
