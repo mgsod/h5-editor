@@ -8,6 +8,7 @@ const pageMutations: MutationTree<IState> = {
   [MUTATION_TYPE.LOAD]: (state, payload) => {
     state.pages = payload.pages;
     state.extractComponents = payload.extractComponents;
+    state.datasource = payload.datasource;
   },
   [MUTATION_TYPE.LOAD_BY_CACHE]: (state: IState, payload: IState) => {
     state.pageActive = payload.pageActive;

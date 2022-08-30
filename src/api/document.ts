@@ -1,10 +1,12 @@
 import axios from '@/axios';
 import { DocumentModel, IDocument } from '../../server/src/document';
 import { IExtractComponents, IPage } from '@/store/Editor';
+import { IDataSources } from '@/components/Editor/Action/request';
 
 export interface IEditorDoc {
   pages: IPage[];
   extractComponents: IExtractComponents[];
+  datasource: IDataSources;
 }
 
 /**

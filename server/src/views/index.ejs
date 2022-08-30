@@ -48,15 +48,17 @@
 </head>
 <body>
 <div id="app">
-    <previewer :pages="page" />
+    <previewer :pages="page" :datasource="datasource" />
 </div>
 </body>
 <script>
   const pages = <%- JSON.stringify(pages) %>;
+  const datasource = <%- JSON.stringify(datasource) %>;
   const app = Vue.createApp({
     setup() {
       return {
-        page: JSON.parse(pages)
+        page: JSON.parse(pages),
+        datasource: JSON.parse(datasource),
       };
     }
   });

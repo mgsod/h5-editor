@@ -79,6 +79,7 @@ export default defineComponent({
               extractComponents: cloneDeep(
                 store.state.editor.extractComponents
               ),
+              datasource: cloneDeep(store.state.editor.datasource),
             },
             cover,
             _id: '',

@@ -34,15 +34,8 @@ export class Request extends Action implements IRequest {
       );
       return;
     }
-    const {
-      url,
-      msg = 'msg',
-      body,
-      code = 'code',
-      method,
-      data = 'data',
-      headers,
-    } = this.dataSourceMap[this.datasource];
+    const { url, msg, body, code, method, data, headers } =
+      this.dataSourceMap[this.datasource];
     const options: AxiosRequestConfig = {
       url: url,
       method,

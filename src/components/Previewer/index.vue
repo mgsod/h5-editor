@@ -48,7 +48,6 @@ export default defineComponent({
     });
     provide('isPreview', true);
     provide('router', router);
-    console.log(222, props.datasource);
     provide('datasource', props.datasource);
     onBeforeUnmount(() => {
       console.log('销毁');

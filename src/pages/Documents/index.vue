@@ -44,13 +44,17 @@
           </div>
         </el-card>
       </div>
-      <preview-dialog v-model="showDialog" :pages="currentPages" />
+      <preview-dialog
+        v-model="showDialog"
+        :pages="currentPages"
+        :datasource="datasource"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { getDocumentList, delDocument, IEditorDoc } from '@/api/document';
 import { useRouter } from 'vue-router';
 import { ElMessageBox, ElMessage } from 'element-plus';
@@ -59,7 +63,6 @@ import previewDialog from '@/components/Previewer/previewDialog.vue';
 import useDialog from '@/hooks/useDialog';
 import { IDocument } from '../../../server/src/document';
 import { IPage } from '@/store/Editor';
-import { useStore } from '@/store';
 
 export default defineComponent({
   name: 'Documents',
@@ -86,6 +89,7 @@ export default defineComponent({
         });
     };
     const currentPages = ref<IPage[]>([]);
+    const datasource = ref();
     refresh();
     return {
       loading,
@@ -94,8 +98,10 @@ export default defineComponent({
       preview(item: IDocument<IEditorDoc>) {
         showDialog.value = true;
         currentPages.value = item.content.pages;
+        datasource.value = item.content.datasource;
       },
       currentPages,
+      datasource,
       newDocument() {
         localStorage.removeItem('editorData');
         const { href } = router.resolve({
