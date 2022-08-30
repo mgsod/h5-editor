@@ -34,7 +34,8 @@ export default createStore<state>({
         MUTATION_TYPE.DELETE_PAGE,
         MUTATION_TYPE.COPY_PAGE,
         MUTATION_TYPE.DELETE_EXTRACT_COMPONENT,
-        MUTATION_TYPE.ADD_DATASOURCE,
+        MUTATION_TYPE.UPDATE_DATASOURCE,
+        MUTATION_TYPE.DELETE_DATASOURCE,
       ];
       store.subscribe((mutation, state) => {
         if (needCacheMutations.includes(mutation.type as MUTATION_TYPE)) {

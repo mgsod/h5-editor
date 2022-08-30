@@ -10,6 +10,7 @@ export interface IDataSourceItem {
   code: string;
   msg: string;
   data: string;
+  headers: string;
 }
 export interface IDataSources {
   [key: string]: IDataSourceItem;
@@ -23,7 +24,6 @@ export class Request extends Action implements IRequest {
   datasource: string;
   constructor(public props: IRequest, public dataSourceMap: IDataSources) {
     super();
-    console.log(props.datasource);
     this.datasource = props.datasource;
     this.dataSourceMap = dataSourceMap;
   }
@@ -34,11 +34,20 @@ export class Request extends Action implements IRequest {
       );
       return;
     }
-    const { url, msg, body, code, method, data } =
-      this.dataSourceMap[this.datasource];
+    const {
+      url,
+      msg = 'msg',
+      body,
+      code = 'code',
+      method,
+      data = 'data',
+      headers,
+    } = this.dataSourceMap[this.datasource];
     const options: AxiosRequestConfig = {
       url: url,
       method,
+      data: JSON.parse(body),
+      headers: JSON.parse(headers),
     };
     if (body && method !== 'get') {
       options.data = body;
