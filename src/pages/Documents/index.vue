@@ -159,54 +159,54 @@ export default defineComponent({
 
   .documents-list {
     display: flex;
-    flex-wrap: wrap;
     flex: auto;
+    flex-wrap: wrap;
+    align-content: flex-start;
     align-items: flex-start;
 
     &-item {
       width: 200px;
-      margin-bottom: 10px;
-      margin-right: 10px;
-      cursor: pointer;
       height: 294px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
 
       .cover {
-        height: 220px;
-        border-bottom: 1px solid #e8e8e8;
         position: relative;
+        height: 220px;
         overflow: hidden;
+        border-bottom: 1px solid #e8e8e8;
 
         .background,
         .font {
-          background-size: cover;
-          background-repeat: no-repeat;
+          position: absolute;
           width: 100%;
           height: 100%;
-          position: absolute;
+          background-repeat: no-repeat;
+          background-size: cover;
         }
 
         .background {
-          filter: blur(4px);
           z-index: 0;
+          filter: blur(4px);
         }
 
         .font {
-          width: 70%;
-          margin: 0px 15%;
           z-index: 1;
+          width: 70%;
+          margin: 0 15%;
         }
 
         .qrcode {
           position: absolute;
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
           z-index: 2;
-          background: #fff;
           display: flex;
           flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          height: 100%;
+          background: #fff;
 
           img {
             height: auto;
@@ -216,19 +216,19 @@ export default defineComponent({
 
       .name {
         margin-top: 10px;
-        text-align: center;
+        overflow: hidden;
         font-size: 16px;
         font-weight: bold;
-        overflow: hidden;
+        text-align: center;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
 
       .lastupdate {
-        text-align: center;
         margin: 5px 0;
         font-size: 12px;
-        color: #999999;
+        color: #999;
+        text-align: center;
       }
 
       .action {
@@ -237,8 +237,8 @@ export default defineComponent({
         padding: 5px 10px;
 
         &-item {
-          flex: 0 0 20px;
           display: flex;
+          flex: 0 0 20px;
           justify-content: center;
         }
       }
@@ -248,13 +248,13 @@ export default defineComponent({
           height: 100%;
 
           :deep(.el-card__body) {
-            height: 100%;
             display: flex;
             flex-direction: column;
+            height: 100%;
 
             .name {
-              flex: auto;
               display: flex;
+              flex: auto;
               align-items: center;
               justify-content: center;
             }

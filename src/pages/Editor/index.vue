@@ -117,26 +117,28 @@ export default {
 
 <style scoped lang="less">
 .editor {
-  height: 100vh;
-  box-sizing: border-box;
   position: relative;
-  background: #eef2f7;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  height: 100vh;
   overflow: hidden;
+  background: #eef2f7;
+
   .header {
     flex: 0 0 45px;
   }
 
   .content {
-    flex: auto;
-    display: flex;
     position: relative;
-    background: #eef2f7;
+    display: flex;
+    flex: auto;
     overflow: hidden;
+    background: #eef2f7;
+
     .sidebar {
-      flex: 0 0 300px;
       box-sizing: border-box;
+      flex: 0 0 300px;
     }
 
     .canvas-wrapper {
