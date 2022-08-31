@@ -78,7 +78,9 @@ export default defineComponent({
           if (res.code === 200) {
             res.data.forEach(async (item: any) => {
               item.qrcodeShow = false;
-              item.qrcode = await qrcode.toDataURL(item.previewUrl);
+              item.qrcode = await qrcode.toDataURL(
+                `${location.origin}${item.previewUrl}`
+              );
               item.updatedAt = new Date(item.updatedAt).toLocaleString();
             });
             documentList.value = res.data;
