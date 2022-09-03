@@ -17,6 +17,10 @@
 - **一键预览** - 右侧工具栏中点击`预览`可随时查看页面效果
 - **自适应布局** - 预览器内部通过计算，将编辑时得到的`px`像素，转化为可自适应的`rem`单位，实现不同分辨率端自适应
 - **扫码或链接查看/分享** - 在文档库页面，可以通过扫码或访问链接的方式进行查看或分享
+- **事件绑定** - 可以通过属性面板为组件绑定对应的事件并执行指定动作
+- **支持接口数据源** - 可在数据源面板添加三方接口作为数据源
+- **动态渲染变量** - 通过`{{数据源}}`的方式可以将数据源中的数据渲染到页面上
+
 
 ## [Demo](http://h5editor.moog.site)
 
@@ -143,7 +147,7 @@ $ yarn build
 但是此项目中确实用的是`app.set`却依旧报错。根据尝试只需要随意换个位置即可成功运行.
 
 ```diff
-1 const compression = require('compression');
+const compression = require('compression');
 app.use(compression());
 - app.set('view engine', 'ejs');
 require('express-async-errors');
