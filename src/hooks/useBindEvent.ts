@@ -63,7 +63,7 @@ export default (events?: IEvent[]) => {
             // 其他类型事件，均通过ref绑定在dom元素上
             (root.value as HTMLElement).addEventListener(eventType, (e) => {
               // 阻止事件冒泡
-              e.stopPropagation()
+              e.stopPropagation();
               trigger(handlePool);
             });
           }
