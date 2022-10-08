@@ -158,3 +158,10 @@ app.all('*', function (req: Request, res: Response, next: NextFunction) {
 ## Licenses
 
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
+## 致谢
+感谢[JetBrains](https://www.jetbrains.com)提供的开源License
+
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)
+
+[https://jb.gg/OpenSourceSupport](https://jb.gg/OpenSourceSupport)
