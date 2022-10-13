@@ -1,0 +1,36 @@
+name: deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: use Node.js 14.17.0
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.17.0
+      - name: npm install
+        run: |
+          npm config set registry http://registry.npm.taobao.org/
+          npm i
+          npm run build
+      - name: Prepare SSH
+        run: >
+            cd ~ && mkdir .ssh &&
+            touch ~/.ssh/known_hosts &&
+            ssh-keyscan -H "$IP" >>~/.ssh/known_hosts
+        env:
+            IP: ${{ secrets.IP }}
+      - name: Deploy to Staging server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: '-rltgoDzvO'
+          SOURCE: 'dist/'
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
