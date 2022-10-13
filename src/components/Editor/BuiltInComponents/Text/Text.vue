@@ -47,8 +47,8 @@ export default defineComponent({
 }
 
 .h-text {
+  display: block;
   word-break: break-all;
-  display: inline-block;
 
   &.line1 {
     display: -webkit-box;
