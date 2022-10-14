@@ -1,5 +1,5 @@
 import { GetterTree } from 'vuex';
-import { IState } from '@/store/editor/index';
+import { IState } from '@/store/Editor/index';
 
 const getters: GetterTree<IState, any> = {
   currentPage: (state) => {
