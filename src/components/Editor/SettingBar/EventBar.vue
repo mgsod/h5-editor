@@ -1,8 +1,8 @@
 <template>
   <div v-if="selectedId">
     <el-button type="primary" @click="add">新增</el-button>
-    <el-table :data="eventList" empty-text="暂无事">
-      <el-table-column type="index" label="序号"></el-table-column>
+    <el-table :data="eventList" empty-text="暂无事件">
+      <el-table-column type="index" label="序号" width="60"></el-table-column>
       <el-table-column label="事件类型" width="80">
         <template v-slot="{ row }">
           {{ getEventTypeName(row.eventType) }}
@@ -93,8 +93,15 @@
           <el-input v-model="eventForm.actionProps.url"></el-input>
         </el-form-item>
       </template>
-      <template v-if="eventForm.actionType === 'alert'">
-        <el-form-item label="弹窗内容">
+      <template v-if="['alert', 'toast'].includes(eventForm.actionType)">
+        <el-form-item
+          label="提示内容"
+          :rules="{
+            required: true,
+            message: '请输入提示内容',
+            trigger: 'blur',
+          }"
+        >
           <el-input v-model="eventForm.actionProps.content"></el-input>
         </el-form-item>
       </template>
@@ -130,7 +137,7 @@ import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
 import { redirectTypeList } from '@/components/Editor/Action/redirect';
 import useDialog from '@/hooks/useDialog';
 import cloneDeep from 'lodash/cloneDeep';
-import { FormItemRule } from 'element-plus/lib/components/form/src/form.type';
+import { FormItemRule } from 'element-plus/es/tokens';
 export default defineComponent({
   name: 'event-bar',
   props: {},
