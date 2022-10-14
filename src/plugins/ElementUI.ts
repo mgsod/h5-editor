@@ -36,9 +36,6 @@ import {
 } from 'element-plus';
 
 export default (app: App) => {
-  app.config.globalProperties.$ELEMENT = {
-    size: 'small',
-  };
   app
     .use(ElButton)
     .use(ElSelect)

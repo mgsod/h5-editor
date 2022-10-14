@@ -97,18 +97,11 @@
 </template>
 
 <script lang="ts">
-import {
-  computed,
-  defineComponent,
-  reactive,
-  ref,
-  onMounted,
-  nextTick,
-} from 'vue';
+import { computed, defineComponent, reactive, ref } from 'vue';
 import { useStore } from '@/store';
 import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
 import cloneDeep from 'lodash/cloneDeep';
-import { FormItemRule } from 'element-plus/lib/components/form/src/form.type';
+import { FormItemRule } from 'element-plus/es/tokens';
 import { IDataSourceItem } from '@/components/Editor/Action/request';
 import { ElMessageBox } from 'element-plus';
 

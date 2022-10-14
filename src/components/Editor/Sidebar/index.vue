@@ -168,7 +168,7 @@ import { MUTATION_TYPE } from '@/store/Editor/mutations/mutation-type';
 import cloneDeep from 'lodash/cloneDeep';
 import { IComponent } from '@/components/Editor/BuiltInComponents/Component';
 import {
-  DropType,
+  NodeDropType,
   TreeNodeOptions,
 } from 'element-plus/lib/components/tree/src/tree.type';
 import { IPage } from '@/store/Editor';
@@ -228,7 +228,7 @@ export default {
       allowDrop(
         draggingNode: TComponent,
         dropNode: TreeNodeOptions,
-        type: DropType
+        type: NodeDropType
       ) {
         const targetNode: TComponent = dropNode.data as TComponent;
         // 如果DropType 为inner
@@ -369,8 +369,10 @@ export default {
 
             &:hover {
               position: relative;
-              z-index: 2;
-              border: 1px solid var(--el-color-primary-light-2);
+              z-index: 3;
+              cursor: move;
+              border: 1px solid var(--el-color-primary-light-3);
+              box-shadow: var(--el-box-shadow-lighter);
             }
 
             &.custom {

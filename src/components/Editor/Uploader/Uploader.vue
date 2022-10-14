@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { ElUploadRequestOptions } from 'element-plus/es/components/upload/src/upload.type';
+import { UploadRequestOptions } from 'element-plus/es/components/upload/src/upload.d';
 import axios from '@/axios';
 
 export default defineComponent({
@@ -25,7 +25,7 @@ export default defineComponent({
   emits: ['success'],
   setup(props, { emit }) {
     const uploader = ref();
-    const upload = (params: ElUploadRequestOptions) => {
+    const upload = (params: UploadRequestOptions) => {
       const { action, file } = params;
       const fd = new FormData();
       fd.append('singleFile', file, file.name);
@@ -47,5 +47,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped lang="less"></style>

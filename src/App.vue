@@ -1,5 +1,5 @@
 <template>
-  <el-config-provider :locale="locale">
+  <el-config-provider :locale="locale" :zIndex="zIndex">
     <router-view />
   </el-config-provider>
 </template>
@@ -16,6 +16,7 @@ export default defineComponent({
   setup() {
     return {
       locale: zhCn,
+      zIndex: 1500,
     };
   },
 });
