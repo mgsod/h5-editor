@@ -6,9 +6,9 @@ cd /app
 # 服务端
 cd /app/server
 # 安装依赖
-yarn install
+npm install
 # 安装pm2
-yarn global add  pm2
+npm install pm2 -g
 # 启动服务端
 pm2 start ecosystem.config.js
 # 配置nginx

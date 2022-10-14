@@ -28,11 +28,11 @@
 
 ```shell
 # 依赖安装
-$ yarn install
+$ npm install
 # 启动前端工程
-$ yarn front-serve
+$ npm run front-serve
 # 启动后端接口服务
-$ yarn back-server
+$ npm run back-server
 ```
 
 > [关于后端接口服务启动报错](#expres启动报错)
@@ -40,7 +40,7 @@ $ yarn back-server
 ## 如何部署
 
 ```shell
-$ yarn build
+$ npm run build
 ```
 
 执行上述命令后会在根目录得到`dist`文件夹，其中包含`front`前端代码和`server`后端代码
