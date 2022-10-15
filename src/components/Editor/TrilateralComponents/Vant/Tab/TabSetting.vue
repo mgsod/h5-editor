@@ -1,6 +1,6 @@
 <template>
   <el-form-item :label="`${name}管理`">
-    <el-button @click="add" type="primary" size="mini">新增一页</el-button>
+    <el-button @click="add" type="primary" size="small">新增一页</el-button>
   </el-form-item>
   <div class="tab-list hidden-scrollbar">
     <div
@@ -75,31 +75,31 @@ export default defineComponent({
   overflow: scroll;
 
   .item {
+    position: relative;
     flex-shrink: 0;
-    border: 1px solid var(--el-color-primary);
     margin: 0 -1px 0 0;
     cursor: default;
-    position: relative;
+    border: 1px solid var(--el-color-primary);
 
     &.active {
-      background: var(--el-color-primary);
       color: #fff;
+      background: var(--el-color-primary);
     }
 
     .tab-name-input {
+      max-width: 100px;
       padding: 8px 15px;
+      background: transparent;
       border: none;
       outline: none;
-      max-width: 100px;
-      background: transparent;
     }
 
     i {
       position: absolute;
       top: 0;
       right: 0;
-      color: var(--el-color-danger);
       display: none;
+      color: var(--el-color-danger);
       cursor: pointer;
     }
 

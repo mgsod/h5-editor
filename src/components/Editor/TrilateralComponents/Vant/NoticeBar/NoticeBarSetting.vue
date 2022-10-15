@@ -22,7 +22,7 @@
       <div>
         <el-button
           type="primary"
-          size="mini"
+          size="small"
           @click="noticeBar.multiple.push('')"
           >新增一行
         </el-button>
@@ -83,7 +83,7 @@ export default defineComponent({
 
     & > div {
       width: 100% !important;
-      margin: 5px 0 0 0 !important;
+      margin: 5px 0 0 !important;
 
       .el-input-group__append {
         cursor: pointer;

@@ -115,10 +115,10 @@
                     ></el-icons>
                   </template>
                   <div class="edit-page-popover">
-                    <el-input v-model="tempName" size="mini"></el-input>
+                    <el-input v-model="tempName" size="small"></el-input>
                     <div class="action">
                       <el-button
-                        size="mini"
+                        size="small"
                         type="primary"
                         @click="submitEditPage"
                         >确认

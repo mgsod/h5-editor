@@ -15,10 +15,10 @@
       </el-table-column>
       <el-table-column>
         <template v-slot="{ row, $index }">
-          <el-button type="text" @click="edit(row, $index)">编辑</el-button>
+          <el-button link @click="edit(row, $index)">编辑</el-button>
           <el-button
             class="del"
-            type="text"
+            link
             @click="del($index)"
             style="margin-left: 5px"
             >删除</el-button
@@ -33,7 +33,7 @@
     title="新增/编辑事件"
     v-model="showDialog"
   >
-    <el-form :model="eventForm" class="dialog-form">
+    <el-form :model="eventForm" class="dialog-form" ref="eventFormRef">
       <el-form-item label="事件类型">
         <el-select v-model="eventForm.eventType">
           <el-option
@@ -71,7 +71,7 @@
           :prop="'actionProps.url'"
           :rules="{
             required: true,
-            message: 'domain can not be null',
+            message: '请输入跳转页面',
             trigger: 'blur',
           }"
         >
@@ -96,6 +96,7 @@
       <template v-if="['alert', 'toast'].includes(eventForm.actionType)">
         <el-form-item
           label="提示内容"
+          prop="actionProps.content"
           :rules="{
             required: true,
             message: '请输入提示内容',
@@ -106,7 +107,14 @@
         </el-form-item>
       </template>
       <template v-if="eventForm.actionType === 'request'">
-        <el-form-item label="请求数据源">
+        <el-form-item
+          prop="actionProps.datasource"
+          label="请求数据源"
+          :rules="{
+            required: true,
+            message: '请选择数据源',
+          }"
+        >
           <el-select v-model="eventForm.actionProps.datasource">
             <el-option
               v-for="item in datasource"
@@ -152,6 +160,7 @@ export default defineComponent({
     });
     const { showDialog } = useDialog();
     const editIndex = ref(-1);
+    const eventFormRef = ref();
     // 事件表单
     const eventForm = reactive<IEvent>({
       eventType: 'click',
@@ -165,7 +174,7 @@ export default defineComponent({
     });
     // 跳转url验证
     const urlValidateRules: FormItemRule[] = [
-      { required: true, message: '该项必填', trigger: 'blur' },
+      { required: true, message: '请输入跳转地址', trigger: 'blur' },
       {
         pattern: /^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+/,
         message: '请输入合法url地址',
@@ -203,18 +212,22 @@ export default defineComponent({
       showDialog.value = true;
     };
     const confirm = () => {
-      // 编辑
-      if (editIndex.value > -1) {
-        store.commit(MUTATION_TYPE.UPDATE_EVENT, {
-          eventIndex: editIndex.value,
-          event: cloneDeep(eventForm),
-        });
-      } else {
-        // 新增
-        store.commit(MUTATION_TYPE.ADD_EVENT, cloneDeep(eventForm));
-      }
-      editIndex.value = -1;
-      showDialog.value = false;
+      eventFormRef.value.validate((valid: boolean) => {
+        if (valid) {
+          // 编辑
+          if (editIndex.value > -1) {
+            store.commit(MUTATION_TYPE.UPDATE_EVENT, {
+              eventIndex: editIndex.value,
+              event: cloneDeep(eventForm),
+            });
+          } else {
+            // 新增
+            store.commit(MUTATION_TYPE.ADD_EVENT, cloneDeep(eventForm));
+          }
+          editIndex.value = -1;
+          showDialog.value = false;
+        }
+      });
     };
     const getEventTypeName = (type: EventType) => {
       return EventTypeList.find((item) => {
@@ -227,16 +240,17 @@ export default defineComponent({
       })?.name;
     };
     return {
+      eventFormRef,
       urlValidateRules,
       pages,
       datasource,
-      redirectTypeList,
+      selectedId,
       showDialog,
       eventList,
       eventForm,
+      redirectTypeList,
       EventTypeList,
       ActionList,
-      selectedId,
       confirm,
       getEventTypeName,
       getEventHandleName,
