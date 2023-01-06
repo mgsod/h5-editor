@@ -3,7 +3,7 @@
     <el-tabs tab-position="left" v-model="active">
       <el-tab-pane name="components" label="组件">
         <div class="panel">
-          <div class="panel-title">基本组件</div>
+          <div class="panel-title">基础组件</div>
           <div class="components">
             <div
               class="component"
@@ -62,7 +62,10 @@
                         :icon="Remove"
                         >删除
                       </el-dropdown-item>
-                      <el-dropdown-item :icon="Plus" divided
+                      <el-dropdown-item
+                        :icon="Plus"
+                        divided
+                        style="opacity: 0.3"
                         >添加到组件库
                       </el-dropdown-item>
                     </el-dropdown-menu>
@@ -90,6 +93,9 @@
               :class="{ selected: selectedId === data.id, disabled: data.lock }"
             >
               <span>{{ data.alias || data.type }}</span>
+              <span v-if="data.events?.length > 0" title="该组件有事件">
+                <el-icons class="event" name="Opportunity"></el-icons>
+              </span>
             </span>
           </template>
         </el-tree>
@@ -463,6 +469,23 @@ export default {
 
     .disabled {
       color: var(--el-color-info-light);
+    }
+
+    :deep(.el-tree-node__content) {
+      padding-right: 5px;
+
+      .el-tree-node__label {
+        flex: auto;
+      }
+    }
+
+    .custom-tree-node {
+      display: flex;
+      justify-content: space-between;
+
+      .event {
+        color: var(--el-color-warning);
+      }
     }
   }
 }
